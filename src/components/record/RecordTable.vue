@@ -107,7 +107,7 @@ const columns = computed(() => {
             {
               class: `flex justify-center items-center text-gray-100 text-[10px] leading-3 rounded-sm px-1 ${isNubRecord(row.original) ? 'bg-yellow-600' : 'bg-blue-600'}`,
             },
-            isNubRecord(row.original) ? 'TP' : 'PRO',
+            isNubRecord(row.original) ? 'NUB' : 'PRO',
           ),
         ])
       },
