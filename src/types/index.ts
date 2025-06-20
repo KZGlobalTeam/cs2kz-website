@@ -10,7 +10,7 @@ export interface PlayerSteam {
   avatar_url: string
 }
 
-export type Tier = components['schemas']['CourseFilterTier']
+export type Tier = components['schemas']['Tier']
 
 export type Mode = components['schemas']['Mode']
 
@@ -20,12 +20,13 @@ export type MapState = components['schemas']['MapState']
 
 export type Map = components['schemas']['Map']
 
-export type MapResponse = paths['/maps']['get']['responses']['200']['content']['application/json']
+export type Filters = components['schemas']['Filters']
 
-export type CourseFilterState = components['schemas']['CourseFilterState']
+/* eslint-disable */
+export type CSGOFilters = Extract<Filters, { kzt: any }>
 
-export type CourseFilter = components['schemas']['CourseFilter']
-export type CourseFilters = components['schemas']['CourseFilters']
+export type CS2Filters = Extract<Filters, { ckz: any }>
+/* eslint-enable */
 
 export type Course = components['schemas']['Course']
 
@@ -55,7 +56,7 @@ export interface CourseExt {
   tier: Tier
   tierNo: number
   tierColor: string
-  state: CourseFilterState
+  ranked: boolean
 }
 
 export interface CourseInfo {
@@ -63,7 +64,7 @@ export interface CourseInfo {
   map: string
   name: string
   tier: Tier
-  state: CourseFilterState
+  ranked: boolean
   mappers: Player[]
   created_on: string
   img: string
@@ -88,15 +89,15 @@ export type RecordResponse = paths['/records']['get']['responses']['200']['conte
 
 export interface RecordQuery {
   mode: Mode
-  leaderboardType: LeaderboardType
+  // only include pro records
+  pro: boolean
   top: boolean
   max_rank?: number
   player: string
   map: string
   course: string
   server: string
-  styles: Style[]
-  sort_by: 'submission-date' | 'time'
+  sort_by: 'submitted_at' | 'time'
   sort_order: 'ascending' | 'descending'
   limit: number
   offset: number

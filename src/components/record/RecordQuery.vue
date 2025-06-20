@@ -44,14 +44,14 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
 
       <UButtonGroup orientation="horizontal">
         <UButton
-          :variant="query.leaderboardType === 'overall' ? 'solid' : 'outline'"
+          :variant="query.pro ? 'solid' : 'outline'"
           :label="$t('common.leaderboardType.overall')"
-          @click="query.leaderboardType = 'overall'"
+          @click="query.pro = false"
         />
         <UButton
-          :variant="query.leaderboardType === 'pro' ? 'solid' : 'outline'"
+          :variant="!query.pro ? 'solid' : 'outline'"
           :label="$t('common.leaderboardType.pro')"
-          @click="query.leaderboardType = 'pro'"
+          @click="query.pro = true"
         />
       </UButtonGroup>
 

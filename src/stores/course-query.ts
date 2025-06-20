@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import type { Mode, LeaderboardType } from '@/types'
+import type { Mode } from '@/types'
 
 export const useCourseQueryStore = defineStore('course-query', {
   state: () => {
     return {
       course: '',
       mode: 'classic' as Mode,
-      leaderboardType: 'overall' as LeaderboardType,
+      pro: false,
     }
   },
 })

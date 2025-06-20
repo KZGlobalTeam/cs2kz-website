@@ -1,11 +1,12 @@
 {
-  "name": "website-vue",
+  "name": "cs2kz-website",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "typegen": "openapi-typescript ./openapi.json -o ./openapi-types.ts",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
@@ -22,6 +23,7 @@
   "dependencies": {
     "@nuxt/ui": "^3.0.0",
     "@tailwindcss/vite": "^4.0.14",
+    "@vueuse/core": "^13.3.0",
     "axios": "^1.8.3",
     "date-fns": "^4.1.0",
     "pinia": "^3.0.1",

@@ -30,7 +30,7 @@ const sorting = ref([{ id: 'submitted_at', desc: true }])
 
 const { toggleExpand } = useExpand()
 
-const sortBy = defineModel<'submission-date' | 'time'>('sortBy', { required: true })
+const sortBy = defineModel<'submitted_at' | 'time'>('sortBy', { required: true })
 const sortOrder = defineModel<'ascending' | 'descending'>('sortOrder', {
   required: true,
 })
@@ -152,7 +152,7 @@ const columns = computed(() => {
           class: '-mx-2.5',
           onClick: () => {
             column.toggleSorting(column.getIsSorted() === 'asc')
-            sortBy.value = 'submission-date'
+            sortBy.value = 'submitted_at'
             sortOrder.value = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
           },
         })
@@ -160,8 +160,8 @@ const columns = computed(() => {
       cell: ({ row }) => {
         return h(
           UTooltip,
-          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.submitted_at) },
-          () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.submitted_at, locale.value)),
+          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.created_at) },
+          () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.created_at, locale.value)),
         )
       },
     },
@@ -200,7 +200,7 @@ const columns = computed(() => {
 function goToCourse(row: TableRow<Record>) {
   courseQueryStore.course = row.original.course.name
   courseQueryStore.mode = props.query.mode
-  courseQueryStore.leaderboardType = props.query.leaderboardType
+  courseQueryStore.pro = props.query.pro
   router.push(`/maps/${row.original.map.name}`)
 }
 </script>

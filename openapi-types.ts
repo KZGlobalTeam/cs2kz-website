@@ -4,34 +4,381 @@
  */
 
 export interface paths {
-  '/plugin/versions': {
+  '/leaderboards/rating': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Returns the latest cs2kz-metamod releases. */
-    get: operations['get_plugin_versions']
+    /**
+     * Global Player Rating Leaderboard
+     * @description This endpoint returns the highest rated players in KZ.
+     */
+    get: operations['get_rating_leaderboard']
     put?: never
-    /** Notifies the API that a new version of cs2kz-metamod has been released. */
-    post: operations['publish_plugin_version']
+    post?: never
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/plugin/versions/{version}': {
+  '/leaderboards/records/{leaderboard}': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Returns metadata about the release of a specific cs2kz-metamod version. */
-    get: operations['get_plugin_version']
+    /**
+     * Global World Record Leaderboard
+     * @description This endpoint returns the players with the most World Records.
+     */
+    get: operations['get_records_leaderboard']
     put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/records': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Records
+     * @description This endpoint returns the latest records.
+     */
+    get: operations['get_records']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/records/{record_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Records by ID
+     * @description This endpoint returns a specific record by its API-assigned ID.
+     */
+    get: operations['get_record']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/maps': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    /**
+     * Map Submission
+     * @description This endpoint can be used to submit KZ maps to the API. All maps must be
+     *     uploaded to Steam's Community Workshop and the API will source their name
+     *     from there. If you plan on submitting your map for approval, make sure it
+     *     follows [the rules].
+     *
+     *     [the rules]: https://docs.cs2kz.org/mapping/approval#rules
+     */
+    put: operations['create_map']
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/maps/{game}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Global KZ Maps
+     * @description This endpoint returns the latest KZ maps.
+     */
+    get: operations['get_maps']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/maps/{map_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Global KZ Maps by ID
+     * @description This endpoint returns a specific KZ map by its API-assigned ID.
+     */
+    get: operations['get_map']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update your Map
+     * @description This endpoint can be used to make the API aware of changes to your map as
+     *     well as update metadata such as mapper information or descriptions. If your
+     *     map is currently work-in-progress and you uploaded a new version to Steam's
+     *     Community Workshop, you must send a request to this endpoint to make the API
+     *     aware of it.
+     */
+    patch: operations['update_map']
+    trace?: never
+  }
+  '/maps/{map_id}/state': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    /**
+     * Update a map's state
+     * @description This endpoint can be used by the Map Approval Team to approve or reject
+     *     submitted maps.
+     */
+    put: operations['update_map_state']
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/servers': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Global KZ Servers
+     * @description This endpoints returns KZ servers registered with the API. Servers which are
+     *     currently online and connected to the API will contain a `connection_info`
+     *     object with real-time information about the map they're currently hosting
+     *     and who's playing on them.
+     */
+    get: operations['get_servers']
+    put?: never
+    /**
+     * Register your KZ server
+     * @description This endpoint can be used to register KZ servers with the API. If you are
+     *     a server owner, please make sure your server follows [the rules].
+     *
+     *     [the rules]: https://docs.cs2kz.org/servers/approval#rules
+     */
+    post: operations['create_server']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/servers/{server_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Global KZ Servers by ID
+     * @description Returns a specific KZ server by its API-assigned ID.
+     */
+    get: operations['get_server']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * Update your KZ Server
+     * @description This endpoint can be used by server owners to update the metadata of their
+     *     servers, such as IP/port.
+     */
+    patch: operations['update_server']
+    trace?: never
+  }
+  '/servers/{server_id}/access-key': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    /**
+     * Generate a new access key
+     * @description This endpoint can be used by server owners and admins to generate a new
+     *     access key for a server. This immediately invalidates the old key and cuts
+     *     off the server if it is currently connected to the API.
+     */
+    put: operations['reset_server_access_key']
+    post?: never
+    /**
+     * Delete a server's API key
+     * @description This endpoint can be used by admins to delete a server's API key. This
+     *     immediately invalidates it and cuts off the server if it is currently
+     *     connected to the API.
+     */
+    delete: operations['delete_server_access_key']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/bans': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Player Bans
+     * @description This endpoint returns the latest player bans created by `POST /bans`.
+     */
+    get: operations['get_bans']
+    put?: never
+    /**
+     * Ban a player
+     * @description This endpoint can be used to restrict players from submitting records or
+     *     jumpstats to the API. Servers will also be informed about banned players
+     *     when they join.
+     */
+    post: operations['create_ban']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/bans/{ban_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Player Bans by ID
+     * @description This endpoint returns information about a specific ban.
+     */
+    get: operations['get_ban']
+    put?: never
+    post?: never
+    /**
+     * Revert a Ban
+     * @description This endpoint can be used to revert a ban ("unban" a player). Only active
+     *     bans can be reverted and a player can only have one active ban at a time.
+     */
+    delete: operations['revert_ban']
+    options?: never
+    head?: never
+    /**
+     * Update an existing Ban
+     * @description This endpoint can be used to update the details of a ban, such as the ban
+     *     reason or duration.
+     *
+     *     **Do not use this endpoint to revert bans! Use `DELETE /bans/{ban_id}`
+     *     instead.**
+     */
+    patch: operations['update_ban']
+    trace?: never
+  }
+  '/players': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * KZ Players
+     * @description This endpoint returns information about players who have joined KZ servers
+     *     before.
+     */
+    get: operations['get_players']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/players/{player_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * KZ Players by SteamID
+     * @description This endpoint returns a specific player by their SteamID.
+     */
+    get: operations['get_player']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/players/{player_id}/preferences': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * Player Preferences
+     * @description This endpoint returns the in-game preferences of a specific player.
+     */
+    get: operations['get_player_preferences']
+    /**
+     * Update Player Preferences
+     * @description This endpoint can be used to update your in-game preferences without joining
+     *     a server and doing it manually there.
+     */
+    put: operations['update_player_preferences']
     post?: never
     delete?: never
     options?: never
@@ -46,7 +393,11 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Returns all users with permissions. */
+    /**
+     * API Users
+     * @description This endpoint returns information about users that have logged into the API
+     *     before.
+     */
     get: operations['get_users']
     put?: never
     post?: never
@@ -63,7 +414,10 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Returns the user with the specified ID. */
+    /**
+     * API Users by SteamID
+     * @description This endpoint returns information about a specific user by their SteamID.
+     */
     get: operations['get_user']
     put?: never
     post?: never
@@ -81,10 +435,18 @@ export interface paths {
       cookie?: never
     }
     get?: never
-    /** Updates a user's email address. */
+    /**
+     * Update your Email address
+     * @description This endpoint can be used to update your email address. The API will use
+     *     this for sending notifications, for example if you are a server owner.
+     */
     put: operations['update_user_email']
     post?: never
-    /** Deletes a user's email address. */
+    /**
+     * Delete your Email address
+     * @description This endpoint can be used to completely delete your email address from the
+     *     API. It will no longer be able to send you notifications anymore.
+     */
     delete: operations['delete_user_email']
     options?: never
     head?: never
@@ -100,8 +462,8 @@ export interface paths {
     }
     get?: never
     /**
-     * Update a user's permissions.
-     * @description This will **replace their current permissions**!
+     * Update a user's permissions
+     * @description This endpoint can be used to edit other users' permissions.
      */
     put: operations['update_user_permissions']
     post?: never
@@ -111,16 +473,20 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/auth/cs2': {
+  '/users/{user_id}/server-budget': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Establishes a WebSocket connection with the requesting CS2 server. */
-    get: operations['cs2_server_auth']
-    put?: never
+    get?: never
+    /**
+     * Update a user's server budget
+     * @description This endpoint can be used to set a user's server budget (how many servers
+     *     they are allowed to create).
+     */
+    put: operations['update_user_server_budget']
     post?: never
     delete?: never
     options?: never
@@ -128,18 +494,27 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/auth/web': {
+  '/mappers/{user_id}': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Returns information about your current session. */
-    get: operations['get_current_session']
-    put?: never
+    get?: never
+    /**
+     * Mark a user as a mapper
+     * @description This endpoint can be used to mark a user as a "mapper". This will allow them
+     *     to use the `PUT /maps` endpoint.
+     */
+    put: operations['create_mapper']
     post?: never
-    delete?: never
+    /**
+     * Mark a user as a non-mapper
+     * @description This endpoint can be used to mark a user as not a "mapper". This will
+     *     prevent them from using the `PUT /maps` endpoint.
+     */
+    delete: operations['delete_mapper']
     options?: never
     head?: never
     patch?: never
@@ -153,13 +528,10 @@ export interface paths {
       cookie?: never
     }
     /**
-     * Login with Steam.
-     * @description This endpoint will redirect you to Steam's login page.
-     *
-     *     Afterwards you will be redirected back here, and optionally to another URL if you specify the
-     *     `redirect_to` query parameter.
+     * Login with Steam
+     * @description This endpoint will redirect you to Steam for login.
      */
-    get: operations['user_login']
+    get: operations['web_login']
     put?: never
     post?: never
     delete?: never
@@ -175,8 +547,12 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Expires your current session immediately. */
-    get: operations['user_logout']
+    /**
+     * Logout
+     * @description This endpoint can be used to delete your current, and optionally all other,
+     *     active session(s).
+     */
+    get: operations['web_logout']
     put?: never
     post?: never
     delete?: never
@@ -185,28 +561,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/servers': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the most recently approved CS2 servers. */
-    get: operations['get_servers']
-    put?: never
-    /**
-     * Approves a new CS2 server.
-     * @description This will generate an access key which allows the server to submit records, jumpstats, etc.
-     */
-    post: operations['approve_server']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/servers/{server}': {
+  '/events': {
     parameters: {
       query?: never
       header?: never
@@ -214,11 +569,12 @@ export interface paths {
       cookie?: never
     }
     /**
-     * Returns the CS2 server with the specified ID / name.
-     * @description If you specify a name, it does not have to be an exact match, although exact matches will be
-     *     preferred.
+     * Real-Time events
+     * @description Returns an [SSE] response.
+     *
+     *     [SSE]: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events
      */
-    get: operations['get_server']
+    get: operations['events']
     put?: never
     post?: never
     delete?: never
@@ -227,328 +583,29 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/servers/{server_id}': {
+  '/plugin/versions': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    get?: never
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    /** Updates a server's metadata. */
-    patch: operations['update_server']
-    trace?: never
-  }
-  '/servers/{server_id}/access-key': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
     /**
-     * Generates a new access key for a server and invalidates the old one.
-     * @description A successful request to this endpoint will also terminate the server's open WebSocket
-     *     connection, if any.
+     * GOKZ/cs2kz-metamod versions
+     * @description This endpoints returns metadata about official releases of the GOKZ and
+     *     cs2kz-metamod projects.
      */
-    put: operations['refresh_server_access_key']
-    post?: never
+    get: operations['get_plugin_versions']
+    put?: never
     /**
-     * Deletes a server's access key.
-     * @description A successful request to this endpoint will also terminate the server's open WebSocket
-     *     connection, if any.
+     * Register a new GOKZ/cs2kz-metamod version
+     * @description This endpoint is used by GitHub CI to inform the API of new plugin versions.
      */
-    delete: operations['delete_server_access_key']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/players': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns CS2 players. */
-    get: operations['get_players']
-    put?: never
-    post?: never
+    post: operations['create_plugin_version']
     delete?: never
     options?: never
     head?: never
     patch?: never
-    trace?: never
-  }
-  '/players/{player}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the player with the specified ID / name. */
-    get: operations['get_player']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/players/{player_id}/profile': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns a player's profile information. */
-    get: operations['get_player_profile']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/players/{player_id}/steam-profile': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns a player's Steam profile. */
-    get: operations['get_player_steam_profile']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/players/{player_id}/preferences': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns a player's cs2kz-metamod preferences. */
-    get: operations['get_player_preferences']
-    /** Replaces a player's cs2kz-metamod preferences. */
-    put: operations['update_player_preferences']
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/maps': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the latest KZ maps. */
-    get: operations['get_maps']
-    /** Approves a new map. */
-    put: operations['approve_map']
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/maps/{map}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the map with the specified ID / name. */
-    get: operations['get_map']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/maps/{map_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    /**
-     * Updates a map in-place.
-     * @description This endpoint is used for simple metadata changes. Gameplay changes should be communicated
-     *     through a separate version, i.e. `PUT /maps`.
-     */
-    patch: operations['update_map']
-    trace?: never
-  }
-  '/jumpstats': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the latest jumpstats. */
-    get: operations['get_jumpstats']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/jumpstats/{jumpstat_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the jumpstat with the specified ID. */
-    get: operations['get_jumpstat']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/jumpstats/{jumpstat_id}/replay': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the replay file for a specific jumpstat. */
-    get: operations['get_jumpstat_replay']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/records': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the latest records. */
-    get: operations['get_records']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/records/{record_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the record with the specified ID. */
-    get: operations['get_record']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/records/{record_id}/replay': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the replay file for a specific record. */
-    get: operations['get_record_replay']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/bans': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the latest player bans. */
-    get: operations['get_bans']
-    put?: never
-    /** Bans a player. */
-    post: operations['create_ban']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/bans/{ban_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Returns the ban with the specified ID. */
-    get: operations['get_ban']
-    put?: never
-    post?: never
-    /** Reverts a ban and creates an unban. */
-    delete: operations['delete_ban']
-    options?: never
-    head?: never
-    /** Updates an active ban. */
-    patch: operations['update_ban']
     trace?: never
   }
 }
@@ -557,70 +614,639 @@ export interface components {
   schemas: {
     /**
      * Format: ulid
-     * @description an opaque access key
+     * @description An API access key
+     *
+     *     See the [module-level documentation] for more information.
+     *
+     *     [module-level documentation]: crate::access_keys
+     * @example bf631097-05fa-439c-8538-e471874f03ba
      */
     AccessKey: string
-    ApprovedMap: {
-      /** Format: u-int16 */
-      map_id: number
-    }
     Ban: {
-      /** Format: u-int32 */
-      id: number
-      player: components['schemas']['PlayerInfo']
-      banned_by: components['schemas']['BannedBy']
+      id: components['schemas']['BanId']
+      player: components['schemas']['BannedPlayer']
       reason: components['schemas']['BanReason']
-      unban?: null | components['schemas']['Unban']
+      banned_by: components['schemas']['BannedBy']
       created_at: components['schemas']['Timestamp']
+      expires_at: components['schemas']['Timestamp']
+      unban?: null | components['schemas']['Unban']
     }
+    /** Format: u-int32 */
+    BanId: number
     /** @enum {string} */
-    BanReason: 'macro' | 'auto-bhop' | 'auto-strafe'
-    BanUpdate: {
-      reason?: null | components['schemas']['BanReason']
-      expires_at?: null | components['schemas']['Timestamp']
-    }
+    BanReason: 'macro' | 'autobhop' | 'autostrafe'
     BannedBy:
       | {
-          /**
-           * Format: u-int16
-           * @description The ban was issued by the Anti-Cheat on a CS2 server.
-           */
-          id: number
+          server_id: components['schemas']['ServerId']
           /** @enum {string} */
           type: 'server'
         }
       | {
-          /** @description The ban was issued by an admin. */
-          id: components['schemas']['SteamId64']
+          user_id: components['schemas']['UserId']
           /** @enum {string} */
           type: 'admin'
         }
+    BannedPlayer: {
+      id: components['schemas']['PlayerId']
+      name: components['schemas']['PlayerName']
+    }
     /** @description an MD5 checksum */
     Checksum: string
+    ConnectedPlayerInfo: {
+      id: components['schemas']['PlayerId']
+      name: components['schemas']['PlayerName']
+    }
+    ConnectionInfo: {
+      current_map: string
+      connected_players: components['schemas']['ConnectedPlayerInfo'][]
+    }
     Course: {
-      /** @description The course's name. */
-      name: string
-      /** @description A brief description of the course. */
-      description?: string | null
-      /** @description A list of players who have contributed to the creation of this course. */
-      mappers: components['schemas']['PlayerInfo'][]
-      /** @description The filters for this course. */
-      filters: components['schemas']['CourseFilters']
+      /** @description The course's ID chosen by the API
+       *
+       *     This is unique across all courses registered by the API. */
+      id: components['schemas']['CourseId']
+      /** @description The course's ID chosen by the mapper
+       *
+       *     This is unique across all courses within a map. */
+      local_id: components['schemas']['CourseLocalId']
+      name: components['schemas']['CourseName']
+      description: components['schemas']['CourseDescription']
+      mappers: components['schemas']['Mapper'][]
+      filters: components['schemas']['Filters']
     }
-    CourseFilter: {
-      /** @description The difficulty level of this filter when teleports are allowed. */
-      nub_tier: components['schemas']['CourseFilterTier']
-      /** @description The difficulty level of this filter when no teleports are allowed. */
-      pro_tier: components['schemas']['CourseFilterTier']
-      /** @description The initial state the course should be in. */
-      state: components['schemas']['CourseFilterState']
-      /** @description Any additional notes on this filter (e.g. tiering justifications). */
-      notes?: string | null
+    /** @example Main */
+    CourseDescription: string
+    /** Format: u-int16 */
+    CourseId: number
+    CourseInfo: {
+      id: components['schemas']['CourseId']
+      local_id: components['schemas']['CourseLocalId']
+      name: components['schemas']['CourseName']
+      nub_tier: components['schemas']['Tier']
+      pro_tier: components['schemas']['Tier']
+    }
+    /** Format: u-int16 */
+    CourseLocalId: number
+    /** @example Main */
+    CourseName: string
+    CreateBanRequest: {
+      player_id: components['schemas']['PlayerId']
+      reason: components['schemas']['BanReason']
+      expires_after?: null | components['schemas']['Seconds']
+    }
+    CreateBanResponse: {
+      ban_id: components['schemas']['BanId']
+      expires_at: components['schemas']['Timestamp']
+    }
+    CreateCourseRequest: {
+      name: components['schemas']['CourseName']
+      description?: components['schemas']['CourseDescription']
+      mappers: components['schemas']['UserId'][]
+      filters: components['schemas']['CreateFiltersRequest']
+    }
+    CreateFilterRequest: {
+      nub_tier: components['schemas']['Tier']
+      pro_tier: components['schemas']['Tier']
+      ranked: boolean
+      notes?: components['schemas']['FilterNotes']
+    }
+    CreateFiltersRequest:
+      | {
+          vnl: components['schemas']['CreateFilterRequest']
+          ckz: components['schemas']['CreateFilterRequest']
+        }
+      | {
+          kzt: components['schemas']['CreateFilterRequest']
+          skz: components['schemas']['CreateFilterRequest']
+          vnl: components['schemas']['CreateFilterRequest']
+        }
+    /** @example {
+     *       "courses": [
+     *         {
+     *           "filters": {
+     *             "cs2": {
+     *               "ckz": {
+     *                 "nub_tier": "easy",
+     *                 "pro_tier": "medium",
+     *                 "ranked": true
+     *               },
+     *               "vnl": {
+     *                 "nub_tier": "medium",
+     *                 "pro_tier": "advanced",
+     *                 "ranked": true
+     *               }
+     *             }
+     *           },
+     *           "mappers": [
+     *             "76561198260657129"
+     *           ],
+     *           "name": "Main"
+     *         },
+     *         {
+     *           "filters": {
+     *             "cs2": {
+     *               "ckz": {
+     *                 "nub_tier": "easy",
+     *                 "pro_tier": "easy",
+     *                 "ranked": true
+     *               },
+     *               "vnl": {
+     *                 "nub_tier": "easy",
+     *                 "pro_tier": "easy",
+     *                 "ranked": true
+     *               }
+     *             }
+     *           },
+     *           "mappers": [
+     *             "76561198260657129"
+     *           ],
+     *           "name": "Garden"
+     *         },
+     *         {
+     *           "filters": {
+     *             "ckz": {
+     *               "nub_tier": "advanced",
+     *               "pro_tier": "advanced",
+     *               "ranked": true
+     *             },
+     *             "vnl": {
+     *               "nub_tier": "hard",
+     *               "pro_tier": "very-hard",
+     *               "ranked": true
+     *             }
+     *           },
+     *           "mappers": [
+     *             "76561198260657129"
+     *           ],
+     *           "name": "word's backyard"
+     *         },
+     *         {
+     *           "filters": {
+     *             "ckz": {
+     *               "nub_tier": "medium",
+     *               "pro_tier": "advanced",
+     *               "ranked": true
+     *             },
+     *             "vnl": {
+     *               "nub_tier": "very-hard",
+     *               "pro_tier": "death",
+     *               "ranked": true
+     *             }
+     *           },
+     *           "mappers": [
+     *             "76561198260657129"
+     *           ],
+     *           "name": "Old grotto (hard)"
+     *         }
+     *       ],
+     *       "description": "KZ but in a GROTTO! Make your way through an obstacle course based in a cave.",
+     *       "workshop_id": 3121168339
+     *     } */
+    CreateMapRequest: {
+      workshop_id: components['schemas']['WorkshopId']
+      description?: components['schemas']['MapDescription']
+      game: components['schemas']['Game']
+      courses: components['schemas']['CreateCourseRequest'][]
+    }
+    CreateMapResponse: {
+      map_id: components['schemas']['MapId']
+    }
+    CreateModePluginVersionRequest: {
+      mode: components['schemas']['Mode']
+      linux_checksum: components['schemas']['Checksum']
+      windows_checksum: components['schemas']['Checksum']
+    }
+    CreatePluginVersionRequest: {
+      /** @description A SemVer version */
+      version: components['schemas']['PluginVersion']
+      /** @description Which game this plugin is for */
+      game: components['schemas']['Game']
+      /** @description The git revision associated with the release commit / tag */
+      git_revision: components['schemas']['GitRevision']
+      /** @description Checksum of the plugin binary on Linux */
+      linux_checksum: components['schemas']['Checksum']
+      /** @description Checksum of the plugin binary on Windows */
+      windows_checksum: components['schemas']['Checksum']
+      /** @description Whether this release invalidates all previous releases */
+      is_cutoff: boolean
+      modes: components['schemas']['CreateModePluginVersionRequest'][]
+      styles: components['schemas']['CreateStylePluginVersionRequest'][]
+    }
+    CreateServerRequest: {
+      name: components['schemas']['ServerName']
+      host: components['schemas']['ServerHost']
+      port: components['schemas']['ServerPort']
+      game: components['schemas']['Game']
+    }
+    CreateServerResponse: {
+      server_id: components['schemas']['ServerId']
+      access_key: components['schemas']['AccessKey']
+    }
+    CreateStylePluginVersionRequest: {
+      style: components['schemas']['Style']
+      linux_checksum: components['schemas']['Checksum']
+      windows_checksum: components['schemas']['Checksum']
+    }
+    /** Format: email */
+    EmailAddress: string
+    /** @description An API event */
+    Event:
+      | {
+          /**
+           * Format: u-int64
+           * @description The number of events that were skipped
+           */
+          skipped: number
+        }
+      | {
+          /** @description The ID of the map */
+          id: components['schemas']['MapId']
+          /** @description The name of the map */
+          name: components['schemas']['MapName']
+        }
+      | {
+          /** @description The ID of the map */
+          id: components['schemas']['MapId']
+        }
+      | {
+          /** @description The ID of the server */
+          id: components['schemas']['ServerId']
+          /** @description Information about the connection */
+          connection_info: components['schemas']['ConnectionInfo']
+        }
+      | {
+          /** @description The ID of the server */
+          id: components['schemas']['ServerId']
+        }
+      | {
+          /** @description The ID of the server the player joined */
+          server_id: components['schemas']['ServerId']
+          /** @description The player that joined */
+          player: components['schemas']['ConnectedPlayerInfo']
+        }
+      | {
+          /** @description The ID of the server the player left */
+          server_id: components['schemas']['ServerId']
+          /** @description The ID of the player that left */
+          player_id: components['schemas']['PlayerId']
+        }
+      | {
+          /** @description The ID of the record */
+          record_id: components['schemas']['RecordId']
+        }
+    Filter: {
+      id: components['schemas']['FilterId']
+      nub_tier: components['schemas']['Tier']
+      pro_tier: components['schemas']['Tier']
+      ranked: boolean
+      notes: components['schemas']['FilterNotes']
+    }
+    /** Format: u-int16 */
+    FilterId: number
+    FilterNotes: string
+    Filters:
+      | {
+          vnl: components['schemas']['Filter']
+          ckz: components['schemas']['Filter']
+        }
+      | {
+          kzt: components['schemas']['Filter']
+          skz: components['schemas']['Filter']
+          vnl: components['schemas']['Filter']
+        }
+    /**
+     * @description The two games supported by the API
+     * @enum {string}
+     */
+    Game: 'cs2' | 'csgo'
+    /** @description a git revision */
+    GitRevision: string
+    /** @enum {string} */
+    Leaderboard: 'nub' | 'pro'
+    /**
+     * Format: u-int64
+     * @default 1000
+     */
+    Limit_1000_1000: number
+    /**
+     * Format: u-int64
+     * @default 100
+     */
+    Limit_100_1000: number
+    /**
+     * Format: u-int64
+     * @default 10
+     */
+    Limit_10_1000: number
+    Map: {
+      id: components['schemas']['MapId']
+      workshop_id: components['schemas']['WorkshopId']
+      name: components['schemas']['MapName']
+      description: components['schemas']['MapDescription']
+      game: components['schemas']['Game']
+      state: components['schemas']['MapState']
+      /** @description A checksum of the map's `.vpk` file */
+      checksum: components['schemas']['Checksum']
+      courses: components['schemas']['Course'][]
+      created_by: components['schemas']['Mapper']
+      created_at: components['schemas']['Timestamp']
+    }
+    /** @example Alpha's KZ */
+    MapDescription: string
+    /** Format: u-int16 */
+    MapId: number
+    MapInfo: {
+      id: components['schemas']['MapId']
+      name: components['schemas']['MapName']
+    }
+    /** @example kz_grotto */
+    MapName: string
+    /** @enum {string} */
+    MapState: 'graveyard' | 'wip' | 'pending' | 'approved' | 'completed'
+    Mapper: {
+      id: components['schemas']['UserId']
+      name: components['schemas']['Username']
+    }
+    /**
+     * @description The different game modes across CS2 and CS:GO
+     * @enum {string}
+     */
+    Mode: 'vanilla-cs2' | 'classic' | 'kztimer' | 'simplekz' | 'vanilla-csgo'
+    /** Format: u-int64 */
+    Offset: number
+    PaginationResponse_Ban: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        id: components['schemas']['BanId']
+        player: components['schemas']['BannedPlayer']
+        reason: components['schemas']['BanReason']
+        banned_by: components['schemas']['BannedBy']
+        created_at: components['schemas']['Timestamp']
+        expires_at: components['schemas']['Timestamp']
+        unban?: null | components['schemas']['Unban']
+      }[]
+    }
+    PaginationResponse_Map: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        id: components['schemas']['MapId']
+        workshop_id: components['schemas']['WorkshopId']
+        name: components['schemas']['MapName']
+        description: components['schemas']['MapDescription']
+        game: components['schemas']['Game']
+        state: components['schemas']['MapState']
+        /** @description A checksum of the map's `.vpk` file */
+        checksum: components['schemas']['Checksum']
+        courses: components['schemas']['Course'][]
+        created_by: components['schemas']['Mapper']
+        created_at: components['schemas']['Timestamp']
+      }[]
+    }
+    PaginationResponse_Player: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        id: components['schemas']['PlayerId']
+        name: components['schemas']['PlayerName']
+        rating: components['schemas']['PlayerRating']
+        created_at: components['schemas']['Timestamp']
+      }[]
+    }
+    PaginationResponse_PluginVersionInfo: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        /** @description A SemVer version. */
+        version: components['schemas']['PluginVersion']
+        /** @description The git revision associated with the release commit / tag of this version. */
+        git_revision: components['schemas']['GitRevision']
+        /** @description When this version was published. */
+        created_at: components['schemas']['Timestamp']
+      }[]
+    }
+    PaginationResponse_Record: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        id: components['schemas']['RecordId']
+        player: components['schemas']['PlayerInfo']
+        map: components['schemas']['MapInfo']
+        course: components['schemas']['CourseInfo']
+        server: components['schemas']['ServerInfo']
+        mode: components['schemas']['Mode']
+        styles: components['schemas']['Styles']
+        time: components['schemas']['Time']
+        teleports: components['schemas']['Teleports']
+        nub_points?: null | components['schemas']['Points']
+        nub_rank?: null | components['schemas']['Rank']
+        pro_points?: null | components['schemas']['Points']
+        pro_rank?: null | components['schemas']['Rank']
+        created_at: components['schemas']['Timestamp']
+      }[]
+    }
+    PaginationResponse_Server: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        id: components['schemas']['ServerId']
+        name: components['schemas']['ServerName']
+        host: components['schemas']['ServerHost']
+        port: components['schemas']['ServerPort']
+        game: components['schemas']['Game']
+        owner: components['schemas']['ServerOwner']
+        is_global: boolean
+        connection_info?: null | components['schemas']['ConnectionInfo']
+        created_at: components['schemas']['Timestamp']
+      }[]
+    }
+    PaginationResponse_User: {
+      /** Format: u-int64 */
+      total: number
+      values: {
+        id: components['schemas']['UserId']
+        name: components['schemas']['Username']
+        permissions: components['schemas']['Permissions']
+        server_budget: components['schemas']['ServerBudget']
+        created_at: components['schemas']['Timestamp']
+      }[]
     }
     /** @enum {string} */
-    CourseFilterState: 'unranked' | 'pending' | 'ranked'
+    Permission:
+      | 'create-maps'
+      | 'update-maps'
+      | 'modify-server-metadata'
+      | 'modify-server-budgets'
+      | 'reset-server-access-keys'
+      | 'delete-server-access-keys'
+      | 'create-bans'
+      | 'update-bans'
+      | 'revert-bans'
+      | 'grant-create-maps'
+      | 'modify-user-permissions'
+    /** @description A set of [`Permission`]s */
+    Permissions: components['schemas']['Permission'][]
+    Player: {
+      id: components['schemas']['PlayerId']
+      name: components['schemas']['PlayerName']
+      rating: components['schemas']['PlayerRating']
+      created_at: components['schemas']['Timestamp']
+    }
+    /**
+     * Format: u-int64
+     * @example STEAM_1:1:161178172
+     */
+    PlayerId: string
+    PlayerInfo: {
+      id: components['schemas']['PlayerId']
+      name: components['schemas']['PlayerName']
+    }
+    /** @example AlphaKeks */
+    PlayerName: string
+    PlayerPreferences: Record<string, never>
+    /** Format: double */
+    PlayerRating: number
+    /** @example 1.23.456-dev */
+    PluginVersion: string
+    PluginVersionInfo: {
+      /** @description A SemVer version. */
+      version: components['schemas']['PluginVersion']
+      /** @description The git revision associated with the release commit / tag of this version. */
+      git_revision: components['schemas']['GitRevision']
+      /** @description When this version was published. */
+      created_at: components['schemas']['Timestamp']
+    }
+    /** Format: double */
+    Points: number
+    /**
+     * Format: rfc-9457
+     * @description RFC 9457 - Problem Details for HTTP APIs
+     */
+    ProblemDetails: {
+      /** @enum {string} */
+      type:
+        | 'https://docs.cs2kz.org/api/problems/invalid-path-parameters'
+        | 'https://docs.cs2kz.org/api/problems/invalid-query-parameters'
+        | 'https://docs.cs2kz.org/api/problems/missing-header'
+        | 'https://docs.cs2kz.org/api/problems/invalid-header'
+        | 'https://docs.cs2kz.org/api/problems/deserialize-request-body'
+        | 'https://docs.cs2kz.org/api/problems/server-name-already-in-use'
+        | 'https://docs.cs2kz.org/api/problems/server-host-and-port-already-in-use'
+        | 'https://docs.cs2kz.org/api/problems/invalid-map-id'
+        | 'https://docs.cs2kz.org/api/problems/invalid-map-name'
+        | 'https://docs.cs2kz.org/api/problems/invalid-mapper-id'
+        | 'https://docs.cs2kz.org/api/problems/invalid-mapper-name'
+        | 'https://docs.cs2kz.org/api/problems/invalid-course-id'
+        | 'https://docs.cs2kz.org/api/problems/map-is-frozen'
+        | 'https://docs.cs2kz.org/api/problems/inconsistent-filters'
+        | 'https://docs.cs2kz.org/api/problems/unknown-player-to-ban'
+        | 'https://docs.cs2kz.org/api/problems/player-already-banned'
+        | 'https://docs.cs2kz.org/api/problems/ban-expires-in-the-past'
+        | 'https://docs.cs2kz.org/api/problems/ban-already-expired'
+        | 'https://docs.cs2kz.org/api/problems/ban-already-reverted'
+        | 'https://docs.cs2kz.org/api/problems/plugin-version-already-exists'
+        | 'https://docs.cs2kz.org/api/problems/plugin-version-is-older-than-latest'
+        | 'https://docs.cs2kz.org/api/problems/steam-api-error'
+      /** Format: u-int16 */
+      status: number
+      title: string
+      detail?: string
+      instance?: string
+    } & {
+      [key: string]: unknown
+    }
+    /**
+     * Format: u-int64
+     * @description A 0-indexed position on a leaderboard
+     */
+    Rank: number
+    RatingLeaderboard: components['schemas']['RatingLeaderboardEntry'][]
+    RatingLeaderboardEntry: {
+      id: components['schemas']['PlayerId']
+      name: components['schemas']['PlayerName']
+      rating: components['schemas']['PlayerRating']
+    }
+    Record: {
+      id: components['schemas']['RecordId']
+      player: components['schemas']['PlayerInfo']
+      map: components['schemas']['MapInfo']
+      course: components['schemas']['CourseInfo']
+      server: components['schemas']['ServerInfo']
+      mode: components['schemas']['Mode']
+      styles: components['schemas']['Styles']
+      time: components['schemas']['Time']
+      teleports: components['schemas']['Teleports']
+      nub_points?: null | components['schemas']['Points']
+      nub_rank?: null | components['schemas']['Rank']
+      pro_points?: null | components['schemas']['Points']
+      pro_rank?: null | components['schemas']['Rank']
+      created_at: components['schemas']['Timestamp']
+    }
+    /** Format: u-int32 */
+    RecordId: number
+    RecordsLeaderboard: components['schemas']['RecordsLeaderboardEntry'][]
+    RecordsLeaderboardEntry: {
+      id: components['schemas']['PlayerId']
+      name: components['schemas']['PlayerName']
+      /** Format: u-int64 */
+      records: number
+    }
+    ResetServerAccessKeyResponse: {
+      access_key: components['schemas']['AccessKey']
+    }
+    RevertBanRequest: {
+      reason: components['schemas']['UnbanReason']
+    }
+    /**
+     * Format: double
+     * @description A duration in seconds
+     */
+    Seconds: number
+    Server: {
+      id: components['schemas']['ServerId']
+      name: components['schemas']['ServerName']
+      host: components['schemas']['ServerHost']
+      port: components['schemas']['ServerPort']
+      game: components['schemas']['Game']
+      owner: components['schemas']['ServerOwner']
+      is_global: boolean
+      connection_info?: null | components['schemas']['ConnectionInfo']
+      created_at: components['schemas']['Timestamp']
+    }
+    /**
+     * Format: u-int16
+     * @description A user's server budget
+     *
+     *     This indicates how many servers they are still allowed to create.
+     */
+    ServerBudget: number
+    ServerHost: string
+    /** Format: u-int16 */
+    ServerId: number
+    ServerInfo: {
+      id: components['schemas']['ServerId']
+      name: components['schemas']['ServerName']
+    }
+    /** @example Alpha's KZ */
+    ServerName: string
+    ServerOwner: {
+      id: components['schemas']['UserId']
+      name: components['schemas']['Username']
+    }
+    /**
+     * Format: u-int16
+     * @example 27015
+     */
+    ServerPort: number
     /** @enum {string} */
-    CourseFilterTier:
+    Style: 'auto-bhop'
+    /** @description A set of [`Style`]s */
+    Styles: components['schemas']['Style'][]
+    /** Format: u-int32 */
+    Teleports: number
+    /** @enum {string} */
+    Tier:
       | 'very-easy'
       | 'easy'
       | 'medium'
@@ -631,678 +1257,85 @@ export interface components {
       | 'death'
       | 'unfeasible'
       | 'impossible'
-    CourseFilters: {
-      /** @description The filter for the VNL mode. */
-      vanilla: components['schemas']['CourseFilter']
-      /** @description The filter for the CKZ mode. */
-      classic: components['schemas']['CourseFilter']
-    }
-    CourseInfo: {
-      /**
-       * Format: u-int16
-       * @description The course's ID.
-       */
-      id: number
-      /** @description The course's name. */
-      name: string
-      nub_tier: components['schemas']['CourseFilterTier']
-      pro_tier: components['schemas']['CourseFilterTier']
-    }
-    CourseUpdate: {
-      /** @description The index of the course to update.
-       *
-       *     Courses are 1-indexed and always returned in-order by the API. */
-      idx: number
-      /** @description A new name. */
-      name?: string | null
-      /** @description A new description. */
-      description?: string | null
-      /** @description SteamIDs to add to the course's mapper list. */
-      added_mappers?: components['schemas']['SteamId'][]
-      /** @description SteamIDs to remove from the course's mapper list. */
-      deleted_mappers?: components['schemas']['SteamId'][]
-      /** @description Updates to the course's filters. */
-      filter_updates?: components['schemas']['FilterUpdates']
-    }
-    CreatedAccessKey: {
-      /** @description The server's new access key. */
-      access_key: components['schemas']['AccessKey']
-    }
-    CreatedBan: {
-      /** Format: u-int32 */
-      ban_id: number
-    }
-    CreatedServer: {
-      /** Format: u-int16 */
-      server_id: number
-      /** @description The server's access key. */
-      access_key: components['schemas']['AccessKey']
-    }
-    FilterUpdate: {
-      nub_tier?: null | components['schemas']['CourseFilterTier']
-      pro_tier?: null | components['schemas']['CourseFilterTier']
-      state?: null | components['schemas']['CourseFilterState']
-      /** @description New notes.
-       *
-       *     If you specify this, the old notes will be **replaced**! */
-      notes?: string | null
-    }
-    FilterUpdates: {
-      vanilla?: null | components['schemas']['FilterUpdate']
-      classic?: null | components['schemas']['FilterUpdate']
-    }
-    /** @description a git revision */
-    GitRevision: string
-    /** @enum {string} */
-    JumpType: 'long-jump' | 'bhop' | 'multi-bhop' | 'weird-jump' | 'ladder-jump' | 'ladderhop' | 'jumpbug' | 'fall'
-    Jumpstat: {
-      /** Format: u-int32 */
-      id: number
-      player: components['schemas']['PlayerInfo']
-      server: components['schemas']['ServerInfo']
-      mode: components['schemas']['Mode']
-      styles: components['schemas']['Styles']
-      jump_type: components['schemas']['JumpType']
-      /**
-       * Format: double
-       * @description Airtime in seconds.
-       */
-      time: number
-      /** Format: u-int8 */
-      strafes: number
-      /** Format: float */
-      distance: number
-      /** Format: float */
-      sync: number
-      /** Format: float */
-      pre: number
-      /** Format: float */
-      max: number
-      /** Format: float */
-      overlap: number
-      /** Format: float */
-      bad_angles: number
-      /** Format: float */
-      dead_air: number
-      /** Format: float */
-      height: number
-      /** Format: float */
-      airpath: number
-      /** Format: float */
-      deviation: number
-      /** Format: float */
-      average_width: number
-      submitted_at: components['schemas']['Timestamp']
-    }
-    /** Format: u-int64 */
-    Limit: number
-    Map: {
-      /**
-       * Format: u-int16
-       * @description The map's ID in the API.
-       */
-      id: number
-      /**
-       * Format: u-int32
-       * @description The map's ID on the Steam Workshop.
-       */
-      workshop_id: number
-      /** @description The map's name. */
-      name: string
-      /** @description A brief description of the map. */
-      description?: string | null
-      /** @description The state the map is currently in. */
-      state: components['schemas']['MapState']
-      /** @description A checksum of the map's `.vpk` file. */
-      vpk_checksum: string
-      /** @description A list of players who have contributed to the creation of this map. */
-      mappers: components['schemas']['PlayerInfo'][]
-      /** @description A list of courses present on the map. */
-      courses: components['schemas']['Course'][]
-      /** @description When this map was approved. */
-      approved_at: components['schemas']['Timestamp']
-    }
-    MapIdentifier: string | number
-    MapInfo: {
-      /**
-       * Format: u-int16
-       * @description The map's ID.
-       */
-      id: number
-      /** @description The map's name. */
-      name: string
-    }
-    /** @enum {string} */
-    MapState: 'invalid' | 'in-testing' | 'approved'
-    MapUpdate: {
-      /**
-       * Format: u-int32
-       * @description A new workshop ID.
-       *
-       *     This field is used for updating 3 things:
-       *        - the map's workshop ID
-       *        - the map's name
-       *        - the map's vpk checksum
-       */
-      workshop_id?: number | null
-      /** @description A new description. */
-      description?: string | null
-      state?: null | components['schemas']['MapState']
-      /** @description SteamIDs to add to the map's mapper list. */
-      added_mappers?: components['schemas']['SteamId'][]
-      /** @description SteamIDs to remove from the map's mapper list. */
-      deleted_mappers?: components['schemas']['SteamId'][]
-      /** @description Updates to individual courses. */
-      course_updates?: components['schemas']['CourseUpdate'][]
-    }
-    /** @enum {string} */
-    Mode: 'vanilla' | 'classic'
-    NewBan: {
-      /** @description The player that should be banned. */
-      player_id: components['schemas']['SteamId']
-      /**
-       * Format: ipv4
-       * @description The player's IP address.
-       *
-       *     If left unspecified, the player's last known IP address will be used instead.
-       */
-      player_ip?: string | null
-      /** @description The reason for the ban. */
-      reason: components['schemas']['BanReason']
-    }
-    NewCourse: {
-      /** @description The course's name.
-       *
-       *     This has to be unique across all courses belonging to this map. */
-      name: string
-      /** @description A brief description of the course. */
-      description?: string | null
-      /** @description A list of SteamIDs of players who have contributed to the creation of this course.
-       *
-       *     You must specify at least 1 player. */
-      mappers: components['schemas']['SteamId'][]
-      /** @description The filters for this course. */
-      filters: components['schemas']['CourseFilters']
-    }
-    NewMap: {
-      /**
-       * Format: u-int32
-       * @description The ID of the map's Steam workshop item.
-       */
-      workshop_id: number
-      /** @description A brief description of the map. */
-      description?: string | null
-      /** @description The initial state the map should be in. */
-      state: components['schemas']['MapState']
-      /** @description A list of SteamIDs of players who have contributed to the creation of this map.
-       *
-       *     You must specify at least 1 player. */
-      mappers: components['schemas']['SteamId'][]
-      /** @description A list of courses present on the map.
-       *
-       *     You must specify at least 1 course. */
-      courses: components['schemas']['NewCourse'][]
-    }
-    NewMode: {
-      mode: components['schemas']['Mode']
-      linux_checksum: components['schemas']['Checksum']
-      windows_checksum: components['schemas']['Checksum']
-    }
-    NewPluginVersion: {
-      /**
-       * @description A SemVer version.
-       * @example 1.23.456-dev
-       */
-      version: string
-      /** @description The git revision associated with the release commit / tag. */
-      git_revision: components['schemas']['GitRevision']
-      /** @description Checksum of the plugin binary on Linux */
-      linux_checksum: components['schemas']['Checksum']
-      /** @description Checksum of the plugin binary on Windows */
-      windows_checksum: components['schemas']['Checksum']
-      /** @description Whether this release invalidates all previous releases */
-      is_cutoff: boolean
-      modes: components['schemas']['NewMode'][]
-      styles: components['schemas']['NewStyle'][]
-    }
-    NewServer: {
-      /** @description The server's name.
-       *
-       *     This has to be a unique value and will be displayed in UIs. */
-      name: string
-      /** @description The server's IP address / domain. */
-      host: components['schemas']['ServerHost']
-      /**
-       * Format: u-int16
-       * @description The server's connection port.
-       */
-      port: number
-      /** @description The ID of the user who owns this server. */
-      owner_id: components['schemas']['SteamId64']
-    }
-    NewStyle: {
-      style: components['schemas']['Style']
-      linux_checksum: components['schemas']['Checksum']
-      windows_checksum: components['schemas']['Checksum']
-    }
-    NewUnban: {
-      /** @description The reason for the unban. */
-      reason: string
-    }
-    /** Format: int64 */
-    Offset: number
-    Paginated_Ban: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** Format: u-int32 */
-        id: number
-        player: components['schemas']['PlayerInfo']
-        banned_by: components['schemas']['BannedBy']
-        reason: components['schemas']['BanReason']
-        unban?: null | components['schemas']['Unban']
-        created_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_Jumpstat: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** Format: u-int32 */
-        id: number
-        player: components['schemas']['PlayerInfo']
-        server: components['schemas']['ServerInfo']
-        mode: components['schemas']['Mode']
-        styles: components['schemas']['Styles']
-        jump_type: components['schemas']['JumpType']
-        /**
-         * Format: double
-         * @description Airtime in seconds.
-         */
-        time: number
-        /** Format: u-int8 */
-        strafes: number
-        /** Format: float */
-        distance: number
-        /** Format: float */
-        sync: number
-        /** Format: float */
-        pre: number
-        /** Format: float */
-        max: number
-        /** Format: float */
-        overlap: number
-        /** Format: float */
-        bad_angles: number
-        /** Format: float */
-        dead_air: number
-        /** Format: float */
-        height: number
-        /** Format: float */
-        airpath: number
-        /** Format: float */
-        deviation: number
-        /** Format: float */
-        average_width: number
-        submitted_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_Map: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /**
-         * Format: u-int16
-         * @description The map's ID in the API.
-         */
-        id: number
-        /**
-         * Format: u-int32
-         * @description The map's ID on the Steam Workshop.
-         */
-        workshop_id: number
-        /** @description The map's name. */
-        name: string
-        /** @description A brief description of the map. */
-        description?: string | null
-        /** @description The state the map is currently in. */
-        state: components['schemas']['MapState']
-        /** @description A checksum of the map's `.vpk` file. */
-        vpk_checksum: string
-        /** @description A list of players who have contributed to the creation of this map. */
-        mappers: components['schemas']['PlayerInfo'][]
-        /** @description A list of courses present on the map. */
-        courses: components['schemas']['Course'][]
-        /** @description When this map was approved. */
-        approved_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_Player: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** @description The player's SteamID. */
-        id: components['schemas']['SteamId']
-        /** @description The player's name on Steam. */
-        name: string
-        /** @description When this player first joined an approved CS2 server. */
-        first_joined_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_PluginVersion: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** Format: u-int16 */
-        id: number
-        /**
-         * @description A SemVer version.
-         * @example 1.23.456-dev
-         */
-        version: string
-        /** @description The git revision associated with the release commit / tag of this version. */
-        git_revision: components['schemas']['GitRevision']
-        /** @description When this version was published. */
-        published_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_Record: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** Format: u-int32 */
-        id: number
-        player: components['schemas']['PlayerInfo']
-        server: components['schemas']['ServerInfo']
-        map: components['schemas']['MapInfo']
-        course: components['schemas']['CourseInfo']
-        mode: components['schemas']['Mode']
-        styles: components['schemas']['Styles']
-        /** Format: u-int32 */
-        teleports: number
-        /**
-         * Format: double
-         * @description Time in seconds.
-         */
-        time: number
-        /** Format: u-int32 */
-        nub_rank?: number | null
-        /** Format: double */
-        nub_points?: number | null
-        /** Format: u-int32 */
-        pro_rank?: number | null
-        /** Format: double */
-        pro_points?: number | null
-        submitted_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_Server: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** Format: u-int16 */
-        id: number
-        name: string
-        /** @description The server's IP address / domain. */
-        host: components['schemas']['ServerHost']
-        /** Format: u-int16 */
-        port: number
-        /** @description The user who owns this server. */
-        owner: components['schemas']['UserInfo']
-        /** @description When this server was approved by the API. */
-        approved_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Paginated_User: {
-      /**
-       * Format: u-int64
-       * @description The total number of values available for fetching.
-       *
-       *     Different endpoints have different hard-limits on how many values they will return at
-       *     a time. They usually also have an `offset` query parameter you can use to fetch the next
-       *     set of values. You can use `total` to infer when you can stop making requests.
-       */
-      total: number
-      /** @description The values returned for this request. */
-      values: {
-        /** @description The user's SteamID. */
-        id: components['schemas']['SteamId64']
-        /**
-         * @description The user's last-known name on Steam.
-         * @example AlphaKeks
-         */
-        name: string
-        /** @description The user's API permissions. */
-        permissions: components['schemas']['Permissions']
-        /** @description When this user was registered to the API. */
-        registered_at: components['schemas']['Timestamp']
-      }[]
-    }
-    Permissions: ('user-permissions' | 'servers' | 'map-pool' | 'player-bans')[]
-    Player: {
-      /** @description The player's SteamID. */
-      id: components['schemas']['SteamId']
-      /** @description The player's name on Steam. */
-      name: string
-      /** @description When this player first joined an approved CS2 server. */
-      first_joined_at: components['schemas']['Timestamp']
-    }
-    PlayerIdentifier: string
-    PlayerInfo: {
-      /** @description The player's SteamID. */
-      id: components['schemas']['SteamId']
-      /** @description The player's name on Steam. */
-      name: string
-    }
-    PluginVersion: {
-      /** Format: u-int16 */
-      id: number
-      /**
-       * @description A SemVer version.
-       * @example 1.23.456-dev
-       */
-      version: string
-      /** @description The git revision associated with the release commit / tag of this version. */
-      git_revision: components['schemas']['GitRevision']
-      /** @description When this version was published. */
-      published_at: components['schemas']['Timestamp']
-    }
-    PluginVersionIdentifier: string
-    PublishedPluginVersion: {
-      /** Format: u-int16 */
-      plugin_version_id: number
-    }
-    Record: {
-      /** Format: u-int32 */
-      id: number
-      player: components['schemas']['PlayerInfo']
-      server: components['schemas']['ServerInfo']
-      map: components['schemas']['MapInfo']
-      course: components['schemas']['CourseInfo']
-      mode: components['schemas']['Mode']
-      styles: components['schemas']['Styles']
-      /** Format: u-int32 */
-      teleports: number
-      /**
-       * Format: double
-       * @description Time in seconds.
-       */
-      time: number
-      /** Format: u-int32 */
-      nub_rank?: number | null
-      /** Format: double */
-      nub_points?: number | null
-      /** Format: u-int32 */
-      pro_rank?: number | null
-      /** Format: double */
-      pro_points?: number | null
-      submitted_at: components['schemas']['Timestamp']
-    }
-    /** @enum {string} */
-    Records_SortBy: 'submission-date' | 'time'
-    /** @enum {string} */
-    Records_SortOrder: 'ascending' | 'descending'
-    /** Format: binary */
-    ReplayFile: Record<string, never>
-    Server: {
-      /** Format: u-int16 */
-      id: number
-      name: string
-      /** @description The server's IP address / domain. */
-      host: components['schemas']['ServerHost']
-      /** Format: u-int16 */
-      port: number
-      /** @description The user who owns this server. */
-      owner: components['schemas']['UserInfo']
-      /** @description When this server was approved by the API. */
-      approved_at: components['schemas']['Timestamp']
-    }
-    /**
-     * Format: hostname
-     * @description an IPv4/IPv6 address or domain
-     */
-    ServerHost: string
-    ServerIdentifier: string | number
-    ServerInfo: {
-      /**
-       * Format: u-int16
-       * @description The server's ID.
-       */
-      id: number
-      /** @description The server's name. */
-      name: string
-    }
-    ServerUpdate: {
-      /** @description A new name. */
-      name?: string | null
-      host?: null | components['schemas']['ServerHost']
-      /**
-       * Format: u-int16
-       * @description A new port.
-       */
-      port?: number | null
-      owner_id?: null | components['schemas']['SteamId64']
-    }
-    SessionInfo: {
-      /** @description When your session was created. */
-      created_at: components['schemas']['Timestamp']
-      /** @description When your session will expire. */
-      expires_at: components['schemas']['Timestamp']
-    }
-    /** @description a SteamID */
-    SteamId: string
-    /**
-     * Format: u-int64
-     * @description a 64-bit SteamID
-     */
-    SteamId64: string
-    SteamUser: {
-      id: components['schemas']['SteamId']
-      name: string
-      /** Format: uri */
-      profile_url: string
-      /** Format: uri */
-      avatar_url: string
-    }
-    /** @enum {string} */
-    Style: 'auto-bhop'
-    Styles: 'auto-bhop'[]
-    /**
-     * Format: date-time
-     * @description a UTC timestamp
-     */
+    Time: components['schemas']['Seconds']
+    /** Format: date-time */
     Timestamp: string
     Unban: {
-      admin_id: components['schemas']['SteamId64']
-      reason: string
+      reason: components['schemas']['UnbanReason']
+      unbanned_by: components['schemas']['UserId']
       created_at: components['schemas']['Timestamp']
     }
-    UpdateUserEmailPayload: {
-      /**
-       * Format: email
-       * @description The new email address.
-       */
-      email: string
+    UnbanReason: string
+    UpdateBanRequest: {
+      reason?: null | components['schemas']['BanReason']
+      expires_after?: null | components['schemas']['Seconds']
     }
-    UpdateUserPermissionsPayload: {
-      /** @description The new permissions. */
+    UpdateCourseRequest: {
+      name?: null | components['schemas']['CourseName']
+      description?: null | components['schemas']['CourseDescription']
+      /** @description A list of SteamIDs to add as mappers */
+      added_mappers?: components['schemas']['UserId'][]
+      /** @description A list of SteamIDs to remove as mappers */
+      removed_mappers?: components['schemas']['UserId'][]
+      /** @description Updates to the course's filters */
+      filter_updates?: {
+        [key: string]: components['schemas']['UpdateFiltersRequest']
+      }
+    }
+    UpdateFiltersRequest: {
+      nub_tier?: null | components['schemas']['Tier']
+      pro_tier?: null | components['schemas']['Tier']
+      /** @description Whether the filter should contribute to player rating */
+      ranked?: boolean | null
+      notes?: null | components['schemas']['FilterNotes']
+    }
+    UpdateMapRequest: {
+      /** @description The ID of the map on the Steam Workshop */
+      workshop_id: components['schemas']['WorkshopId']
+      description?: null | components['schemas']['MapDescription']
+      /** @description Updates for the map's courses */
+      course_updates?: {
+        [key: string]: components['schemas']['UpdateCourseRequest']
+      }
+    }
+    UpdateMapStateRequest: {
+      state: components['schemas']['MapState']
+    }
+    UpdatePlayerPreferencesRequest: {
+      game: components['schemas']['Game']
+      preferences: components['schemas']['PlayerPreferences']
+    }
+    UpdateServerBudgetRequest: {
+      budget: components['schemas']['ServerBudget']
+    }
+    UpdateServerRequest: {
+      name?: null | components['schemas']['ServerName']
+      host?: null | components['schemas']['ServerHost']
+      port?: null | components['schemas']['ServerPort']
+      game?: null | components['schemas']['Game']
+    }
+    UpdateUserEmailRequest: {
+      email: components['schemas']['EmailAddress']
+    }
+    UpdateUserPermissionsRequest: {
       permissions: components['schemas']['Permissions']
     }
     User: {
-      /** @description The user's SteamID. */
-      id: components['schemas']['SteamId64']
-      /**
-       * @description The user's last-known name on Steam.
-       * @example AlphaKeks
-       */
-      name: string
-      /** @description The user's API permissions. */
+      id: components['schemas']['UserId']
+      name: components['schemas']['Username']
       permissions: components['schemas']['Permissions']
-      /** @description When this user was registered to the API. */
-      registered_at: components['schemas']['Timestamp']
+      server_budget: components['schemas']['ServerBudget']
+      created_at: components['schemas']['Timestamp']
     }
-    UserInfo: {
-      /** @description The user's SteamID. */
-      id: components['schemas']['SteamId64']
-      /** @description The user's last-known name on Steam. */
-      name: string
-    }
+    /**
+     * Format: u-int64
+     * @example 76561198282622073
+     */
+    UserId: string
+    /** @example AlphaKeks */
+    Username: string
+    /** Format: u-int32 */
+    WorkshopId: number
   }
   responses: never
   parameters: never
@@ -1312,16 +1345,11 @@ export interface components {
 }
 export type $defs = Record<string, never>
 export interface operations {
-  get_plugin_versions: {
+  get_rating_leaderboard: {
     parameters: {
       query?: {
-        /**
-         * @description Only include versions that meet this SemVer requirement.
-         * @example ^1.0.0
-         */
-        version?: string
-        limit?: components['schemas']['Limit']
-        offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
       }
       header?: never
       path?: never
@@ -1334,11 +1362,127 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['Paginated_PluginVersion']
+          'application/json': components['schemas']['RatingLeaderboard']
         }
       }
-      /** @description invalid query parameters */
+      /** @description invalid query parameter(s) */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_records_leaderboard: {
+    parameters: {
+      query?: {
+        /** @description Only count records for a specific mode */
+        mode?: components['schemas']['Mode']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
+      }
+      header?: never
+      path: {
+        leaderboard: components['schemas']['Leaderboard']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['RecordsLeaderboard']
+        }
+      }
+      /** @description invalid query parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_records: {
+    parameters: {
+      query?: {
+        /** @description Only include records set by this player */
+        player?: components['schemas']['PlayerId']
+        /** @description Only include records set on this course */
+        course?: components['schemas']['CourseId']
+        /** @description Only include records set on this mode */
+        mode?: components['schemas']['Mode']
+        /** @description Only include PBs */
+        top?: boolean
+        /** @description Only include PRO records */
+        pro?: boolean
+        /** @description Pagination offset */
+        offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['PaginationResponse_Record']
+        }
+      }
+      /** @description invalid query parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_record: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        record_id: components['schemas']['RecordId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Record']
+        }
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      404: {
         headers: {
           [name: string]: unknown
         }
@@ -1346,7 +1490,7 @@ export interface operations {
       }
     }
   }
-  publish_plugin_version: {
+  create_map: {
     parameters: {
       query?: never
       header?: never
@@ -1355,7 +1499,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewPluginVersion']
+        'application/json': components['schemas']['CreateMapRequest']
       }
     }
     responses: {
@@ -1364,7 +1508,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['PublishedPluginVersion']
+          'application/json': components['schemas']['CreateMapResponse']
         }
       }
       401: {
@@ -1373,62 +1517,42 @@ export interface operations {
         }
         content?: never
       }
-      /** @description The submitted version already exists or is older than the current latest version. */
+      /** @description map properties conflict with existing map(s) or are logically invalid */
       409: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
-      }
-    }
-  }
-  get_plugin_version: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description a SemVer version or git revision */
-        version: components['schemas']['PluginVersionIdentifier']
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
         content: {
-          'application/json': components['schemas']['PluginVersion']
+          'application/json': components['schemas']['ProblemDetails']
         }
-      }
-      /** @description invalid path parameter */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
       }
     }
   }
-  get_users: {
+  get_maps: {
     parameters: {
       query?: {
-        /** @description Only include users with these permissions. */
-        permissions?: components['schemas']['Permissions']
+        /** @description Only include maps with a matching name
+         *
+         *     If this parameter is specified, the returned maps will be ordered by how
+         *     close their actual name matches the given value. */
+        name?: string
+        /** @description Only include maps made for this game */
+        game?: components['schemas']['Game']
+        /** @description Only include maps in this state */
+        state?: components['schemas']['MapState']
+        /** @description Pagination offset */
+        offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_1000_1000']
       }
       header?: never
       path?: never
@@ -1441,25 +1565,26 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['Paginated_User']
+          'application/json': components['schemas']['PaginationResponse_Map']
         }
       }
-      /** @description invalid query parameters */
+      /** @description invalid query parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
-  get_user: {
+  get_map: {
     parameters: {
       query?: never
       header?: never
       path: {
-        /** @description the user's SteamID */
-        user_id: components['schemas']['SteamId64']
+        map_id: components['schemas']['MapId']
       }
       cookie?: never
     }
@@ -1470,15 +1595,17 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['User']
+          'application/json': components['schemas']['Map']
         }
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       404: {
         headers: {
@@ -1488,19 +1615,18 @@ export interface operations {
       }
     }
   }
-  update_user_email: {
+  update_map: {
     parameters: {
       query?: never
       header?: never
       path: {
-        /** @description the user's SteamID */
-        user_id: components['schemas']['SteamId64']
+        map_id: components['schemas']['MapId']
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateUserEmailPayload']
+        'application/json': components['schemas']['UpdateMapRequest']
       }
     }
     responses: {
@@ -1510,14 +1636,22 @@ export interface operations {
         }
         content?: never
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
         headers: {
           [name: string]: unknown
         }
         content?: never
       }
-      401: {
+      403: {
         headers: {
           [name: string]: unknown
         }
@@ -1528,68 +1662,39 @@ export interface operations {
           [name: string]: unknown
         }
         content?: never
+      }
+      /** @description map properties conflict with existing map(s) or are logically invalid */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
-  delete_user_email: {
+  update_map_state: {
     parameters: {
       query?: never
       header?: never
       path: {
-        /** @description the user's SteamID */
-        user_id: components['schemas']['SteamId64']
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  update_user_permissions: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description the user's SteamID */
-        user_id: components['schemas']['SteamId64']
+        map_id: components['schemas']['MapId']
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateUserPermissionsPayload']
+        'application/json': components['schemas']['UpdateMapStateRequest']
       }
     }
     responses: {
@@ -1599,12 +1704,14 @@ export interface operations {
         }
         content?: never
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       401: {
         headers: {
@@ -1618,118 +1725,46 @@ export interface operations {
         }
         content?: never
       }
+      /** @description map properties conflict with existing map(s) or are logically invalid */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
-      }
-    }
-  }
-  cs2_server_auth: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      101: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_current_session: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
         content: {
-          'application/json': components['schemas']['SessionInfo']
+          'application/json': components['schemas']['ProblemDetails']
         }
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  user_login: {
-    parameters: {
-      query?: {
-        /** @description URL you wish to be redirected to after the login process is complete. */
-        redirect_to?: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Redirect to Steam's login page. */
-      303: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  user_logout: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
       }
     }
   }
   get_servers: {
     parameters: {
       query?: {
-        /** @description Only include servers whose name matches this value. */
+        /** @description Only include servers with a matching name
+         *
+         *     If this parameter is specified, the returned servers will be ordered by
+         *     how close their actual name matches the given value. */
         name?: string
-        /** @description Only include servers whose host matches this value. */
-        host?: components['schemas']['ServerHost']
-        /** @description Only include servers owned by this user. */
-        owned_by?: components['schemas']['SteamId64']
-        limit?: components['schemas']['Limit']
+        /** @description Only include servers with a matching hostname / IP */
+        host?: string
+        /** @description Only include servers for the specified game */
+        game?: components['schemas']['Game']
+        /** @description Only include servers owned by the specified user */
+        owned_by?: components['schemas']['UserId']
+        /** @description Include servers that currently don't have an API key */
+        include_degloballed?: boolean
+        /** @description Pagination offset */
         offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
       }
       header?: never
       path?: never
@@ -1742,19 +1777,21 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['Paginated_Server']
+          'application/json': components['schemas']['PaginationResponse_Server']
         }
       }
-      /** @description invalid query parameters */
+      /** @description invalid query parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
-  approve_server: {
+  create_server: {
     parameters: {
       query?: never
       header?: never
@@ -1763,7 +1800,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewServer']
+        'application/json': components['schemas']['CreateServerRequest']
       }
     }
     responses: {
@@ -1772,7 +1809,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['CreatedServer']
+          'application/json': components['schemas']['CreateServerResponse']
         }
       }
       401: {
@@ -1781,19 +1818,23 @@ export interface operations {
         }
         content?: never
       }
-      /** @description The server's name or host+port combination is already in use. */
+      /** @description server properties conflict with existing server(s) */
       409: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
@@ -1802,8 +1843,7 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        /** @description a server ID or name */
-        server: components['schemas']['ServerIdentifier']
+        server_id: components['schemas']['ServerId']
       }
       cookie?: never
     }
@@ -1817,12 +1857,14 @@ export interface operations {
           'application/json': components['schemas']['Server']
         }
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       404: {
         headers: {
@@ -1837,14 +1879,13 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        /** @description the server's ID */
-        server_id: number
+        server_id: components['schemas']['ServerId']
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['ServerUpdate']
+        'application/json': components['schemas']['UpdateServerRequest']
       }
     }
     responses: {
@@ -1853,6 +1894,15 @@ export interface operations {
           [name: string]: unknown
         }
         content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       401: {
         headers: {
@@ -1866,29 +1916,32 @@ export interface operations {
         }
         content?: never
       }
-      /** @description The specified name or host+port combination is already in use. */
+      /** @description server properties conflict with existing server(s) */
       409: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
-  refresh_server_access_key: {
+  reset_server_access_key: {
     parameters: {
       query?: never
       header?: never
       path: {
-        /** @description the server's ID */
-        server_id: number
+        server_id: components['schemas']['ServerId']
       }
       cookie?: never
     }
@@ -1899,7 +1952,16 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['CreatedAccessKey']
+          'application/json': components['schemas']['ResetServerAccessKeyResponse']
+        }
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
         }
       }
       401: {
@@ -1921,8 +1983,7 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        /** @description the server's ID */
-        server_id: number
+        server_id: components['schemas']['ServerId']
       }
       cookie?: never
     }
@@ -1934,603 +1995,16 @@ export interface operations {
         }
         content?: never
       }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_players: {
-    parameters: {
-      query?: {
-        /** @description Only include players whose name matches this value. */
-        name?: string
-        limit?: components['schemas']['Limit']
-        offset?: components['schemas']['Offset']
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Paginated_Player']
-        }
-      }
-      /** @description invalid query parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
-      }
-    }
-  }
-  get_player: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description a SteamID or name */
-        player: components['schemas']['PlayerIdentifier']
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
         content: {
-          'application/json': components['schemas']['Player']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_player_profile: {
-    parameters: {
-      query: {
-        mode: components['schemas']['Mode']
-      }
-      header?: never
-      path: {
-        /** @description the player's SteamID */
-        player_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Player']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_player_steam_profile: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description the player's SteamID */
-        player_id: components['schemas']['SteamId']
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['SteamUser']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description Steam returned an error */
-      502: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_player_preferences: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description the player's SteamID */
-        player_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': Record<string, never>
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  update_player_preferences: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description the player's SteamID */
-        player_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_maps: {
-    parameters: {
-      query?: {
-        /** @description Only include maps with this Steam Workshop ID.
-         *
-         *     As multiple versions of the same map are represented as different maps, a request may
-         *     return multiple values (multiple versions of the same map with the same workshop ID). */
-        workshop_id?: number
-        /** @description Only include maps whose name matches this value. */
-        name?: string
-        /** @description Only include maps currently in this state. */
-        state?: components['schemas']['MapState']
-        limit?: components['schemas']['Limit']
-        offset?: components['schemas']['Offset']
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Paginated_Map']
-        }
-      }
-      /** @description invalid query parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  approve_map: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['NewMap']
-      }
-    }
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApprovedMap']
+          'application/json': components['schemas']['ProblemDetails']
         }
       }
       401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description invalid request body */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_map: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description a map ID or name */
-        map: components['schemas']['MapIdentifier']
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Map']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  update_map: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        /** @description the map's ID */
-        map_id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['MapUpdate']
-      }
-    }
-    responses: {
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description invalid request body */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_jumpstats: {
-    parameters: {
-      query?: {
-        limit?: components['schemas']['Limit']
-        offset?: components['schemas']['Offset']
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Paginated_Jumpstat']
-        }
-      }
-      /** @description invalid query parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_jumpstat: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        jumpstat_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Jumpstat']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_jumpstat_replay: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        jumpstat_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ReplayFile']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_records: {
-    parameters: {
-      query?: {
-        /** @description Only include PBs. */
-        top?: boolean
-        /** @description Only include records set by this player. */
-        player?: components['schemas']['PlayerIdentifier']
-        /** @description Only include records set on this server. */
-        server?: components['schemas']['ServerIdentifier']
-        /** @description Only include records set on this map. */
-        map?: components['schemas']['MapIdentifier']
-        /** @description Only include records set on this course. */
-        course?: string
-        /** @description Only include records set on this mode. */
-        mode?: components['schemas']['Mode']
-        /** @description Restrict the results to records that (do not) have teleports. */
-        has_teleports?: boolean
-        /** @description The highest rank that any record should have.
-         *
-         *     This can be used, for example, to query world records only (`max_rank=1`). */
-        max_rank?: number
-        /** @description Which value to sort the results by.
-         *
-         *     Defaults to 'submission-date'. */
-        sort_by?: components['schemas']['Records_SortBy']
-        /** @description Which direction to sort the results in. */
-        sort_order?: components['schemas']['Records_SortOrder']
-        limit?: components['schemas']['Limit']
-        offset?: components['schemas']['Offset']
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Paginated_Record']
-        }
-      }
-      /** @description invalid query parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_record: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        record_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Record']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  get_record_replay: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        record_id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ReplayFile']
-        }
-      }
-      /** @description invalid path parameters */
-      400: {
         headers: {
           [name: string]: unknown
         }
@@ -2547,14 +2021,14 @@ export interface operations {
   get_bans: {
     parameters: {
       query?: {
-        /** @description Only include bans for this player. */
-        player?: components['schemas']['PlayerIdentifier']
-        /** @description Only include bans issued by this user. */
-        banned_by?: components['schemas']['SteamId64']
-        /** @description Only include bans with this reason. */
-        reason?: components['schemas']['BanReason']
-        limit?: components['schemas']['Limit']
+        /** @description Only include bans for this player */
+        player_id?: components['schemas']['PlayerId']
+        /** @description Only include bans issued by this admin */
+        banned_by?: components['schemas']['UserId']
+        /** @description Pagination offset */
         offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
       }
       header?: never
       path?: never
@@ -2567,15 +2041,17 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['Paginated_Ban']
+          'application/json': components['schemas']['PaginationResponse_Ban']
         }
       }
-      /** @description invalid query parameters */
+      /** @description invalid query parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
@@ -2588,7 +2064,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewBan']
+        'application/json': components['schemas']['CreateBanRequest']
       }
     }
     responses: {
@@ -2597,7 +2073,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['CreatedBan']
+          'application/json': components['schemas']['CreateBanResponse']
         }
       }
       401: {
@@ -2606,19 +2082,23 @@ export interface operations {
         }
         content?: never
       }
-      /** @description the player is already banned */
+      /** @description the player does not exist or is already banned */
       409: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
@@ -2627,7 +2107,7 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        ban_id: number
+        ban_id: components['schemas']['BanId']
       }
       cookie?: never
     }
@@ -2641,12 +2121,14 @@ export interface operations {
           'application/json': components['schemas']['Ban']
         }
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       404: {
         headers: {
@@ -2656,18 +2138,18 @@ export interface operations {
       }
     }
   }
-  delete_ban: {
+  revert_ban: {
     parameters: {
       query?: never
       header?: never
       path: {
-        ban_id: number
+        ban_id: components['schemas']['BanId']
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['NewUnban']
+        'application/json': components['schemas']['RevertBanRequest']
       }
     }
     responses: {
@@ -2677,12 +2159,14 @@ export interface operations {
         }
         content?: never
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       401: {
         headers: {
@@ -2696,12 +2180,23 @@ export interface operations {
         }
         content?: never
       }
+      /** @description the ban cannot be reverted */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
       /** @description invalid request body */
       422: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }
@@ -2710,13 +2205,13 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        ban_id: number
+        ban_id: components['schemas']['BanId']
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['BanUpdate']
+        'application/json': components['schemas']['UpdateBanRequest']
       }
     }
     responses: {
@@ -2726,12 +2221,14 @@ export interface operations {
         }
         content?: never
       }
-      /** @description invalid path parameters */
+      /** @description invalid path parameter(s) */
       400: {
         headers: {
           [name: string]: unknown
         }
-        content?: never
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
       401: {
         headers: {
@@ -2750,7 +2247,672 @@ export interface operations {
         headers: {
           [name: string]: unknown
         }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_players: {
+    parameters: {
+      query?: {
+        /** @description Only include players with a matching name
+         *
+         *     If this parameter is specified, the returned players will be ordered by
+         *     how close their actual name matches the given value. */
+        name?: string
+        /** @description Pagination offset */
+        offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['PaginationResponse_Player']
+        }
+      }
+      /** @description invalid query parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_player: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        player_id: components['schemas']['PlayerId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Player']
+        }
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
         content?: never
+      }
+    }
+  }
+  get_player_preferences: {
+    parameters: {
+      query: {
+        game: components['schemas']['Game']
+      }
+      header?: never
+      path: {
+        player_id: components['schemas']['PlayerId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['PlayerPreferences']
+        }
+      }
+      /** @description invalid path/query parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  update_player_preferences: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        player_id: components['schemas']['PlayerId']
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdatePlayerPreferencesRequest']
+      }
+    }
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid request body */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_users: {
+    parameters: {
+      query?: {
+        /** @description Only include users that have permissions */
+        has_permissions?: boolean
+        /** @description Only include users with *at least* these permissions */
+        permissions?: components['schemas']['Permissions']
+        /** @description Pagination offset */
+        offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_100_1000']
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['PaginationResponse_User']
+        }
+      }
+      /** @description invalid query parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  get_user: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['User']
+        }
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  update_user_email: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateUserEmailRequest']
+      }
+    }
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid request body */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  delete_user_email: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  update_user_permissions: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateUserPermissionsRequest']
+      }
+    }
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid request body */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  update_user_server_budget: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateServerBudgetRequest']
+      }
+    }
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid request body */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  create_mapper: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  delete_mapper: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        user_id: components['schemas']['UserId']
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description invalid path parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  web_login: {
+    parameters: {
+      query?: {
+        /** @description The URL to return to after the login process is complete. */
+        return_to?: string
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description redirect to Steam's login page */
+      303: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  web_logout: {
+    parameters: {
+      query?: {
+        /** @description Whether to invalidate all your currently active sessions */
+        invalidate_all?: boolean
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      204: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      /** @description you are not logged in */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  events: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Event']
+        }
+      }
+    }
+  }
+  get_plugin_versions: {
+    parameters: {
+      query?: {
+        /** @description Only include plugin versions for the specified game */
+        game?: components['schemas']['Game']
+        /** @description Pagination offset */
+        offset?: components['schemas']['Offset']
+        /** @description Limit the number of results returned */
+        limit?: components['schemas']['Limit_10_1000']
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['PaginationResponse_PluginVersionInfo']
+        }
+      }
+      /** @description invalid query parameter(s) */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+    }
+  }
+  create_plugin_version: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreatePluginVersionRequest']
+      }
+    }
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
+      }
+      /** @description invalid request body */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ProblemDetails']
+        }
       }
     }
   }

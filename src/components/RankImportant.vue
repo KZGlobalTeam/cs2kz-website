@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { Record, LeaderboardType } from '@/types'
 import { api, formatTime, toLocal, toLocalDistance } from '@/utils'
 import { useI18n } from 'vue-i18n'
@@ -23,10 +23,15 @@ const emits = defineEmits(['toggle'])
 
 const avatarUrl = ref('')
 
-getAvatar()
+watch(
+  () => props.record.player.id,
+  (id) => {
+    getAvatar(id)
+  },
+  { immediate: true },
+)
 
-async function getAvatar() {
-  const steamId = props.record.player.id
+async function getAvatar(steamId: string) {
   try {
     const { data } = await api.get(`/players/${steamId}/steam-profile`)
     avatarUrl.value = data?.avatar_url.replace(/_medium/, '_full') || ''
