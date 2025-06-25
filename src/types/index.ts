@@ -1,6 +1,10 @@
 import type { paths, components } from '../../openapi-types'
 
-export type Player = components['schemas']['PlayerInfo']
+export type PlayerInfo = components['schemas']['PlayerInfo']
+
+export type Player = components['schemas']['Player']
+
+export type PlayerResponse = paths['/players']['get']['responses']['200']['content']['application/json']
 
 export interface PlayerSteam {
   id: string
@@ -19,6 +23,11 @@ export type Style = components['schemas']['Styles']
 export type MapState = components['schemas']['MapState']
 
 export type Map = components['schemas']['Map']
+
+export type MapResponse = {
+  total: number
+  values: Map[]
+}
 
 export type Filters = components['schemas']['Filters']
 
@@ -46,7 +55,7 @@ export interface MapCard {
   id: number
   name: string
   state: MapState
-  mappers: Player[]
+  mappers: PlayerInfo[]
   courses: CourseExt[]
   approved_at: string
 }
@@ -65,7 +74,7 @@ export interface CourseInfo {
   name: string
   tier: Tier
   ranked: boolean
-  mappers: Player[]
+  mappers: PlayerInfo[]
   created_on: string
   img: string
 }
@@ -94,10 +103,10 @@ export interface RecordQuery {
   top: boolean
   max_rank?: number
   player: string
-  map: string
+  // course id
   course: string
   server: string
-  sort_by: 'submitted_at' | 'time'
+  sort_by: 'submission-date' | 'time'
   sort_order: 'ascending' | 'descending'
   limit: number
   offset: number

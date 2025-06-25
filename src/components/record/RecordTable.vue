@@ -30,7 +30,7 @@ const sorting = ref([{ id: 'submitted_at', desc: true }])
 
 const { toggleExpand } = useExpand()
 
-const sortBy = defineModel<'submitted_at' | 'time'>('sortBy', { required: true })
+const sortBy = defineModel<'submission-date' | 'time'>('sortBy', { required: true })
 const sortOrder = defineModel<'ascending' | 'descending'>('sortOrder', {
   required: true,
 })
@@ -152,7 +152,7 @@ const columns = computed(() => {
           class: '-mx-2.5',
           onClick: () => {
             column.toggleSorting(column.getIsSorted() === 'asc')
-            sortBy.value = 'submitted_at'
+            sortBy.value = 'submission-date'
             sortOrder.value = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
           },
         })

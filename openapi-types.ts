@@ -1420,6 +1420,10 @@ export interface operations {
         course?: components['schemas']['CourseId']
         /** @description Only include records set on this mode */
         mode?: components['schemas']['Mode']
+        /** @description Only include records set on this server */
+        server?: components['schemas']['ServerId']
+        /** @description Only include records with this rank or lower */
+        max_rank?: number
         /** @description Only include PBs */
         top?: boolean
         /** @description Only include PRO records */

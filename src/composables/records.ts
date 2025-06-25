@@ -14,10 +14,9 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     pro: false,
     top: true,
     player: '',
-    map: '',
     course: '',
     server: '',
-    sort_by: 'submitted_at',
+    sort_by: 'submission-date',
     sort_order: 'descending',
     limit: 30,
     offset: 0,
@@ -27,13 +26,14 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
 
   const debouncedUpdate = debounce({ delay: 300 }, getRecords)
 
-  watch([() => query.player, () => query.map, () => query.course, () => query.server], debouncedUpdate)
+  watch([() => query.player, () => query.server], debouncedUpdate)
 
   watch(
     [
       () => query.mode,
       () => query.pro,
       () => query.top,
+      () => query.course,
       () => query.max_rank,
       () => query.sort_by,
       () => query.sort_order,

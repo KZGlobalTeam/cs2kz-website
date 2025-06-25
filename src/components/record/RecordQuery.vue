@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import { debounce } from 'radash'
-import type { RecordQuery } from '@/types'
+import type { MapResponse, PlayerResponse, ServerResponse, RecordQuery } from '@/types'
+import { api } from '@/utils'
+import RecordSearchFilter from './RecordSearchFilter.vue'
 
 defineProps<{
   detailed?: boolean
@@ -9,15 +9,41 @@ defineProps<{
 
 const query = defineModel<RecordQuery>('query', { required: true })
 
-watch([() => query.value.player, () => query.value.course, () => query.value.server], ([player, course, server]) => {
-  updateStringQueries(player, course, server)
-})
+async function fetchMapSearchResults(search: string) {
+  const { data } = await api.get<MapResponse>('/maps', {
+    params: { name: search, game: 'cs2' },
+  })
 
-const updateStringQueries = debounce({ delay: 300 }, (player, course, server) => {
-  query.value.player = player
-  query.value.course = course
-  query.value.server = server
-})
+  return data.values.flatMap((map) => {
+    return map.courses.map((course) => ({
+      map: map.name,
+      courseName: course.name,
+      courseId: course.id,
+    }))
+  })
+}
+
+async function fetchPlayerSearchResults(search: string) {
+  const { data } = await api.get<PlayerResponse>('/players', {
+    params: { name: search },
+  })
+
+  return data.values.map((player) => ({
+    playerId: player.id,
+    playerName: player.name,
+  }))
+}
+
+async function fetchServerSearchResults(search: string) {
+  const { data } = await api.get<ServerResponse>('/servers', {
+    params: { name: search, game: 'cs2' },
+  })
+
+  return data.values.map((server) => ({
+    serverId: server.id,
+    serverName: server.name,
+  }))
+}
 </script>
 
 <template>
@@ -49,7 +75,7 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
           @click="query.pro = false"
         />
         <UButton
-          :variant="!query.pro ? 'solid' : 'outline'"
+          :variant="query.pro ? 'outline' : 'solid'"
           :label="$t('common.leaderboardType.pro')"
           @click="query.pro = true"
         />
@@ -68,29 +94,76 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
         :placeholder="$t('records.query.maxRank.placeholder')"
       />
 
-      <UInput v-model="query.map" :placeholder="$t('records.query.map')">
-        <template #trailing>
+      <RecordSearchFilter
+        placeholder-path="records.query.map"
+        :fetch-results="fetchMapSearchResults"
+        @cleared="query.course = ''"
+      >
+        <template #trailing-icon>
           <IconMap />
         </template>
-      </UInput>
 
-      <UInput v-model="query.course" :placeholder="$t('records.query.course')">
-        <template #trailing>
-          <IconCourse />
+        <template #results="{ results }">
+          <div class="flex flex-col gap-1 p-1">
+            <div
+              v-for="result in results"
+              :key="result.courseId"
+              @click="query.course = result.courseId"
+              class="hover:bg-gray-800 pl-2 pr-3 py-1.5 rounded-sm cursor-pointer flex items-center gap-1"
+            >
+              <span class="text-gray-200 font-semibold">{{ result.map }}</span>
+              <span class="text-gray-600">/</span>
+              <span class="text-gray-300"> {{ result.courseName }}</span>
+            </div>
+          </div>
         </template>
-      </UInput>
+      </RecordSearchFilter>
 
-      <UInput v-if="detailed" v-model="query.player" :placeholder="$t('records.query.player')">
-        <template #trailing>
+      <RecordSearchFilter
+        placeholder-path="records.query.player"
+        :fetch-results="fetchPlayerSearchResults"
+        @cleared="query.player = ''"
+      >
+        <template #trailing-icon>
           <IconPlayer />
         </template>
-      </UInput>
 
-      <UInput v-model="query.server" :placeholder="$t('records.query.server')" class="hidden lg:block">
-        <template #trailing>
+        <template #results="{ results }">
+          <div class="flex flex-col gap-1 p-1">
+            <div
+              v-for="result in results"
+              :key="result.playerId"
+              @click="query.player = result.playerId"
+              class="hover:bg-gray-800 pl-2 pr-3 py-1 rounded-sm cursor-pointer"
+            >
+              <span class="text-gray-300"> {{ result.playerName }}</span>
+            </div>
+          </div>
+        </template>
+      </RecordSearchFilter>
+
+      <RecordSearchFilter
+        placeholder-path="records.query.server"
+        :fetch-results="fetchServerSearchResults"
+        @cleared="query.server = ''"
+      >
+        <template #trailing-icon>
           <IconServer />
         </template>
-      </UInput>
+
+        <template #results="{ results }">
+          <div class="flex flex-col gap-1 p-1">
+            <div
+              v-for="result in results"
+              :key="result.serverId"
+              @click="query.server = result.serverId"
+              class="hover:bg-gray-800 pl-2 pr-3 py-1.5 rounded-sm cursor-pointer"
+            >
+              <span class="text-gray-300"> {{ result.serverName }}</span>
+            </div>
+          </div>
+        </template>
+      </RecordSearchFilter>
     </div>
   </div>
 </template>
