@@ -70,12 +70,12 @@ async function fetchServerSearchResults(search: string) {
 
       <UButtonGroup orientation="horizontal">
         <UButton
-          :variant="query.pro ? 'solid' : 'outline'"
+          :variant="query.pro ? 'outline' : 'solid'"
           :label="$t('common.leaderboardType.overall')"
           @click="query.pro = false"
         />
         <UButton
-          :variant="query.pro ? 'outline' : 'solid'"
+          :variant="query.pro ? 'solid' : 'outline'"
           :label="$t('common.leaderboardType.pro')"
           @click="query.pro = true"
         />
