@@ -39,13 +39,11 @@ export type CS2Filters = Extract<Filters, { ckz: any }>
 
 export type Course = components['schemas']['Course']
 
-export type LeaderboardType = 'overall' | 'pro'
-
 export interface MapQuery {
   name: string
   state: MapState
   mode: Mode
-  leaderboardType: LeaderboardType
+  pro: boolean
   tier?: Tier
   limit: number
   offset: number
@@ -55,9 +53,9 @@ export interface MapCard {
   id: number
   name: string
   state: MapState
-  mappers: PlayerInfo[]
+  creator: PlayerInfo
   courses: CourseExt[]
-  approved_at: string
+  created_at: string
 }
 
 export interface CourseExt {
@@ -82,7 +80,7 @@ export interface CourseInfo {
 export interface CourseQuery {
   name: string
   mode: Mode
-  leaderboardType: LeaderboardType
+  pro: boolean
   tier?: Tier
   sort_by: 'map' | 'tier' | 'created_on'
   sort_order: 'ascending' | 'descending'

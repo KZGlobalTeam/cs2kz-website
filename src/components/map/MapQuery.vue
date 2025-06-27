@@ -12,14 +12,14 @@ const query = defineModel<MapQuery>('query', { required: true })
     <div class="col-span-3 flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
       <UButtonGroup orientation="horizontal">
         <UButton
-          :variant="query.leaderboardType === 'overall' ? 'solid' : 'outline'"
+          :variant="query.pro ? 'outline' : 'solid'"
           :label="$t('common.leaderboardType.overall')"
-          @click="query.leaderboardType = 'overall'"
+          @click="query.pro = false"
         />
         <UButton
-          :variant="query.leaderboardType === 'pro' ? 'solid' : 'outline'"
+          :variant="query.pro ? 'solid' : 'outline'"
           :label="$t('common.leaderboardType.pro')"
-          @click="query.leaderboardType = 'pro'"
+          @click="query.pro = true"
         />
       </UButtonGroup>
 

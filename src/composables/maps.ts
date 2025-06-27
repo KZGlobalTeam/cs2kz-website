@@ -13,7 +13,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     name: '',
     mode: 'classic',
     state: 'approved',
-    leaderboardType: 'overall',
+    pro: false,
     limit: 30,
     offset: 0,
   }

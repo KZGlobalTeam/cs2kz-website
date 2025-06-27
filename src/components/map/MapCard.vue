@@ -16,7 +16,7 @@ const props = defineProps<{
 function goToCourse(name: string) {
   courseQueryStore.course = name
   courseQueryStore.mode = props.query.mode
-  courseQueryStore.leaderboardType = props.query.leaderboardType
+  courseQueryStore.pro = props.query.pro
   router.push(`/maps/${props.map.name}`)
 }
 </script>
@@ -54,18 +54,15 @@ function goToCourse(name: string) {
               <div class="flex items-center gap-1 mb-1">
                 <IconDate />
                 <span class="text-xs text-gray-200 leading-[14px]">
-                  {{ toLocal(map.approved_at).slice(0, 10) }}
+                  {{ toLocal(map.created_at).slice(0, 10) }}
                 </span>
               </div>
 
               <div class="flex flex-wrap items-center text-sm">
-                <span class="text-gray-400 mr-1">{{ $t('map.madeBy') }}:</span>
-                <div v-for="(mapper, index) in map.mappers" :key="mapper.id">
-                  <RouterLink :to="`/profile/${mapper.id}`" class="text-cyan-600 hover:text-cyan-400">
-                    {{ mapper.name }}
-                  </RouterLink>
-                  <span v-if="index < map.mappers.length - 1" class="text-gray-400 mr-1">,</span>
-                </div>
+                <span class="text-gray-400 mr-1">{{ $t('map.creator') }}:</span>
+                <RouterLink :to="`/profile/${map.creator.id}`" class="text-cyan-600 hover:text-cyan-400">
+                  {{ map.creator.name }}
+                </RouterLink>
               </div>
             </div>
 
@@ -94,10 +91,10 @@ function goToCourse(name: string) {
               @click="goToCourse(course.name)"
             >
               <div
-                :class="course.state === 'ranked' ? 'text-green-400 bg-green-300/20' : 'text-gray-300'"
+                :class="course.ranked ? 'text-green-400 bg-green-300/20' : 'text-gray-300'"
                 class="px-1 text-xs border rounded-sm"
               >
-                {{ course.state.toUpperCase() }}
+                {{ course.ranked ? 'RANKED' : 'UNRANKED' }}
               </div>
               <div
                 :style="{

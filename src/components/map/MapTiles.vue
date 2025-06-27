@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Map, MapQuery } from '@/types'
+import type { CS2Filters, Map, MapQuery } from '@/types'
 import { computed } from 'vue'
 import { getTierColor, getTierNumber } from '@/utils'
 
@@ -9,6 +9,16 @@ const props = defineProps<{
   query: MapQuery
 }>()
 
+const modeMap = {
+  classic: 'ckz',
+  'vanilla-cs2': 'vnl',
+  kztimer: 'kzt',
+  simplekz: 'skz',
+  'vanilla-csgo': 'vnl',
+}
+
+type CS2Modes = 'ckz' | 'vnl'
+
 const transformedMaps = computed(() =>
   props.maps
     .map((map) => {
@@ -16,22 +26,24 @@ const transformedMaps = computed(() =>
         id: map.id,
         name: map.name,
         state: map.state,
-        mappers: map.mappers,
+        creator: map.created_by,
         courses: map.courses
           .map((course) => {
-            const tier =
-              course.filters[props.query.mode][props.query.leaderboardType === 'overall' ? 'nub_tier' : 'pro_tier']
+            const modeKey = modeMap[props.query.mode] as CS2Modes
+
+            const tier = (course.filters as CS2Filters)[modeKey][props.query.pro ? 'nub_tier' : 'pro_tier']
+
             return {
               name: course.name,
               tier,
               tierNo: getTierNumber(tier),
               tierColor: getTierColor(tier),
-              state: course.filters[props.query.mode].state,
+              ranked: (course.filters as CS2Filters)[modeKey].ranked,
             }
           })
           .filter((course) => (props.query.tier === undefined ? true : course.tier === props.query.tier))
           .sort((a, b) => a.tierNo - b.tierNo),
-        approved_at: map.approved_at,
+        created_at: map.created_at,
       }
     })
     .filter((map) => map.courses.length > 0),

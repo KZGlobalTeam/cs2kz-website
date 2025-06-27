@@ -36,6 +36,11 @@ export default defineConfig({
             td: 'py-2 text-base',
           },
         },
+        select: {
+          slots: {
+            content: 'max-h-96',
+          },
+        },
       },
     }),
   ],

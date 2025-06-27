@@ -8,7 +8,7 @@ const mode = defineModel<Mode>('mode', { required: true })
   <UTabs
     :items="[
       { label: $t('common.mode.ckz'), value: 'classic' },
-      { label: $t('common.mode.vnl'), value: 'vanilla' },
+      { label: $t('common.mode.vnl'), value: 'vanilla-cs2' },
     ]"
     v-model="mode"
     default-value="classic"
