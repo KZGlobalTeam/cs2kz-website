@@ -40,7 +40,9 @@ export type CS2Filters = Extract<Filters, { ckz: any }>
 export type Course = components['schemas']['Course']
 
 export interface MapQuery {
+  game: 'cs2' | 'csgo'
   name: string
+  randomName: string
   state: MapState
   mode: Mode
   pro: boolean

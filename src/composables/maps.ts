@@ -10,7 +10,10 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   const total = ref(0)
 
   const defaultQuery: MapQuery = {
+    game: 'cs2',
     name: '',
+    randomName: '',
+    tier: undefined,
     mode: 'classic',
     state: 'approved',
     pro: false,
@@ -28,12 +31,22 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
 
   getMaps()
 
+  function resetQuery() {
+    Object.assign(query, defaultQuery)
+  }
+
   async function getMaps() {
     try {
       loading.value = true
 
       const { data } = await api.get('/maps', {
-        params: validQuery(query),
+        params: {
+          game: query.game,
+          name: query.name,
+          state: query.state,
+          limit: query.limit,
+          offset: query.offset,
+        },
       })
       if (data) {
         total.value = data.total
@@ -56,5 +69,6 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     loading,
     query,
     total,
+    resetQuery,
   }
 }

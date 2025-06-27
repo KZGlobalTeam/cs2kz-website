@@ -46,7 +46,14 @@ const transformedMaps = computed(() =>
         created_at: map.created_at,
       }
     })
-    .filter((map) => map.courses.length > 0),
+    .filter((map) => {
+      if (map.courses.length === 0) return false
+      if (props.query.randomName === '') {
+        return true
+      } else {
+        return map.name === props.query.randomName
+      }
+    }),
 )
 </script>
 

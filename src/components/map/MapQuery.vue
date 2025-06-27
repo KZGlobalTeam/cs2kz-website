@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
+
+const emit = defineEmits(['pick-random-map', 'reset-filters'])
 </script>
 
 <template>
@@ -43,11 +45,19 @@ const query = defineModel<MapQuery>('query', { required: true })
       >
       </USelect>
 
+      <UButton variant="outline" color="neutral" @click="emit('pick-random-map')">
+        <IconShuffle />
+      </UButton>
+
       <UInput v-model="query.name" :placeholder="$t('maps.query.searchby')">
         <template #trailing>
           <IconMap />
         </template>
       </UInput>
+
+      <UButton variant="outline" color="neutral" @click="emit('reset-filters')">
+        <IconReset />
+      </UButton>
     </div>
   </div>
 </template>
