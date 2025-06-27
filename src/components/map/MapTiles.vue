@@ -41,7 +41,7 @@ const transformedMaps = computed(() =>
               ranked: (course.filters as CS2Filters)[modeKey].ranked,
             }
           })
-          .filter((course) => (props.query.tier === undefined ? true : course.tier === props.query.tier))
+          .filter((course) => (props.query.tier.length > 0 ? props.query.tier.includes(course.tier) : true))
           .sort((a, b) => a.tierNo - b.tierNo),
         created_at: map.created_at,
       }

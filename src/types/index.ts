@@ -46,7 +46,7 @@ export interface MapQuery {
   state: MapState
   mode: Mode
   pro: boolean
-  tier?: Tier
+  tier: Tier[]
   limit: number
   offset: number
 }

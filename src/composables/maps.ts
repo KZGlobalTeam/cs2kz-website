@@ -13,7 +13,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     game: 'cs2',
     name: '',
     randomName: '',
-    tier: undefined,
+    tier: [],
     mode: 'classic',
     state: 'approved',
     pro: false,

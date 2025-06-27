@@ -27,8 +27,8 @@ const emit = defineEmits(['pick-random-map', 'reset-filters'])
 
       <USelect
         v-model="query.tier"
+        multiple
         :items="[
-          { label: t('common.tier.all'), value: undefined },
           { label: `1 - ${t('common.tier.veryEasy')}`, value: 'very-easy' },
           { label: `2 - ${t('common.tier.easy')}`, value: 'easy' },
           { label: `3 - ${t('common.tier.medium')}`, value: 'medium' },
