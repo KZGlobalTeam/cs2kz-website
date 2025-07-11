@@ -109,7 +109,6 @@ export interface RecordQuery {
   sort_by: 'submission-date' | 'time'
   sort_order: 'ascending' | 'descending'
   limit: number
-  offset: number
 }
 
 export type Server = components['schemas']['Server']

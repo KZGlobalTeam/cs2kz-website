@@ -6,7 +6,6 @@ import { api, validQuery } from '@/utils'
 export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
   const loading = ref(false)
   const records = ref<Record[]>([])
-
   const total = ref(0)
 
   const defaultQuery: RecordQuery = {
@@ -19,12 +18,13 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     sort_by: 'submission-date',
     sort_order: 'descending',
     limit: 30,
-    offset: 0,
   }
 
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
 
-  const debouncedUpdate = debounce({ delay: 300 }, getRecords)
+  const debouncedUpdate = debounce({ delay: 300 }, () => {
+    getRecords({ offset: 0 })
+  })
 
   watch([() => query.player, () => query.server], debouncedUpdate)
 
@@ -37,20 +37,21 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
       () => query.max_rank,
       () => query.sort_by,
       () => query.sort_order,
-      () => query.limit,
-      () => query.offset,
     ],
-    getRecords,
+    () => {
+      getRecords({ offset: 0 })
+    },
   )
 
-  getRecords()
+  getRecords({ offset: 0 })
 
-  async function getRecords() {
+  async function getRecords({ offset }: { offset: number }) {
     try {
       loading.value = true
 
       const transformedQuery = {
         ...toRaw(query),
+        offset,
       }
 
       const { data } = await api.get('/records', {
@@ -58,7 +59,12 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
       })
 
       if (data) {
-        records.value = data.values
+        // reset records if offset is 0 (new query), otherwise append
+        if (offset === 0) {
+          records.value = data.values
+        } else {
+          records.value.push(...data.values)
+        }
         total.value = data.total
       } else {
         records.value = []
@@ -74,10 +80,19 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     }
   }
 
+  async function incrementRecords() {
+    if (loading.value || records.value.length >= total.value) {
+      return
+    }
+
+    getRecords({ offset: records.value.length })
+  }
+
   return {
     records,
     loading,
     query,
     total,
+    incrementRecords,
   }
 }

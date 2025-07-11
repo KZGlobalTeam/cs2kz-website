@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   hasData: boolean
+  hasMore: boolean
   loading: boolean
 }>()
 
@@ -17,7 +18,10 @@ onMounted(() => {
       const entry = entries[0]
 
       if (entry?.isIntersecting) {
-        emits('infinite')
+        // don't emit if there's no data, and only if there's more data
+        if (props.hasData && props.hasMore) {
+          emits('infinite')
+        }
       }
     },
     { rootMargin: '150px' },
