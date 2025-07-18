@@ -198,7 +198,7 @@ const columns = computed(() => {
 })
 
 function goToCourse(row: TableRow<Record>) {
-  courseQueryStore.course = row.original.course.name
+  courseQueryStore.courseId = row.original.course.id
   courseQueryStore.mode = props.query.mode
   courseQueryStore.pro = props.query.pro
   router.push(`/maps/${row.original.map.name}`)

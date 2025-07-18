@@ -13,8 +13,8 @@ const props = defineProps<{
   map: MapCard
 }>()
 
-function goToCourse(name: string) {
-  courseQueryStore.course = name
+function goToCourse(id: number) {
+  courseQueryStore.courseId = id
   courseQueryStore.mode = props.query.mode
   courseQueryStore.pro = props.query.pro
   router.push(`/maps/${props.map.name}`)
@@ -29,7 +29,7 @@ function goToCourse(name: string) {
       <TheImage
         class="hidden lg:block w-64 h-36 rounded-bl-md rounded-tl-md cursor-pointer"
         :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
-        @click="goToCourse(map.courses[0].name)"
+        @click="goToCourse(map.courses[0].id)"
       />
       <div
         :style="{
@@ -88,7 +88,7 @@ function goToCourse(name: string) {
               v-for="course in map.courses"
               :key="course.name"
               class="flex items-center gap-2 p-1 hover:bg-gray-700 rounded-md cursor-pointer"
-              @click="goToCourse(course.name)"
+              @click="goToCourse(course.id)"
             >
               <div
                 :class="course.ranked ? 'text-green-400 bg-green-300/20' : 'text-gray-300'"

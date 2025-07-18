@@ -1,5 +1,4 @@
 import type { Record, RecordQuery } from '@/types'
-import { debounce } from 'radash'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
 
@@ -12,9 +11,6 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     mode: 'classic',
     pro: false,
     top: true,
-    player: '',
-    course: '',
-    server: '',
     sort_by: 'submission-date',
     sort_order: 'descending',
     limit: 30,
@@ -22,18 +18,14 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
 
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
 
-  const debouncedUpdate = debounce({ delay: 300 }, () => {
-    getRecords({ offset: 0 })
-  })
-
-  watch([() => query.player, () => query.server], debouncedUpdate)
-
   watch(
     [
       () => query.mode,
       () => query.pro,
       () => query.top,
       () => query.course,
+      () => query.player,
+      () => query.server,
       () => query.max_rank,
       () => query.sort_by,
       () => query.sort_order,

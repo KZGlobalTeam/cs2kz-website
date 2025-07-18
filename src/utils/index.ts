@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { CourseInfo, Record as Run, RecordWithImproved, Tier, LeaderboardType } from '@/types'
+import type { CourseInfo, Record as Run, RecordWithImproved, Tier } from '@/types'
 import { format, formatDistanceToNowStrict } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 
@@ -8,7 +8,9 @@ export const api = axios.create({
 })
 
 export function validQuery(query: Record<string, unknown>) {
-  return Object.fromEntries(Object.entries(query).filter(([_, value]) => value !== '' && value !== null))
+  return Object.fromEntries(
+    Object.entries(query).filter(([_, value]) => value !== '' && value !== null && value !== undefined),
+  )
 }
 
 export function sort<T extends CourseInfo>(data: T[], order: 'ascending' | 'descending', orderBy: keyof T) {
@@ -133,25 +135,23 @@ export function getWrHistory(records: Run[]) {
 }
 
 // top records and points distribution
-export function calcRanksAndPointsDist(runs: Run[], type: LeaderboardType) {
-  const wrs = runs.filter((record) => (type === 'overall' ? record.nub_rank === 1 : record.pro_rank === 1)).length
+export function calcRanksAndPointsDist(runs: Run[], pro: boolean) {
+  const wrs = runs.filter((record) => (pro ? record.pro_rank === 1 : record.nub_rank === 1)).length
 
-  const top20 = runs.filter((record) => (type === 'overall' ? record.nub_rank! <= 20 : record.pro_rank! <= 20)).length
+  const top20 = runs.filter((record) => (pro ? record.pro_rank! <= 20 : record.nub_rank! <= 20)).length
 
-  const top50 = runs.filter((record) => (type === 'overall' ? record.nub_rank! <= 50 : record.pro_rank! <= 50)).length
+  const top50 = runs.filter((record) => (pro ? record.pro_rank! <= 50 : record.nub_rank! <= 50)).length
 
-  const top100 = runs.filter((record) =>
-    type === 'overall' ? record.nub_rank! <= 100 : record.pro_rank! <= 100,
-  ).length
+  const top100 = runs.filter((record) => (pro ? record.pro_rank! <= 100 : record.nub_rank! <= 100)).length
 
   const pointsDist = Array.from({ length: 11 }, (_, i) => {
     const lower = i * 1000
     const upper = lower + 1000
     return runs.filter((record) => {
-      if (type === 'overall') {
-        return record.nub_points! >= lower && record.nub_points! < upper
-      } else {
+      if (pro) {
         return record.pro_points! >= lower && record.pro_points! < upper
+      } else {
+        return record.nub_points! >= lower && record.nub_points! < upper
       }
     }).length
   })
@@ -166,12 +166,11 @@ export function calcRanksAndPointsDist(runs: Run[], type: LeaderboardType) {
 }
 
 // completion by tier
-export function calcCompletedCourses(runs: Run[], type: LeaderboardType) {
+export function calcCompletedCourses(runs: Run[], pro: boolean) {
   const tiers = ['very-easy', 'easy', 'medium', 'advanced', 'hard', 'very-hard', 'extreme', 'death']
 
   return tiers.map((tier) => {
-    return runs.filter((record) => tier === (type === 'overall' ? record.course.nub_tier : record.course.pro_tier))
-      .length
+    return runs.filter((record) => tier === (pro ? record.course.pro_tier : record.course.nub_tier)).length
   })
 }
 

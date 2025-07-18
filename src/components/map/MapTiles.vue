@@ -34,6 +34,7 @@ const transformedMaps = computed(() =>
             const tier = (course.filters as CS2Filters)[modeKey][props.query.pro ? 'nub_tier' : 'pro_tier']
 
             return {
+              id: course.id,
               name: course.name,
               tier,
               tierNo: getTierNumber(tier),

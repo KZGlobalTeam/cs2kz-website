@@ -97,7 +97,7 @@ async function fetchServerSearchResults(search: string) {
       <RecordSearchFilter
         placeholder-path="records.query.map"
         :fetch-results="fetchMapSearchResults"
-        @cleared="query.course = ''"
+        @cleared="query.course = undefined"
       >
         <template #trailing-icon>
           <IconMap />
@@ -122,7 +122,7 @@ async function fetchServerSearchResults(search: string) {
       <RecordSearchFilter
         placeholder-path="records.query.player"
         :fetch-results="fetchPlayerSearchResults"
-        @cleared="query.player = ''"
+        @cleared="query.player = undefined"
       >
         <template #trailing-icon>
           <IconPlayer />
@@ -145,7 +145,7 @@ async function fetchServerSearchResults(search: string) {
       <RecordSearchFilter
         placeholder-path="records.query.server"
         :fetch-results="fetchServerSearchResults"
-        @cleared="query.server = ''"
+        @cleared="query.server = undefined"
       >
         <template #trailing-icon>
           <IconServer />

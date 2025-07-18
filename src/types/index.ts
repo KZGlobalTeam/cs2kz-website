@@ -61,6 +61,7 @@ export interface MapCard {
 }
 
 export interface CourseExt {
+  id: number
   name: string
   tier: Tier
   tierNo: number
@@ -102,10 +103,10 @@ export interface RecordQuery {
   pro: boolean
   top: boolean
   max_rank?: number
-  player: string
+  player?: string
   // course id
-  course: string
-  server: string
+  course?: number
+  server?: string
   sort_by: 'submission-date' | 'time'
   sort_order: 'ascending' | 'descending'
   limit: number

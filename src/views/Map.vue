@@ -14,9 +14,11 @@ const playerStore = usePlayerStore()
 const courseQueryStore = useCourseQueryStore()
 
 const mapStateColorMap = {
+  wip: 'text-yellow-400 bg-yellow-300/50',
+  pending: 'text-orange-400 bg-orange-300/50',
   approved: 'text-green-400 bg-green-300/50',
-  'in-testing': 'text-orange-400 bg-orange-300/50',
-  invalid: 'text-gray-400 bg-gray-400',
+  completed: 'text-blue-400 bg-blue-300/50',
+  graveyard: 'text-gray-400 bg-gray-400',
 }
 
 const filterStateColorMap = {
@@ -52,30 +54,28 @@ const {
   sort_by: 'time',
   sort_order: 'ascending',
   limit: 100,
-  map: map.value?.name,
-  course: course.value?.name,
+  course: course.value?.id,
   mode: courseQueryStore.mode,
-  leaderboardType: courseQueryStore.leaderboardType,
+  pro: courseQueryStore.pro,
 })
 
 const { records: playerRecords, query: playerQuery } = useRecords({
-  map: map.value?.name,
-  course: course.value?.name,
+  course: course.value?.id,
   mode: courseQueryStore.mode,
-  leaderboardType: courseQueryStore.leaderboardType,
-  player: playerStore.player?.id || '',
+  pro: courseQueryStore.pro,
+  player: playerStore.player?.id,
 })
 
 watch(query, (newBaseQuery) => {
   playerQuery.course = newBaseQuery.course
   playerQuery.mode = newBaseQuery.mode
-  playerQuery.leaderboardType = newBaseQuery.leaderboardType
+  playerQuery.pro = newBaseQuery.pro
 })
 
 watch(activeCourseName, (name) => {
   if (map.value) {
     course.value = map.value.courses.find((course) => course.name === name)!
-    query.course = course.value.name
+    query.course = course.value.id
   }
 })
 
@@ -86,12 +86,12 @@ async function getMap() {
     if (!data) return
     map.value = data as Map
 
-    if (courseQueryStore.course === '') {
+    if (courseQueryStore.courseId < 0) {
       course.value = map.value.courses[0]!
       activeCourseName.value = course.value.name
     } else {
-      activeCourseName.value = courseQueryStore.course
-      course.value = map.value.courses.find((course) => course.name === activeCourseName.value)!
+      course.value = map.value.courses.find((course) => course.id === courseQueryStore.courseId)!
+      activeCourseName.value = course.value.name
     }
   } catch (error) {
     console.error(error)
