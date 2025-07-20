@@ -2,10 +2,20 @@
 import { ref, watch, computed } from 'vue'
 import { useCourseQueryStore } from '@/stores/course-query'
 import { usePlayerStore } from '@/stores/player'
-import type { Map, Course } from '@/types'
+import type { Map, Course, CS2Filters } from '@/types'
 import { useRoute } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, transformTier } from '@/utils'
+
+const modeMap = {
+  classic: 'ckz',
+  'vanilla-cs2': 'vnl',
+  kztimer: 'kzt',
+  simplekz: 'skz',
+  'vanilla-csgo': 'vnl',
+}
+
+type CS2Modes = 'ckz' | 'vnl'
 
 const route = useRoute()
 
@@ -19,12 +29,6 @@ const mapStateColorMap = {
   approved: 'text-green-400 bg-green-300/50',
   completed: 'text-blue-400 bg-blue-300/50',
   graveyard: 'text-gray-400 bg-gray-400',
-}
-
-const filterStateColorMap = {
-  ranked: 'text-white bg-green-600',
-  unranked: 'text-gray-400 bg-gray-400',
-  pending: 'text-gray-400 bg-gray-400',
 }
 
 const activeCourseName = ref<string>()
@@ -82,17 +86,20 @@ watch(activeCourseName, (name) => {
 async function getMap() {
   try {
     loading.value = true
-    const { data } = await api.get(`/maps/${route.params.mapname}`)
-    if (!data) return
-    map.value = data as Map
 
-    if (courseQueryStore.courseId < 0) {
-      course.value = map.value.courses[0]!
-      activeCourseName.value = course.value.name
-    } else {
+    const { data } = await api.get(`/maps`, { params: { name: route.params.name as string } })
+
+    if (data.total === 0) return
+
+    map.value = data.values[0] as Map
+
+    if (courseQueryStore.courseId) {
       course.value = map.value.courses.find((course) => course.id === courseQueryStore.courseId)!
-      activeCourseName.value = course.value.name
+    } else {
+      course.value = map.value.courses[0]!
     }
+
+    activeCourseName.value = course.value.name
   } catch (error) {
     console.error(error)
     map.value = null
@@ -112,7 +119,7 @@ async function getMap() {
       <div class="flex flex-col xl:flex-row items-start gap-4">
         <!-- TODO: use course index -->
         <TheImage
-          class="rounded-md ring-1 ring-blue-600/40"
+          class="rounded-md ring-2 ring-blue-600/40"
           :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
         />
 
@@ -165,23 +172,41 @@ async function getMap() {
 
             <!-- tier -->
             <div class="text-gray-200 text-xl mt-3">
-              <span class="mr-2">{{ `${$t('map.nubTier')}:` }}</span>
-              <span :style="{ color: getTierColor(course.filters[query.mode].nub_tier) }" class="font-semibold">
-                {{ transformTier(course.filters[query.mode].nub_tier) }}
+              <span class="mr-2">{{ `${$t('map.overallTier')}:` }}</span>
+              <span
+                :style="{
+                  color: getTierColor((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].nub_tier),
+                }"
+                class="font-semibold"
+              >
+                {{ transformTier((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].nub_tier) }}
               </span>
               <span class="mx-2 text-gray-600">/</span>
               <span class="mr-2">{{ `${$t('map.proTier')}:` }}</span>
-              <span :style="{ color: getTierColor(course.filters[query.mode].pro_tier) }" class="font-semibold">
-                {{ transformTier(course.filters[query.mode].pro_tier) }}
+              <span
+                :style="{
+                  color: getTierColor((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier),
+                }"
+                class="font-semibold"
+              >
+                {{ transformTier((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier) }}
               </span>
             </div>
 
             <!-- rank status -->
             <div
-              :class="filterStateColorMap[course.filters[query.mode].state]"
+              :class="
+                (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked
+                  ? 'text-green-400 bg-green-400/20'
+                  : 'text-gray-400 bg-gray-400/20'
+              "
               class="w-max px-1 mt-3 text-sm rounded-sm font-medium"
             >
-              {{ $t(`map.filterState.${course.filters[query.mode].state}`) }}
+              {{
+                $t(
+                  `map.filterState.${(course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked ? 'ranked' : 'unranked'}`,
+                )
+              }}
             </div>
           </div>
         </div>
@@ -200,23 +225,23 @@ async function getMap() {
             />
             <UButton
               size="sm"
-              :variant="query.mode === 'vanilla' ? 'solid' : 'outline'"
+              :variant="query.mode === 'vanilla-cs2' ? 'solid' : 'outline'"
               label="VNL"
-              @click="query.mode = 'vanilla'"
+              @click="query.mode = 'vanilla-cs2'"
             />
           </UButtonGroup>
           <UButtonGroup orientation="horizontal">
             <UButton
               size="sm"
-              :variant="query.leaderboardType === 'overall' ? 'solid' : 'outline'"
+              :variant="query.pro ? 'outline' : 'solid'"
               :label="$t('common.leaderboardType.overall')"
-              @click="query.leaderboardType = 'overall'"
+              @click="query.pro = false"
             />
             <UButton
               size="sm"
-              :variant="query.leaderboardType === 'pro' ? 'solid' : 'outline'"
+              :variant="query.pro ? 'solid' : 'outline'"
               :label="$t('common.leaderboardType.pro')"
-              @click="query.leaderboardType = 'pro'"
+              @click="query.pro = true"
             />
           </UButtonGroup>
         </div>
@@ -224,11 +249,11 @@ async function getMap() {
 
       <!-- ranking -->
       <div class="mt-2 px-1">
-        <RankImportant v-if="worldRecord" :record="worldRecord" :leaderboard-type="query.leaderboardType" />
-        <RankImportant
+        <RankCard v-if="worldRecord" :record="worldRecord" :pro="query.pro" />
+        <RankCard
           v-if="playerRecord && playerRecord.player.id !== worldRecord?.player.id"
           :record="playerRecord"
-          :leaderboard-type="query.leaderboardType"
+          :pro="query.pro"
           class="mt-2"
         />
         <CourseRanking class="mt-2" :records="records" :loading="loadingRecords" />

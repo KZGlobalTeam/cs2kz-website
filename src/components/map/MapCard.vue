@@ -13,8 +13,8 @@ const props = defineProps<{
   map: MapCard
 }>()
 
-function goToCourse(id: number) {
-  courseQueryStore.courseId = id
+function goToCourse(courseId: number) {
+  courseQueryStore.courseId = courseId
   courseQueryStore.mode = props.query.mode
   courseQueryStore.pro = props.query.pro
   router.push(`/maps/${props.map.name}`)
@@ -105,7 +105,7 @@ function goToCourse(id: number) {
               >
                 {{ course.tierNo }}
               </div>
-              <span class="text-gray-300">
+              <span class="text-gray-300 truncate">
                 {{ course.name }}
               </span>
             </div>

@@ -150,10 +150,11 @@
     },
     "filters": "Filters",
     "styles": "Styles",
+    "madeBy": "Made by",
     "creator": "Creator",
     "tags": "Tags",
     "rating": "Rating",
-    "nubTier": "NUB Tier",
+    "overallTier": "Overall Tier",
     "proTier": "PRO Tier",
     "filterState": {
       "ranked": "RANKED",

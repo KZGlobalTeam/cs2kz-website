@@ -150,10 +150,11 @@
     },
     "filters": "筛选",
     "styles": "风格",
+    "madeBy": "作者",
     "creator": "作者",
     "tags": "标签",
     "rating": "评分",
-    "nubTier": "存点难度",
+    "overallTier": "存点难度",
     "proTier": "裸跳难度",
     "filterState": {
       "ranked": "排位关卡",

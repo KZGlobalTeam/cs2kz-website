@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import type { Record, LeaderboardType } from '@/types'
+import type { Record } from '@/types'
 import { api, formatTime, toLocal, toLocalDistance } from '@/utils'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
-  leaderboardType: LeaderboardType
+  pro: boolean
   record: Record
 }>()
 
 const { locale } = useI18n()
 
 const wr = computed(() => {
-  if (props.leaderboardType === 'overall') {
-    return props.record.nub_rank === 1
-  } else {
+  if (props.pro) {
     return props.record.pro_rank === 1
+  } else {
+    return props.record.nub_rank === 1
   }
 })
 
@@ -67,7 +67,7 @@ async function getAvatar(steamId: string) {
         >
       </div>
       <p class="relative text-slate-300 text-lg">
-        {{ `#${leaderboardType === 'overall' ? record.nub_rank : record.pro_rank}` }}
+        {{ `#${pro ? record.pro_rank : record.nub_rank}` }}
       </p>
     </div>
 
@@ -80,8 +80,8 @@ async function getAvatar(steamId: string) {
       <div>
         <p class="text-gray-400">{{ $t('records.title.date') }}</p>
         <p class="text-gray-100 italic whitespace-nowrap w-32">
-          <UTooltip :text="toLocal(record.submitted_at)">
-            {{ toLocalDistance(record.submitted_at, locale) }}
+          <UTooltip :text="toLocal(record.created_at)">
+            {{ toLocalDistance(record.created_at, locale) }}
           </UTooltip>
         </p>
       </div>
