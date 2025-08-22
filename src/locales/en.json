@@ -144,9 +144,11 @@
   },
   "map": {
     "state": {
-      "approved": "Approved",
-      "inTesting": "Testing",
-      "invalid": "Invalid"
+      "approved": "APPROVED",
+      "wip": "WIP",
+      "pending": "PENDING",
+      "graveyard": "GRAVEYARD",
+      "completed": "COMPLETED"
     },
     "filters": "Filters",
     "styles": "Styles",

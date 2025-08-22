@@ -60,7 +60,7 @@ const transformedMaps = computed(() =>
 
 <template>
   <div class="mt-8 p-1 mx-auto w-max">
-    <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-10 lg:place-items-center">
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 2xl:gap-10 2xl:place-items-center">
       <MapCard v-for="map in transformedMaps" :key="map.id" :query="query" :map="map" />
     </div>
   </div>

@@ -27,7 +27,7 @@ function goToCourse(courseId: number) {
   >
     <div class="flex items-center">
       <TheImage
-        class="hidden lg:block w-64 h-36 rounded-bl-md rounded-tl-md cursor-pointer"
+        class="hidden lg:block w-80 h-45 rounded-bl-md rounded-tl-md cursor-pointer"
         :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
         @click="goToCourse(map.courses[0].id)"
       />
@@ -35,10 +35,10 @@ function goToCourse(courseId: number) {
         :style="{
           backgroundImage: `url(https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp)`,
         }"
-        class="group w-[300px] h-36 px-2 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-[length:200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
+        class="w-80 h-45 px-2 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-[length:200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
       >
         <div class="relative w-full h-full">
-          <div class="flex flex-col justify-between h-full group-hover:hidden">
+          <div class="flex flex-col justify-between h-full">
             <div>
               <div class="flex gap-2 items-center mb-1">
                 <p class="text-gray-100 text-lg font-medium">{{ map.name }}</p>
@@ -66,48 +66,26 @@ function goToCourse(courseId: number) {
               </div>
             </div>
 
-            <div class="flex gap-1">
+            <div class="flex flex-wrap gap-1">
               <div v-for="course in map.courses" :key="course.name">
                 <div
-                  :style="{
-                    color: course.tierColor,
-                    borderColor: course.tierColor,
-                  }"
-                  :class="`w-4 flex justify-center items-center text-sm rounded-[0.2rem] border bg-gray-700/50`"
+                  class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-[0.2rem] border border-gray-700 bg-gray-700/50 hover:bg-gray-700 cursor-pointer"
+                  @click="goToCourse(course.id)"
                 >
-                  {{ course.tierNo }}
+                  <div
+                    class="w-2 h-2 rounded-full"
+                    :style="{ backgroundColor: course.ranked ? '#05df72' : '#d1d5dc' }"
+                  ></div>
+                  <span
+                    :style="{
+                      color: course.tierColor,
+                    }"
+                    >{{ course.tierNo }}</span
+                  >
+                  <span class="text-gray-600">/</span>
+                  <span>{{ course.name }}</span>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div
-            class="hidden group-hover:block py-1 overflow-auto max-h-[144px] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-thumb-rounded-md scrollbar-track-transparent"
-          >
-            <div
-              v-for="course in map.courses"
-              :key="course.name"
-              class="flex items-center gap-2 p-1 hover:bg-gray-700 rounded-md cursor-pointer"
-              @click="goToCourse(course.id)"
-            >
-              <div
-                :class="course.ranked ? 'text-green-400 bg-green-300/20' : 'text-gray-300'"
-                class="px-1 text-xs border rounded-sm"
-              >
-                {{ course.ranked ? 'RANKED' : 'UNRANKED' }}
-              </div>
-              <div
-                :style="{
-                  color: course.tierColor,
-                  borderColor: course.tierColor,
-                }"
-                :class="`w-4 flex justify-center items-center text-xs rounded-[0.2rem] border bg-gray-700/50`"
-              >
-                {{ course.tierNo }}
-              </div>
-              <span class="text-gray-300 truncate">
-                {{ course.name }}
-              </span>
             </div>
           </div>
         </div>
