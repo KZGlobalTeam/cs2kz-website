@@ -1,8 +1,18 @@
-import type { Tier, CourseInfo, MapResponse, CourseQuery } from '@/types'
+import type { Tier, CourseInfo, MapResponse, CourseQuery, CS2Filters } from '@/types'
 import { ref, watch, reactive } from 'vue'
 import { debounce } from 'radash'
 import { api, sort } from '@/utils'
 import { v4 as uuidv4 } from 'uuid'
+
+const modeMap = {
+  classic: 'ckz',
+  'vanilla-cs2': 'vnl',
+  kztimer: 'kzt',
+  simplekz: 'skz',
+  'vanilla-csgo': 'vnl',
+}
+
+type CS2Modes = 'ckz' | 'vnl'
 
 export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
   const loading = ref(false)
@@ -15,7 +25,7 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
   const defaultQuery: CourseQuery = {
     name: '',
     mode: 'classic',
-    leaderboardType: 'overall',
+    pro: false,
     sort_by: 'map',
     sort_order: 'ascending',
     limit: 30,
@@ -28,7 +38,7 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
 
   watch([() => query.name], debouncedUpdate)
 
-  watch([() => query.mode, () => query.leaderboardType], getCourses)
+  watch([() => query.mode, () => query.pro], getCourses)
 
   watch([() => query.tier, () => query.sort_by, () => query.sort_order, () => query.limit, () => query.offset], update)
 
@@ -67,19 +77,20 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
       const { data } = await api.get<MapResponse | undefined>('/maps')
 
       if (data) {
+        const modeKey = modeMap[query.mode] as CS2Modes
+
         const res = data.values.flatMap((map) =>
           map.courses.map((course, index) => {
             return {
               id: uuidv4(),
               name: course.name,
               map: map.name,
-              tier:
-                query.leaderboardType === 'overall'
-                  ? course.filters[query.mode].nub_tier
-                  : course.filters[query.mode].pro_tier,
-              state: course.filters[query.mode].state,
+              tier: query.pro
+                ? (course.filters as CS2Filters)[modeKey].pro_tier
+                : (course.filters as CS2Filters)[modeKey].nub_tier,
+              ranked: (course.filters as CS2Filters)[modeKey].ranked,
               mappers: course.mappers,
-              created_on: map.approved_at,
+              created_at: map.created_at,
               img: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/${index + 1}.webp`,
             }
           }),

@@ -19,9 +19,10 @@ export function useProfile(playerId: string) {
     try {
       loading.value = true
 
-      const { data } = await api.get(`/players/${query.player_id}/profile`, {
+      const { data } = await api.get(`/players/${query.player_id}`, {
         params: { mode: query.mode },
       })
+
       profile.value = data
     } catch (err) {
       console.error(err)

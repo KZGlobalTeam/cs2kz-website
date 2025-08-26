@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const route = useRoute()
 
-const { records, loading, query } = useRecords({ player: route.params.steamId as string })
+const { records, loading, query, incrementRecords } = useRecords({ player: route.params.steamId as string })
 
 watch(
   () => props.mode,
@@ -18,27 +18,23 @@ watch(
     query.mode = mode
   },
 )
-
-function loadRecords() {
-  if (records.value.length > 0) {
-    query.limit += 30
-  }
-}
 </script>
 
 <template>
   <div>
     <p class="text-3xl text-gray-300 font-semibold mb-2">{{ $t('profile.runs.title') }}</p>
-    <InfiniteScroller :loading="loading" :has-data="records.length > 0" @infinite="loadRecords">
-      <RecordQuery v-model:query="query" />
 
+    <RecordQuery v-model:query="query" />
+
+    <UCard>
       <RecordTable
         v-model:sort-by="query.sort_by"
         v-model:sort-order="query.sort_order"
         :query="query"
         :loading="loading"
         :records="records"
+        @intersect="incrementRecords"
       />
-    </InfiniteScroller>
+    </UCard>
   </div>
 </template>

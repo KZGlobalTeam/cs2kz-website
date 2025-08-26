@@ -22,8 +22,8 @@ const completedCourses = ref()
 watch(
   records,
   (records) => {
-    ranksAndPoints.value = calcRanksAndPointsDist(records, completionQuery.leaderboardType)
-    completedCourses.value = calcCompletedCourses(records, completionQuery.leaderboardType)
+    ranksAndPoints.value = calcRanksAndPointsDist(records, completionQuery.pro)
+    completedCourses.value = calcCompletedCourses(records, completionQuery.pro)
   },
   { immediate: true },
 )
@@ -33,16 +33,15 @@ const totalCourses = computed(() => calcTotalCourses(courses.value))
 watch(
   () => props.mode,
   (mode) => {
-    console.log('mode changed', mode)
     completionQuery.mode = mode
     courseQuery.mode = mode
   },
 )
 
 watch(
-  () => completionQuery.leaderboardType,
-  (type) => {
-    courseQuery.leaderboardType = type
+  () => completionQuery.pro,
+  (val) => {
+    courseQuery.pro = val
   },
 )
 </script>
@@ -57,15 +56,15 @@ watch(
       <UButtonGroup orientation="horizontal">
         <UButton
           size="sm"
-          :variant="completionQuery.leaderboardType === 'overall' ? 'solid' : 'outline'"
+          :variant="completionQuery.pro ? 'outline' : 'solid'"
           :label="$t('common.leaderboardType.overall')"
-          @click="completionQuery.leaderboardType = 'overall'"
+          @click="completionQuery.pro = false"
         />
         <UButton
           size="sm"
-          :variant="completionQuery.leaderboardType === 'pro' ? 'solid' : 'outline'"
+          :variant="completionQuery.pro ? 'solid' : 'outline'"
           :label="$t('common.leaderboardType.pro')"
-          @click="completionQuery.leaderboardType = 'pro'"
+          @click="completionQuery.pro = true"
         />
       </UButtonGroup>
     </div>

@@ -76,7 +76,7 @@ export interface CourseInfo {
   tier: Tier
   ranked: boolean
   mappers: PlayerInfo[]
-  created_on: string
+  created_at: string
   img: string
 }
 
@@ -85,7 +85,7 @@ export interface CourseQuery {
   mode: Mode
   pro: boolean
   tier?: Tier
-  sort_by: 'map' | 'tier' | 'created_on'
+  sort_by: 'map' | 'tier' | 'created_at'
   sort_order: 'ascending' | 'descending'
   limit: number
   offset: number
@@ -128,7 +128,7 @@ export interface Profile {
   id: string
   name: string
   rating: number
-  first_joined_at: string
+  created_at: string
 }
 
 export interface ProfileQuery {

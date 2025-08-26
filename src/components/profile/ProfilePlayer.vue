@@ -40,12 +40,12 @@ async function getSteamProfile() {
 
       <p>
         <span class="text-gray-400">{{ $t('profile.info.joinedOn') }}: </span>
-        <span class="font-semibold mr-1">{{ toLocal(profile.first_joined_at, true) }}</span>
+        <span class="font-medium mr-1">{{ toLocal(profile.created_at, true) }}</span>
       </p>
 
       <div>
         <span class="mr-1 text-gray-400">{{ $t('profile.info.rating') }}:</span>
-        <span class="font-medium">
+        <span class="font-semibold">
           {{ seperateThousands(profile.rating) }}
         </span>
       </div>

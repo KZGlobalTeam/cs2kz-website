@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, h, resolveComponent } from 'vue'
+import { ref, computed, h, resolveComponent, useTemplateRef, onMounted } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { Record, RecordQuery } from '@/types'
 import RecordDetail from './RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
+import { useInfiniteScroll } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { useCourseQueryStore } from '@/stores/course-query'
 import type { TableColumn, TableRow } from '@nuxt/ui'
@@ -15,6 +17,8 @@ const props = defineProps<{
   query: RecordQuery
   loading: boolean
 }>()
+
+const emits = defineEmits(['intersect'])
 
 const IconMedalFirst = resolveComponent('IconMedalFirst')
 const IconMedalSecond = resolveComponent('IconMedalSecond')
@@ -36,6 +40,8 @@ const sortOrder = defineModel<'ascending' | 'descending'>('sortOrder', {
 })
 
 const { t, locale } = useI18n()
+
+const table = useTemplateRef<ComponentPublicInstance>('table')
 
 const columns = computed(() => {
   const cols: TableColumn<Record>[] = [
@@ -160,7 +166,7 @@ const columns = computed(() => {
       cell: ({ row }) => {
         return h(
           UTooltip,
-          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.created_at) },
+          { delayDuration: 100, content: { side: 'bottom', sideOffset: 2 }, text: toLocal(row.original.created_at) },
           () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.created_at, locale.value)),
         )
       },
@@ -197,6 +203,18 @@ const columns = computed(() => {
   return cols
 })
 
+onMounted(() => {
+  useInfiniteScroll(
+    table.value?.$el,
+    () => {
+      emits('intersect')
+    },
+    {
+      distance: 200,
+    },
+  )
+})
+
 function goToCourse(row: TableRow<Record>) {
   courseQueryStore.courseId = row.original.course.id
   courseQueryStore.mode = props.query.mode
@@ -206,13 +224,11 @@ function goToCourse(row: TableRow<Record>) {
 </script>
 
 <template>
-  <UCard>
-    <UTable v-model:sorting="sorting" :data="records" :columns :loading @select="toggleExpand">
-      <template #expanded="{ row }">
-        <div class="p-3">
-          <RecordDetail detailed :record="row.original" />
-        </div>
-      </template>
-    </UTable>
-  </UCard>
+  <UTable ref="table" v-model:sorting="sorting" sticky :data="records" :columns :loading @select="toggleExpand">
+    <template #expanded="{ row }">
+      <div class="p-3">
+        <RecordDetail detailed :record="row.original" />
+      </div>
+    </template>
+  </UTable>
 </template>
