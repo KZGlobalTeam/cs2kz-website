@@ -26,17 +26,16 @@ watch(
 
     <RecordQuery v-model:query="query" />
 
-    <UCard>
-      <RecordTable
-        v-model:sort-by="query.sort_by"
-        v-model:sort-order="query.sort_order"
-        :query="query"
-        :loading="loading"
-        :total="total"
-        :records="records"
-        @intersect="incrementRecords"
-        class="max-h-96 xl:max-h-120"
-      />
-    </UCard>
+    <RecordTable
+      v-model:sort-by="query.sort_by"
+      v-model:sort-order="query.sort_order"
+      type="profile-runs"
+      :loading="loading"
+      :total="total"
+      :query="query"
+      :records="records"
+      @intersect="incrementRecords"
+      class="max-h-96 xl:max-h-120"
+    />
   </div>
 </template>

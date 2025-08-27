@@ -9,7 +9,7 @@ const filterTier = computed(() => {
 })
 
 const props = defineProps<{
-  detailed: boolean
+  type: 'records' | 'profile-runs' | 'course-ranking'
   record: Record
 }>()
 </script>
@@ -17,26 +17,26 @@ const props = defineProps<{
 <template>
   <div class="flex items-center gap-3 text-gray-300">
     <TheImage
-      v-if="detailed"
+      v-if="type === 'records' || type === 'profile-runs'"
       :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`"
       class="w-64 h-36 rounded-md ring-1 ring-slate-400"
     />
     <div class="grid grid-cols-[1fr_1fr_1fr_1fr] gap-x-10 gap-y-3">
-      <div v-if="detailed" class="grid-item">
+      <div v-if="type === 'records' || type === 'profile-runs'" class="grid-item">
         <p class="item-key">{{ $t('records.title.map') }}:</p>
         <RouterLink :to="`/maps/${record.map.name}`" class="text-slate-300 font-semibold hover:text-slate-200">
           {{ record.map.name }}
         </RouterLink>
       </div>
 
-      <div v-if="detailed" class="grid-item">
+      <div v-if="type === 'records' || type === 'profile-runs'" class="grid-item">
         <p class="item-key">{{ $t('records.title.course') }}:</p>
         <RouterLink :to="`/maps/${record.map.name}?course=${record.course.name}`" class="hover:text-slate-300">
           {{ record.course.name }}
         </RouterLink>
       </div>
 
-      <div v-if="detailed" class="grid-item col-span-2">
+      <div v-if="type === 'records' || type === 'profile-runs'" class="grid-item col-span-2">
         <p class="item-key">{{ $t('records.title.tier') }}:</p>
         <p class="font-medium" :style="{ color: getTierColor(filterTier) }">
           {{ getTierNumber(filterTier) }}

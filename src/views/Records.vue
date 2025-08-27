@@ -13,10 +13,10 @@ const { records, total, loading, query, incrementRecords } = useRecords()
     <RecordTable
       v-model:sort-by="query.sort_by"
       v-model:sort-order="query.sort_order"
-      detailed
-      :query="query"
+      type="records"
       :loading="loading"
       :total="total"
+      :query="query"
       :records="records"
       @intersect="incrementRecords"
       class="flex-1"

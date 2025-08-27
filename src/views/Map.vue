@@ -95,7 +95,7 @@ async function getMap() {
 
     map.value = data.values[0] as Map
 
-    if (courseQueryStore.courseId) {
+    if (courseQueryStore.courseId !== -1) {
       course.value = map.value.courses.find((course) => course.id === courseQueryStore.courseId)!
     } else {
       course.value = map.value.courses[0]!
@@ -258,12 +258,16 @@ async function getMap() {
           :pro="query.pro"
           class="mt-2"
         />
-        <CourseRanking
-          class="mt-2"
-          :records="records"
-          :total="total"
+        <RecordTable
+          v-model:sort-by="query.sort_by"
+          v-model:sort-order="query.sort_order"
+          type="course-ranking"
           :loading="loadingRecords"
+          :total="total"
+          :query="query"
+          :records="records"
           @intersect="incrementRecords"
+          class="mt-2 max-h-[90dvh]"
         />
       </div>
     </div>
