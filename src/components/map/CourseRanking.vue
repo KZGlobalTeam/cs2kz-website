@@ -1,17 +1,22 @@
 <script setup lang="ts">
-import { computed, h, resolveComponent } from 'vue'
+import { computed, h, onMounted, useTemplateRef, resolveComponent } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { Record } from '@/types'
 import RecordDetail from '@/components/record/RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
+import { useInfiniteScroll } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
 import { formatTime, isNubRecord, seperateThousands, toLocal, toLocalDistance } from '@/utils'
 
-defineProps<{
+const props = defineProps<{
   records: Record[]
+  total: number
   loading: boolean
 }>()
+
+const emits = defineEmits(['intersect'])
 
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
@@ -19,6 +24,8 @@ const UButton = resolveComponent('UButton')
 const router = useRouter()
 
 const { toggleExpand } = useExpand()
+
+const table = useTemplateRef<ComponentPublicInstance>('table')
 
 const { t, locale } = useI18n()
 
@@ -96,17 +103,34 @@ const columns = computed(() => {
 
   return cols
 })
+
+onMounted(() => {
+  useInfiniteScroll(
+    table.value?.$el,
+    () => {
+      emits('intersect')
+    },
+    {
+      distance: 200,
+      canLoadMore: () => {
+        return props.total > props.records.length
+      },
+    },
+  )
+})
 </script>
 
 <template>
   <UCard>
     <UTable
+      ref="table"
       :data="records"
       :columns
       :loading
       loading-color="primary"
       loading-animation="carousel"
       @select="toggleExpand"
+      class="h-96 xl:h-120"
     >
       <template #expanded="{ row }">
         <div class="p-3">

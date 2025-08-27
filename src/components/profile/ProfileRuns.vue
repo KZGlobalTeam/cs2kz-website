@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const route = useRoute()
 
-const { records, loading, query, incrementRecords } = useRecords({ player: route.params.steamId as string })
+const { records, loading, total, query, incrementRecords } = useRecords({ player: route.params.steamId as string })
 
 watch(
   () => props.mode,
@@ -32,8 +32,10 @@ watch(
         v-model:sort-order="query.sort_order"
         :query="query"
         :loading="loading"
+        :total="total"
         :records="records"
         @intersect="incrementRecords"
+        class="max-h-96 xl:max-h-120"
       />
     </UCard>
   </div>

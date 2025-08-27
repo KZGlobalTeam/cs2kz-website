@@ -13,6 +13,7 @@ import { getTierNumber, formatTime, toLocal, toLocalDistance, getTierColor, isNu
 
 const props = defineProps<{
   detailed?: boolean
+  total: number
   records: Record[]
   query: RecordQuery
   loading: boolean
@@ -211,6 +212,9 @@ onMounted(() => {
     },
     {
       distance: 200,
+      canLoadMore: () => {
+        return props.total > props.records.length
+      },
     },
   )
 })
@@ -224,7 +228,16 @@ function goToCourse(row: TableRow<Record>) {
 </script>
 
 <template>
-  <UTable ref="table" v-model:sorting="sorting" sticky :data="records" :columns :loading @select="toggleExpand">
+  <UTable
+    ref="table"
+    v-model:sorting="sorting"
+    sticky
+    :data="records"
+    :columns
+    :loading
+    @select="toggleExpand"
+    class="border border-gray-700 rounded-md"
+  >
     <template #expanded="{ row }">
       <div class="p-3">
         <RecordDetail detailed :record="row.original" />

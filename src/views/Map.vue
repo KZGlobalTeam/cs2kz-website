@@ -54,6 +54,8 @@ const {
   records,
   loading: loadingRecords,
   query,
+  total,
+  incrementRecords,
 } = useRecords({
   sort_by: 'time',
   sort_order: 'ascending',
@@ -256,7 +258,13 @@ async function getMap() {
           :pro="query.pro"
           class="mt-2"
         />
-        <CourseRanking class="mt-2" :records="records" :loading="loadingRecords" />
+        <CourseRanking
+          class="mt-2"
+          :records="records"
+          :total="total"
+          :loading="loadingRecords"
+          @intersect="incrementRecords"
+        />
       </div>
     </div>
 

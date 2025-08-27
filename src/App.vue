@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import Cookies from 'universal-cookie'
 import { usePlayerStore } from './stores/player'
@@ -8,8 +7,6 @@ import TheHeader from './components/TheHeader.vue'
 import { useColorMode } from '@vueuse/core'
 
 const playerStore = usePlayerStore()
-
-const openAlert = ref(true)
 
 const cookies = new Cookies(null, { path: '/' })
 
@@ -35,25 +32,11 @@ async function verifySession() {
     }
   }
 }
-
-function handleCloseAlert(open: boolean) {
-  openAlert.value = open
-}
 </script>
 
 <template>
   <UApp>
     <TheHeader />
-    <div class="px-2 lg:px-10 mt-4">
-      <UAlert
-        v-if="openAlert"
-        :description="$t('common.testingAlert')"
-        color="warning"
-        variant="subtle"
-        close
-        @update:open="handleCloseAlert"
-      />
-    </div>
 
     <Suspense>
       <RouterView />
