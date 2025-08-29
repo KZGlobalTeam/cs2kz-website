@@ -32,7 +32,7 @@ export default defineConfig({
         table: {
           slots: {
             tbody: 'cursor-pointer',
-            th: 'py-2 text-base',
+            th: 'py-2 text-base [&>button]:text-highlighted',
             td: 'py-2 text-base',
           },
         },
