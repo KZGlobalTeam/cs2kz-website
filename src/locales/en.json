@@ -169,14 +169,17 @@
     "query": {
       "name": "Name",
       "ipAddress": "IP",
-      "ownedBy": "Owner"
+      "ownedBy": "Owner",
+      "includeDegloballed": "Show Degloballed"
     },
     "title": {
       "name": "Name",
       "ipAddress": "IP",
       "owner": "Owner",
       "ping": "Ping",
-      "approvedOn": "Approved On"
+      "currentMap": "Current Map",
+      "currentPlayersCount": "Current Players",
+      "createdOn": "Created On"
     }
   }
 }

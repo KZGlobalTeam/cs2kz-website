@@ -64,13 +64,27 @@ const columns = computed(() => {
       },
     },
     {
-      accessorKey: 'approved_at',
-      header: t('servers.title.approvedOn'),
+      accessorKey: 'connection_info',
+      header: t('servers.title.currentMap'),
+      cell: ({ row }) => {
+        return h('span', {}, row.original.connection_info?.current_map || '-')
+      },
+    },
+    {
+      accessorKey: 'connection_info',
+      header: t('servers.title.currentPlayersCount'),
+      cell: ({ row }) => {
+        return h('span', {}, row.original.connection_info?.connected_players.length || '-')
+      },
+    },
+    {
+      accessorKey: 'created_at',
+      header: t('servers.title.createdOn'),
       cell: ({ row }) => {
         return h(
           UTooltip,
-          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.approved_at) },
-          () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.approved_at, locale.value)),
+          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.created_at) },
+          () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.created_at, locale.value)),
         )
       },
     },

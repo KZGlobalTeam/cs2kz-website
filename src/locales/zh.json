@@ -169,14 +169,17 @@
     "query": {
       "name": "名称",
       "ipAddress": "IP",
-      "ownedBy": "所有者"
+      "ownedBy": "所有者",
+      "includeDegloballed": "显示未全球"
     },
     "title": {
       "name": "名称",
       "ipAddress": "IP",
       "owner": "所有者",
       "ping": "延迟",
-      "approvedOn": "上线日期"
+      "currentMap": "当前地图",
+      "currentPlayersCount": "在线玩家数",
+      "createdOn": "创建日期"
     }
   }
 }

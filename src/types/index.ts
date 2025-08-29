@@ -120,6 +120,7 @@ export interface ServerQuery {
   name: string
   host: string
   owned_by: string
+  include_degloballed: boolean
   limit: number
   offset: number
 }

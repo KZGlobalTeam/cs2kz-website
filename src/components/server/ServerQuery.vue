@@ -17,8 +17,9 @@ watch(ip, (ip) => {
 
 <template>
   <div
-    class="lg:w-max mx-auto p-2 lg:p-4 flex flex-wrap items-center lg:justify-center gap-2 lg:gap-8 border border-gray-700 rounded-md"
+    class="lg:w-max mx-auto p-2 lg:p-4 flex flex-wrap items-center lg:justify-center gap-2 lg:gap-8 border border-gray-800 rounded-md"
   >
+    <UCheckbox v-model="query.include_degloballed" :label="$t('servers.query.includeDegloballed')" />
     <UInput v-model="query.name" :placeholder="$t('servers.query.name')">
       <template #trailing>
         <IconServer />

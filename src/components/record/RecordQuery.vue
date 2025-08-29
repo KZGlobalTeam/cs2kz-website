@@ -51,8 +51,8 @@ async function fetchServerSearchResults(search: string) {
     class="text-gray-300"
     :class="
       detailed
-        ? 'p-2 lg:p-4 grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-8 border border-gray-700 rounded-md'
-        : 'border border-gray-700 rounded-md mb-2'
+        ? 'p-2 lg:p-4 grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-8 border border-gray-800 rounded-md'
+        : 'border border-gray-800 rounded-md mb-2'
     "
   >
     <ModeSwitcher v-if="detailed" v-model:mode="query.mode" />

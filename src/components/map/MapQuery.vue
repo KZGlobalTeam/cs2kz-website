@@ -9,7 +9,7 @@ const emit = defineEmits(['pick-random-map', 'reset-filters'])
 </script>
 
 <template>
-  <div class="p-2 lg:p-4 grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-8 border border-gray-700 rounded-md">
+  <div class="p-2 lg:p-4 grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-8 border border-gray-800 rounded-md">
     <ModeSwitcher v-model:mode="query.mode" />
     <div class="col-span-3 flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
       <UButtonGroup orientation="horizontal">
