@@ -117,7 +117,7 @@ async function getMap() {
       <IconLoading />
     </div>
 
-    <div v-else-if="map && course" class="overflow-x-auto p-1">
+    <div v-else-if="map && course" class="overflow-x-auto py-1 px-4">
       <div class="flex flex-col xl:flex-row items-start gap-4">
         <!-- TODO: use course index -->
         <TheImage
@@ -242,7 +242,7 @@ async function getMap() {
       </div>
 
       <!-- ranking -->
-      <div class="mt-2 px-1">
+      <div class="mt-2">
         <RankCard v-if="worldRecord" :record="worldRecord" :pro="query.pro" />
         <RankCard
           v-if="playerRecord && playerRecord.player.id !== worldRecord?.player.id"
