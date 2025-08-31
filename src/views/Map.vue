@@ -164,10 +164,18 @@ async function getMap() {
                     'text-gray-300 bg-gray-600': course.name === activeCourseName,
                     'text-gray-400 bg-gray-800': course.name !== activeCourseName,
                   }"
-                  class="cursor-pointer hover:text-gray-200 border-gray-400 rounded-md px-1"
+                  class="flex items-center gap-1 cursor-pointer hover:text-gray-200 border-gray-400 rounded-md px-1"
                   @click="activeCourseName = course.name"
                 >
-                  {{ course.name }}
+                  <div
+                    class="w-2 h-2 rounded-full"
+                    :style="{
+                      backgroundColor: (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked
+                        ? '#05df72'
+                        : '#d1d5dc',
+                    }"
+                  ></div>
+                  <span>{{ course.name }}</span>
                 </div>
               </div>
             </div>
@@ -193,22 +201,6 @@ async function getMap() {
               >
                 {{ transformTier((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier) }}
               </span>
-            </div>
-
-            <!-- rank status -->
-            <div
-              :class="
-                (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked
-                  ? 'text-green-400 bg-green-400/20'
-                  : 'text-gray-400 bg-gray-400/20'
-              "
-              class="w-max px-1 mt-3 text-sm rounded-sm font-medium"
-            >
-              {{
-                $t(
-                  `map.filterState.${(course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked ? 'ranked' : 'unranked'}`,
-                )
-              }}
             </div>
           </div>
         </div>
