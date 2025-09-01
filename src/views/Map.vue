@@ -5,7 +5,7 @@ import { usePlayerStore } from '@/stores/player'
 import type { Map, Course, CS2Filters } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
-import { api, getTierColor, transformTier } from '@/utils'
+import { api, getTierColor, getTierNumber } from '@/utils'
 
 const modeMap = {
   classic: 'ckz',
@@ -148,52 +148,47 @@ async function getMap() {
           </div>
         </div>
 
-        <div class="mt-2 lg:mt-0">
-          <!-- courses -->
-          <div class="flex flex-wrap gap-2">
-            <div v-for="course in map.courses" :key="course.name">
-              <div
-                :class="{
-                  'text-gray-300 bg-gray-600': course.name === activeCourseName,
-                  'text-gray-400 bg-gray-800': course.name !== activeCourseName,
-                }"
-                class="flex items-center gap-1 cursor-pointer hover:text-gray-200 border-gray-400 rounded-md px-1"
-                @click="activeCourseName = course.name"
-              >
-                <div
-                  class="w-2 h-2 rounded-full"
-                  :style="{
-                    backgroundColor: (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked
-                      ? '#05df72'
-                      : '#d1d5dc',
-                  }"
-                ></div>
-                <span>{{ course.name }}</span>
-              </div>
-            </div>
-          </div>
+        <!-- courses -->
+        <div class="flex flex-wrap gap-2 mt-2 lg:mt-0 text-lg">
+          <div
+            v-for="course in map.courses"
+            :key="course.name"
+            :class="{
+              'text-gray-300 bg-gray-600': course.name === activeCourseName,
+              'text-gray-400 bg-gray-800': course.name !== activeCourseName,
+            }"
+            class="group flex items-center gap-1 cursor-pointer hover:bg-gray-600 hover:text-gray-300 border-gray-400 rounded-md px-1"
+            @click="activeCourseName = course.name"
+          >
+            <div
+              class="w-2 h-2 rounded-full"
+              :style="{
+                backgroundColor: (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].ranked
+                  ? '#05df72'
+                  : '#d1d5dc',
+              }"
+            ></div>
 
-          <!-- tier -->
-          <div class="text-gray-200 text-xl mt-2">
-            <span class="mr-2">{{ `${$t('map.overallTier')}:` }}</span>
             <span
               :style="{
-                color: getTierColor((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].nub_tier),
+                color: getTierColor(
+                  query.pro
+                    ? (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier
+                    : (course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].nub_tier,
+                ),
               }"
-              class="font-semibold"
+              >{{
+                query.pro
+                  ? getTierNumber((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier)
+                  : getTierNumber((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].nub_tier)
+              }}</span
             >
-              {{ transformTier((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].nub_tier) }}
-            </span>
-            <span class="mx-2 text-gray-600">/</span>
-            <span class="mr-2">{{ `${$t('map.proTier')}:` }}</span>
             <span
-              :style="{
-                color: getTierColor((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier),
-              }"
-              class="font-semibold"
+              class="group-hover:text-gray-400"
+              :class="course.name === activeCourseName ? 'text-gray-400' : 'text-gray-600'"
+              >/</span
             >
-              {{ transformTier((course.filters as CS2Filters)[modeMap[query.mode] as CS2Modes].pro_tier) }}
-            </span>
+            <span>{{ course.name }}</span>
           </div>
         </div>
       </div>
