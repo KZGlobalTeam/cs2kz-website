@@ -1,5 +1,5 @@
 <template>
-  <UPopover v-model:open="openPopover">
+  <UPopover v-model:open="openPopover" :content="{ align: 'start' }">
     <template #anchor>
       <UInput v-model="search" :placeholder="$t(placeholderPath)">
         <template #trailing>
