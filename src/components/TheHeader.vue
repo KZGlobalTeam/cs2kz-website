@@ -43,31 +43,20 @@ const profileOptions = computed(() => [
   },
 ])
 
-const navigation = computed(() => {
-  const routes = [
-    {
-      localePath: 'nav.records',
-      path: '/records',
-    },
-    {
-      localePath: 'nav.maps',
-      path: '/maps',
-    },
-    {
-      localePath: 'nav.servers',
-      path: '/servers',
-    },
-  ]
-
-  if (playerStore.player) {
-    routes.splice(2, 0, {
-      localePath: 'nav.profile',
-      path: `/profile/${playerStore.player.id}`,
-    })
-  }
-
-  return routes
-})
+const navigation = [
+  {
+    localePath: 'nav.records',
+    path: '/records',
+  },
+  {
+    localePath: 'nav.maps',
+    path: '/maps',
+  },
+  {
+    localePath: 'nav.servers',
+    path: '/servers',
+  },
+]
 
 function signIn() {
   const url = `${import.meta.env.VITE_API_URL}/auth/web/login?redirect_to=${location.origin}`
