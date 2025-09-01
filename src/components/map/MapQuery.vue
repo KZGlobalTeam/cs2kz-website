@@ -26,6 +26,7 @@ const emit = defineEmits(['pick-random-map', 'reset-filters'])
       </UButtonGroup>
 
       <USelect
+        class="w-36"
         v-model="query.tier"
         multiple
         :items="[
