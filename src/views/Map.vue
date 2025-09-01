@@ -6,6 +6,7 @@ import type { Map, Course, CS2Filters } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, getTierNumber } from '@/utils'
+import ModeSwitcher from '@/components/ModeSwitcher.vue'
 
 const modeMap = {
   classic: 'ckz',
@@ -107,8 +108,9 @@ async function getMap() {
 
 <template>
   <div v-if="map !== 'pending' && map !== null && course !== null" class="max-w-6xl mx-auto px-2 lg:px-10 py-2 lg:py-4">
-    <div class="flex flex-col xl:flex-row items-start gap-4">
-      <!-- TODO: use course index -->
+    <ModeSwitcher v-model:mode="query.mode" />
+
+    <div class="flex flex-col xl:flex-row items-start gap-4 mt-4">
       <TheImage
         class="rounded-md ring-2 ring-blue-600/40"
         :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
@@ -195,38 +197,22 @@ async function getMap() {
     </div>
 
     <!-- ranking filters -->
-    <div class="mt-4 pt-2 flex justify-between lg:justify-start items-center gap-4 border-t border-gray-600">
+    <div class="mt-4 pt-2 flex justify-between lg:justify-start items-center gap-4">
       <p class="text-2xl lg:text-3xl font-semibold">Course Ranking</p>
-      <div class="flex gap-2">
-        <UButtonGroup orientation="horizontal">
-          <UButton
-            size="sm"
-            :variant="query.mode === 'classic' ? 'solid' : 'outline'"
-            label="CKZ"
-            @click="query.mode = 'classic'"
-          />
-          <UButton
-            size="sm"
-            :variant="query.mode === 'vanilla-cs2' ? 'solid' : 'outline'"
-            label="VNL"
-            @click="query.mode = 'vanilla-cs2'"
-          />
-        </UButtonGroup>
-        <UButtonGroup orientation="horizontal">
-          <UButton
-            size="sm"
-            :variant="query.pro ? 'outline' : 'solid'"
-            :label="$t('common.leaderboardType.overall')"
-            @click="query.pro = false"
-          />
-          <UButton
-            size="sm"
-            :variant="query.pro ? 'solid' : 'outline'"
-            :label="$t('common.leaderboardType.pro')"
-            @click="query.pro = true"
-          />
-        </UButtonGroup>
-      </div>
+      <UButtonGroup orientation="horizontal">
+        <UButton
+          size="sm"
+          :variant="query.pro ? 'outline' : 'solid'"
+          :label="$t('common.leaderboardType.overall')"
+          @click="query.pro = false"
+        />
+        <UButton
+          size="sm"
+          :variant="query.pro ? 'solid' : 'outline'"
+          :label="$t('common.leaderboardType.pro')"
+          @click="query.pro = true"
+        />
+      </UButtonGroup>
     </div>
 
     <!-- ranking -->

@@ -82,7 +82,7 @@ async function getAvatar(steamId: string) {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   background-color: rgba(174, 150, 9, 0.8);
   border: 0.125rem solid rgba(255, 255, 255, 0.4);
   padding: 0.5rem;
@@ -103,7 +103,7 @@ async function getAvatar(steamId: string) {
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   background-color: rgba(31, 41, 55, 0.8);
   border: 0.125rem solid rgba(255, 255, 255, 0.1);
   padding: 0.5rem;
