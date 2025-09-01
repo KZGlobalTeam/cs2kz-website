@@ -21,7 +21,6 @@ import {
 
 const props = defineProps<{
   type: 'profile-runs' | 'records' | 'course-ranking'
-  query: RecordQuery
   total: number
   records: Record[]
   loading: boolean
@@ -45,10 +44,7 @@ const sorting = ref([{ id: 'submitted_at', desc: true }])
 
 const { toggleExpand } = useExpand()
 
-const sortBy = defineModel<'submission-date' | 'time'>('sortBy', { required: true })
-const sortOrder = defineModel<'ascending' | 'descending'>('sortOrder', {
-  required: true,
-})
+const query = defineModel<RecordQuery>('query', { required: true })
 
 const { t, locale } = useI18n()
 
@@ -139,8 +135,8 @@ const columns = computed(() => {
         class: '-mx-2.5',
         onClick: () => {
           column.toggleSorting(column.getIsSorted() === 'asc')
-          sortBy.value = 'time'
-          sortOrder.value = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
+          query.value.sort_by = 'time'
+          query.value.sort_order = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
         },
       })
     },
@@ -212,8 +208,8 @@ const columns = computed(() => {
         class: '-mx-2.5',
         onClick: () => {
           column.toggleSorting(column.getIsSorted() === 'asc')
-          sortBy.value = 'submission-date'
-          sortOrder.value = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
+          query.value.sort_by = 'submission-date'
+          query.value.sort_order = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
         },
       })
     },
@@ -263,8 +259,8 @@ onMounted(() => {
 
 function goToCourse(courseId: number, mapName: string) {
   courseQueryStore.courseId = courseId
-  courseQueryStore.mode = props.query.mode
-  courseQueryStore.pro = props.query.pro
+  courseQueryStore.mode = query.value.mode
+  courseQueryStore.pro = query.value.pro
   router.push(`/maps/${mapName}`)
 }
 </script>

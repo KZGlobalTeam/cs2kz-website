@@ -225,12 +225,10 @@ async function getMap() {
         class="mt-2"
       />
       <RecordTable
-        v-model:sort-by="query.sort_by"
-        v-model:sort-order="query.sort_order"
+        v-model:query="query"
         type="course-ranking"
         :loading="loadingRecords"
         :total="total"
-        :query="query"
         :records="records"
         @intersect="incrementRecords"
         class="mt-2 max-h-[90dvh]"

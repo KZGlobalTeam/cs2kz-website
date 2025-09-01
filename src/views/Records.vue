@@ -11,12 +11,10 @@ const { records, total, loading, query, incrementRecords } = useRecords()
     <div class="mt-4 lg:mt-6"></div>
 
     <RecordTable
-      v-model:sort-by="query.sort_by"
-      v-model:sort-order="query.sort_order"
+      v-model:query="query"
       type="records"
       :loading="loading"
       :total="total"
-      :query="query"
       :records="records"
       @intersect="incrementRecords"
       class="flex-1"
