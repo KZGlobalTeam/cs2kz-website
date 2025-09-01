@@ -63,7 +63,7 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
         total.value = 0
       }
     } catch (error) {
-      console.error(error)
+      console.error('[fetch error]', error)
 
       records.value = []
       total.value = 0

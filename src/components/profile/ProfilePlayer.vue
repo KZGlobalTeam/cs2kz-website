@@ -21,7 +21,7 @@ async function getSteamProfile() {
     avatarUrl.value = player?.avatar_url.replace(/_medium/, '_full') || ''
     profileUrl.value = player?.profile_url || ''
   } catch (error) {
-    console.error(error)
+    console.log('[fetch error]', error)
   }
 }
 </script>

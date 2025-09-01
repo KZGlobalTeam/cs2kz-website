@@ -56,7 +56,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
         total.value = 0
       }
     } catch (err) {
-      console.error(err)
+      console.log('[fetch error]', err)
       maps.value = []
       total.value = 0
     } finally {

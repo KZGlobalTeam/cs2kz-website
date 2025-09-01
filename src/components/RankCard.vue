@@ -34,7 +34,7 @@ async function getAvatar(steamId: string) {
     const { data } = await api.get(`/players/${steamId}/steam-profile`)
     avatarUrl.value = data?.avatar_url.replace(/_medium/, '_full') || ''
   } catch (error) {
-    console.error(error)
+    console.log('[fetch error]', error)
   }
 }
 </script>

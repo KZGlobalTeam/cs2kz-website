@@ -66,7 +66,7 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
         total.value = 0
       }
     } catch (err) {
-      console.error(err)
+      console.log('[fetch error]', err)
 
       courses.value = []
       total.value = 0

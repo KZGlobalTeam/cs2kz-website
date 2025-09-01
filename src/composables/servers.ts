@@ -37,7 +37,7 @@ export function useServers() {
         servers.value = []
       }
     } catch (err) {
-      console.error(err)
+      console.log('[fetch error]', err)
       servers.value = []
     } finally {
       loading.value = false

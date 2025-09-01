@@ -3,8 +3,7 @@ import type { Profile, ProfileQuery } from '@/types'
 import { api } from '@/utils'
 
 export function useProfile(playerId: string) {
-  const loading = ref(false)
-  const profile = ref<Profile | null>(null)
+  const profile = ref<Profile | 'pending' | null>('pending')
 
   const query = reactive<ProfileQuery>({
     player_id: playerId,
@@ -17,7 +16,7 @@ export function useProfile(playerId: string) {
 
   async function getProfile() {
     try {
-      loading.value = true
+      profile.value = 'pending'
 
       const { data } = await api.get(`/players/${query.player_id}`, {
         params: { mode: query.mode },
@@ -25,16 +24,13 @@ export function useProfile(playerId: string) {
 
       profile.value = data
     } catch (err) {
-      console.error(err)
+      console.log('[fetch error]', err)
       profile.value = null
-    } finally {
-      loading.value = false
     }
   }
 
   return {
     profile,
-    loading,
     query,
   }
 }
