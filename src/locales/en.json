@@ -175,10 +175,11 @@
     "title": {
       "name": "Name",
       "ipAddress": "IP",
+      "globalStatus": "Global Status",
       "owner": "Owner",
       "ping": "Ping",
       "currentMap": "Current Map",
-      "currentPlayersCount": "Current Players",
+      "players": "Players",
       "createdOn": "Created On"
     }
   }

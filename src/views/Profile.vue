@@ -9,7 +9,7 @@ const { query, profile, loading } = useProfile(route.params.steamId as string)
 <template>
   <div class="py-2 lg:py-4 px-2">
     <div v-if="profile" class="max-w-5xl mx-auto text-gray-300">
-      <ModeSwitcher v-model:mode="query.mode" />
+      <ModeSwitcher v-model:mode="query.mode" class="mb-5" />
 
       <ProfilePlayer :profile="profile" class="mb-10" />
 

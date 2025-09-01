@@ -54,9 +54,3 @@ body {
   font-family: 'Akshar', sans-serif;
   background-color: #101828;
 }
-
-@theme static {
-  --radius-sm: 0.15rem;
-  --radius-md: 0.15rem;
-  --radius-lg: 0.15rem;
-}

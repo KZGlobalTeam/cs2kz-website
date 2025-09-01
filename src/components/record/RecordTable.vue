@@ -277,6 +277,7 @@ function goToCourse(courseId: number, mapName: string) {
     :data="records"
     :columns
     :loading
+    :ui="{ tbody: 'cursor-pointer' }"
     @select="toggleExpand"
     class="border border-gray-700 rounded-md"
   >

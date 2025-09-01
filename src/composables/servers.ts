@@ -12,6 +12,7 @@ export function useServers() {
     name: '',
     host: '',
     owned_by: '',
+    include_degloballed: false,
     limit: 30,
     offset: 0,
   })
@@ -29,6 +30,7 @@ export function useServers() {
       const { data } = await api.get<ServerResponse | undefined>('/servers', {
         params: validQuery(query),
       })
+
       if (data) {
         servers.value = data.values
       } else {

@@ -175,10 +175,11 @@
     "title": {
       "name": "名称",
       "ipAddress": "IP",
+      "globalStatus": "全球状态",
       "owner": "所有者",
       "ping": "延迟",
       "currentMap": "当前地图",
-      "currentPlayersCount": "在线玩家数",
+      "players": "在线玩家",
       "createdOn": "创建日期"
     }
   }
