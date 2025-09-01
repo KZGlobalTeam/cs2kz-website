@@ -33,7 +33,8 @@
       "tier": "Tier",
       "createdOn": "Release Date"
     },
-    "noData": "No Data"
+    "noData": "No Data",
+    "unknown": "Unknown"
   },
   "nav": {
     "home": "Home",
@@ -181,6 +182,7 @@
       "currentMap": "Current Map",
       "players": "Players",
       "createdOn": "Created On"
-    }
+    },
+    "noPlayers": "No players"
   }
 }

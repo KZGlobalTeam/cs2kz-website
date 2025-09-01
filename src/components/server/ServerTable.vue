@@ -96,7 +96,7 @@ const columns = computed(() => {
               }
             },
           },
-          row.original.connection_info?.current_map || 'Unknown',
+          row.original.connection_info?.current_map || t('common.unknown'),
         )
       },
     },
@@ -124,9 +124,11 @@ const columns = computed(() => {
 })
 
 function getPlayerInfo(connectionInfo: Server['connection_info'] | null) {
-  if (connectionInfo === undefined || connectionInfo === null) return h('span', { class: 'text-slate-500' }, 'Unknown')
+  if (connectionInfo === undefined || connectionInfo === null)
+    return h('span', { class: 'text-slate-500' }, t('common.unknown'))
 
-  if (connectionInfo.connected_players.length === 0) return h('span', { class: 'text-slate-500' }, 'No players')
+  if (connectionInfo.connected_players.length === 0)
+    return h('span', { class: 'text-slate-500' }, t('servers.noPlayers'))
 
   return connectionInfo.connected_players.map((player) =>
     h(

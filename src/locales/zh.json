@@ -33,7 +33,8 @@
       "tier": "难度",
       "createdOn": "发布日期"
     },
-    "noData": "无数据"
+    "noData": "无数据",
+    "unknown": "未知"
   },
   "nav": {
     "home": "首页",
@@ -181,6 +182,7 @@
       "currentMap": "当前地图",
       "players": "在线玩家",
       "createdOn": "创建日期"
-    }
+    },
+    "noPlayers": "无"
   }
 }
