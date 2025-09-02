@@ -8,6 +8,7 @@ import { calcRanksAndPointsDist, calcCompletedCourses, calcTotalCourses } from '
 
 const props = defineProps<{
   mode: Mode
+  pro: boolean
 }>()
 
 const route = useRoute()
@@ -30,44 +31,20 @@ watch(
 
 const totalCourses = computed(() => calcTotalCourses(courses.value))
 
-watch(
-  () => props.mode,
-  (mode) => {
-    completionQuery.mode = mode
-    courseQuery.mode = mode
-  },
-)
-
-watch(
-  () => completionQuery.pro,
-  (val) => {
-    courseQuery.pro = val
-  },
-)
+watch([() => props.mode, () => props.pro], ([mode, pro]) => {
+  completionQuery.mode = mode
+  courseQuery.mode = mode
+  completionQuery.pro = pro
+  courseQuery.pro = pro
+})
 </script>
 
 <template>
   <div class="text-gray-300">
     <!-- title -->
-    <div class="flex items-center gap-2 mb-2">
-      <p class="text-3xl font-semibold">
-        {{ $t('profile.completion.title') }}
-      </p>
-      <UButtonGroup orientation="horizontal">
-        <UButton
-          size="sm"
-          :variant="completionQuery.pro ? 'outline' : 'solid'"
-          :label="$t('common.leaderboardType.overall')"
-          @click="completionQuery.pro = false"
-        />
-        <UButton
-          size="sm"
-          :variant="completionQuery.pro ? 'solid' : 'outline'"
-          :label="$t('common.leaderboardType.pro')"
-          @click="completionQuery.pro = true"
-        />
-      </UButtonGroup>
-    </div>
+    <p class="text-3xl font-semibold mb-2">
+      {{ $t('profile.completion.title') }}
+    </p>
 
     <div class="p-4 border border-gray-700 rounded-md">
       <!-- top records -->

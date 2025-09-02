@@ -6,25 +6,26 @@ import { useRecords } from '@/composables/records'
 
 const props = defineProps<{
   mode: Mode
+  pro: boolean
 }>()
 
 const route = useRoute()
 
 const { records, loading, total, query, incrementRecords } = useRecords({ player: route.params.steamId as string })
 
-watch(
-  () => props.mode,
-  (mode) => {
-    query.mode = mode
-  },
-)
+watch([() => props.mode, () => props.pro], ([m, p]) => {
+  query.mode = m
+  query.pro = p
+})
 </script>
 
 <template>
   <div>
     <p class="text-3xl text-gray-300 font-semibold mb-2">{{ $t('profile.runs.title') }}</p>
 
-    <RecordQuery v-model:query="query" />
+    <div class="flex flex-wrap gap-3 text-gray-300 border border-gray-800 rounded-md p-3 mb-2">
+      <RecordQuery v-model:query="query" />
+    </div>
 
     <RecordTable
       v-model:query="query"

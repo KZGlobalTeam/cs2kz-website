@@ -6,7 +6,7 @@ import type { Map, Course, CS2Filters } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, getTierNumber } from '@/utils'
-import ModeSwitcher from '@/components/ModeSwitcher.vue'
+import ModeSwitch from '@/components/ModeSwitch.vue'
 
 const modeMap = {
   classic: 'ckz',
@@ -108,7 +108,7 @@ async function getMap() {
 
 <template>
   <div v-if="map !== 'pending' && map !== null && course !== null" class="max-w-6xl mx-auto px-2 lg:px-10 py-2 lg:py-4">
-    <ModeSwitcher v-model:mode="query.mode" />
+    <ModeSwitch v-model:mode="query.mode" />
 
     <div class="flex flex-col xl:flex-row items-start gap-4 mt-4">
       <TheImage

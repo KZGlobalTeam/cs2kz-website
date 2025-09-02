@@ -6,7 +6,11 @@ const { records, total, loading, query, incrementRecords } = useRecords()
 
 <template>
   <div class="mx-auto px-2 lg:px-10 py-2 lg:py-4 flex flex-col h-[calc(100dvh-(--spacing(12)))]">
-    <RecordQuery v-model:query="query" detailed />
+    <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
+      <MainSwitch v-model:mode="query.mode" v-model:pro="query.pro" />
+
+      <RecordQuery v-model:query="query" />
+    </div>
 
     <div class="mt-4 lg:mt-6"></div>
 
