@@ -33,8 +33,9 @@ const totalCourses = computed(() => calcTotalCourses(courses.value))
 
 watch([() => props.mode, () => props.pro], ([mode, pro]) => {
   completionQuery.mode = mode
-  courseQuery.mode = mode
   completionQuery.pro = pro
+
+  courseQuery.mode = mode
   courseQuery.pro = pro
 })
 </script>

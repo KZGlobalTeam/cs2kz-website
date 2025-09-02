@@ -3,11 +3,10 @@ import type { Profile, ProfileQuery } from '@/types'
 import { api } from '@/utils'
 
 export function useProfile(playerId: string) {
-  const profile = ref<Profile | 'pending' | null>('pending')
+  const profile = ref<Profile | null>(null)
 
   const query = reactive<ProfileQuery>({
     player_id: playerId,
-    mode: 'classic',
   })
 
   watch(query, getProfile)
@@ -16,11 +15,7 @@ export function useProfile(playerId: string) {
 
   async function getProfile() {
     try {
-      profile.value = 'pending'
-
-      const { data } = await api.get(`/players/${query.player_id}`, {
-        params: { mode: query.mode },
-      })
+      const { data } = await api.get(`/players/${query.player_id}`)
 
       profile.value = data
     } catch (err) {

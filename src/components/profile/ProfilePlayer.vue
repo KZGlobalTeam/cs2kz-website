@@ -1,29 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { api, toLocal, seperateThousands } from '@/utils'
-import type { Profile, PlayerSteam } from '@/types'
+import { toLocal, seperateThousands } from '@/utils'
 import { useRoute } from 'vue-router'
-
-defineProps<{
-  profile: Profile
-}>()
+import { useProfile } from '@/composables/profile'
 
 const route = useRoute()
 
 const avatarUrl = ref('')
 const profileUrl = ref('')
 
-getSteamProfile()
-
-async function getSteamProfile() {
-  try {
-    const { data: player } = await api.get<PlayerSteam | undefined>(`/players/${route.params.steamId}/steam-profile`)
-    avatarUrl.value = player?.avatar_url.replace(/_medium/, '_full') || ''
-    profileUrl.value = player?.profile_url || ''
-  } catch (error) {
-    console.log('[fetch error]', error)
-  }
-}
+const { profile } = useProfile(route.params.steamId as string)
 </script>
 
 <template>
@@ -32,21 +18,25 @@ async function getSteamProfile() {
 
     <div class="flex flex-col gap-2 lg:gap-5">
       <div class="flex items-center gap-1">
-        <p class="text-2xl font-semibold max-w-56 truncate text-cyan-600">{{ profile.name }}</p>
-        <UButton square variant="ghost" :to="profileUrl" target="_blank">
+        <p class="text-2xl font-semibold max-w-56 truncate" :class="profile ? 'text-cyan-600' : 'text-gray-700'">
+          {{ profile ? profile.name : $t('common.unknown') }}
+        </p>
+        <UButton v-if="profile" square variant="ghost" :to="profileUrl" target="_blank">
           <IconSteam class="w-5 h-5" />
         </UButton>
       </div>
 
       <p>
         <span class="text-gray-500">{{ $t('profile.info.joinedOn') }}: </span>
-        <span class="font-medium mr-1 text-gray-400">{{ toLocal(profile.created_at, true) }}</span>
+        <span class="font-medium mr-1 text-gray-400">{{
+          profile ? toLocal(profile.created_at, true) : $t('common.unknown')
+        }}</span>
       </p>
 
       <div>
         <span class="mr-1 text-gray-500">{{ $t('profile.info.rating') }}:</span>
         <span class="font-semibold">
-          {{ seperateThousands(profile.rating) }}
+          {{ profile ? seperateThousands(profile.rating) : $t('common.unknown') }}
         </span>
       </div>
     </div>

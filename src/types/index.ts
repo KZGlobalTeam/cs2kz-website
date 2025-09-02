@@ -134,5 +134,4 @@ export interface Profile {
 
 export interface ProfileQuery {
   player_id: string
-  mode: Mode
 }
