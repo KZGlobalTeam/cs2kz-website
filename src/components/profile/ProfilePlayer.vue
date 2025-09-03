@@ -28,15 +28,15 @@ const { profile } = useProfile(route.params.steamId as string)
 
       <p>
         <span class="text-gray-500">{{ $t('profile.info.joinedOn') }}: </span>
-        <span class="font-medium mr-1 text-gray-400">{{
-          profile ? toLocal(profile.created_at, true) : $t('common.unknown')
+        <span class="font-medium mr-1" :class="profile ? 'text-gray-400' : 'text-gray-700'">{{
+          profile ? toLocal(profile.created_at, true) : '-'
         }}</span>
       </p>
 
       <div>
         <span class="mr-1 text-gray-500">{{ $t('profile.info.rating') }}:</span>
-        <span class="font-semibold">
-          {{ profile ? seperateThousands(profile.rating) : $t('common.unknown') }}
+        <span :class="profile ? 'font-semibold' : 'text-gray-700'">
+          {{ profile ? seperateThousands(profile.rating) : '-' }}
         </span>
       </div>
     </div>
