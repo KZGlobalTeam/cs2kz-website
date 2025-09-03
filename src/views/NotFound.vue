@@ -16,6 +16,6 @@ const router = useRouter()
         />
       </g>
     </svg>
-    <UButton color="neutral" @click="router.back()">Go Back</UButton>
+    <UButton color="neutral" @click="router.back()">{{ $t('common.goBack') }}</UButton>
   </div>
 </template>
