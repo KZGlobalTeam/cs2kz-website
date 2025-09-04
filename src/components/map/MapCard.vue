@@ -12,54 +12,49 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="card-container relative w-max rounded-md ring ring-blue-600/40 hover:ring-blue-600 hover:ring-2 hover:rounded-b-md"
-  >
+  <div class="relative w-max rounded-md ring ring-blue-600/40 hover:ring-blue-600 hover:ring-2 hover:rounded-b-md">
     <div class="flex items-center">
-      <TheImage
-        class="hidden lg:block w-80 h-45 rounded-bl-md rounded-tl-md cursor-pointer"
-        :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
-        @click="router.push({ path: `/maps/${map.name}/1` })"
-      />
+      <div class="relative hidden lg:block">
+        <TheImage
+          class="w-64 h-36 rounded-bl-md rounded-tl-md cursor-pointer"
+          :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/kz_grotto/1.webp`"
+          @click="router.push({ path: `/maps/${map.name}/1` })"
+        />
+        <IconCheckOutline class="absolute top-1 left-1" v-if="map.state === 'approved'" />
+      </div>
+
       <div
         :style="{
-          backgroundImage: `url(https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp)`,
+          backgroundImage: `url(https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/kz_grotto/1.webp)`,
+          backgroundSize: 'cover',
         }"
-        class="w-80 h-45 px-2 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-[length:200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
+        class="w-56 h-36 px-2 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-[length:200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
       >
         <div class="relative w-full h-full">
           <div class="flex flex-col justify-between h-full">
             <div>
-              <div class="flex gap-2 items-center mb-1">
-                <p class="text-gray-100 text-lg font-medium">{{ map.name }}</p>
+              <p class="text-gray-100 text-lg font-medium">{{ map.name }}</p>
 
-                <div
-                  :class="map.state === 'approved' ? 'text-green-400 bg-green-300/20' : 'text-gray-300'"
-                  class="px-1 text-xs border rounded-sm"
-                >
-                  {{ $t(`map.state.${map.state}`) }}
+              <div class="flex items-center gap-2 mb-1">
+                <div class="flex items-center gap-1 text-sm">
+                  <IconHammer />
+                  <RouterLink :to="`/profile/${map.creator.id}`" class="text-cyan-600 hover:text-cyan-400">
+                    {{ map.creator.name }}
+                  </RouterLink>
                 </div>
-              </div>
-
-              <div class="flex items-center gap-1 mb-1">
-                <IconDate />
-                <span class="text-xs text-gray-200 leading-[14px]">
-                  {{ toLocal(map.created_at).slice(0, 10) }}
-                </span>
-              </div>
-
-              <div class="flex flex-wrap items-center text-sm">
-                <span class="text-gray-400 mr-1">{{ $t('map.creator') }}:</span>
-                <RouterLink :to="`/profile/${map.creator.id}`" class="text-cyan-600 hover:text-cyan-400">
-                  {{ map.creator.name }}
-                </RouterLink>
+                <div class="flex items-center gap-1">
+                  <IconDate />
+                  <span class="text-xs text-gray-200">
+                    {{ toLocal(map.created_at).slice(0, 10) }}
+                  </span>
+                </div>
               </div>
             </div>
 
             <div class="flex flex-wrap gap-1">
               <div v-for="course in map.courses" :key="course.name">
                 <div
-                  class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-[0.2rem] border border-gray-700 bg-gray-700/50 hover:bg-gray-700 cursor-pointer"
+                  class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-[0.2rem] border border-gray-600 bg-gray-700/80 hover:bg-gray-600 cursor-pointer"
                   @click="router.push({ path: `/maps/${map.name}/${course.local_id}` })"
                 >
                   <div
@@ -73,7 +68,7 @@ defineProps<{
                     >{{ course.tierNo }}</span
                   >
                   <span class="text-gray-600">/</span>
-                  <span>{{ course.name }}</span>
+                  <span class="max-w-20 truncate">{{ course.name }}</span>
                 </div>
               </div>
             </div>
@@ -83,24 +78,3 @@ defineProps<{
     </div>
   </div>
 </template>
-
-<style>
-/* For browsers that support it */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: #4b5563 transparent;
-}
-/* For webkit browsers */
-.scrollbar-thin::-webkit-scrollbar {
-  width: 5px;
-}
-.scrollbar-thumb-rounded-full::-webkit-scrollbar-thumb {
-  border-radius: 9999px;
-}
-.scrollbar-thumb-gray-600::-webkit-scrollbar-thumb {
-  background-color: #4b5563;
-}
-.scrollbar-track-transparent::-webkit-scrollbar-track {
-  background: transparent;
-}
-</style>
