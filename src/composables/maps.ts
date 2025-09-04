@@ -41,7 +41,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
             .map((course) => {
               const modeKey = modeMap[query.mode] as CS2Modes
 
-              const tier = (course.filters as CS2Filters)[modeKey][query.pro ? 'nub_tier' : 'pro_tier']
+              const tier = (course.filters as CS2Filters)[modeKey][query.pro ? 'pro_tier' : 'nub_tier']
 
               return {
                 id: course.id,
@@ -53,8 +53,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
                 ranked: (course.filters as CS2Filters)[modeKey].ranked,
               }
             })
-            .filter((course) => (query.tier.length > 0 ? query.tier.includes(course.tier) : true))
-            .sort((a, b) => a.tierNo - b.tierNo),
+            .filter((course) => (query.tier.length > 0 ? query.tier.includes(course.tier) : true)),
           created_at: map.created_at,
         }
       })
