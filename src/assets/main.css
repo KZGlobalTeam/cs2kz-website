@@ -14,34 +14,18 @@
 }
 
 @font-face {
-  font-family: 'Akshar';
-  src: url('./fonts/Akshar-Regular.ttf') format('truetype');
-  font-weight: 400;
+  font-family: 'Winky';
+  src: url('./fonts/WinkySans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Akshar';
-  src: url('./fonts/Akshar-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Akshar';
-  src: url('./fonts/Akshar-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Akshar';
-  src: url('./fonts/Akshar-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
+  font-family: 'Winky';
+  src: url('./fonts/WinkySans-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -63,6 +47,6 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 body {
-  font-family: 'Akshar', sans-serif;
+  font-family: 'Winky', sans-serif;
   background-color: #101828;
 }
