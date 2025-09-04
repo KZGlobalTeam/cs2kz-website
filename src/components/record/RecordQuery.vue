@@ -47,10 +47,7 @@ async function fetchServerSearchResults(search: string) {
 
 <template>
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
-    <div class="hidden lg:flex items-center gap-2">
-      <p>{{ $t('records.query.pbOnly') }}</p>
-      <USwitch v-model="query.top" size="lg" />
-    </div>
+    <UCheckbox v-model="query.top" :label="$t('records.query.pbOnly')" />
 
     <USelect
       v-model="query.max_rank"

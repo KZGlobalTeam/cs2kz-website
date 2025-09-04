@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import { computed, h, resolveComponent } from 'vue'
+import { computed, h, resolveComponent, onMounted, useTemplateRef, type ComponentPublicInstance } from 'vue'
 import type { ServerQuery, Server } from '@/types'
 import { useI18n } from 'vue-i18n'
 import { RouterLink, useRouter } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
 import { toLocal, toLocalDistance } from '@/utils'
+import { useInfiniteScroll } from '@vueuse/core'
 
-defineProps<{
+const props = defineProps<{
   servers: Server[]
+  total: number
   query: ServerQuery
   loading: boolean
+}>()
+
+const emits = defineEmits<{
+  (e: 'intersect'): void
 }>()
 
 const IconConnect = resolveComponent('IconConnect')
@@ -17,6 +23,8 @@ const IconCheck = resolveComponent('IconCheck')
 const IconX = resolveComponent('IconX')
 const UButton = resolveComponent('UButton')
 const UTooltip = resolveComponent('UTooltip')
+
+const table = useTemplateRef<ComponentPublicInstance>('table')
 
 const { t, locale } = useI18n()
 
@@ -118,6 +126,21 @@ const columns = computed(() => {
   ]
 
   return cols
+})
+
+onMounted(() => {
+  useInfiniteScroll(
+    table.value?.$el,
+    () => {
+      emits('intersect')
+    },
+    {
+      distance: 200,
+      canLoadMore: () => {
+        return props.total > props.servers.length
+      },
+    },
+  )
 })
 
 function getPlayerInfo(connectionInfo: Server['connection_info'] | null) {
