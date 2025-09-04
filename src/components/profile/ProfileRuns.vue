@@ -1,22 +1,10 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import type { Mode } from '@/types'
 import { useRoute } from 'vue-router'
 import { useRecords } from '@/composables/records'
-
-const props = defineProps<{
-  mode: Mode
-  pro: boolean
-}>()
 
 const route = useRoute()
 
 const { records, loading, total, query, incrementRecords } = useRecords({ player: route.params.steamId as string })
-
-watch([() => props.mode, () => props.pro], ([m, p]) => {
-  query.mode = m
-  query.pro = p
-})
 </script>
 
 <template>

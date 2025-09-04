@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import type { Mode } from '@/types'
+import { useStyleStore } from '@/stores/style'
+import { storeToRefs } from 'pinia'
 
-const mode = defineModel<Mode>('mode', { required: true })
-const pro = defineModel<boolean>('pro', { required: true })
+const styleStore = useStyleStore()
+
+const { mode, pro } = storeToRefs(styleStore)
 </script>
 
 <template>

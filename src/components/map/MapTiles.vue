@@ -1,67 +1,16 @@
 <script setup lang="ts">
-import type { CS2Filters, Map, MapQuery } from '@/types'
-import { computed } from 'vue'
-import { getTierColor, getTierNumber } from '@/utils'
+import type { MapExt, MapQuery } from '@/types'
 
-const props = defineProps<{
-  maps: Map[]
-  loading: boolean
+defineProps<{
+  maps: MapExt[]
   query: MapQuery
 }>()
-
-const modeMap = {
-  classic: 'ckz',
-  'vanilla-cs2': 'vnl',
-  kztimer: 'kzt',
-  simplekz: 'skz',
-  'vanilla-csgo': 'vnl',
-}
-
-type CS2Modes = 'ckz' | 'vnl'
-
-const transformedMaps = computed(() =>
-  props.maps
-    .map((map) => {
-      return {
-        id: map.id,
-        name: map.name,
-        state: map.state,
-        creator: map.created_by,
-        courses: map.courses
-          .map((course) => {
-            const modeKey = modeMap[props.query.mode] as CS2Modes
-
-            const tier = (course.filters as CS2Filters)[modeKey][props.query.pro ? 'nub_tier' : 'pro_tier']
-
-            return {
-              id: course.id,
-              name: course.name,
-              tier,
-              tierNo: getTierNumber(tier),
-              tierColor: getTierColor(tier),
-              ranked: (course.filters as CS2Filters)[modeKey].ranked,
-            }
-          })
-          .filter((course) => (props.query.tier.length > 0 ? props.query.tier.includes(course.tier) : true))
-          .sort((a, b) => a.tierNo - b.tierNo),
-        created_at: map.created_at,
-      }
-    })
-    .filter((map) => {
-      if (map.courses.length === 0) return false
-      if (props.query.randomName === '') {
-        return true
-      } else {
-        return map.name === props.query.randomName
-      }
-    }),
-)
 </script>
 
 <template>
   <div class="mt-8 p-1 mx-auto w-max">
     <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4 2xl:gap-10 2xl:place-items-center">
-      <MapCard v-for="map in transformedMaps" :key="map.id" :query="query" :map="map" />
+      <MapCard v-for="map in maps" :key="map.id" :query="query" :map="map" />
     </div>
   </div>
 </template>

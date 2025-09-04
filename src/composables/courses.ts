@@ -2,6 +2,7 @@ import type { CourseInfo, MapResponse, CourseQuery, CS2Filters } from '@/types'
 import { ref, watch, reactive } from 'vue'
 import { api } from '@/utils'
 import { v4 as uuidv4 } from 'uuid'
+import { useStyleStore } from '@/stores/style'
 
 const modeMap = {
   classic: 'ckz',
@@ -14,6 +15,8 @@ const modeMap = {
 type CS2Modes = 'ckz' | 'vnl'
 
 export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
+  const styleStore = useStyleStore()
+
   const loading = ref(false)
 
   const courses = ref<CourseInfo[]>([])
@@ -22,8 +25,8 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
 
   const defaultQuery: CourseQuery = {
     name: '',
-    mode: 'classic',
-    pro: false,
+    mode: styleStore.mode,
+    pro: styleStore.pro,
     sort_by: 'map',
     sort_order: 'ascending',
     limit: 30,
@@ -31,6 +34,11 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
   }
 
   const query = reactive<CourseQuery>({ ...defaultQuery, ...initialQuery })
+
+  styleStore.$subscribe((_mutation, state) => {
+    query.mode = state.mode
+    query.pro = state.pro
+  })
 
   watch([() => query.mode, () => query.pro], getCourses)
 

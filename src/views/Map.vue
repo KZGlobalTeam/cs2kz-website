@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import { useCourseQueryStore } from '@/stores/course-query'
 import { usePlayerStore } from '@/stores/player'
 import type { Map, Course, CS2Filters } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, getTierNumber } from '@/utils'
-import ModeSwitch from '@/components/ModeSwitch.vue'
 
 const modeMap = {
   classic: 'ckz',
@@ -22,8 +20,6 @@ const route = useRoute()
 const router = useRouter()
 
 const playerStore = usePlayerStore()
-
-const courseQueryStore = useCourseQueryStore()
 
 const mapStateColorMap = {
   wip: 'text-yellow-400 bg-yellow-300/50',
@@ -61,14 +57,10 @@ const {
   sort_order: 'ascending',
   limit: 100,
   course: course.value?.id,
-  mode: courseQueryStore.mode,
-  pro: courseQueryStore.pro,
 })
 
 const { records: playerRecords, query: playerQuery } = useRecords({
   course: course.value?.id,
-  mode: courseQueryStore.mode,
-  pro: courseQueryStore.pro,
   player: playerStore.player?.id,
 })
 
@@ -91,8 +83,12 @@ async function getMap() {
 
     map.value = data.values[0] as Map
 
-    if (courseQueryStore.courseId !== -1) {
-      course.value = map.value.courses.find((course) => course.id === courseQueryStore.courseId)!
+    if (route.query.course) {
+      course.value = map.value.courses.find((course) => course.local_id === Number(route.query.course))!
+      if (!course.value) {
+        console.log('course not found?')
+        router.replace({ name: 'NotFound' })
+      }
     } else {
       course.value = map.value.courses[0]!
     }
@@ -108,7 +104,7 @@ async function getMap() {
 
 <template>
   <div v-if="map !== 'pending' && map !== null && course !== null" class="max-w-6xl mx-auto px-2 lg:px-10 py-2 lg:py-4">
-    <ModeSwitch v-model:mode="query.mode" />
+    <MainSwitch />
 
     <div class="flex flex-col xl:flex-row items-start gap-4 mt-4">
       <TheImage
@@ -197,23 +193,7 @@ async function getMap() {
     </div>
 
     <!-- ranking filters -->
-    <div class="mt-4 pt-2 flex justify-between lg:justify-start items-center gap-4">
-      <p class="text-2xl lg:text-3xl font-semibold">Course Ranking</p>
-      <UButtonGroup orientation="horizontal">
-        <UButton
-          size="sm"
-          :variant="query.pro ? 'outline' : 'solid'"
-          :label="$t('common.leaderboardType.overall')"
-          @click="query.pro = false"
-        />
-        <UButton
-          size="sm"
-          :variant="query.pro ? 'solid' : 'outline'"
-          :label="$t('common.leaderboardType.pro')"
-          @click="query.pro = true"
-        />
-      </UButtonGroup>
-    </div>
+    <p class="mt-4 text-2xl lg:text-3xl font-semibold">Course Ranking</p>
 
     <!-- ranking -->
     <div class="mt-2">

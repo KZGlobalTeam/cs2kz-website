@@ -5,7 +5,6 @@ import type { Record, RecordQuery } from '@/types'
 import RecordDetail from './RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
-import { useCourseQueryStore } from '@/stores/course-query'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
@@ -37,8 +36,6 @@ const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
 
 const router = useRouter()
-
-const courseQueryStore = useCourseQueryStore()
 
 const sorting = ref([{ id: 'submitted_at', desc: true }])
 
@@ -87,7 +84,7 @@ const columns = computed(() => {
           class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
           onClick: (e: Event) => {
             e.stopPropagation()
-            goToCourse(row.original.course.id, row.original.map.name)
+            router.push({ path: `/maps/${row.original.map.name}`, query: { course: row.original.course.local_id } })
           },
         },
         row.original.map.name,
@@ -105,7 +102,7 @@ const columns = computed(() => {
           class: 'text-lg hover:text-slate-300 cursor-pointer',
           onClick: (e: Event) => {
             e.stopPropagation()
-            goToCourse(row.original.course.id, row.original.map.name)
+            router.push({ path: `/maps/${row.original.map.name}`, query: { course: row.original.course.local_id } })
           },
         },
         row.original.course.name,
@@ -256,13 +253,6 @@ onMounted(() => {
     },
   )
 })
-
-function goToCourse(courseId: number, mapName: string) {
-  courseQueryStore.courseId = courseId
-  courseQueryStore.mode = query.value.mode
-  courseQueryStore.pro = query.value.pro
-  router.push(`/maps/${mapName}`)
-}
 </script>
 
 <template>

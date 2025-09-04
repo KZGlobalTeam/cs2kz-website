@@ -51,7 +51,7 @@ export interface MapQuery {
   offset: number
 }
 
-export interface MapCard {
+export interface MapExt {
   id: number
   name: string
   state: MapState
@@ -62,6 +62,7 @@ export interface MapCard {
 
 export interface CourseExt {
   id: number
+  local_id: number
   name: string
   tier: Tier
   tierNo: number

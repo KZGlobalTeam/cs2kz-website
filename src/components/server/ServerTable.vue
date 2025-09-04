@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import { RouterLink, useRouter } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
 import { toLocal, toLocalDistance } from '@/utils'
-import { useCourseQueryStore } from '@/stores/course-query'
 
 defineProps<{
   servers: Server[]
@@ -22,8 +21,6 @@ const UTooltip = resolveComponent('UTooltip')
 const { t, locale } = useI18n()
 
 const router = useRouter()
-
-const courseQueryStore = useCourseQueryStore()
 
 const columns = computed(() => {
   const cols: TableColumn<Server>[] = [
@@ -92,7 +89,7 @@ const columns = computed(() => {
               : 'text-slate-500',
             onClick: () => {
               if (row.original.connection_info?.current_map) {
-                goToCourse(-1, row.original.connection_info.current_map)
+                router.push({ path: `/maps/${row.original.connection_info.current_map}`, query: { course: 1 } })
               }
             },
           },
@@ -140,13 +137,6 @@ function getPlayerInfo(connectionInfo: Server['connection_info'] | null) {
       () => player.name,
     ),
   )
-}
-
-function goToCourse(courseId: number, mapName: string) {
-  courseQueryStore.courseId = courseId
-  courseQueryStore.mode = 'classic'
-  courseQueryStore.pro = false
-  router.push(`/maps/${mapName}`)
 }
 </script>
 

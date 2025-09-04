@@ -2,15 +2,13 @@ import { defineStore } from 'pinia'
 import type { Mode } from '@/types'
 
 interface State {
-  courseId: number
   mode: Mode
   pro: boolean
 }
 
-export const useCourseQueryStore = defineStore('course-query', {
+export const useStyleStore = defineStore('style', {
   state: (): State => {
     return {
-      courseId: -1,
       mode: 'classic',
       pro: false,
     }

@@ -55,6 +55,14 @@ const tierColorMap = new Map([
   ['impossible', '#d1d1d1'],
 ])
 
+export const modeMap = {
+  classic: 'ckz',
+  'vanilla-cs2': 'vnl',
+  kztimer: 'kzt',
+  simplekz: 'skz',
+  'vanilla-csgo': 'vnl',
+}
+
 export function isNubRecord(record: Run): boolean {
   return record.teleports > 0
 }

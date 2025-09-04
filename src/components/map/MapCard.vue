@@ -1,24 +1,14 @@
 <script setup lang="ts">
-import type { MapCard, MapQuery } from '@/types'
-import { useCourseQueryStore } from '@/stores/course-query'
+import type { MapExt, MapQuery } from '@/types'
 import { useRouter } from 'vue-router'
 import { toLocal } from '@/utils'
 
 const router = useRouter()
 
-const courseQueryStore = useCourseQueryStore()
-
-const props = defineProps<{
+defineProps<{
   query: MapQuery
-  map: MapCard
+  map: MapExt
 }>()
-
-function goToCourse(courseId: number) {
-  courseQueryStore.courseId = courseId
-  courseQueryStore.mode = props.query.mode
-  courseQueryStore.pro = props.query.pro
-  router.push(`/maps/${props.map.name}`)
-}
 </script>
 
 <template>
@@ -29,7 +19,7 @@ function goToCourse(courseId: number) {
       <TheImage
         class="hidden lg:block w-80 h-45 rounded-bl-md rounded-tl-md cursor-pointer"
         :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
-        @click="goToCourse(map.courses[0].id)"
+        @click="router.push({ path: `/maps/${map.name}`, query: { course: 1 } })"
       />
       <div
         :style="{
@@ -70,7 +60,7 @@ function goToCourse(courseId: number) {
               <div v-for="course in map.courses" :key="course.name">
                 <div
                   class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-[0.2rem] border border-gray-700 bg-gray-700/50 hover:bg-gray-700 cursor-pointer"
-                  @click="goToCourse(course.id)"
+                  @click="router.push({ path: `/maps/${map.name}`, query: { course: course.local_id } })"
                 >
                   <div
                     class="w-2 h-2 rounded-full"

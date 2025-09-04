@@ -1,15 +1,18 @@
 import type { Record, RecordQuery } from '@/types'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
+import { useStyleStore } from '@/stores/style'
 
 export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
+  const styleStore = useStyleStore()
+
   const loading = ref(false)
   const records = ref<Record[]>([])
   const total = ref(0)
 
   const defaultQuery: RecordQuery = {
-    mode: 'classic',
-    pro: false,
+    mode: styleStore.mode,
+    pro: styleStore.pro,
     top: true,
     sort_by: 'submission-date',
     sort_order: 'descending',
@@ -17,6 +20,11 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
   }
 
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
+
+  styleStore.$subscribe((_mutation, state) => {
+    query.mode = state.mode
+    query.pro = state.pro
+  })
 
   watch(
     [

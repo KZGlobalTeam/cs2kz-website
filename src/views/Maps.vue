@@ -1,22 +1,15 @@
 <script setup lang="ts">
 import { useMaps } from '@/composables/maps'
 
-const { maps, loading, query, resetQuery } = useMaps()
-
-function handlePickRandomMap() {
-  const mapCount = maps.value.length
-  if (mapCount > 0) {
-    query.randomName = maps.value[Math.floor(Math.random() * mapCount)].name
-  }
-}
+const { maps, loading, query, resetQuery, pickRandomMap } = useMaps()
 </script>
 
 <template>
   <div class="mx-auto px-2 lg:px-10 py-2 lg:py-4 flex flex-col">
     <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
-      <MainSwitch v-model:mode="query.mode" v-model:pro="query.pro" />
+      <MainSwitch />
 
-      <MapQuery v-model:query="query" @pick-random-map="handlePickRandomMap" @reset-filters="resetQuery" />
+      <MapQuery v-model:query="query" @pick-random-map="pickRandomMap" @reset-filters="resetQuery" />
     </div>
 
     <div v-if="loading" class="mt-8 flex justify-center">

@@ -1,21 +1,15 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import type { Mode } from '@/types'
 import { useRecords } from '@/composables/records'
 import { useCourses } from '@/composables/courses'
 import { useRoute } from 'vue-router'
 import { calcRanksAndPointsDist, calcCompletedCourses, calcTotalCourses } from '@/utils'
 
-const props = defineProps<{
-  mode: Mode
-  pro: boolean
-}>()
-
 const route = useRoute()
 
 const { records, query: completionQuery } = useRecords({ player: route.params.steamId as string, limit: 99999 })
 
-const { courses, query: courseQuery } = useCourses({ limit: 99999 })
+const { courses } = useCourses({ limit: 99999 })
 
 const ranksAndPoints = ref()
 const completedCourses = ref()
@@ -30,14 +24,6 @@ watch(
 )
 
 const totalCourses = computed(() => calcTotalCourses(courses.value))
-
-watch([() => props.mode, () => props.pro], ([mode, pro]) => {
-  completionQuery.mode = mode
-  completionQuery.pro = pro
-
-  courseQuery.mode = mode
-  courseQuery.pro = pro
-})
 </script>
 
 <template>
