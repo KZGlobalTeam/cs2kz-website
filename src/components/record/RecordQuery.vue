@@ -2,8 +2,11 @@
 import type { MapResponse, PlayerResponse, ServerResponse, RecordQuery } from '@/types'
 import { api } from '@/utils'
 import RecordSearchFilter from './RecordSearchFilter.vue'
+import { useRoute } from 'vue-router'
 
 const query = defineModel<RecordQuery>('query', { required: true })
+
+const route = useRoute()
 
 async function fetchMapSearchResults(search: string) {
   const { data } = await api.get<MapResponse>('/maps', {
@@ -88,6 +91,7 @@ async function fetchServerSearchResults(search: string) {
     </RecordSearchFilter>
 
     <RecordSearchFilter
+      v-if="route.name !== 'Profile'"
       placeholder-path="records.query.player"
       :fetch-results="fetchPlayerSearchResults"
       @cleared="query.player = undefined"
