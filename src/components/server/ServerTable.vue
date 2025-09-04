@@ -89,7 +89,7 @@ const columns = computed(() => {
               : 'text-slate-500',
             onClick: () => {
               if (row.original.connection_info?.current_map) {
-                router.push({ path: `/maps/${row.original.connection_info.current_map}`, query: { course: 1 } })
+                router.push(`/maps/${row.original.connection_info.current_map}/1`)
               }
             },
           },

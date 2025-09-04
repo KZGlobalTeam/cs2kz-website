@@ -63,6 +63,14 @@ export const modeMap = {
   'vanilla-csgo': 'vnl',
 }
 
+export const mapStateColorMap = {
+  wip: 'text-yellow-400 bg-yellow-300/50',
+  pending: 'text-orange-400 bg-orange-300/50',
+  approved: 'text-green-400 bg-green-300/50',
+  completed: 'text-blue-400 bg-blue-300/50',
+  graveyard: 'text-gray-400 bg-gray-400',
+}
+
 export function isNubRecord(record: Run): boolean {
   return record.teleports > 0
 }

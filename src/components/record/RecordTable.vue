@@ -84,7 +84,7 @@ const columns = computed(() => {
           class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
           onClick: (e: Event) => {
             e.stopPropagation()
-            router.push({ path: `/maps/${row.original.map.name}`, query: { course: row.original.course.local_id } })
+            router.push(`/maps/${row.original.map.name}/${row.original.course.local_id}`)
           },
         },
         row.original.map.name,
@@ -102,7 +102,7 @@ const columns = computed(() => {
           class: 'text-lg hover:text-slate-300 cursor-pointer',
           onClick: (e: Event) => {
             e.stopPropagation()
-            router.push({ path: `/maps/${row.original.map.name}`, query: { course: row.original.course.local_id } })
+            router.push(`/maps/${row.original.map.name}/${row.original.course.local_id}`)
           },
         },
         row.original.course.name,
