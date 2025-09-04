@@ -4,15 +4,7 @@ import { usePlayerStore } from '@/stores/player'
 import type { Map, Course, CS2Filters } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
-import { api, getTierColor, getTierNumber } from '@/utils'
-
-const modeMap = {
-  classic: 'ckz',
-  'vanilla-cs2': 'vnl',
-  kztimer: 'kzt',
-  simplekz: 'skz',
-  'vanilla-csgo': 'vnl',
-}
+import { api, getTierColor, getTierNumber, modeMap } from '@/utils'
 
 type CS2Modes = 'ckz' | 'vnl'
 

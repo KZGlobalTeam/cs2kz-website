@@ -1,16 +1,8 @@
 import type { CourseInfo, MapResponse, CourseQuery, CS2Filters } from '@/types'
 import { ref, watch, reactive } from 'vue'
-import { api } from '@/utils'
+import { api, modeMap } from '@/utils'
 import { v4 as uuidv4 } from 'uuid'
 import { useStyleStore } from '@/stores/style'
-
-const modeMap = {
-  classic: 'ckz',
-  'vanilla-cs2': 'vnl',
-  kztimer: 'kzt',
-  simplekz: 'skz',
-  'vanilla-csgo': 'vnl',
-}
 
 type CS2Modes = 'ckz' | 'vnl'
 
