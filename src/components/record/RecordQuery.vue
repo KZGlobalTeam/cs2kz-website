@@ -54,6 +54,7 @@ async function fetchServerSearchResults(search: string) {
 
     <USelect
       v-model="query.max_rank"
+      :ui="{ content: 'z-[2]' }"
       :items="[
         { label: $t('records.query.maxRank.all'), value: undefined },
         { label: $t('records.query.maxRank.wr'), value: 1 },
