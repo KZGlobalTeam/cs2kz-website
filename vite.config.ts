@@ -31,7 +31,7 @@ export default defineConfig({
         },
         table: {
           slots: {
-            th: 'py-2 text-base [&>button]:text-highlighted',
+            th: 'py-2 text-base [&>button]:text-highlighted [&>button]:font-semibold',
             td: 'py-2 text-base',
           },
         },
