@@ -186,7 +186,7 @@ async function getMap() {
             <span
               class="group-hover:text-gray-400"
               :class="currentCourse.name === course.name ? 'text-gray-400' : 'text-gray-600'"
-              >/</span
+              >-</span
             >
             <span>{{ course.name }}</span>
           </div>
