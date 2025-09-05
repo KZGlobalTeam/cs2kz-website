@@ -13,13 +13,13 @@ const { records, total, loading, query, incrementRecords } = useRecords()
     </div>
 
     <RecordTable
+      class="flex-1 mt-4"
       v-model:query="query"
       type="records"
       :loading="loading"
       :total="total"
       :records="records"
       @intersect="incrementRecords"
-      class="flex-1 mt-4"
     />
   </div>
 </template>

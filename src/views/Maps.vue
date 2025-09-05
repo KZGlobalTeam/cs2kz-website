@@ -2,10 +2,11 @@
 import { useMaps } from '@/composables/maps'
 
 const { maps, loading, query, resetQuery, pickRandomMap } = useMaps()
+//
 </script>
 
 <template>
-  <div class="mx-auto p-2 lg:p-4 flex flex-col">
+  <div class="mx-auto p-2 lg:p-4 flex flex-col max-h-[calc(100dvh-3rem)]">
     <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
       <MainSwitch />
 
@@ -16,7 +17,7 @@ const { maps, loading, query, resetQuery, pickRandomMap } = useMaps()
       <IconLoading class="inline" />
     </div>
 
-    <div v-else-if="maps.length > 0" class="mt-4 overflow-y-visible">
+    <div v-else-if="maps.length > 0" class="mt-4 p-3 flex-1 overflow-auto border border-gray-700 rounded-md">
       <MapTiles :query="query" :loading="loading" :maps="maps" />
     </div>
 

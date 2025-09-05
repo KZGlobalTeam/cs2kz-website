@@ -164,5 +164,5 @@ function getPlayerInfo(connectionInfo: Server['connection_info'] | null) {
 </script>
 
 <template>
-  <UTable class="mt-4 lg:mt-6 border border-gray-700 rounded-md" :data="servers" :columns :loading> </UTable>
+  <UTable class="border border-gray-700 rounded-md" :data="servers" :columns :loading> </UTable>
 </template>
