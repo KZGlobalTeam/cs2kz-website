@@ -1,33 +1,36 @@
 <script setup lang="ts">
-import { resolveComponent } from 'vue'
+import { resolveComponent, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const IconDiscord = resolveComponent('IconDiscord')
 const IconGithub = resolveComponent('IconGithub')
 const IconBook = resolveComponent('IconBook')
 const IconDashboard = resolveComponent('IconDashboard')
 
-const items = [
+const { t } = useI18n()
+
+const items = computed(() => [
   {
-    label: 'Discord',
+    label: t('nav.tooltip.discord'),
     icon: IconDiscord,
     href: 'https://www.discord.gg/csgokz',
   },
   {
-    label: 'GitHub',
+    label: t('nav.tooltip.github'),
     icon: IconGithub,
     href: 'https://github.com/KZGlobalTeam',
   },
   {
-    label: 'Docs',
+    label: t('nav.tooltip.docs'),
     icon: IconBook,
     href: 'https://docs.cs2kz.org',
   },
   {
-    label: 'Dashboard',
+    label: t('nav.tooltip.dashboard'),
     icon: IconDashboard,
     href: 'https://dashboard.cs2kz.org',
   },
-]
+])
 
 function goToLink(href: string) {
   window.open(href, '_blank')
