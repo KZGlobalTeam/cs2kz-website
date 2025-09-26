@@ -47,6 +47,7 @@
     "jumpstats": "Jumpstats",
     "signOut": "Sign out",
     "signOutAll": "Sign out from all websites",
+    "links": "Links",
     "tooltip": {
       "locale": "Switch language",
       "login": "Login through Steam",

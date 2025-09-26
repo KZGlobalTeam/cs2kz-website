@@ -86,7 +86,7 @@ function signOut() {
         </ol>
       </nav>
 
-      <div class="flex justify-end items-center gap-2">
+      <div class="flex justify-end items-center gap-1">
         <ExternalLinks class="hidden lg:block" />
 
         <!-- switch locale -->
@@ -99,7 +99,7 @@ function signOut() {
               <div
                 v-for="option in localeOptions"
                 :key="option.value"
-                class="hover:bg-gray-700 pl-2 pr-3 py-1.5 rounded-sm cursor-pointer"
+                class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
                 @click="locale = option.value"
               >
                 {{ option.label }}
@@ -119,7 +119,7 @@ function signOut() {
                 v-for="option in profileOptions"
                 :key="option.label"
                 @click="option.onSelect"
-                class="hover:bg-gray-700 pl-2 pr-3 py-1.5 rounded-sm cursor-pointer"
+                class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
               >
                 {{ option.label }}
               </div>
@@ -128,11 +128,9 @@ function signOut() {
         </UPopover>
 
         <!-- login -->
-        <UTooltip v-else :text="$t('nav.tooltip.login')">
-          <UButton variant="ghost" @click="signIn">
-            <IconSteam />
-          </UButton>
-        </UTooltip>
+        <UButton variant="ghost" square @click="signIn" :ui="{ base: 'cursor-pointer' }">
+          <IconSteam />
+        </UButton>
 
         <NavModal v-model="openNavigation" :navigation="navigation" />
       </div>

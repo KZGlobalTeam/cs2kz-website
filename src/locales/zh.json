@@ -47,6 +47,7 @@
     "jumpstats": "跳跃数据",
     "signOut": "退出登录",
     "signOutAll": "退出所有网站",
+    "links": "链接",
     "tooltip": {
       "locale": "切换语言",
       "login": "Steam登录",
