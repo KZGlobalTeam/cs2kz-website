@@ -14,16 +14,16 @@
 }
 
 @font-face {
-  font-family: 'Winky';
-  src: url('./fonts/WinkySans-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Exo2';
+  src: url('./fonts/Exo2-VariableFont_wght.ttf') format('truetype');
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Winky';
-  src: url('./fonts/WinkySans-Italic-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Exo2';
+  src: url('./fonts/Exo2-Italic-VariableFont_wght.ttf') format('truetype');
   font-weight: 400 700;
   font-style: italic;
   font-display: swap;
@@ -47,6 +47,6 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 body {
-  font-family: 'Winky', sans-serif;
+  font-family: 'Exo2', sans-serif;
   background-color: #101828;
 }
