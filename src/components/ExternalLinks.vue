@@ -38,8 +38,8 @@ function goToLink(href: string) {
 </script>
 
 <template>
-  <UPopover mode="hover">
-    <div class="cursor-default">
+  <UPopover mode="click">
+    <div class="cursor-pointer">
       <span>{{ $t('nav.links') }}</span> <IconDown class="inline" />
     </div>
     <template #content>
