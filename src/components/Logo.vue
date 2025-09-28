@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="96" height="48" viewBox="0 0 2048 1024">
+  <svg xmlns="http://www.w3.org/2000/svg" width="72" height="36" viewBox="0 0 2048 1024">
     <path
       id="Stroke_-_Final_1"
       data-name="Stroke - Final 1"
