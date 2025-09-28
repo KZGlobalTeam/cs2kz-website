@@ -16,14 +16,14 @@ const { mode, pro } = storeToRefs(styleStore)
         :class="[mode === 'classic' ? '' : 'translate-x-full']"
       />
       <button
-        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-semibold transition-colors"
+        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-bold transition-colors"
         :class="[mode === 'classic' ? 'text-slate-900' : 'text-slate-600']"
         @click="mode = 'classic'"
       >
         {{ $t('common.mode.ckz') }}
       </button>
       <button
-        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-semibold transition-colors"
+        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-bold transition-colors"
         :class="[mode === 'vanilla-cs2' ? 'text-slate-900 ' : 'text-slate-600 ']"
         @click="mode = 'vanilla-cs2'"
       >
@@ -40,14 +40,14 @@ const { mode, pro } = storeToRefs(styleStore)
         :class="{ 'translate-x-full': pro, 'bg-yellow-600': !pro, 'bg-blue-600': pro }"
       />
       <button
-        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-semibold transition-colors"
+        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-bold transition-colors"
         :class="[pro ? 'text-slate-600' : 'text-slate-900']"
         @click="pro = false"
       >
         {{ $t('common.leaderboardType.overall') }}
       </button>
       <button
-        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-semibold transition-colors"
+        class="relative z-10 inline-flex flex-1 items-center justify-center whitespace-nowrap cursor-pointer py-1 font-bold transition-colors"
         :class="[pro ? 'text-slate-900' : 'text-slate-600']"
         @click="pro = true"
       >

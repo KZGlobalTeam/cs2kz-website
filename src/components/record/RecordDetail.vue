@@ -100,6 +100,6 @@ const props = defineProps<{
   gap: 0.5rem;
 }
 .item-key {
-  color: rgb(78, 85, 95);
+  color: rgb(128, 134, 143);
 }
 </style>

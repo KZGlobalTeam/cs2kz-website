@@ -118,11 +118,11 @@ async function getMap() {
         <div>
           <!-- map name and workshop link -->
           <div class="flex items-center gap-2">
-            <span class="text-3xl lg:text-5xl text-gray-200 font-medium">{{ map.name }}</span>
+            <span class="text-2xl lg:text-4xl text-gray-200 font-medium">{{ map.name }}</span>
           </div>
 
           <div class="flex items-center gap-2 mt-2">
-            <span :class="mapStateColorMap[map.state]" class="px-2 py-[0.1rem] text-lg rounded-sm">
+            <span :class="mapStateColorMap[map.state]" class="px-2 py-[0.05rem] rounded-sm">
               {{ $t(`map.state.${map.state}`) }}
             </span>
             <UButton
@@ -132,12 +132,12 @@ async function getMap() {
               :to="`https://steamcommunity.com/sharedfiles/filedetails/?id=${map.workshop_id}`"
               target="_blank"
             >
-              <IconSteam class="w-5 h-5" />
+              <IconSteam class="w-4 h-4" />
             </UButton>
           </div>
 
           <!-- mappers -->
-          <div class="flex flex-wrap items-center text-xl mt-2">
+          <div class="flex flex-wrap items-center mt-2">
             <span class="text-gray-400 mr-1">{{ `${$t('map.madeBy')}:` }}</span>
             <div v-for="(mapper, index) in currentCourse.mappers" :key="mapper.id">
               <RouterLink :to="`/profile/${mapper.id}`" class="text-cyan-500 hover:text-cyan-400">
@@ -149,7 +149,7 @@ async function getMap() {
         </div>
 
         <!-- courses -->
-        <div class="flex flex-wrap gap-2 mt-2 lg:mt-0 text-lg">
+        <div class="flex flex-wrap gap-2 mt-2 lg:mt-0">
           <div
             v-for="course in map.courses"
             :key="course.name"
@@ -186,7 +186,7 @@ async function getMap() {
             <span
               class="group-hover:text-gray-400"
               :class="currentCourse.name === course.name ? 'text-gray-400' : 'text-gray-600'"
-              >-</span
+              >|</span
             >
             <span>{{ course.name }}</span>
           </div>

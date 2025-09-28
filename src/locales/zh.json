@@ -148,10 +148,10 @@
   "map": {
     "state": {
       "approved": "全球",
-      "wip": "开发中",
+      "wip": "未完工",
       "pending": "待审核",
       "graveyard": "废弃",
-      "completed": "已完成"
+      "completed": "已完工"
     },
     "filters": "筛选",
     "styles": "风格",

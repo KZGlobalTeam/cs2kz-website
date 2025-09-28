@@ -147,11 +147,11 @@
   },
   "map": {
     "state": {
-      "approved": "APPROVED",
-      "wip": "WIP",
-      "pending": "PENDING",
-      "graveyard": "GRAVEYARD",
-      "completed": "COMPLETED"
+      "approved": "Approved",
+      "wip": "Work In Progress",
+      "pending": "Pending",
+      "graveyard": "Graveyard",
+      "completed": "Completed"
     },
     "filters": "Filters",
     "styles": "Styles",

@@ -70,7 +70,6 @@ defineProps<{
                     }"
                     >{{ course.tierNo }}</span
                   >
-                  <span class="text-gray-600">-</span>
                   <span class="max-w-20 truncate">{{ course.name }}</span>
                 </div>
               </div>
