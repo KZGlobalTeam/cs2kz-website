@@ -143,7 +143,7 @@ async function getMap() {
               <RouterLink :to="`/profile/${mapper.id}`" class="text-cyan-500 hover:text-cyan-400">
                 {{ mapper.name }}
               </RouterLink>
-              <span v-if="index < currentCourse.mappers.length - 1" class="text-gray-300 mr-1">,</span>
+              <span v-if="index < currentCourse.mappers.length - 1" class="text-gray-400 mr-1">,</span>
             </div>
           </div>
         </div>

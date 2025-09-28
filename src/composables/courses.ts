@@ -60,6 +60,7 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
           }),
         )
 
+        courses.value = res
         total.value = res.length
       } else {
         courses.value = []
