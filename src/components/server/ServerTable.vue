@@ -17,8 +17,6 @@ const IconCopy = resolveComponent('IconCopy')
 const UButton = resolveComponent('UButton')
 const UTooltip = resolveComponent('UTooltip')
 
-const hoveredRow = ref<number | null>(null)
-
 const { t, locale } = useI18n()
 const notifications = ref<Array<{ id: number; text: string }>>([])
 let notificationId = 0
@@ -59,8 +57,6 @@ const columns = computed(() => {
           'div',
           {
             class: 'inline-flex items-center gap-2 group',
-            onMouseenter: () => (hoveredRow.value = row.original.id),
-            onMouseleave: () => (hoveredRow.value = null),
           },
           [
             h(
