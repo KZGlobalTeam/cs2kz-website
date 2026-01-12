@@ -4,6 +4,10 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
+
+const emit = defineEmits<{
+  randomClick: []
+}>()
 </script>
 
 <template>
@@ -25,6 +29,8 @@ const query = defineModel<MapQuery>('query', { required: true })
 
       <USelect
         v-model="query.tier"
+        class="min-w-[140px]"
+        :content="{ class: 'max-h-none' }"
         :items="[
           { label: t('common.tier.all'), value: undefined },
           { label: `1 - ${t('common.tier.veryEasy')}`, value: 'very-easy' },
@@ -48,6 +54,12 @@ const query = defineModel<MapQuery>('query', { required: true })
           <IconMap />
         </template>
       </UInput>
+
+      <UTooltip text="Pick a random map with applied filters">
+        <UButton @click="emit('randomClick')" variant="ghost" square class="cursor-pointer">
+          <IconDice />
+        </UButton>
+      </UTooltip>
     </div>
   </div>
 </template>

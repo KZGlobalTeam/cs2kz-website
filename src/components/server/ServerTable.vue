@@ -21,6 +21,11 @@ const { t, locale } = useI18n()
 const notifications = ref<Array<{ id: number; text: string }>>([])
 let notificationId = 0
 
+const handleMouseLeave = (e: MouseEvent) => {
+  const target = e.currentTarget as HTMLElement
+  target.blur()
+}
+
 const copyToClipboard = async (text: string, event: MouseEvent) => {
   try {
     await navigator.clipboard.writeText(text)
@@ -59,37 +64,42 @@ const columns = computed(() => {
             class: 'inline-flex items-center gap-2 group',
           },
           [
-            h(
-              'span',
-              {
-                class: 'cursor-pointer hover:text-cyan-400 transition-colors',
-                onClick: (e: MouseEvent) => copyToClipboard(`${row.original.host}:${row.original.port}`, e),
-                title: 'Copy to clipboard',
-              },
-              `${row.original.host}:${row.original.port}`,
+            h(UTooltip, { text: 'Copy to clipboard' }, () =>
+              h(
+                'span',
+                {
+                  class: 'cursor-pointer hover:text-cyan-400 transition-colors',
+                  onClick: (e: MouseEvent) => copyToClipboard(`${row.original.host}:${row.original.port}`, e),
+                },
+                `${row.original.host}:${row.original.port}`,
+              ),
             ),
-            h(
-              UButton,
-              {
-                variant: 'ghost',
-                square: true,
-                class: 'cursor-pointer',
-                onClick: (e: MouseEvent) => copyToClipboard(`${row.original.host}:${row.original.port}`, e),
-                title: 'Copy to clipboard',
-              },
-              () => h(IconCopy),
+            h(UTooltip, { text: 'Copy to clipboard' }, () =>
+              h(
+                UButton,
+                {
+                  variant: 'ghost',
+                  square: true,
+                  class: 'cursor-pointer',
+                  onClick: (e: MouseEvent) => copyToClipboard(`${row.original.host}:${row.original.port}`, e),
+                  onMouseleave: handleMouseLeave,
+                },
+                () => h(IconCopy),
+              ),
             ),
-            h(
-              UButton,
-              {
-                variant: 'ghost',
-                square: true,
-                class: '-ml-1',
-                to: `steam://rungameid/730//+connect ${row.original.host}:${row.original.port}`,
-                target: '_blank',
-                title: 'Connect to server',
-              },
-              () => h(IconConnect),
+            h(UTooltip, { text: 'Connect to server' }, () =>
+              h(
+                UButton,
+                {
+                  variant: 'ghost',
+                  square: true,
+                  class: '-ml-1',
+                  to: `steam://rungameid/730//+connect ${row.original.host}:${row.original.port}`,
+                  target: '_blank',
+                  onMouseleave: handleMouseLeave,
+                },
+                () => h(IconConnect),
+              ),
             ),
           ],
         )

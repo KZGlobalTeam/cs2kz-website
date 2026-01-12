@@ -24,7 +24,17 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
 
   watch([() => query.name], debouncedUpdate)
 
-  watch([() => query.mode, () => query.state, () => query.limit, () => query.offset], getMaps)
+  watch(
+    [
+      () => query.mode,
+      () => query.state,
+      () => query.limit,
+      () => query.offset,
+      () => query.tier,
+      () => query.leaderboardType,
+    ],
+    getMaps,
+  )
 
   getMaps()
 
