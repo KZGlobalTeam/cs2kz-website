@@ -66,7 +66,7 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
       })
 
       if (data) {
-        records.value = data.values
+        records.value = data.values.map((val) => ({ ...val, id: '019c2910-d318-7596-91cd-36e776bdf825' }))
         total.value = data.total
       } else {
         records.value = []

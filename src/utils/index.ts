@@ -76,15 +76,15 @@ export function transformTier(tier: Tier) {
   }
 }
 
-export function toLocal(date: string, short?: boolean) {
-  return format(new Date(date), short ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss')
+export function toLocal(uuid: string, short?: boolean) {
+  return format(extractTimestampFromUUIDv7(uuid), short ? 'yyyy-MM-dd' : 'yyyy-MM-dd HH:mm:ss')
 }
 
-export function toLocalDistance(date: string, locale: string) {
+export function toLocalDistance(uuid: string, locale: string) {
   if (locale === 'en') {
-    return formatDistanceToNowStrict(new Date(date), { addSuffix: true })
+    return formatDistanceToNowStrict(extractTimestampFromUUIDv7(uuid), { addSuffix: true })
   } else if (locale === 'zh') {
-    return formatDistanceToNowStrict(new Date(date), { addSuffix: true, locale: zhCN })
+    return formatDistanceToNowStrict(extractTimestampFromUUIDv7(uuid), { addSuffix: true, locale: zhCN })
   }
 }
 
@@ -194,4 +194,14 @@ export function getRankByRating(rating: number) {
   if (rating >= 5000) return ['Casual', '#5f99d9']
   if (rating > 0) return ['Beginner', '#d1d1d1']
   return ['New', '#cbcbcb']
+}
+
+export function extractTimestampFromUUIDv7(uuid: string) {
+  const hex = uuid.replace(/-/g, '')
+
+  const timestampHex = hex.slice(0, 12)
+
+  const timestampMs = parseInt(timestampHex, 16)
+
+  return new Date(timestampMs)
 }

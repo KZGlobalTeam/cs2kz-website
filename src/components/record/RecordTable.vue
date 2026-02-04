@@ -160,8 +160,8 @@ const columns = computed(() => {
       cell: ({ row }) => {
         return h(
           UTooltip,
-          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.submitted_at) },
-          () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.submitted_at, locale.value)),
+          { delayDuration: 100, content: { side: 'top', sideOffset: 2 }, text: toLocal(row.original.id) },
+          () => h('span', { class: 'whitespace-nowrap' }, toLocalDistance(row.original.id, locale.value)),
         )
       },
     },

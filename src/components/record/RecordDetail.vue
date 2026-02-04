@@ -57,7 +57,7 @@ const props = defineProps<{
 
       <div class="grid-item col-span-2">
         <p class="item-key whitespace-nowrap">{{ $t('records.title.date') }}:</p>
-        <p class="whitespace-nowrap">{{ toLocal(record.submitted_at) }}</p>
+        <p class="whitespace-nowrap">{{ toLocal(record.id) }}</p>
       </div>
 
       <div class="grid-item">

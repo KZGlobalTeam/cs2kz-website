@@ -85,8 +85,8 @@ async function getAvatar(steamId: string) {
       <div>
         <p class="text-gray-400">{{ $t('records.title.date') }}</p>
         <p class="text-gray-100 italic whitespace-nowrap w-32">
-          <UTooltip :text="toLocal(record.submitted_at)">
-            {{ toLocalDistance(record.submitted_at, locale) }}
+          <UTooltip :text="toLocal(record.id)">
+            {{ toLocalDistance(record.id, locale) }}
           </UTooltip>
         </p>
       </div>
