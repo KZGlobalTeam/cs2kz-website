@@ -22,14 +22,12 @@ export function useServers() {
     sortOrder: 'descending',
   })
 
-  // 防抖查询字段
   const debouncedQuery = reactive({
     name: '',
     map: '',
     owner: '',
   })
 
-  // 防抖更新函数
   function updateDebouncedQuery() {
     debouncedQuery.name = query.name
     debouncedQuery.map = query.map
@@ -38,7 +36,6 @@ export function useServers() {
 
   const debouncedUpdate = debounce({ delay: 300 }, updateDebouncedQuery)
 
-  // 监听原始查询字段变化，应用防抖
   watch([() => query.name, () => query.map, () => query.owner], debouncedUpdate)
 
   const servers = computed(() => {
