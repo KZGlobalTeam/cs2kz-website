@@ -15,7 +15,6 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
   const defaultQuery: RecordQuery = {
     mode: 'classic',
     leaderboardType: 'overall',
-    max_rank: 1,
     top: true,
     player: '',
     map: '',

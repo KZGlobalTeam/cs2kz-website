@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
 
-const { records, loading, query } = useRecords()
+const { records, loading, query } = useRecords({ max_rank: 1 })
 
 function loadRecords() {
   if (records.value.length > 0) {
