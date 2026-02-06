@@ -2,6 +2,7 @@ import type { Record, RecordQuery } from '@/types'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
 import { useStyleStore } from '@/stores/style'
+import { debounce } from 'radash'
 
 export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
   const styleStore = useStyleStore()
@@ -24,6 +25,8 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     offset: 0,
   }
 
+  const debouncedUpdate = debounce({ delay: 500 }, () => getRecords({ offset: 0 }))
+
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
 
   styleStore.$subscribe((_mutation, state) => {
@@ -31,14 +34,13 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     query.leaderboardType = state.leaderboardType
   })
 
+  watch([() => query.player, () => query.map, () => query.course, () => query.server], debouncedUpdate)
+
   watch(
     [
       () => query.mode,
       () => query.leaderboardType,
       () => query.top,
-      () => query.course,
-      () => query.player,
-      () => query.server,
       () => query.max_rank,
       () => query.sort_by,
       () => query.sort_order,

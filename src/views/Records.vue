@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
 
-const { records, total, loading, query, incrementRecords } = useRecords()
+const { records, total, loading, query, incrementRecords } = useRecords({ max_rank: 1 })
 </script>
 
 <template>

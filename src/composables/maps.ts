@@ -33,6 +33,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
           id: map.id,
           name: map.name,
           state: map.state,
+          mappers: map.mappers,
           courses: map.courses
             .map((course) => {
               const tier = course.filters[query.mode][query.leaderboardType === 'overall' ? 'nub_tier' : 'pro_tier']

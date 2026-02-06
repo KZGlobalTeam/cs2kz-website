@@ -45,16 +45,16 @@ const profileOptions = computed(() => [
 
 const navigation = [
   {
+    localePath: 'nav.servers',
+    path: '/servers',
+  },
+  {
     localePath: 'nav.records',
     path: '/records',
   },
   {
     localePath: 'nav.maps',
     path: '/maps',
-  },
-  {
-    localePath: 'nav.servers',
-    path: '/servers',
   },
 ]
 

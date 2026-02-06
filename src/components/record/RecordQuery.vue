@@ -25,6 +25,7 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
 
     <USelect
       v-model="query.max_rank"
+      :ui="{ content: 'z-10' }"
       :items="[
         { label: $t('records.query.maxRank.all'), value: undefined },
         { label: $t('records.query.maxRank.wr'), value: 1 },
