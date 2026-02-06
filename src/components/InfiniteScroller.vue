@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   hasData: boolean
+  hasMore: boolean
   loading: boolean
 }>()
 
-const emits = defineEmits(['infinite'])
+const emits = defineEmits(['intersect'])
 
 const scroller = ref<Element | null>(null)
 const endOfScroller = ref<Element | null>(null)
@@ -17,10 +18,13 @@ onMounted(() => {
       const entry = entries[0]
 
       if (entry?.isIntersecting) {
-        emits('infinite')
+        // don't emit if there's no data, and only if there's more data
+        if (props.hasData && props.hasMore) {
+          emits('intersect')
+        }
       }
     },
-    { rootMargin: '150px' },
+    { rootMargin: '150px', root: scroller.value || null },
   )
 
   observer.observe(endOfScroller.value as Element)
@@ -28,7 +32,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="scroller" class="scroller">
+  <div ref="scroller" class="max-h-48 overflow-auto">
     <slot></slot>
     <div ref="endOfScroller" class="flex justify-center mt-2">
       <IconLoading v-if="hasData && loading" />

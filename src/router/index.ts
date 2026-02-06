@@ -18,7 +18,7 @@ const router = createRouter({
       component: () => import('@/views/Maps.vue'),
     },
     {
-      path: '/maps/:mapname',
+      path: '/maps/:name/:course',
       name: 'Map',
       component: () => import('@/views/Map.vue'),
     },
@@ -31,6 +31,11 @@ const router = createRouter({
       path: '/servers',
       name: 'Servers',
       component: () => import('@/views/Servers.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: () => import('@/views/NotFound.vue'),
     },
   ],
 })

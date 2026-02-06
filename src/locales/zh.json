@@ -33,7 +33,9 @@
       "tier": "难度",
       "createdOn": "发布日期"
     },
-    "noData": "无数据"
+    "noData": "无数据",
+    "goBack": "返回",
+    "unknown": "未知"
   },
   "nav": {
     "home": "首页",
@@ -45,6 +47,7 @@
     "jumpstats": "跳跃数据",
     "signOut": "退出登录",
     "signOutAll": "退出所有网站",
+    "links": "链接",
     "tooltip": {
       "locale": "切换语言",
       "login": "Steam登录",
@@ -146,15 +149,18 @@
   "map": {
     "state": {
       "approved": "全球",
-      "inTesting": "测试中",
-      "invalid": "无效"
+      "wip": "未完工",
+      "pending": "待审核",
+      "graveyard": "废弃",
+      "completed": "已完工"
     },
     "filters": "筛选",
     "styles": "风格",
     "madeBy": "作者",
+    "creator": "作者",
     "tags": "标签",
     "rating": "评分",
-    "nubTier": "存点难度",
+    "overallTier": "存点难度",
     "proTier": "裸跳难度",
     "filterState": {
       "ranked": "排位关卡",
@@ -180,9 +186,13 @@
     "title": {
       "name": "名称",
       "ipAddress": "IP",
+      "globalStatus": "全球状态",
       "owner": "所有者",
       "ping": "延迟",
-      "approvedOn": "上线日期"
-    }
+      "currentMap": "当前地图",
+      "players": "在线玩家",
+      "createdOn": "创建日期"
+    },
+    "noPlayers": "无"
   }
 }

@@ -33,10 +33,11 @@ export type LeaderboardType = 'overall' | 'pro'
 
 export interface MapQuery {
   name: string
+  randomName: string
   state: MapState
   mode: Mode
   leaderboardType: LeaderboardType
-  tier?: Tier
+  tier: Tier[]
   limit: number
   offset: number
 }
@@ -95,7 +96,6 @@ export interface RecordQuery {
   map: string
   course: string
   server: string
-  styles: Style[]
   sort_by: 'submission-date' | 'time'
   sort_order: 'ascending' | 'descending'
   limit: number

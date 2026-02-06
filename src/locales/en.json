@@ -33,7 +33,9 @@
       "tier": "Tier",
       "createdOn": "Release Date"
     },
-    "noData": "No Data"
+    "noData": "No Data",
+    "goBack": "Go Back",
+    "unknown": "Unknown"
   },
   "nav": {
     "home": "Home",
@@ -45,6 +47,7 @@
     "jumpstats": "Jumpstats",
     "signOut": "Sign out",
     "signOutAll": "Sign out from all websites",
+    "links": "Links",
     "tooltip": {
       "locale": "Switch language",
       "login": "Login through Steam",
@@ -146,15 +149,18 @@
   "map": {
     "state": {
       "approved": "Approved",
-      "inTesting": "Testing",
-      "invalid": "Invalid"
+      "wip": "Work In Progress",
+      "pending": "Pending",
+      "graveyard": "Graveyard",
+      "completed": "Completed"
     },
     "filters": "Filters",
     "styles": "Styles",
-    "madeBy": "made by",
+    "madeBy": "Made by",
+    "creator": "Creator",
     "tags": "Tags",
     "rating": "Rating",
-    "nubTier": "NUB Tier",
+    "overallTier": "Overall Tier",
     "proTier": "PRO Tier",
     "filterState": {
       "ranked": "RANKED",
@@ -180,9 +186,13 @@
     "title": {
       "name": "Name",
       "ipAddress": "IP",
+      "globalStatus": "Global Status",
       "owner": "Owner",
       "ping": "Ping",
-      "approvedOn": "Approved On"
-    }
+      "currentMap": "Current Map",
+      "players": "Players",
+      "createdOn": "Created On"
+    },
+    "noPlayers": "No players"
   }
 }

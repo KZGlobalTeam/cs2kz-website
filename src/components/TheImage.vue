@@ -21,7 +21,7 @@ watch(() => props.src, loadImage, { immediate: true })
 </script>
 
 <template>
-  <img v-if="!_loading && !_error" :src="props.src" loading="lazy" />
+  <img v-if="!_loading && !_error" :src="props.src" loading="lazy" class="animate-fade-in" />
 
-  <img v-else src="@/assets/img/fallback.jpg" loading="lazy" class="animate-fade-in" />
+  <img v-else src="@/assets/img/fallback.jpg" class="animate-fade-in" />
 </template>

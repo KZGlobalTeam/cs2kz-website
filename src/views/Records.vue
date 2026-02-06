@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
 
-const { records, loading, query } = useRecords({ max_rank: 1 })
-
-function loadRecords() {
-  if (records.value.length > 0) {
-    query.limit += 30
-  }
-}
+const { records, total, loading, query, incrementRecords } = useRecords()
 </script>
+
 <template>
-  <div class="mx-auto px-2 lg:px-10 py-2 lg:py-4">
-    <RecordQuery v-model:query="query" detailed />
-    <InfiniteScroller :has-data="records.length > 0" :loading="loading" @infinite="loadRecords">
-      <RecordTable
-        v-model:sort-by="query.sort_by"
-        v-model:sort-order="query.sort_order"
-        class="mt-4 lg:mt-6"
-        detailed
-        :query="query"
-        :loading="loading"
-        :records="records"
-      />
-    </InfiniteScroller>
+  <div class="mx-auto p-2 lg:p-4 flex flex-col max-h-[calc(100dvh-3rem)]">
+    <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
+      <MainSwitch />
+
+      <RecordQuery v-model:query="query" />
+    </div>
+
+    <RecordTable
+      class="flex-1 mt-4"
+      v-model:query="query"
+      type="records"
+      :loading="loading"
+      :total="total"
+      :records="records"
+      @intersect="incrementRecords"
+    />
   </div>
 </template>

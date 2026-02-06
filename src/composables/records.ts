@@ -1,26 +1,23 @@
 import type { Record, RecordQuery } from '@/types'
-import { debounce } from 'radash'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
-import { useRoute } from 'vue-router'
+import { useStyleStore } from '@/stores/style'
 
 export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
-  const route = useRoute()
+  const styleStore = useStyleStore()
 
   const loading = ref(false)
   const records = ref<Record[]>([])
-
   const total = ref(0)
 
   const defaultQuery: RecordQuery = {
-    mode: 'classic',
-    leaderboardType: 'overall',
+    mode: styleStore.mode,
+    leaderboardType: styleStore.leaderboardType,
     top: true,
     player: '',
     map: '',
     course: '',
     server: '',
-    styles: [],
     sort_by: 'submission-date',
     sort_order: 'descending',
     limit: 30,
@@ -29,28 +26,31 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
 
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
 
-  const debouncedUpdate = debounce({ delay: 300 }, getRecords)
-
-  watch([() => query.player, () => query.map, () => query.course, () => query.server], debouncedUpdate)
+  styleStore.$subscribe((_mutation, state) => {
+    query.mode = state.mode
+    query.leaderboardType = state.leaderboardType
+  })
 
   watch(
     [
       () => query.mode,
       () => query.leaderboardType,
       () => query.top,
+      () => query.course,
+      () => query.player,
+      () => query.server,
       () => query.max_rank,
-      () => query.styles,
       () => query.sort_by,
       () => query.sort_order,
-      () => query.limit,
-      () => query.offset,
     ],
-    getRecords,
+    () => {
+      getRecords({ offset: 0 })
+    },
   )
 
-  getRecords()
+  getRecords({ offset: 0 })
 
-  async function getRecords() {
+  async function getRecords({ offset }: { offset: number }) {
     try {
       loading.value = true
 
@@ -58,7 +58,7 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
         ...toRaw(query),
         leaderboardType: null,
         has_teleports: query.leaderboardType === 'overall' ? null : false,
-        styles: query.styles.length === 0 ? null : query.styles,
+        offset,
       }
 
       const { data } = await api.get('/records', {
@@ -66,14 +66,19 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
       })
 
       if (data) {
-        records.value = data.values
+        // reset records if offset is 0 (new query), otherwise append
+        if (offset === 0) {
+          records.value = data.values
+        } else {
+          records.value.push(...data.values)
+        }
         total.value = data.total
       } else {
         records.value = []
         total.value = 0
       }
     } catch (error) {
-      console.error(error)
+      console.error('[fetch error]', error)
 
       records.value = []
       total.value = 0
@@ -82,10 +87,19 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     }
   }
 
+  async function incrementRecords() {
+    if (loading.value || records.value.length >= total.value) {
+      return
+    }
+
+    getRecords({ offset: records.value.length })
+  }
+
   return {
     records,
     loading,
     query,
     total,
+    incrementRecords,
   }
 }

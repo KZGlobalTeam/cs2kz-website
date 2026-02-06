@@ -36,9 +36,18 @@ export default defineConfig({
         },
         table: {
           slots: {
-            tbody: 'cursor-pointer',
-            th: 'py-2 text-base',
+            th: 'py-2 text-base [&>button]:text-base [&>button]:text-highlighted [&>button]:font-semibold',
             td: 'py-2 text-base',
+          },
+        },
+        select: {
+          slots: {
+            content: 'max-h-96',
+          },
+        },
+        popover: {
+          slots: {
+            content: 'z-10',
           },
         },
       },

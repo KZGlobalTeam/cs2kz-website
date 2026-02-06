@@ -10,7 +10,13 @@ defineProps<{
 </script>
 
 <template>
-  <UModal v-model:open="open" title="CS2KZ" class="lg:hidden" aria-describedby="mobile-navigation">
+  <UModal
+    v-model:open="open"
+    :ui="{ overlay: 'z-[2]', content: 'z-[3]' }"
+    title="CS2KZ"
+    class="lg:hidden"
+    aria-describedby="mobile-navigation"
+  >
     <UButton square variant="ghost">
       <IconBars />
     </UButton>

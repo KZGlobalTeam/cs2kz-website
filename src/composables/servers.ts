@@ -60,6 +60,7 @@ export function useServers() {
       const { data } = await api.get<ServerResponse | undefined>('/servers', {
         params: { limit: 10000, offset: 0 },
       })
+
       if (data) {
         const reachableServers = data.values.filter((server) => server.a2s_info !== null)
 

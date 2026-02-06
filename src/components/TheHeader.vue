@@ -43,31 +43,20 @@ const profileOptions = computed(() => [
   },
 ])
 
-const navigation = computed(() => {
-  const routes = [
-    {
-      localePath: 'nav.servers',
-      path: '/servers',
-    },
-    {
-      localePath: 'nav.records',
-      path: '/records',
-    },
-    {
-      localePath: 'nav.maps',
-      path: '/maps',
-    },
-  ]
-
-  if (playerStore.player) {
-    routes.splice(2, 0, {
-      localePath: 'nav.profile',
-      path: `/profile/${playerStore.player.id}`,
-    })
-  }
-
-  return routes
-})
+const navigation = [
+  {
+    localePath: 'nav.records',
+    path: '/records',
+  },
+  {
+    localePath: 'nav.maps',
+    path: '/maps',
+  },
+  {
+    localePath: 'nav.servers',
+    path: '/servers',
+  },
+]
 
 function signIn() {
   const url = `${import.meta.env.VITE_API_URL}/auth/web/login?redirect_to=${location.origin}`
@@ -97,7 +86,7 @@ function signOut() {
         </ol>
       </nav>
 
-      <div class="flex justify-end items-center gap-2">
+      <div class="flex justify-end items-center gap-1">
         <ExternalLinks class="hidden lg:block" />
 
         <!-- switch locale -->
@@ -110,7 +99,7 @@ function signOut() {
               <div
                 v-for="option in localeOptions"
                 :key="option.value"
-                class="hover:bg-gray-700 pl-2 pr-3 py-1.5 rounded-sm cursor-pointer"
+                class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
                 @click="locale = option.value"
               >
                 {{ option.label }}
@@ -130,7 +119,7 @@ function signOut() {
                 v-for="option in profileOptions"
                 :key="option.label"
                 @click="option.onSelect"
-                class="hover:bg-gray-700 pl-2 pr-3 py-1.5 rounded-sm cursor-pointer"
+                class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
               >
                 {{ option.label }}
               </div>
@@ -139,11 +128,9 @@ function signOut() {
         </UPopover>
 
         <!-- login -->
-        <UTooltip v-else :text="$t('nav.tooltip.login')">
-          <UButton variant="ghost" @click="signIn">
-            <IconSteam />
-          </UButton>
-        </UTooltip>
+        <UButton variant="ghost" square @click="signIn" :ui="{ base: 'cursor-pointer' }">
+          <IconSteam />
+        </UButton>
 
         <NavModal v-model="openNavigation" :navigation="navigation" />
       </div>

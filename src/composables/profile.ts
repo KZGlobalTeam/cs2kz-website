@@ -1,14 +1,15 @@
 import { ref, reactive, watch } from 'vue'
 import type { Profile, ProfileQuery } from '@/types'
 import { api } from '@/utils'
+import { useStyleStore } from '@/stores/style'
 
 export function useProfile(playerId: string) {
-  const loading = ref(false)
+  const styleStore = useStyleStore()
   const profile = ref<Profile | null>(null)
 
   const query = reactive<ProfileQuery>({
+    mode: styleStore.mode,
     player_id: playerId,
-    mode: 'classic',
   })
 
   watch(query, getProfile)
@@ -17,8 +18,6 @@ export function useProfile(playerId: string) {
 
   async function getProfile() {
     try {
-      loading.value = true
-
       const { data } = await api.get(`/players/${query.player_id}/profile`, {
         params: { mode: query.mode },
       })
@@ -27,16 +26,13 @@ export function useProfile(playerId: string) {
         profile.value = { ...data, rating: data.rating * 0.1 }
       }
     } catch (err) {
-      console.error(err)
+      console.log('[fetch error]', err)
       profile.value = null
-    } finally {
-      loading.value = false
     }
   }
 
   return {
     profile,
-    loading,
     query,
   }
 }
