@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { api, toLocal, seperateThousands, getRankByRating } from '@/utils'
 import { useRoute } from 'vue-router'
 import { useProfile } from '@/composables/profile'
@@ -10,7 +10,15 @@ const route = useRoute()
 const avatarUrl = ref('')
 const profileUrl = ref('')
 
-const { profile } = useProfile(route.params.steamId as string)
+const { profile, query } = useProfile(route.params.steamId as string)
+
+watch(
+  () => route.params.steamId,
+  (steamId) => {
+    query.player_id = steamId as string
+    getSteamProfile()
+  },
+)
 
 getSteamProfile()
 

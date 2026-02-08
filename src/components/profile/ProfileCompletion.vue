@@ -15,6 +15,13 @@ const ranksAndPoints = ref()
 const completedCourses = ref()
 
 watch(
+  () => route.params.steamId,
+  (steamId) => {
+    completionQuery.player = steamId as string
+  },
+)
+
+watch(
   records,
   (records) => {
     ranksAndPoints.value = calcRanksAndPointsDist(records, completionQuery.leaderboardType)

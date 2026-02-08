@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRecords } from '@/composables/records'
 
@@ -7,6 +8,13 @@ const route = useRoute()
 const { records, loading, total, query, incrementRecords, resetQuery } = useRecords({
   player: route.params.steamId as string,
 })
+
+watch(
+  () => route.params.steamId,
+  (steamId) => {
+    query.player = steamId as string
+  },
+)
 </script>
 
 <template>

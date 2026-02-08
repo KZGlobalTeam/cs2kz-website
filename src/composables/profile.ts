@@ -14,6 +14,10 @@ export function useProfile(playerId: string) {
 
   watch(query, getProfile)
 
+  styleStore.$subscribe((_mutation, state) => {
+    query.mode = state.mode
+  })
+
   getProfile()
 
   async function getProfile() {
