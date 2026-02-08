@@ -47,11 +47,11 @@ async function getAvatar(steamId: string) {
     </RouterLink>
 
     <div>
-      <div class="flex w-36">
+      <div class="flex w-48">
         <RouterLink
           :to="`/profile/${record.player.id}`"
           :class="wr ? 'text-yellow-300 hover:text-yellow-400' : 'text-cyan-600 hover:text-cyan-400'"
-          class="text-xl font-bold whitespace-nowrap"
+          class="text-xl truncate font-bold whitespace-nowrap"
           >{{ record.player.name }}</RouterLink
         >
       </div>
