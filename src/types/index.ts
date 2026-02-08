@@ -5,7 +5,7 @@ export type Player = components['schemas']['PlayerInfo']
 export interface PlayerSteam {
   id: string
   name: string
-  country: string
+  country?: string
   profile_url: string
   avatar_url: string
 }
@@ -35,6 +35,7 @@ export interface MapQuery {
   name: string
   mapper: string
   randomName: string
+  unfinishedOnly: boolean
   state: MapState
   mode: Mode
   leaderboardType: LeaderboardType

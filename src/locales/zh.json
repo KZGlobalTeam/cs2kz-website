@@ -101,6 +101,7 @@
   "maps": {
     "query": {
       "selectTier": "选择难度",
+      "unfinishedOnly": "仅展示未完成",
       "map": "地图",
       "mapper": "作者"
     }

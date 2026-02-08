@@ -101,6 +101,7 @@
   "maps": {
     "query": {
       "selectTier": "Select Tier",
+      "unfinishedOnly": "Unfinished only",
       "map": "Map",
       "mapper": "Mapper"
     }

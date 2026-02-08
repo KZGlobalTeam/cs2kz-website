@@ -1,22 +1,27 @@
-import type { Map, MapQuery } from '@/types'
+import type { Map, MapQuery, Record } from '@/types'
 import { ref, watch, reactive, computed } from 'vue'
-import { validQuery, api } from '@/utils'
-import { debounce } from 'radash'
+import { api } from '@/utils'
 import { useStyleStore } from '@/stores/style'
+import { usePlayerStore } from '@/stores/player'
 import { getTierNumber, getTierColor } from '@/utils'
 
 export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   const styleStore = useStyleStore()
+
+  const playerStore = usePlayerStore()
 
   const loading = ref(false)
   const maps = ref<Map[]>([])
 
   const total = ref(0)
 
+  const completedCourseKeys = ref(new Set<string>())
+
   const defaultQuery: MapQuery = {
     name: '',
     mapper: '',
     randomName: '',
+    unfinishedOnly: false,
     tier: [],
     mode: styleStore.mode,
     leaderboardType: styleStore.leaderboardType,
@@ -46,7 +51,11 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
                 state: course.filters[query.mode].state,
               }
             })
-            .filter((course) => (query.tier.length > 0 ? query.tier.includes(course.tier) : true)),
+            .filter((course) => (query.tier.length > 0 ? query.tier.includes(course.tier) : true))
+            .filter((course) => {
+              if (!query.unfinishedOnly) return true
+              return !completedCourseKeys.value.has(`${map.name}:${course.name}`)
+            }),
           approved_at: map.approved_at,
         }
       })
@@ -73,6 +82,40 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   })
 
   watch([() => query.mode, () => query.state, () => query.limit, () => query.offset], getMaps)
+
+  watch(
+    () => query.unfinishedOnly,
+    async (unfinishedOnly) => {
+      if (unfinishedOnly && playerStore.player) {
+        loading.value = true
+
+        try {
+          const { data } = await api.get('/records', {
+            params: {
+              mode: styleStore.mode,
+              leaderboardType: styleStore.leaderboardType,
+              top: true,
+              player: playerStore.player.id,
+              limit: 10000,
+              offset: 0,
+            },
+          })
+
+          if (data) {
+            const playerRecords: Record[] = data.values
+
+            completedCourseKeys.value = new Set(
+              playerRecords.map((record) => `${record.map.name}:${record.course.name}`),
+            )
+          }
+        } catch (error) {
+          console.error('[fetch error]', error)
+        } finally {
+          loading.value = false
+        }
+      }
+    },
+  )
 
   getMaps()
 

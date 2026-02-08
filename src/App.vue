@@ -13,6 +13,13 @@ const cookies = new Cookies(null, { path: '/' })
 const colorMode = useColorMode()
 colorMode.value = 'dark'
 
+// playerStore.player = {
+//   id: 'STEAM_1:1:454106224',
+//   name: 'razor',
+//   profile_url: 'https://steamcommunity.com/id/9dj/',
+//   avatar_url: 'https://avatars.steamstatic.com/27865a0cdb9bdf00079f94a40e9257fb129a2b2d_medium.jpg',
+// }
+
 playerStore.player = cookies.get('kz-player') || null
 
 if (playerStore.player) {

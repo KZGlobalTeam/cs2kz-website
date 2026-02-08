@@ -128,7 +128,7 @@ function signOut() {
         </UPopover>
 
         <!-- login -->
-        <UButton variant="ghost" square @click="signIn" :ui="{ base: 'cursor-pointer' }">
+        <UButton v-else variant="ghost" square @click="signIn" :ui="{ base: 'cursor-pointer' }">
           <IconSteam />
         </UButton>
 

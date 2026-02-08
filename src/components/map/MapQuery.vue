@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { MapQuery } from '@/types'
 import { useI18n } from 'vue-i18n'
+import { usePlayerStore } from '@/stores/player'
+
+const playerStore = usePlayerStore()
 
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
@@ -10,6 +13,8 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
 
 <template>
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
+    <UCheckbox v-if="playerStore.player" v-model="query.unfinishedOnly" :label="$t('maps.query.unfinishedOnly')" />
+
     <USelect
       class="w-36"
       v-model="query.tier"
