@@ -156,10 +156,8 @@
   "map": {
     "state": {
       "approved": "Approved",
-      "wip": "Work In Progress",
-      "pending": "Pending",
-      "graveyard": "Graveyard",
-      "completed": "Completed"
+      "inTesting": "In Testing",
+      "invalid": "Invalid"
     },
     "filters": "Filters",
     "styles": "Styles",

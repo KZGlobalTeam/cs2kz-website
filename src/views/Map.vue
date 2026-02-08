@@ -85,7 +85,7 @@ watch(currentCourse, (c) => {
 
 async function getMap() {
   try {
-    const { data } = await api.get(`/maps`, { params: { name: route.params.name as string } })
+    const { data } = await api.get(`/maps`, { params: { name: route.params.name as string, state: 'approved' } })
 
     if (data.total === 0) {
       return

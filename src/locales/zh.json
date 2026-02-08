@@ -156,10 +156,8 @@
   "map": {
     "state": {
       "approved": "全球",
-      "wip": "未完工",
-      "pending": "待审核",
-      "graveyard": "废弃",
-      "completed": "已完工"
+      "inTesting": "测试中",
+      "invalid": "无效"
     },
     "filters": "筛选",
     "styles": "风格",
