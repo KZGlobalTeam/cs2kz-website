@@ -15,6 +15,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
 
   const defaultQuery: MapQuery = {
     name: '',
+    mapper: '',
     randomName: '',
     tier: [],
     mode: styleStore.mode,
@@ -50,6 +51,11 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
         }
       })
       .filter((map) => map.name.includes(query.name))
+      .filter((map) => {
+        if (query.mapper === '') return true
+        const needle = query.mapper.toLowerCase()
+        return map.mappers.some((mapper) => mapper.name.toLowerCase().includes(needle))
+      })
       .filter((map) => {
         if (map.courses.length === 0) return false
         if (query.randomName === '') {

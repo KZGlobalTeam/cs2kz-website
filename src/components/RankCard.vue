@@ -59,7 +59,7 @@ async function getAvatar(steamId: string) {
         <span class="text-slate-300 text-lg">{{
           `#${leaderboardType === 'overall' ? record.nub_rank : record.pro_rank}`
         }}</span>
-        <span class="mx-1 text-slate-500">/</span>
+        <span class="mx-1" :class="wr ? 'text-slate-400' : 'text-slate-500'">/</span>
         <span class="text-slate-300 text-lg">{{ total }}</span>
       </p>
     </div>

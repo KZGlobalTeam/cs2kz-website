@@ -101,7 +101,8 @@
   "maps": {
     "query": {
       "selectTier": "Select Tier",
-      "searchby": "Map"
+      "map": "Map",
+      "mapper": "Mapper"
     }
   },
   "profile": {

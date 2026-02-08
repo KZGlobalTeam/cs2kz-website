@@ -101,7 +101,8 @@
   "maps": {
     "query": {
       "selectTier": "选择难度",
-      "searchby": "地图"
+      "map": "地图",
+      "mapper": "作者"
     }
   },
   "profile": {

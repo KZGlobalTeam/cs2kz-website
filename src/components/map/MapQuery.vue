@@ -35,9 +35,15 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
       <IconShuffle />
     </UButton>
 
-    <UInput v-model="query.name" :placeholder="$t('maps.query.searchby')">
+    <UInput v-model="query.name" :placeholder="$t('maps.query.map')">
       <template #trailing>
         <IconMap />
+      </template>
+    </UInput>
+
+    <UInput v-model="query.mapper" :placeholder="$t('maps.query.mapper')">
+      <template #trailing>
+        <IconHammer />
       </template>
     </UInput>
 
