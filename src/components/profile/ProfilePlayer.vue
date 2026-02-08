@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { toLocal, seperateThousands, getRankByRating } from '@/utils'
+import { api, toLocal, seperateThousands, getRankByRating } from '@/utils'
 import { useRoute } from 'vue-router'
 import { useProfile } from '@/composables/profile'
+import type { PlayerSteam } from '@/types'
 
 const route = useRoute()
 
@@ -10,6 +11,18 @@ const avatarUrl = ref('')
 const profileUrl = ref('')
 
 const { profile } = useProfile(route.params.steamId as string)
+
+getSteamProfile()
+
+async function getSteamProfile() {
+  try {
+    const { data: player } = await api.get<PlayerSteam | undefined>(`/players/${route.params.steamId}/steam-profile`)
+    avatarUrl.value = player?.avatar_url.replace(/_medium/, '_full') || ''
+    profileUrl.value = player?.profile_url || ''
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <template>
