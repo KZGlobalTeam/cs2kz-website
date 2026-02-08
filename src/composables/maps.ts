@@ -1,6 +1,6 @@
 import type { Map, MapQuery, Record } from '@/types'
 import { ref, watch, reactive, computed } from 'vue'
-import { api } from '@/utils'
+import { api, validQuery } from '@/utils'
 import { useStyleStore } from '@/stores/style'
 import { usePlayerStore } from '@/stores/player'
 import { getTierNumber, getTierColor } from '@/utils'
@@ -16,12 +16,14 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   const total = ref(0)
 
   const completedCourseKeys = ref(new Set<string>())
+  const wrCourseTimes = ref(new Map<string, number>())
 
   const defaultQuery: MapQuery = {
     name: '',
     mapper: '',
     randomName: '',
     unfinishedOnly: false,
+    lengthRangeKeys: [],
     tier: [],
     mode: styleStore.mode,
     leaderboardType: styleStore.leaderboardType,
@@ -31,6 +33,34 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   }
 
   const query = reactive<MapQuery>({ ...defaultQuery, ...initialQuery })
+
+  const lengthRanges = computed(() => {
+    const minutes = new Set<number>()
+
+    for (const time of wrCourseTimes.value.values()) {
+      minutes.add(Math.floor(time / 60))
+    }
+
+    return Array.from(minutes)
+      .sort((a, b) => a - b)
+      .map((minute) => {
+        const minSeconds = minute * 60
+        const maxSeconds = minSeconds + 60
+        return {
+          key: `${minSeconds}-${maxSeconds}`,
+          minSeconds,
+          maxSeconds,
+          minMinutes: minute,
+          maxMinutes: minute + 1,
+        }
+      })
+  })
+
+  const selectedLengthRanges = computed(() => {
+    if (query.lengthRangeKeys.length === 0) return []
+    const selectedKeys = new Set(query.lengthRangeKeys)
+    return lengthRanges.value.filter((range) => selectedKeys.has(range.key))
+  })
 
   const transformedMaps = computed(() =>
     maps.value
@@ -55,6 +85,13 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
             .filter((course) => {
               if (!query.unfinishedOnly) return true
               return !completedCourseKeys.value.has(`${map.name}:${course.name}`)
+            })
+            .filter((course) => {
+              const ranges = selectedLengthRanges.value
+              if (ranges.length === 0) return true
+              const wrTime = wrCourseTimes.value.get(`${map.name}:${course.name}`)
+              if (wrTime === undefined) return false
+              return ranges.some((range) => wrTime >= range.minSeconds && wrTime < range.maxSeconds)
             }),
           approved_at: map.approved_at,
         }
@@ -82,6 +119,12 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   })
 
   watch([() => query.mode, () => query.state, () => query.limit, () => query.offset], getMaps)
+  watch([() => query.mode, () => query.leaderboardType], getWrs)
+  watch(lengthRanges, (ranges) => {
+    if (query.lengthRangeKeys.length === 0) return
+    const validKeys = new Set(ranges.map((range) => range.key))
+    query.lengthRangeKeys = query.lengthRangeKeys.filter((key) => validKeys.has(key))
+  })
 
   watch(
     () => query.unfinishedOnly,
@@ -93,7 +136,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
           const { data } = await api.get('/records', {
             params: {
               mode: styleStore.mode,
-              leaderboardType: styleStore.leaderboardType,
+              has_teleports: styleStore.leaderboardType === 'overall' ? null : true,
               top: true,
               player: playerStore.player.id,
               limit: 10000,
@@ -118,6 +161,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   )
 
   getMaps()
+  getWrs()
 
   function resetQuery() {
     Object.assign(query, defaultQuery)
@@ -153,6 +197,42 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     }
   }
 
+  async function getWrs() {
+    try {
+      const { data } = await api.get('/records', {
+        params: validQuery({
+          mode: styleStore.mode,
+          leaderboardType: null,
+          has_teleports: styleStore.leaderboardType === 'overall' ? null : false,
+          top: true,
+          max_rank: 1,
+          limit: 10000,
+          offset: 0,
+        }),
+      })
+
+      if (data) {
+        const wrs: Record[] = data.values
+        const nextTimes = new Map<string, number>()
+
+        for (const record of wrs) {
+          const key = `${record.map.name}:${record.course.name}`
+          const existing = nextTimes.get(key)
+          if (existing === undefined || record.time < existing) {
+            nextTimes.set(key, record.time)
+          }
+        }
+
+        wrCourseTimes.value = nextTimes
+      } else {
+        wrCourseTimes.value = new Map()
+      }
+    } catch (error) {
+      console.error('[fetch error]', error)
+      wrCourseTimes.value = new Map()
+    }
+  }
+
   function pickRandomMap() {
     const mapCount = maps.value.length
     if (mapCount > 0) {
@@ -164,6 +244,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     maps: transformedMaps,
     loading,
     query,
+    lengthRanges,
     total,
     resetQuery,
     pickRandomMap,

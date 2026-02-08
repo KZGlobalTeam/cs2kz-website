@@ -100,6 +100,9 @@
   },
   "maps": {
     "query": {
+      "selectLength": "WR Length",
+      "lengthRange": "{min}-{max} mins",
+      "lengthUnderOne": "< 1 min",
       "selectTier": "Select Tier",
       "unfinishedOnly": "Unfinished only",
       "map": "Map",

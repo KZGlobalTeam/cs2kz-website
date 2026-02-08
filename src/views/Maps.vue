@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useMaps } from '@/composables/maps'
 
-const { maps, loading, query, resetQuery, pickRandomMap } = useMaps()
+const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMaps()
 //
 </script>
 
@@ -10,7 +10,12 @@ const { maps, loading, query, resetQuery, pickRandomMap } = useMaps()
     <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
       <MainSwitch />
 
-      <MapQuery v-model:query="query" @pick-random-map="pickRandomMap" @reset-query="resetQuery" />
+      <MapQuery
+        v-model:query="query"
+        :length-ranges="lengthRanges"
+        @pick-random-map="pickRandomMap"
+        @reset-query="resetQuery"
+      />
     </div>
 
     <div v-if="loading" class="mt-4 flex justify-center">

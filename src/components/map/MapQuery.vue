@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { MapQuery } from '@/types'
 import { useI18n } from 'vue-i18n'
 import { usePlayerStore } from '@/stores/player'
@@ -8,12 +9,37 @@ const playerStore = usePlayerStore()
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
 
+const props = defineProps<{
+  lengthRanges: { key: string; minMinutes: number; maxMinutes: number }[]
+}>()
+
+const lengthItems = computed(() =>
+  props.lengthRanges.map((range) => ({
+    label:
+      range.minMinutes === 0
+        ? t('maps.query.lengthUnderOne')
+        : t('maps.query.lengthRange', { min: range.minMinutes, max: range.maxMinutes }),
+    value: range.key,
+  })),
+)
+
 const emits = defineEmits(['pickRandomMap', 'resetQuery'])
 </script>
 
 <template>
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
     <UCheckbox v-if="playerStore.player" v-model="query.unfinishedOnly" :label="$t('maps.query.unfinishedOnly')" />
+
+    <USelect
+      class="w-40"
+      v-model="query.lengthRangeKeys"
+      multiple
+      :items="lengthItems"
+      :placeholder="$t('maps.query.selectLength')"
+      :disabled="lengthItems.length === 0"
+      :leading="true"
+    >
+    </USelect>
 
     <USelect
       class="w-36"
@@ -36,10 +62,6 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
     >
     </USelect>
 
-    <UButton variant="outline" color="neutral" @click="emits('pickRandomMap')">
-      <IconShuffle />
-    </UButton>
-
     <UInput v-model="query.name" :placeholder="$t('maps.query.map')">
       <template #trailing>
         <IconMap />
@@ -51,6 +73,10 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
         <IconHammer />
       </template>
     </UInput>
+
+    <UButton variant="outline" color="neutral" @click="emits('pickRandomMap')">
+      <IconShuffle />
+    </UButton>
 
     <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> {{ $t('common.reset') }} </UButton>
   </div>

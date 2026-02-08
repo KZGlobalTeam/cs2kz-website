@@ -36,6 +36,7 @@ export interface MapQuery {
   mapper: string
   randomName: string
   unfinishedOnly: boolean
+  lengthRangeKeys: string[]
   state: MapState
   mode: Mode
   leaderboardType: LeaderboardType
