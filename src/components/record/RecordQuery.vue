@@ -7,6 +7,8 @@ defineProps<{
   type: 'profile-runs' | 'records' | 'course-ranking'
 }>()
 
+const emits = defineEmits(['resetQuery'])
+
 const query = defineModel<RecordQuery>('query', { required: true })
 
 watch([() => query.value.player, () => query.value.course, () => query.value.server], ([player, course, server]) => {
@@ -47,7 +49,7 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
       </template>
     </UInput>
 
-    <UInput v-model="query.course" :placeholder="$t('records.query.course')">
+    <UInput v-if="type !== 'profile-runs'" v-model="query.course" :placeholder="$t('records.query.course')">
       <template #trailing>
         <IconCourse />
       </template>
@@ -64,5 +66,7 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
         <IconServer />
       </template>
     </UInput>
+
+    <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> {{ $t('common.reset') }} </UButton>
   </div>
 </template>

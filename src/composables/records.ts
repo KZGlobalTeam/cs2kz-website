@@ -15,6 +15,7 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     mode: styleStore.mode,
     leaderboardType: styleStore.leaderboardType,
     top: true,
+    max_rank: undefined,
     player: '',
     map: '',
     course: '',
@@ -97,11 +98,16 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     getRecords({ offset: records.value.length })
   }
 
+  function resetQuery(initialQuery: Partial<RecordQuery> = {}) {
+    Object.assign(query, { ...defaultQuery, ...initialQuery })
+  }
+
   return {
     records,
     loading,
     query,
     total,
     incrementRecords,
+    resetQuery,
   }
 }

@@ -13,14 +13,17 @@ export function useServers() {
 
   const availableRegions = ref<{ name: string; code: string }[]>([])
 
-  const query = reactive<ServerQuery>({
+  const defaultQuery: ServerQuery = {
     name: '',
     map: '',
     owner: '',
+    region_code: undefined,
     globalMapOnly: true,
     sortBy: 'num_players',
     sortOrder: 'descending',
-  })
+  }
+
+  const query = reactive<ServerQuery>({ ...defaultQuery })
 
   const debouncedQuery = reactive({
     name: '',
@@ -127,13 +130,7 @@ export function useServers() {
   }
 
   function resetQuery() {
-    query.name = ''
-    query.map = ''
-    query.owner = ''
-    query.region_code = undefined
-    query.globalMapOnly = true
-    query.sortBy = 'num_players'
-    query.sortOrder = 'descending'
+    Object.assign(query, defaultQuery)
   }
 
   getServers()

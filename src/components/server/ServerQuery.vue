@@ -67,6 +67,6 @@ const emits = defineEmits(['resetQuery'])
       />
     </UButtonGroup>
 
-    <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> Reset </UButton>
+    <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> {{ $t('common.reset') }} </UButton>
   </div>
 </template>

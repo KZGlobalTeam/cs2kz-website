@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
 
-const emit = defineEmits(['pick-random-map', 'reset-filters'])
+const emits = defineEmits(['pickRandomMap', 'resetQuery'])
 </script>
 
 <template>
@@ -31,7 +31,7 @@ const emit = defineEmits(['pick-random-map', 'reset-filters'])
     >
     </USelect>
 
-    <UButton variant="outline" color="neutral" @click="emit('pick-random-map')">
+    <UButton variant="outline" color="neutral" @click="emits('pickRandomMap')">
       <IconShuffle />
     </UButton>
 
@@ -41,8 +41,6 @@ const emit = defineEmits(['pick-random-map', 'reset-filters'])
       </template>
     </UInput>
 
-    <UButton variant="outline" color="neutral" @click="emit('reset-filters')">
-      <IconReset />
-    </UButton>
+    <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> {{ $t('common.reset') }} </UButton>
   </div>
 </template>

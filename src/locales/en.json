@@ -33,6 +33,7 @@
       "tier": "Tier",
       "createdOn": "Release Date"
     },
+    "reset": "Reset",
     "noData": "No Data",
     "goBack": "Go Back",
     "unknown": "Unknown"
