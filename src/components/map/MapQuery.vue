@@ -70,7 +70,7 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
 
     <UInput v-model="query.mapper" :placeholder="$t('maps.query.mapper')">
       <template #trailing>
-        <IconHammer />
+        <IconHammer :width="1.5" />
       </template>
     </UInput>
 

@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="0.8rem" height="0.8rem" viewBox="0 0 24 24">
+  <svg xmlns="http://www.w3.org/2000/svg" :width="`${width}rem`" :height="`${width}rem`" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="#dbdbdb"
@@ -10,3 +10,7 @@
     />
   </svg>
 </template>
+
+<script setup lang="ts">
+defineProps<{ width: number }>()
+</script>
