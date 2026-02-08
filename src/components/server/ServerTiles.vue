@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="mt-8 p-1 mx-auto w-max">
+  <div class="mx-auto w-max">
     <div class="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-6 gap-4 lg:gap-10 lg:place-items-center">
       <ServerCard v-for="server in servers" :key="server.id" :query="query" :server="server" />
     </div>

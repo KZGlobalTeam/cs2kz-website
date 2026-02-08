@@ -4,8 +4,12 @@ import { useServers } from '@/composables/servers'
 const { servers, availableRegions, loading, query, resetQuery } = useServers()
 </script>
 <template>
-  <div class="mx-auto px-2 lg:px-10 py-2 lg:py-4">
-    <ServerQuery v-model:query="query" :available-regions="availableRegions" @reset-query="resetQuery" />
-    <ServerTiles class="mt-4 lg:mt-6" :query="query" :loading="loading" :servers="servers" />
+  <div class="mx-auto p-2 lg:p-4 flex flex-col max-h-[calc(100dvh-3rem)]">
+    <div class="flex justify-center items-center text-gray-300 border border-gray-800 rounded-md p-3">
+      <ServerQuery v-model:query="query" :available-regions="availableRegions" @reset-query="resetQuery" />
+    </div>
+    <div class="mt-4 p-3 flex-1 overflow-auto border border-gray-700 rounded-md">
+      <ServerTiles :query="query" :loading="loading" :servers="servers" />
+    </div>
   </div>
 </template>

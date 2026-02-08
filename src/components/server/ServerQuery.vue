@@ -11,9 +11,7 @@ const emits = defineEmits(['resetQuery'])
 </script>
 
 <template>
-  <div
-    class="lg:w-max mx-auto p-2 lg:p-4 flex flex-wrap items-center lg:justify-center gap-2 lg:gap-8 border border-gray-700 rounded-md"
-  >
+  <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
     <UCheckbox v-model="query.globalMapOnly" :label="$t('servers.query.globalMapsOnly')" />
 
     <UInput v-model="query.name" :placeholder="$t('servers.query.name')">
