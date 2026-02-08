@@ -148,16 +148,16 @@ export function calcRanksAndPointsDist(runs: Run[], leaderboardType: Leaderboard
     leaderboardType === 'pro' ? record.pro_rank === 1 : record.nub_rank === 1,
   ).length
 
+  const top10 = runs.filter((record) =>
+    leaderboardType === 'pro' ? record.pro_rank! <= 10 : record.nub_rank! <= 10,
+  ).length
+
   const top20 = runs.filter((record) =>
     leaderboardType === 'pro' ? record.pro_rank! <= 20 : record.nub_rank! <= 20,
   ).length
 
   const top50 = runs.filter((record) =>
     leaderboardType === 'pro' ? record.pro_rank! <= 50 : record.nub_rank! <= 50,
-  ).length
-
-  const top100 = runs.filter((record) =>
-    leaderboardType === 'pro' ? record.pro_rank! <= 100 : record.nub_rank! <= 100,
   ).length
 
   const pointsDist = Array.from({ length: 11 }, (_, i) => {
@@ -174,9 +174,9 @@ export function calcRanksAndPointsDist(runs: Run[], leaderboardType: Leaderboard
 
   return {
     wrs,
+    top10,
     top20,
     top50,
-    top100,
     pointsDist,
   }
 }

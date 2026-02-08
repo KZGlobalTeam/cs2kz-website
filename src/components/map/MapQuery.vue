@@ -12,20 +12,6 @@ const emit = defineEmits(['pick-random-map', 'reset-filters'])
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
     <USelect
       class="w-36"
-      v-model="query.state"
-      :items="[
-        { label: t('map.state.approved'), value: 'approved' },
-        { label: t('map.state.wip'), value: 'wip' },
-        { label: t('map.state.pending'), value: 'pending' },
-        { label: t('map.state.graveyard'), value: 'graveyard' },
-        { label: t('map.state.completed'), value: 'completed' },
-      ]"
-      :leading="true"
-    >
-    </USelect>
-
-    <USelect
-      class="w-36"
       v-model="query.tier"
       multiple
       :items="[

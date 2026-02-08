@@ -1,6 +1,6 @@
-import type { CourseInfo, MapResponse, CourseQuery, CS2Filters } from '@/types'
+import type { CourseInfo, MapResponse, CourseQuery } from '@/types'
 import { ref, watch, reactive } from 'vue'
-import { api, modeMap } from '@/utils'
+import { api } from '@/utils'
 import { v4 as uuidv4 } from 'uuid'
 import { useStyleStore } from '@/stores/style'
 
@@ -18,7 +18,7 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
   const defaultQuery: CourseQuery = {
     name: '',
     mode: styleStore.mode,
-    pro: styleStore.pro,
+    leaderboardType: styleStore.leaderboardType,
     sort_by: 'map',
     sort_order: 'ascending',
     limit: 30,
@@ -29,10 +29,10 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
 
   styleStore.$subscribe((_mutation, state) => {
     query.mode = state.mode
-    query.pro = state.pro
+    query.leaderboardType = state.leaderboardType
   })
 
-  watch([() => query.mode, () => query.pro], getCourses)
+  watch([() => query.mode, () => query.leaderboardType], getCourses)
 
   async function getCourses() {
     try {
@@ -44,20 +44,19 @@ export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
       })
 
       if (data) {
-        const modeKey = modeMap[query.mode] as CS2Modes
-
         const res = data.values.flatMap((map) =>
           map.courses.map((course, index) => {
             return {
               id: uuidv4(),
               name: course.name,
               map: map.name,
-              tier: query.pro
-                ? (course.filters as CS2Filters)[modeKey].pro_tier
-                : (course.filters as CS2Filters)[modeKey].nub_tier,
-              ranked: (course.filters as CS2Filters)[modeKey].ranked,
+              tier:
+                query.leaderboardType === 'pro'
+                  ? course.filters[query.mode].pro_tier
+                  : course.filters[query.mode].nub_tier,
+              state: course.filters[query.mode].state,
               mappers: course.mappers,
-              created_at: map.created_at,
+              approved_at: map.approved_at,
               img: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/${index + 1}.webp`,
             }
           }),

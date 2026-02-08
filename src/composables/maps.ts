@@ -49,6 +49,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
           approved_at: map.approved_at,
         }
       })
+      .filter((map) => map.name.includes(query.name))
       .filter((map) => {
         if (map.courses.length === 0) return false
         if (query.randomName === '') {
@@ -56,17 +57,14 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
         } else {
           return map.name === query.randomName
         }
-      }),
+      })
+      .sort((a, b) => new Date(b.approved_at).getTime() - new Date(a.approved_at).getTime()),
   )
 
   styleStore.$subscribe((_mutation, state) => {
     query.mode = state.mode
     query.leaderboardType = state.leaderboardType
   })
-
-  const debouncedUpdate = debounce({ delay: 300 }, getMaps)
-
-  watch([() => query.name], debouncedUpdate)
 
   watch([() => query.mode, () => query.state, () => query.limit, () => query.offset], getMaps)
 
@@ -86,6 +84,8 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
           state: query.state,
           limit: query.limit,
           offset: query.offset,
+          sort_order: 'descending',
+          sort_by: 'submission-date',
         },
       })
       if (data) {

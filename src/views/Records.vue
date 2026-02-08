@@ -9,7 +9,7 @@ const { records, total, loading, query, incrementRecords } = useRecords({ max_ra
     <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
       <MainSwitch />
 
-      <RecordQuery v-model:query="query" />
+      <RecordQuery type="records" v-model:query="query" />
     </div>
 
     <RecordTable

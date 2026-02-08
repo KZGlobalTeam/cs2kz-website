@@ -119,12 +119,13 @@
       "average": "Average",
       "title": "Completion",
       "wrs": "WRs",
+      "top10": "Top 10",
       "top20": "Top 20",
       "top50": "Top 50",
       "top100": "Top 100",
-      "topRecords": "Top Records",
-      "pointsDist": "Points Distribution",
-      "completionByTier": "Completion by Tier"
+      "topRecords": "Top records",
+      "pointsDist": "Points distribution",
+      "completionPerTier": "Completion per tier"
     },
     "runs": {
       "title": "Runs"

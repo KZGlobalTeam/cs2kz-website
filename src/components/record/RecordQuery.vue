@@ -3,6 +3,10 @@ import { watch } from 'vue'
 import { debounce } from 'radash'
 import type { RecordQuery } from '@/types'
 
+defineProps<{
+  type: 'profile-runs' | 'records' | 'course-ranking'
+}>()
+
 const query = defineModel<RecordQuery>('query', { required: true })
 
 watch([() => query.value.player, () => query.value.course, () => query.value.server], ([player, course, server]) => {
@@ -49,7 +53,7 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
       </template>
     </UInput>
 
-    <UInput v-model="query.player" :placeholder="$t('records.query.player')">
+    <UInput v-if="type !== 'profile-runs'" v-model="query.player" :placeholder="$t('records.query.player')">
       <template #trailing>
         <IconPlayer />
       </template>

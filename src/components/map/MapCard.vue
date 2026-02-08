@@ -20,7 +20,7 @@ defineProps<{
       <TheImage
         class="w-64 h-36 rounded-bl-md rounded-tl-md cursor-pointer"
         :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
-        @click="router.push({ path: `/maps/${map.name}/1` })"
+        @click="router.push({ path: `/maps/${map.name}` })"
       />
 
       <div

@@ -37,7 +37,7 @@ const UButton = resolveComponent('UButton')
 
 const router = useRouter()
 
-const sorting = ref([{ id: 'submitted_at', desc: true }])
+const sorting = ref([])
 
 const { toggleExpand } = useExpand()
 
@@ -85,7 +85,7 @@ const columns = computed(() => {
           onClick: (e: Event) => {
             e.stopPropagation()
             router.push({
-              path: `/maps/${row.original.map.name}/${row.original.course.name}`,
+              path: `/maps/${row.original.map.name}`,
               query: { course: row.original.course.name },
             })
           },
@@ -106,7 +106,7 @@ const columns = computed(() => {
           onClick: (e: Event) => {
             e.stopPropagation()
             router.push({
-              path: `/maps/${row.original.map.name}/${row.original.course.name}`,
+              path: `/maps/${row.original.map.name}`,
               query: { course: row.original.course.name },
             })
           },
@@ -254,7 +254,7 @@ onMounted(() => {
     {
       distance: 200,
       canLoadMore: () => {
-        return props.total > props.records.length
+        return !props.loading
       },
     },
   )

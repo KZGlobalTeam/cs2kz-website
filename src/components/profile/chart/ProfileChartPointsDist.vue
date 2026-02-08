@@ -28,7 +28,7 @@ const barPercentages = computed(() => {
           ></div>
         </div>
         <span class="font-bold text-sm ml-2 w-10" :class="value > 0 ? 'text-gray-400' : 'text-gray-600'">{{
-          value
+          value || ' '
         }}</span>
       </div>
     </div>

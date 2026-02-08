@@ -41,16 +41,16 @@ const totalCourses = computed(() => calcTotalCourses(courses.value))
       <ProfileTopRecords
         class="mb-4"
         :wrs="ranksAndPoints.wrs"
+        :top10="ranksAndPoints.top10"
         :top20="ranksAndPoints.top20"
         :top50="ranksAndPoints.top50"
-        :top100="ranksAndPoints.top100"
       />
 
       <div class="flex flex-col lg:flex-row gap-4">
         <!-- completed courses by tier -->
         <div class="flex-1">
           <p class="text-xl font-medium mb-2">
-            {{ $t('profile.completion.completionByTier') }}
+            {{ $t('profile.completion.completionPerTier') }}
           </p>
           <ProfileChartCompletionByTier :completed-courses="completedCourses" :total-courses="totalCourses" />
         </div>

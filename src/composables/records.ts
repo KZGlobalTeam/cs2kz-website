@@ -72,7 +72,7 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
         if (offset === 0) {
           records.value = data.values
         } else {
-          records.value.push(...data.values)
+          records.value = [...records.value, ...data.values]
         }
         total.value = data.total
       } else {

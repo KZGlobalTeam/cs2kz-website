@@ -66,7 +66,7 @@ export interface CourseInfo {
   tier: Tier
   state: CourseFilterState
   mappers: Player[]
-  created_on: string
+  approved_at: string
   img: string
 }
 
