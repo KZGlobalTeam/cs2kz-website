@@ -6,7 +6,7 @@ import RecordDetail from './RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
 import { useInfiniteScroll } from '@vueuse/core'
-import { useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
 import {
   getTierNumber,
@@ -35,8 +35,6 @@ const IconMedalThird = resolveComponent('IconMedalThird')
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
 
-const router = useRouter()
-
 const sorting = ref([])
 
 const { toggleExpand } = useExpand()
@@ -61,15 +59,12 @@ const columns = computed(() => {
     header: t('records.title.player'),
     cell: ({ row }) => {
       return h(
-        'span',
+        RouterLink,
         {
           class: 'text-cyan-600 whitespace-nowrap hover:text-cyan-400 cursor-pointer',
-          onClick: (e: Event) => {
-            e.stopPropagation()
-            router.push(`/profile/${row.original.player.id}`)
-          },
+          to: `/profile/${row.original.player.id}`,
         },
-        row.original.player.name,
+        () => row.original.player.name,
       )
     },
   }
@@ -79,18 +74,12 @@ const columns = computed(() => {
     header: t('records.title.map'),
     cell: ({ row }) => {
       return h(
-        'span',
+        RouterLink,
         {
           class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
-          onClick: (e: Event) => {
-            e.stopPropagation()
-            router.push({
-              path: `/maps/${row.original.map.name}`,
-              query: { course: row.original.course.name },
-            })
-          },
+          to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
         },
-        row.original.map.name,
+        () => row.original.map.name,
       )
     },
   }
@@ -100,18 +89,12 @@ const columns = computed(() => {
     header: t('records.title.course'),
     cell: ({ row }) => {
       return h(
-        'span',
+        RouterLink,
         {
           class: 'text-lg hover:text-slate-300 cursor-pointer',
-          onClick: (e: Event) => {
-            e.stopPropagation()
-            router.push({
-              path: `/maps/${row.original.map.name}`,
-              query: { course: row.original.course.name },
-            })
-          },
+          to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
         },
-        row.original.course.name,
+        () => row.original.course.name,
       )
     },
   }
