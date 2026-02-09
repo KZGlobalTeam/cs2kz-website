@@ -237,7 +237,7 @@ const columns = computed(() => {
   if (props.type === 'records') {
     cols.push(mapCol, courseCol, tierCol, playerCol, timeCol, nubRankCol, proRankCol, submissionDateCol, serverCol)
   } else if (props.type === 'profile-runs') {
-    cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol, serverCol)
+    cols.push(mapCol, courseCol, tierCol, timeCol, nubRankCol, proRankCol, submissionDateCol)
   } else if (props.type === 'course-ranking') {
     cols.push(rankCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol)
   }
