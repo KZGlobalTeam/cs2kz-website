@@ -18,7 +18,7 @@ export function useServers() {
     map: '',
     owner: '',
     region_code: undefined,
-    globalMapOnly: true,
+    globalMapOnly: false,
     sortBy: 'num_players',
     sortOrder: 'descending',
   }
@@ -53,7 +53,10 @@ export function useServers() {
 
     const sorted = sort(filtered, query.sortOrder, query.sortBy)
 
-    return sorted
+    const globals = sorted.filter((server) => server.current_map.isGlobal)
+    const nonGlobals = sorted.filter((server) => !server.current_map.isGlobal)
+
+    return globals.concat(nonGlobals)
   })
 
   async function fetchServers() {
