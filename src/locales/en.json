@@ -133,6 +133,9 @@
       "pointsDist": "Points distribution",
       "completionPerTier": "Completion per tier"
     },
+    "maps": {
+      "title": "Maps created"
+    },
     "runs": {
       "title": "Runs"
     },

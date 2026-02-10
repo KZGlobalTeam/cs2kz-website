@@ -1,4 +1,4 @@
-{
+﻿{
   "common": {
     "testingAlert": "该网站和KZ插件目前正处于测试阶段。在开发过程中，所有的记录和数据都可能在某一时间点被清除，请知悉。",
     "mode": {
@@ -131,7 +131,10 @@
       "top100": "前100",
       "topRecords": "Top 记录",
       "pointsDist": "分数分布",
-      "completionByTier": "难度完成情况"
+      "completionPerTier": "难度完成情况"
+    },
+    "maps": {
+      "title": "制作地图"
     },
     "runs": {
       "title": "记录"
@@ -201,3 +204,4 @@
     "noPlayers": "无"
   }
 }
+

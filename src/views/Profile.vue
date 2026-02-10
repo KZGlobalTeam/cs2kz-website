@@ -6,6 +6,8 @@
 
     <ProfileCompletion class="mb-5" />
 
+    <ProfileMaps class="mb-5" />
+
     <ProfileRuns />
   </div>
 </template>
