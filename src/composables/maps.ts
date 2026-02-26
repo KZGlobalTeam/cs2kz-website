@@ -136,7 +136,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
           const { data } = await api.get('/records', {
             params: {
               mode: styleStore.mode,
-              has_teleports: styleStore.leaderboardType === 'overall' ? null : true,
+              has_teleports: styleStore.leaderboardType === 'overall' ? null : false,
               top: true,
               player: playerStore.player.id,
               limit: 10000,
