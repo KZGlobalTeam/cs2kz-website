@@ -1,15 +1,5 @@
 import type { paths, components } from '../../openapi-types'
 
-export type Player = components['schemas']['PlayerInfo']
-
-export interface PlayerSteam {
-  id: string
-  name: string
-  country?: string
-  profile_url: string
-  avatar_url: string
-}
-
 export type Tier = components['schemas']['CourseFilterTier']
 
 export type Mode = components['schemas']['Mode']
@@ -29,7 +19,17 @@ export type CourseFilters = components['schemas']['CourseFilters']
 
 export type Course = components['schemas']['Course']
 
-export type Profile = components['schemas']['Player']
+export type Player = components['schemas']['Player']
+
+export type PlayerInfo = components['schemas']['PlayerInfo']
+
+export interface PlayerSteam {
+  id: string
+  name: string
+  country?: string
+  profile_url: string
+  avatar_url: string
+}
 
 export type LeaderboardType = 'overall' | 'pro'
 
@@ -51,7 +51,7 @@ export interface MapCard {
   id: number
   name: string
   state: MapState
-  mappers: Player[]
+  mappers: PlayerInfo[]
   courses: CourseExt[]
   approved_at: string
 }
@@ -70,7 +70,7 @@ export interface CourseInfo {
   name: string
   tier: Tier
   state: CourseFilterState
-  mappers: Player[]
+  mappers: PlayerInfo[]
   approved_at: string
   img: string
 }

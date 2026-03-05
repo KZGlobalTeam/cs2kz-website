@@ -1,11 +1,11 @@
 import { ref, reactive, watch } from 'vue'
-import type { Profile, ProfileQuery } from '@/types'
+import type { Player, ProfileQuery } from '@/types'
 import { api } from '@/utils'
 import { useStyleStore } from '@/stores/style'
 
 export function useProfile(playerId: string) {
   const styleStore = useStyleStore()
-  const profile = ref<Profile | null>(null)
+  const profile = ref<Player | null>(null)
 
   const query = reactive<ProfileQuery>({
     mode: styleStore.mode,
