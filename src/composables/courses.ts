@@ -4,8 +4,6 @@ import { api } from '@/utils'
 import { v4 as uuidv4 } from 'uuid'
 import { useStyleStore } from '@/stores/style'
 
-type CS2Modes = 'ckz' | 'vnl'
-
 export function useCourses(initialQuery: Partial<CourseQuery> = {}) {
   const styleStore = useStyleStore()
 

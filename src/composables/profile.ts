@@ -1,4 +1,4 @@
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive } from 'vue'
 import type { Player, ProfileQuery } from '@/types'
 import { api } from '@/utils'
 import { useStyleStore } from '@/stores/style'
