@@ -41,6 +41,7 @@
   "nav": {
     "home": "首页",
     "records": "记录",
+    "leaderboards": "排行榜",
     "courses": "关卡",
     "maps": "地图",
     "profile": "个人资料",
@@ -63,6 +64,13 @@
     "last": "尾页",
     "page": "页",
     "refresh": "刷新"
+  },
+  "leaderboards": {
+    "title": {
+      "player": "玩家",
+      "rating": "评分",
+      "title": "头衔"
+    }
   },
   "records": {
     "query": {
@@ -204,4 +212,3 @@
     "noPlayers": "无"
   }
 }
-

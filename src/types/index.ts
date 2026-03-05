@@ -156,3 +156,9 @@ export interface ProfileQuery {
   player_id: string
   mode: Mode
 }
+
+export interface LeaderboardQuery {
+  mode: Mode
+  offset: number
+  limit: number
+}

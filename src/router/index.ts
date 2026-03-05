@@ -8,6 +8,11 @@ const router = createRouter({
       redirect: '/servers',
     },
     {
+      path: '/leaderboards',
+      name: 'Leaderboards',
+      component: () => import('@/views/Leaderboards.vue'),
+    },
+    {
       path: '/records',
       name: 'Records',
       component: () => import('@/views/Records.vue'),

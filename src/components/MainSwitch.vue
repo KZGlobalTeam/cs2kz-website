@@ -2,6 +2,10 @@
 import { useStyleStore } from '@/stores/style'
 import { storeToRefs } from 'pinia'
 
+defineProps<{
+  modeOnly?: boolean
+}>()
+
 const styleStore = useStyleStore()
 
 const { mode, leaderboardType } = storeToRefs(styleStore)
@@ -31,10 +35,10 @@ const { mode, leaderboardType } = storeToRefs(styleStore)
       </button>
     </div>
 
-    <div class="w-[1px] h-8 bg-gray-700"></div>
+    <div v-if="!modeOnly" class="w-[1px] h-8 bg-gray-700"></div>
 
     <!-- overall / pro -->
-    <div class="relative w-40 inline-flex items-center rounded-md bg-gray-100 p-1 dark:bg-gray-800">
+    <div v-if="!modeOnly" class="relative w-40 inline-flex items-center rounded-md bg-gray-100 p-1 dark:bg-gray-800">
       <div
         class="absolute h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/2)] rounded-md transition-all duration-200 ease-in-out bg-blue-400"
         :class="{

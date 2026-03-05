@@ -224,9 +224,9 @@ export function calcTotalCourses(courses: CourseInfo[]) {
 
 export function getRankByRating(rating: number) {
   if (rating >= 37500) return ['Legend', '#ffb800']
-  if (rating >= 35000) return ['Master', '#e4af3a']
-  if (rating >= 30000) return ['Pro', '#ff3131']
-  if (rating >= 25000) return ['Semipro', '#ff6161']
+  if (rating >= 35000) return ['Master', '#ff3131']
+  if (rating >= 30000) return ['Pro', '#ff5151']
+  if (rating >= 25000) return ['Semipro', '#ff7171']
   if (rating >= 20000) return ['Expert', '#d32de6']
   if (rating >= 15000) return ['Skilled', '#bb82f0']
   if (rating >= 10000) return ['Regular', '#4c6aff']

@@ -49,6 +49,10 @@ const navigation = [
     path: '/servers',
   },
   {
+    localePath: 'nav.leaderboards',
+    path: '/leaderboards',
+  },
+  {
     localePath: 'nav.records',
     path: '/records',
   },

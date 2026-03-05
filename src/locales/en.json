@@ -41,6 +41,7 @@
   "nav": {
     "home": "Home",
     "records": "Records",
+    "leaderboards": "Leaderboards",
     "maps": "Maps",
     "courses": "Courses",
     "profile": "Profile",
@@ -63,6 +64,13 @@
     "last": "last",
     "page": "page",
     "refresh": "Refresh"
+  },
+  "leaderboards": {
+    "title": {
+      "player": "Player",
+      "rating": "Rating",
+      "title": "Title"
+    }
   },
   "records": {
     "query": {
