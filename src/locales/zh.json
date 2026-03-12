@@ -179,6 +179,7 @@
     "overallTier": "存点难度",
     "proTier": "裸跳难度",
     "filterState": {
+      "name": "关卡类型",
       "ranked": "排位关卡",
       "unranked": "不计排位",
       "pending": "待处理"

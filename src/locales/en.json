@@ -179,9 +179,10 @@
     "overallTier": "Overall Tier",
     "proTier": "PRO Tier",
     "filterState": {
-      "ranked": "RANKED",
-      "unranked": "UNRANKED",
-      "pending": "PENDING"
+      "name": "Filter State",
+      "ranked": "ranked",
+      "unranked": "unranked",
+      "pending": "pending"
     },
     "courseRanking": "Course Ranking"
   },
