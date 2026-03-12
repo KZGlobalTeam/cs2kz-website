@@ -10,12 +10,12 @@ const props = defineProps<{
 const { t } = useI18n()
 
 const labels = computed(() => [
-  t('common.tier.veryEasy'),
+  t('common.tier.very-easy'),
   t('common.tier.easy'),
   t('common.tier.medium'),
   t('common.tier.advanced'),
   t('common.tier.hard'),
-  t('common.tier.veryHard'),
+  t('common.tier.very-hard'),
   t('common.tier.extreme'),
   t('common.tier.death'),
 ])
