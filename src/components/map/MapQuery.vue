@@ -46,12 +46,12 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
       v-model="query.tier"
       multiple
       :items="[
-        { label: `1 - ${t('common.tier.veryEasy')}`, value: 'very-easy' },
+        { label: `1 - ${t('common.tier.very-easy')}`, value: 'very-easy' },
         { label: `2 - ${t('common.tier.easy')}`, value: 'easy' },
         { label: `3 - ${t('common.tier.medium')}`, value: 'medium' },
         { label: `4 - ${t('common.tier.advanced')}`, value: 'advanced' },
         { label: `5 - ${t('common.tier.hard')}`, value: 'hard' },
-        { label: `6 - ${t('common.tier.veryHard')}`, value: 'very-hard' },
+        { label: `6 - ${t('common.tier.very-hard')}`, value: 'very-hard' },
         { label: `7 - ${t('common.tier.extreme')}`, value: 'extreme' },
         { label: `8 - ${t('common.tier.death')}`, value: 'death' },
         { label: `9 - ${t('common.tier.unfeasible')}`, value: 'unfeasible' },
