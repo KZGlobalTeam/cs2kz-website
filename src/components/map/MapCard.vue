@@ -25,15 +25,18 @@ defineProps<{
             <div>
               <p class="text-gray-100 font-semibold">{{ map.name }}</p>
 
-              <div class="mb-1">
-                <IconHammer class="inline mr-1" :width="1" />
+              <div class="my-1 leading-0">
+                <IconHammer class="inline mr-1 mb-1" :width="1" />
 
-                <span class="max-w-30 truncate leading-4" v-for="(mapper, index) in map.mappers" :key="mapper.id">
-                  <RouterLink :to="`/profile/${mapper.id}`" class="text-sm text-cyan-600 hover:text-cyan-400">
+                <div class="inline-flex flex-wrap items-center" v-for="(mapper, index) in map.mappers" :key="mapper.id">
+                  <RouterLink
+                    :to="`/profile/${mapper.id}`"
+                    class="max-w-44 truncate text-sm text-cyan-600 hover:text-cyan-400 leading-none"
+                  >
                     {{ mapper.name }}
                   </RouterLink>
-                  <span v-if="index < map.mappers.length - 1" class="text-gray-400 mr-1">,</span></span
-                >
+                  <span v-if="index < map.mappers.length - 1" class="text-gray-400 mx-1">·</span>
+                </div>
               </div>
               <div class="flex items-center gap-1">
                 <IconDate />
