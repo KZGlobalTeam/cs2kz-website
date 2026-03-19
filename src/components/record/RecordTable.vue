@@ -91,7 +91,7 @@ const columns = computed(() => {
       return h(
         RouterLink,
         {
-          class: 'text-lg hover:text-slate-300 cursor-pointer',
+          class: 'inline-block max-w-48 truncate text-lg hover:text-slate-300 cursor-pointer',
           to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
         },
         () => row.original.course.name,
