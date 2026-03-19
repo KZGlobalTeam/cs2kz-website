@@ -50,8 +50,8 @@ const tierColorMap = new Map([
   ['hard', '#FFC107'],
   ['very-hard', '#e34202'],
   ['extreme', '#e31c02'],
-  ['death', '#e302dc'],
-  ['unfeasible', '#a002e3'],
+  ['death', '#bb02db'],
+  ['unfeasible', '#e800e1'],
   ['impossible', '#d1d1d1'],
 ])
 

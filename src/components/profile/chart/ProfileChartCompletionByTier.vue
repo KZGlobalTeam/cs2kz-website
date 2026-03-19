@@ -19,7 +19,7 @@ const labels = computed(() => [
   t('common.tier.extreme'),
   t('common.tier.death'),
 ])
-const labelColors = ['#4CAF50', '#8BC34A', '#FFEB3B', '#FF9800', '#FF5722', '#F44336', '#9C27B0', '#673AB7']
+const labelColors = ['#02e319', '#4CAF50', '#8BC34A', '#d8e302', '#FFC107', '#e34202', '#bb02db', '#e800e1']
 
 const completionPercentages = computed(() => {
   return props.completedCourses.map((completed, index) => {
