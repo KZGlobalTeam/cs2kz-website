@@ -5,11 +5,14 @@ import { useRoute, useRouter } from 'vue-router'
 import { usePlayerStore } from '@/stores/player'
 import { api } from '@/utils'
 import AppLogo from './AppLogo.vue'
+import Cookies from 'universal-cookie'
 
 const localeMap = {
   en: 'English',
   zh: '简体中文',
 }
+
+const cookies = new Cookies(null, { path: '/' })
 
 const playerStore = usePlayerStore()
 
@@ -69,6 +72,7 @@ function signIn() {
 
 function signOut() {
   playerStore.player = null
+  cookies.remove('kz-player')
   api.get('/auth/web/logout')
 }
 </script>
