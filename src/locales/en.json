@@ -1,6 +1,6 @@
 {
   "common": {
-    "testingAlert": "This website and cs2kz plugin are currently in the testing phase. Please be aware that all records and data may be wiped at any time as part of ongoing development.",
+    "testingAlert": "CS2KZ is currently in the testing phase. Please be aware that all records and data will be wiped when CS2KZ is out of beta.",
     "mode": {
       "ckz": "CKZ",
       "vnl": "VNL"

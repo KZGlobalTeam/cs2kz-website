@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie'
 import { usePlayerStore } from './stores/player'
 import { api } from './utils'
 import TheHeader from './components/TheHeader.vue'
+import BetaNotice from './components/BetaNotice.vue'
 import { useColorMode } from '@vueuse/core'
 
 const playerStore = usePlayerStore()
@@ -12,13 +13,6 @@ const cookies = new Cookies(null, { path: '/' })
 
 const colorMode = useColorMode()
 colorMode.value = 'dark'
-
-// playerStore.player = {
-//   id: 'STEAM_1:1:454106224',
-//   name: 'razor',
-//   profile_url: 'https://steamcommunity.com/id/9dj/',
-//   avatar_url: 'https://avatars.steamstatic.com/27865a0cdb9bdf00079f94a40e9257fb129a2b2d_medium.jpg',
-// }
 
 playerStore.player = cookies.get('kz-player') || null
 
@@ -47,5 +41,6 @@ async function verifySession() {
     <Suspense>
       <RouterView />
     </Suspense>
+    <BetaNotice />
   </UApp>
 </template>
