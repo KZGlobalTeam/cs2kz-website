@@ -56,7 +56,8 @@
       "discord": "Discord",
       "github": "Github",
       "docs": "文档",
-      "dashboard": "仪表盘"
+      "dashboard": "仪表盘",
+      "app": "App"
     }
   },
   "pagination": {

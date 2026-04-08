@@ -6,6 +6,7 @@ const IconDiscord = resolveComponent('IconDiscord')
 const IconGithub = resolveComponent('IconGithub')
 const IconBook = resolveComponent('IconBook')
 const IconDashboard = resolveComponent('IconDashboard')
+const IconPhone = resolveComponent('IconPhone')
 
 const { t } = useI18n()
 
@@ -24,6 +25,11 @@ const items = computed(() => [
     label: t('nav.tooltip.docs'),
     icon: IconBook,
     href: 'https://docs.cs2kz.org',
+  },
+  {
+    label: t('nav.tooltip.app'),
+    icon: IconPhone,
+    href: 'https://play.google.com/store/apps/details?id=com.cs2.cs2kz',
   },
   {
     label: t('nav.tooltip.dashboard'),

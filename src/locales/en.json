@@ -56,7 +56,8 @@
       "discord": "Discord",
       "github": "Github",
       "docs": "Documentation",
-      "dashboard": "Dashboard"
+      "dashboard": "Dashboard",
+      "app": "App"
     }
   },
   "pagination": {
