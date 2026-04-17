@@ -44,6 +44,7 @@ export function useServers() {
   const servers = computed(() => {
     const filtered = runningServers.value.filter(
       (server) =>
+        !(server.name.startsWith('de_') && server.num_players > 0) &&
         server.name.toLowerCase().includes(debouncedQuery.name.toLowerCase()) &&
         server.owner.name.toLowerCase().includes(debouncedQuery.owner.toLowerCase()) &&
         server.current_map.name.toLowerCase().includes(debouncedQuery.map.toLowerCase()) &&
@@ -53,10 +54,7 @@ export function useServers() {
 
     const sorted = sort(filtered, query.sortOrder, query.sortBy)
 
-    const globals = sorted.filter((server) => server.current_map.isGlobal)
-    const nonGlobals = sorted.filter((server) => !server.current_map.isGlobal)
-
-    return globals.concat(nonGlobals)
+    return sorted
   })
 
   async function fetchServers() {

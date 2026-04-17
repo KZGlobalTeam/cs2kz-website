@@ -23,7 +23,11 @@ async function copyServerIp() {
   <div class="rounded-md ring-2 ring-gray-700">
     <TheImage
       class="w-64 h-36 rounded-tl-md rounded-tr-md"
-      :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`"
+      :src="
+        server.current_map.isGlobal
+          ? `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`
+          : `https://github.com/vap222222/nonglobalmaps/raw/main/${server.current_map.name}.jpg`
+      "
     ></TheImage>
 
     <div class="text-sm text-muted p-2">
