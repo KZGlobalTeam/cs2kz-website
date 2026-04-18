@@ -44,7 +44,7 @@ export function useServers() {
   const servers = computed(() => {
     const filtered = runningServers.value.filter(
       (server) =>
-        !(server.name.startsWith('de_') && server.num_players > 0) &&
+        !(server.current_map.name.startsWith('de_') && server.num_players > 0) &&
         server.name.toLowerCase().includes(debouncedQuery.name.toLowerCase()) &&
         server.owner.name.toLowerCase().includes(debouncedQuery.owner.toLowerCase()) &&
         server.current_map.name.toLowerCase().includes(debouncedQuery.map.toLowerCase()) &&

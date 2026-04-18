@@ -211,6 +211,7 @@
       "players": "Players",
       "createdOn": "Created On"
     },
+    "global": "GLOBAL",
     "noPlayers": "No players"
   }
 }

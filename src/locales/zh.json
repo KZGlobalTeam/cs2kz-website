@@ -211,6 +211,7 @@
       "players": "在线玩家",
       "createdOn": "创建日期"
     },
+    "global": "全球图",
     "noPlayers": "无"
   }
 }
