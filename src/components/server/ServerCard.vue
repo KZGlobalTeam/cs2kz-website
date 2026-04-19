@@ -21,22 +21,14 @@ async function copyServerIp() {
 
 <template>
   <div class="rounded-md ring-2 ring-gray-700">
-    <div class="relative">
-      <TheImage
-        class="w-64 h-36 rounded-tl-md rounded-tr-md"
-        :src="
-          server.current_map.isGlobal
-            ? `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`
-            : `https://github.com/vap222222/nonglobalmaps/raw/main/${server.current_map.name}.jpg`
-        "
-      ></TheImage>
-      <div
-        v-if="server.current_map.isGlobal"
-        class="absolute right-1 bottom-1 px-1 flex text-xs justify-center items-center rounded-sm text-green-400 bg-green-800"
-      >
-        {{ $t('servers.global') }}
-      </div>
-    </div>
+    <TheImage
+      class="w-64 h-36 rounded-tl-md rounded-tr-md"
+      :src="
+        server.current_map.isGlobal
+          ? `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`
+          : `https://github.com/vap222222/nonglobalmaps/raw/main/${server.current_map.name}.jpg`
+      "
+    ></TheImage>
 
     <div class="text-sm text-muted p-2">
       <div class="flex items-center gap-1">
@@ -52,19 +44,26 @@ async function copyServerIp() {
         </UTooltip>
       </div>
 
-      <div class="mt-1 flex items-center justify-between gap-1">
+      <div class="mt-1 flex items-center gap-1">
         <RouterLink
           class="text-base font-semibold text-slate-300 hover:text-slate-200"
           :to="`/maps/${server.current_map.name}`"
           >{{ server.current_map.name }}</RouterLink
         >
-        <span>{{ server.num_players }} / {{ server.max_players }}</span>
+
+        <span v-if="!server.current_map.isGlobal" class="px-1 text-xs rounded-sm text-yellow-400 bg-yellow-800">
+          {{ $t('servers.nonGlobal') }}
+        </span>
       </div>
 
       <div class="mt-1 flex items-center justify-between">
+        <span>{{ server.num_players }} / {{ server.max_players }}</span>
         <div class="flex items-center gap-1">
-          <IconAdmin />
-          <RouterLink class="text-cyan-600 whitespace-nowrap hover:text-cyan-400" :to="`/profile/${server.owner.id}`">
+          <IconAdmin class="mt-0.5" />
+          <RouterLink
+            class="max-w-20 truncate text-cyan-600 whitespace-nowrap hover:text-cyan-400"
+            :to="`/profile/${server.owner.id}`"
+          >
             {{ server.owner.name }}
           </RouterLink>
         </div>

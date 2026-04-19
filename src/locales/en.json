@@ -212,6 +212,7 @@
       "createdOn": "Created On"
     },
     "global": "GLOBAL",
+    "nonGlobal": "NON-GLOBAL",
     "noPlayers": "No players"
   }
 }

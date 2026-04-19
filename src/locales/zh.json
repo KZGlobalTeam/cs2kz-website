@@ -212,6 +212,7 @@
       "createdOn": "创建日期"
     },
     "global": "全球图",
+    "nonGlobal": "非全球图",
     "noPlayers": "无"
   }
 }
