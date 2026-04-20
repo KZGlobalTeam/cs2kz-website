@@ -54,6 +54,9 @@ async function copyServerIp() {
         <span v-if="!server.current_map.isGlobal" class="px-1 text-xs rounded-sm text-yellow-400 bg-yellow-800">
           {{ $t('servers.nonGlobal') }}
         </span>
+        <span v-else class="px-1 text-xs rounded-sm text-green-400 bg-green-800">
+          {{ $t('servers.global') }}
+        </span>
       </div>
 
       <div class="mt-1 flex items-center justify-between">
