@@ -138,6 +138,7 @@ export function useServers() {
 
   return {
     resetQuery,
+    getServers,
     servers,
     availableRegions,
     loading,

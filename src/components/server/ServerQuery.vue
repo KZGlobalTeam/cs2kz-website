@@ -5,9 +5,10 @@ const query = defineModel<ServerQuery>('query', { required: true })
 
 defineProps<{
   availableRegions: { name: string; code: string }[]
+  loading?: boolean
 }>()
 
-const emits = defineEmits(['resetQuery'])
+const emits = defineEmits(['resetQuery', 'refresh'])
 </script>
 
 <template>
@@ -66,5 +67,8 @@ const emits = defineEmits(['resetQuery'])
     </UButtonGroup>
 
     <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> {{ $t('common.reset') }} </UButton>
+    <UButton color="neutral" variant="outline" :loading="loading" @click="emits('refresh')">
+      {{ $t('pagination.refresh') }}
+    </UButton>
   </div>
 </template>
