@@ -53,7 +53,8 @@
     "tooltip": {
       "locale": "Switch language",
       "login": "Login through Steam",
-      "discord": "Discord",
+      "kreedzDiscord": "Kreedz Discord",
+      "mappingDiscord": "Mapping Discord",
       "github": "Github",
       "docs": "Documentation",
       "dashboard": "Dashboard",

@@ -12,19 +12,24 @@ const { t } = useI18n()
 
 const items = computed(() => [
   {
-    label: t('nav.tooltip.discord'),
+    label: t('nav.tooltip.kreedzDiscord'),
     icon: IconDiscord,
     href: 'https://www.discord.gg/csgokz',
   },
   {
-    label: t('nav.tooltip.github'),
-    icon: IconGithub,
-    href: 'https://github.com/KZGlobalTeam',
+    label: t('nav.tooltip.mappingDiscord'),
+    icon: IconDiscord,
+    href: 'https://discord.gg/R593VhE',
   },
   {
     label: t('nav.tooltip.docs'),
     icon: IconBook,
     href: 'https://docs.cs2kz.org',
+  },
+  {
+    label: t('nav.tooltip.github'),
+    icon: IconGithub,
+    href: 'https://github.com/KZGlobalTeam',
   },
   {
     label: t('nav.tooltip.app'),
