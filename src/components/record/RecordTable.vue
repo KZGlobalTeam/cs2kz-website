@@ -16,6 +16,7 @@ import {
   seperateThousands,
   uuidToLocal,
   uuidToLocalDistance,
+  isReplayUnavailable,
 } from '@/utils'
 
 const props = defineProps<{
@@ -34,6 +35,7 @@ const IconMedalSecond = resolveComponent('IconMedalSecond')
 const IconMedalThird = resolveComponent('IconMedalThird')
 const IconCopy = resolveComponent('IconCopy')
 const IconDownload = resolveComponent('IconDownload')
+const IconDownloadGrey = resolveComponent('IconDownloadGrey')
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
 
@@ -250,9 +252,15 @@ const columns = computed(() => {
           ),
       )
 
+      const isUnavailable = isReplayUnavailable(row.original)
+
       const downloadBtn = h(
         UTooltip,
-        { text: t('records.actions.downloadReplay'), content: { side: 'top' }, ui: { content: 'z-[2]' } },
+        {
+          text: isUnavailable ? t('records.actions.replayUnavailable') : t('records.actions.downloadReplay'),
+          content: { side: 'top' },
+          ui: { content: 'z-[2]' },
+        },
         () =>
           h(
             UButton,
@@ -261,12 +269,32 @@ const columns = computed(() => {
               variant: 'ghost',
               square: true,
               color: 'neutral',
-              to: `https://replays.cs2kz.org/${row.original.id}`,
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              onClick: (e: Event) => e.stopPropagation(),
+              disabled: isUnavailable,
+              class: isUnavailable ? 'cursor-not-allowed' : '',
+              onClick: async (e: Event) => {
+                e.stopPropagation()
+                if (isUnavailable) return
+
+                const url = `https://replays.cs2kz.org/${row.original.id}`
+                try {
+                  const res = await fetch(url, { method: 'HEAD' })
+                  if (res.status === 404) {
+                    toast.add({
+                      title: t('records.toast.replayNotFoundTitle'),
+                      description: t('records.toast.replayNotFoundDescription'),
+                      color: 'error',
+                      icon: 'i-heroicons-exclamation-circle',
+                    })
+                  } else {
+                    window.open(url, '_blank', 'noopener,noreferrer')
+                  }
+                } catch (error) {
+                  console.error('[fetch error]', error)
+                  window.open(url, '_blank', 'noopener,noreferrer')
+                }
+              },
             },
-            () => h(IconDownload),
+            () => (isUnavailable ? h(IconDownloadGrey) : h(IconDownload)),
           ),
       )
 

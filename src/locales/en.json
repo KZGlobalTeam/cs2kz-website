@@ -111,10 +111,13 @@
     },
     "actions": {
       "copyId": "Copy ID",
-      "downloadReplay": "Download Replay"
+      "downloadReplay": "Download Replay",
+      "replayUnavailable": "Replay unavailable"
     },
     "toast": {
-      "idCopied": "Record ID copied to clipboard"
+      "idCopied": "Record ID copied to clipboard",
+      "replayNotFoundTitle": "Replay file not found",
+      "replayNotFoundDescription": "WRs, top-10 records and records set on tier 8 courses are stored permanently, non-permanent replays are only kept for 24-48 hours."
     }
   },
   "maps": {

@@ -111,10 +111,13 @@
     },
     "actions": {
       "copyId": "复制 ID",
-      "downloadReplay": "下载回放"
+      "downloadReplay": "下载回放",
+      "replayUnavailable": "回放不可用"
     },
     "toast": {
-      "idCopied": "记录 ID 已复制到剪贴板"
+      "idCopied": "记录 ID 已复制到剪贴板",
+      "replayNotFoundTitle": "回放文件不存在",
+      "replayNotFoundDescription": "世界记录、TOP10的记录和T8难度关卡的记录回放会被永久保存，未被永久保存的回放仅保留 24~48 小时。"
     }
   },
   "maps": {
