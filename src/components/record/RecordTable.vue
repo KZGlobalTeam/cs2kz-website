@@ -32,6 +32,8 @@ const emits = defineEmits<{
 const IconMedalFirst = resolveComponent('IconMedalFirst')
 const IconMedalSecond = resolveComponent('IconMedalSecond')
 const IconMedalThird = resolveComponent('IconMedalThird')
+const IconCopy = resolveComponent('IconCopy')
+const IconDownload = resolveComponent('IconDownload')
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
 
@@ -42,6 +44,7 @@ const { toggleExpand } = useExpand()
 const query = defineModel<RecordQuery>('query', { required: true })
 
 const { t, locale } = useI18n()
+const toast = useToast()
 
 const table = useTemplateRef<ComponentPublicInstance>('table')
 
@@ -215,14 +218,81 @@ const columns = computed(() => {
       return h('span', { class: 'italic' }, row.original.server.name)
     },
   }
+
+  const replayCol: TableColumn<Record> = {
+    id: 'replay',
+    header: t('records.title.replay'),
+    cell: ({ row }) => {
+      const copyBtn = h(
+        UTooltip,
+        { text: t('records.actions.copyId'), content: { side: 'top' }, ui: { content: 'z-[2]' } },
+        () =>
+          h(
+            UButton,
+            {
+              size: 'xs',
+              variant: 'ghost',
+              square: true,
+              color: 'neutral',
+              class: 'cursor-pointer',
+              onClick: async (e: Event) => {
+                e.stopPropagation()
+                await navigator.clipboard.writeText(row.original.id)
+                toast.add({
+                  title: t('records.toast.idCopied'),
+                  color: 'success',
+                  progress: false,
+                  duration: 2000,
+                })
+              },
+            },
+            () => h(IconCopy),
+          ),
+      )
+
+      const downloadBtn = h(
+        UTooltip,
+        { text: t('records.actions.downloadReplay'), content: { side: 'top' }, ui: { content: 'z-[2]' } },
+        () =>
+          h(
+            UButton,
+            {
+              size: 'xs',
+              variant: 'ghost',
+              square: true,
+              color: 'neutral',
+              to: `https://replays.cs2kz.org/${row.original.id}`,
+              target: '_blank',
+              rel: 'noopener noreferrer',
+              onClick: (e: Event) => e.stopPropagation(),
+            },
+            () => h(IconDownload),
+          ),
+      )
+
+      return h('div', { class: 'flex items-center gap-1' }, [copyBtn, downloadBtn])
+    },
+  }
+
   const cols: TableColumn<Record>[] = []
 
   if (props.type === 'records') {
-    cols.push(mapCol, courseCol, tierCol, playerCol, timeCol, nubRankCol, proRankCol, submissionDateCol, serverCol)
+    cols.push(
+      mapCol,
+      courseCol,
+      tierCol,
+      playerCol,
+      timeCol,
+      nubRankCol,
+      proRankCol,
+      submissionDateCol,
+      replayCol,
+      serverCol,
+    )
   } else if (props.type === 'profile-runs') {
-    cols.push(mapCol, courseCol, tierCol, timeCol, nubRankCol, proRankCol, submissionDateCol)
+    cols.push(mapCol, courseCol, tierCol, timeCol, nubRankCol, proRankCol, submissionDateCol, replayCol)
   } else if (props.type === 'course-ranking') {
-    cols.push(rankCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol)
+    cols.push(rankCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol, replayCol)
   }
 
   return cols

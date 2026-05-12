@@ -1,4 +1,4 @@
-﻿{
+{
   "common": {
     "testingAlert": "CS2KZ目前正处于测试阶段。在CS2KZ正式发布后，所有的记录和数据都会被清除，请知悉。",
     "mode": {
@@ -94,6 +94,7 @@
     },
     "title": {
       "rank": "排名",
+      "id": "记录 ID",
       "map": "地图",
       "course": "关卡",
       "tier": "难度",
@@ -105,7 +106,15 @@
       "proPoints": "裸跳积分",
       "server": "服务器",
       "teleports": "读点次数",
-      "date": "日期"
+      "date": "日期",
+      "replay": "回放"
+    },
+    "actions": {
+      "copyId": "复制 ID",
+      "downloadReplay": "下载回放"
+    },
+    "toast": {
+      "idCopied": "记录 ID 已复制到剪贴板"
     }
   },
   "maps": {
@@ -214,6 +223,9 @@
     },
     "global": "全球图",
     "nonGlobal": "非全球图",
-    "noPlayers": "无"
+    "noPlayers": "无",
+    "toast": {
+      "ipCopied": "服务器 IP 已复制到剪贴板"
+    }
   }
 }

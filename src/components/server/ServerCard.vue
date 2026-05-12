@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RunningServer, ServerQuery } from '@/types'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   server: RunningServer
@@ -7,11 +8,12 @@ const props = defineProps<{
 }>()
 
 const toast = useToast()
+const { t } = useI18n()
 
 async function copyServerIp() {
   await navigator.clipboard.writeText(`${props.server.host}:${props.server.port}`)
   toast.add({
-    title: 'Server IP copied to clipboard',
+    title: t('servers.toast.ipCopied'),
     color: 'success',
     progress: false,
     duration: 2000,
