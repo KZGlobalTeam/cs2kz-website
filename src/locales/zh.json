@@ -68,6 +68,13 @@
     "refresh": "刷新"
   },
   "leaderboards": {
+    "rating": {
+      "title": "Rating"
+    },
+    "wrs": {
+      "title": "世界记录",
+      "count": "记录数"
+    },
     "title": {
       "player": "玩家",
       "rating": "评分",

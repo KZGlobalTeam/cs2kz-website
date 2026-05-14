@@ -3,7 +3,7 @@ import { useStyleStore } from '@/stores/style'
 import { reactive, ref, watch } from 'vue'
 import { api } from '@/utils'
 
-export function useLeaderboard() {
+export function useRatingLeaderboard() {
   const styleStore = useStyleStore()
 
   const loading = ref(false)

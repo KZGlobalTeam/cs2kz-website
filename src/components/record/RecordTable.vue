@@ -20,7 +20,7 @@ import {
 } from '@/utils'
 
 const props = defineProps<{
-  type: 'profile-runs' | 'records' | 'course-ranking'
+  type: 'profile-runs' | 'records' | 'course-ranking' | 'player-wrs'
   total: number
   records: Record[]
   loading: boolean
@@ -79,7 +79,7 @@ const columns = computed(() => {
     accessorKey: 'map',
     header: t('records.title.map'),
     cell: ({ row }) => {
-      return props.type === 'records'
+      return props.type === 'records' || props.type === 'player-wrs'
         ? h('div', { class: 'flex items-center gap-2' }, [
             h(TheImage, {
               src: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/1.webp`,
@@ -112,7 +112,7 @@ const columns = computed(() => {
       return h(
         RouterLink,
         {
-          class: 'inline-block max-w-48 truncate text-lg hover:text-slate-300 cursor-pointer',
+          class: 'block max-w-48 truncate text-lg hover:text-slate-300 cursor-pointer',
           to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
         },
         () => row.original.course.name,
@@ -337,6 +337,8 @@ const columns = computed(() => {
     cols.push(mapCol, courseCol, tierCol, timeCol, nubRankCol, proRankCol, submissionDateCol, replayCol)
   } else if (props.type === 'course-ranking') {
     cols.push(rankCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol, replayCol)
+  } else if (props.type === 'player-wrs') {
+    cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol)
   }
 
   return cols
@@ -368,7 +370,7 @@ onMounted(() => {
     :loading
     :ui="{ tbody: 'cursor-pointer' }"
     @select="toggleExpand"
-    class="border border-gray-700 rounded-md"
+    :class="type === 'player-wrs' ? '' : 'border border-gray-700 rounded-md'"
   >
     <template #expanded="{ row }">
       <div class="p-3">

@@ -68,6 +68,13 @@
     "refresh": "Refresh"
   },
   "leaderboards": {
+    "rating": {
+      "title": "Rating"
+    },
+    "wrs": {
+      "title": "World Records",
+      "count": "WRs"
+    },
     "title": {
       "player": "Player",
       "rating": "Rating",
