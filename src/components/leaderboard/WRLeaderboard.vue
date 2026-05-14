@@ -21,7 +21,7 @@ const emits = defineEmits<{
       <li
         v-for="entry in leaderboard"
         :key="entry.player.id"
-        class="grid grid-cols-[1fr_auto] gap-3 px-4 py-3 items-center"
+        class="grid grid-cols-[1fr_auto] h-12 gap-3 px-4 py-2 items-center"
       >
         <RouterLink
           :to="`/profile/${entry.player.id}`"
@@ -32,7 +32,7 @@ const emits = defineEmits<{
 
         <button
           type="button"
-          class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-amber-400 hover:bg-amber-400/10 transition-colors cursor-pointer"
+          class="inline-flex items-center gap-1 rounded-md px-2 text-amber-400 hover:bg-amber-400/10 transition-colors cursor-pointer"
           @click="emits('openDrawer', entry.player.id)"
         >
           <span class="font-semibold">{{ entry.count }}</span>

@@ -39,7 +39,7 @@ const rows = computed(() => {
       <li
         v-for="row in rows"
         :key="row.player.id"
-        class="grid grid-cols-[40px_1fr_1fr_1fr] gap-3 px-3 py-2 items-center"
+        class="grid grid-cols-[40px_1fr_1fr_1fr] h-12 gap-3 px-3 py-2 items-center"
       >
         <span class="text-gray-400">
           {{ row.rank }}
