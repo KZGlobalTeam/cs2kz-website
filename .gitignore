@@ -38,3 +38,5 @@ components.d.ts
 openapi.json
 
 .trae
+
+.playwright-cli

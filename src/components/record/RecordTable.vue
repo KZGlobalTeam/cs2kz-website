@@ -38,6 +38,7 @@ const IconDownload = resolveComponent('IconDownload')
 const IconDownloadGrey = resolveComponent('IconDownloadGrey')
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
+const TheImage = resolveComponent('TheImage')
 
 const sorting = ref([])
 
@@ -78,14 +79,29 @@ const columns = computed(() => {
     accessorKey: 'map',
     header: t('records.title.map'),
     cell: ({ row }) => {
-      return h(
-        RouterLink,
-        {
-          class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
-          to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
-        },
-        () => row.original.map.name,
-      )
+      return props.type === 'records'
+        ? h('div', { class: 'flex items-center gap-2' }, [
+            h(TheImage, {
+              src: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/1.webp`,
+              class: 'w-24 h-auto object-cover rounded-sm ring-1 ring-gray-700',
+            }),
+            h(
+              RouterLink,
+              {
+                class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
+                to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
+              },
+              () => row.original.map.name,
+            ),
+          ])
+        : h(
+            RouterLink,
+            {
+              class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
+              to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
+            },
+            () => row.original.map.name,
+          )
     },
   }
 
