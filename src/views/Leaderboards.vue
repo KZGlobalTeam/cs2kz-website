@@ -21,10 +21,15 @@ const {
 
 const drawerOpen = ref(false)
 
+const currentPlayerId = ref<string>()
+
 function openDrawer(playerId: string) {
-  playerWrs.value = []
-  playerWrsQuery.player = playerId
+  if (currentPlayerId.value !== playerId) {
+    playerWrs.value = []
+    playerWrsQuery.player = playerId
+  }
   drawerOpen.value = true
+  currentPlayerId.value = playerId
 }
 </script>
 
