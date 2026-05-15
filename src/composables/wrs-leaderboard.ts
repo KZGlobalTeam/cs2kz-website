@@ -88,5 +88,12 @@ async function fetchWorldRecords(mode: Mode, leaderboardType: LeaderboardType) {
     },
   })
 
-  return data?.values ?? []
+  if (data) {
+    // max_rank=1 and has_teleports=null doesn't guarantee overall wrs
+    return (data.values as Record[]).filter((record) =>
+      leaderboardType === 'pro' ? record.pro_rank === 1 : record.nub_rank === 1,
+    )
+  } else {
+    return []
+  }
 }

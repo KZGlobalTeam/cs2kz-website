@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRatingLeaderboard } from '@/composables/rating-leaderboard'
 import { useWRsLeaderboard } from '@/composables/wrs-leaderboard'
 import { useRecords } from '@/composables/records'
@@ -13,11 +13,25 @@ const {
 const { leaderboard: wrLeaderboard, loading: wrLoading } = useWRsLeaderboard()
 
 const {
-  records: playerWrs,
+  records: playerRecords,
   loading: playerWrsLoading,
   total: playerWrsTotal,
   query: playerWrsQuery,
 } = useRecords({ max_rank: 1 })
+
+const playerWrs = computed({
+  get() {
+    if (playerWrsQuery.leaderboardType === 'overall') {
+      // max_rank=1 and has_teleports=null doesn't guarantee overall wrs
+      return playerRecords.value.filter((record) => record.nub_rank === 1)
+    } else {
+      return playerRecords.value
+    }
+  },
+  set(value) {
+    playerRecords.value = value
+  },
+})
 
 const drawerOpen = ref(false)
 
