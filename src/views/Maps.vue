@@ -22,7 +22,10 @@ const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMap
       <IconLoading class="inline" />
     </div>
 
-    <div v-else-if="maps.length > 0" class="mt-4 p-3 flex-1 overflow-auto border border-gray-700 rounded-md">
+    <div
+      v-else-if="maps.length > 0"
+      class="mt-4 p-3 flex-1 list-wrapper overflow-auto border border-gray-700 rounded-md"
+    >
       <MapTiles :query="query" :loading="loading" :maps="maps" />
     </div>
 

@@ -14,7 +14,7 @@ const { servers, availableRegions, loading, query, resetQuery, getServers } = us
         @refresh="getServers"
       />
     </div>
-    <div class="mt-4 p-3 flex-1 overflow-auto border border-gray-700 rounded-md">
+    <div class="mt-4 p-3 flex-1 list-wrapper overflow-auto border border-gray-700 rounded-md">
       <ServerTiles :query="query" :loading="loading" :servers="servers" />
     </div>
   </div>

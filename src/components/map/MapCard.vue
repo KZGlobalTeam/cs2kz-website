@@ -104,6 +104,11 @@ defineProps<{
 </template>
 
 <style lang="css">
+.courses {
+  scrollbar-width: thin;
+  scrollbar-color: #343434 #212121;
+}
+
 .courses::-webkit-scrollbar {
   width: 2px;
   height: 2px;

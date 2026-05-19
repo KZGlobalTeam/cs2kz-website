@@ -66,7 +66,7 @@ function openDrawer(playerId: string) {
           <IconLoading class="inline" />
         </div>
 
-        <div v-else-if="raingLeaderboard.length > 0" class="px-2 py-1 h-[calc(100%-3rem)] overflow-auto">
+        <div v-else-if="raingLeaderboard.length > 0" class="px-2 py-1 h-[calc(100%-3rem)] list-wrapper overflow-auto">
           <RatingLeaderboard :leaderboard="raingLeaderboard" :query="ratingQuery" />
         </div>
 
@@ -86,7 +86,7 @@ function openDrawer(playerId: string) {
           <IconLoading class="inline" />
         </div>
 
-        <div v-else-if="wrLeaderboard.length > 0" class="px-2 py-1 h-[calc(100%-3rem)] overflow-auto">
+        <div v-else-if="wrLeaderboard.length > 0" class="px-2 py-1 h-[calc(100%-3rem)] list-wrapper overflow-auto">
           <WRLeaderboard :leaderboard="wrLeaderboard" @open-drawer="openDrawer" />
         </div>
 

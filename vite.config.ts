@@ -36,6 +36,7 @@ export default defineConfig({
         },
         table: {
           slots: {
+            root: 'list-wrapper',
             th: 'py-2 text-base [&>button]:text-base [&>button]:text-highlighted [&>button]:font-semibold',
             td: 'py-1 text-base',
           },
