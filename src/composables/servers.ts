@@ -80,7 +80,9 @@ export function useServers() {
             approved_at: server.approved_at,
             current_map: {
               name: server.a2s_info!.current_map,
-              isGlobal: server.a2s_info!.current_map_info !== null,
+              isGlobal:
+                server.a2s_info!.current_map_info !== null &&
+                server.a2s_info!.current_map_info?.global_state === 'approved',
             },
             num_players: server.a2s_info!.num_players,
             max_players: server.a2s_info!.max_players,
