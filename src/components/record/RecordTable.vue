@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, h, resolveComponent, useTemplateRef, onMounted } from 'vue'
+import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import type { Record, RecordQuery } from '@/types'
 import RecordDetail from './RecordDetail.vue'
@@ -36,6 +36,9 @@ const IconMedalThird = resolveComponent('IconMedalThird')
 const IconCopy = resolveComponent('IconCopy')
 const IconDownload = resolveComponent('IconDownload')
 const IconDownloadGrey = resolveComponent('IconDownloadGrey')
+const IconSortUp = resolveComponent('IconSortUp')
+const IconSortDown = resolveComponent('IconSortDown')
+const IconUpDown = resolveComponent('IconUpDown')
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
 const TheImage = resolveComponent('TheImage')
@@ -50,6 +53,35 @@ const { t, locale } = useI18n()
 const toast = useToast()
 
 const table = useTemplateRef<ComponentPublicInstance>('table')
+
+async function toggleSorting(sortBy: RecordQuery['sort_by']) {
+  if (query.value.sort_order === 'descending') {
+    query.value.sort_order = 'ascending'
+  } else if (query.value.sort_order === 'ascending') {
+    query.value.sort_order = undefined
+  } else {
+    query.value.sort_order = 'descending'
+  }
+
+  if (query.value.sort_order === undefined) {
+    query.value.sort_by = undefined
+  } else {
+    query.value.sort_by = sortBy
+  }
+
+  await nextTick()
+  table.value?.$el.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function getSortIcon() {
+  if (query.value.sort_order === 'ascending') {
+    return IconSortUp
+  } else if (query.value.sort_order === 'descending') {
+    return IconSortDown
+  } else {
+    return IconUpDown
+  }
+}
 
 const columns = computed(() => {
   const rankCol: TableColumn<Record> = {
@@ -134,18 +166,24 @@ const columns = computed(() => {
 
   const timeCol: TableColumn<Record> = {
     accessorKey: 'time',
-    header: ({ column }) => {
-      return h(UButton, {
-        color: 'neutral',
-        variant: 'ghost',
-        label: t('records.title.time'),
-        class: '-mx-2.5',
-        onClick: () => {
-          column.toggleSorting(column.getIsSorted() === 'asc')
-          query.value.sort_by = 'time'
-          query.value.sort_order = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
-        },
-      })
+    header: () => {
+      return props.type === 'course-ranking'
+        ? t('records.title.time')
+        : h(
+            UButton,
+            {
+              color: 'neutral',
+              variant: 'ghost',
+              label: t('records.title.time'),
+              class: '-mx-2.5',
+              onClick: () => {
+                toggleSorting('time')
+              },
+            },
+            {
+              leading: () => (query.value.sort_by !== 'time' ? h(IconUpDown) : h(getSortIcon())),
+            },
+          )
     },
     cell: ({ row }) => {
       return h('div', { class: 'flex items-start gap-1' }, [
@@ -207,18 +245,24 @@ const columns = computed(() => {
 
   const submissionDateCol: TableColumn<Record> = {
     accessorKey: 'submitted_at',
-    header: ({ column }) => {
-      return h(UButton, {
-        color: 'neutral',
-        variant: 'ghost',
-        label: t('records.title.date'),
-        class: '-mx-2.5',
-        onClick: () => {
-          column.toggleSorting(column.getIsSorted() === 'asc')
-          query.value.sort_by = 'submission-date'
-          query.value.sort_order = column.getIsSorted() === 'asc' ? 'ascending' : 'descending'
-        },
-      })
+    header: () => {
+      return props.type === 'course-ranking'
+        ? t('records.title.date')
+        : h(
+            UButton,
+            {
+              color: 'neutral',
+              variant: 'ghost',
+              label: t('records.title.date'),
+              class: '-mx-2.5',
+              onClick: () => {
+                toggleSorting('submission-date')
+              },
+            },
+            {
+              leading: () => (query.value.sort_by !== 'submission-date' ? h(IconUpDown) : h(getSortIcon())),
+            },
+          )
     },
     cell: ({ row }) => {
       return h(

@@ -101,8 +101,8 @@ export interface RecordQuery {
   map: string
   course: string
   server: string
-  sort_by: 'submission-date' | 'time'
-  sort_order: 'ascending' | 'descending'
+  sort_by?: 'submission-date' | 'time'
+  sort_order?: 'ascending' | 'descending'
   limit: number
   offset: number
 }
