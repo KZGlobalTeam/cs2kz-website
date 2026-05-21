@@ -1,14 +1,28 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { ServerQuery } from '@/types'
 
 const query = defineModel<ServerQuery>('query', { required: true })
 
-defineProps<{
+const props = defineProps<{
   availableRegions: { name: string; code: string }[]
   loading?: boolean
 }>()
 
 const emits = defineEmits(['resetQuery', 'refresh'])
+
+const { t, te } = useI18n()
+
+const localizedRegions = computed(() => {
+  return props.availableRegions.map((region) => {
+    const key = `servers.regions.${region.code}`
+    return {
+      ...region,
+      name: te(key) ? t(key) : region.name,
+    }
+  })
+})
 </script>
 
 <template>
@@ -36,7 +50,7 @@ const emits = defineEmits(['resetQuery', 'refresh'])
     <USelect
       v-if="availableRegions.length > 0"
       v-model="query.region_code"
-      :items="availableRegions"
+      :items="localizedRegions"
       label-key="name"
       value-key="code"
       :placeholder="$t('servers.query.selectRegion')"

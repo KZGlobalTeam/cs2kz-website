@@ -216,6 +216,15 @@
     "courseRanking": "Course Ranking"
   },
   "servers": {
+    "regions": {
+      "NA": "North America",
+      "SA": "South America",
+      "EU": "Europe",
+      "CN": "China",
+      "ASIA": "Asia",
+      "OCE": "Oceania",
+      "CIS": "CIS"
+    },
     "query": {
       "name": "Name",
       "map": "Map",
