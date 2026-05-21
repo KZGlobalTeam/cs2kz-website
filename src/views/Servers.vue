@@ -14,7 +14,10 @@ const { servers, availableRegions, loading, query, resetQuery, getServers } = us
         @refresh="getServers"
       />
     </div>
-    <div class="mt-4 p-3 flex-1 list-wrapper overflow-auto border border-gray-700 rounded-md">
+    <div v-if="loading" class="mt-4 p-3 flex justify-center border border-gray-700 rounded-md">
+      <IconLoading />
+    </div>
+    <div v-else class="mt-4 p-3 flex-1 list-wrapper overflow-auto border border-gray-700 rounded-md">
       <ServerTiles :query="query" :loading="loading" :servers="servers" />
     </div>
   </div>
