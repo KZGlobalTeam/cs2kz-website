@@ -105,6 +105,7 @@
       "map": "Map",
       "course": "Course",
       "tier": "Tier",
+      "proTier": "Pro Tier",
       "player": "Player",
       "time": "Time",
       "nubRank": "Overall Rank",

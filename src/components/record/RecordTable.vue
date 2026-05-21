@@ -155,7 +155,19 @@ const columns = computed(() => {
     accessorKey: 'tier',
     header: t('records.title.tier'),
     cell: ({ row }) => {
-      const tier = row.original.teleports > 0 ? row.original.course.nub_tier : row.original.course.pro_tier
+      const tier = row.original.course.nub_tier
+      const tierNumber = getTierNumber(tier)
+      const tierColor = getTierColor(tier)
+
+      return h('span', { class: 'text-lg font-medium ', style: { color: tierColor } }, tierNumber)
+    },
+  }
+
+  const proTierCol: TableColumn<Record> = {
+    accessorKey: 'tier',
+    header: t('records.title.proTier'),
+    cell: ({ row }) => {
+      const tier = row.original.course.pro_tier
       const tierNumber = getTierNumber(tier)
       const tierColor = getTierColor(tier)
 
@@ -368,6 +380,7 @@ const columns = computed(() => {
       mapCol,
       courseCol,
       tierCol,
+      proTierCol,
       playerCol,
       timeCol,
       nubRankCol,
@@ -377,11 +390,11 @@ const columns = computed(() => {
       serverCol,
     )
   } else if (props.type === 'profile-runs') {
-    cols.push(mapCol, courseCol, tierCol, timeCol, nubRankCol, proRankCol, submissionDateCol, replayCol)
+    cols.push(mapCol, courseCol, tierCol, proTierCol, timeCol, nubRankCol, proRankCol, submissionDateCol, replayCol)
   } else if (props.type === 'course-ranking') {
     cols.push(rankCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol, replayCol)
   } else if (props.type === 'player-wrs') {
-    cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol)
+    cols.push(mapCol, courseCol, tierCol, proTierCol, timeCol, submissionDateCol)
   }
 
   return cols

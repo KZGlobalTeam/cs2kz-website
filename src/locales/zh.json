@@ -105,6 +105,7 @@
       "map": "地图",
       "course": "关卡",
       "tier": "难度",
+      "proTier": "裸跳难度",
       "player": "玩家",
       "time": "用时",
       "nubRank": "总排名",
