@@ -26,7 +26,10 @@ const rankInfo = computed(() => getRankByRating(rating.value))
 
     <div v-else class="flex flex-col gap-2 lg:gap-5">
       <div class="flex items-center gap-1">
-        <p class="text-2xl font-semibold max-w-56 truncate" :class="profile ? 'text-cyan-600' : 'text-gray-700'">
+        <p
+          class="text-2xl font-semibold max-w-56 xl:max-w-fit truncate"
+          :class="profile ? 'text-cyan-600' : 'text-gray-700'"
+        >
           {{ profile ? profile.name : $t('common.unknown') }}
         </p>
         <UButton v-if="profile" square variant="ghost" :to="profileUrl" target="_blank">
