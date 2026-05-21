@@ -76,9 +76,13 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   )
 
   const completion = computed(() => {
+    const tierRecords = recordQuery.tier
+      ? leaderboardRecords.value.filter((record) => getRecordTier(record, leaderboardType.value) === recordQuery.tier)
+      : leaderboardRecords.value
+
     return {
       ...calcTopRecords(leaderboardRecords.value, leaderboardType.value),
-      pointsDistribution: calcPointsDistribution(leaderboardRecords.value, leaderboardType.value),
+      pointsDistribution: calcPointsDistribution(tierRecords, leaderboardType.value),
       completedCourses: calcCompletedCourses(leaderboardRecords.value, leaderboardType.value),
       totalCourses: totalCourses.value,
     }
