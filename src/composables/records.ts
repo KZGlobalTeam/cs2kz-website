@@ -109,5 +109,6 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
     total,
     incrementRecords,
     resetQuery,
+    getRecords,
   }
 }

@@ -4,10 +4,10 @@ import { debounce } from 'radash'
 import type { RecordQuery } from '@/types'
 
 defineProps<{
-  type: 'profile-runs' | 'records' | 'course-ranking'
+  loading: boolean
 }>()
 
-const emits = defineEmits(['resetQuery'])
+const emits = defineEmits(['resetQuery', 'refresh'])
 
 const query = defineModel<RecordQuery>('query', { required: true })
 
@@ -46,13 +46,13 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
       </template>
     </UInput>
 
-    <UInput v-if="type !== 'profile-runs'" v-model="query.course" :placeholder="$t('records.query.course')">
+    <UInput v-model="query.course" :placeholder="$t('records.query.course')">
       <template #trailing>
         <IconCourse />
       </template>
     </UInput>
 
-    <UInput v-if="type !== 'profile-runs'" v-model="query.player" :placeholder="$t('records.query.player')">
+    <UInput v-model="query.player" :placeholder="$t('records.query.player')">
       <template #trailing>
         <IconPlayer />
       </template>
@@ -65,5 +65,8 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
     </UInput>
 
     <UButton color="neutral" variant="outline" @click="emits('resetQuery')"> {{ $t('common.reset') }} </UButton>
+    <UButton color="neutral" variant="outline" :loading="loading" @click="emits('refresh')">
+      {{ $t('pagination.refresh') }}
+    </UButton>
   </div>
 </template>

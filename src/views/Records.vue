@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
 
-const { records, total, loading, query, incrementRecords, resetQuery } = useRecords({ max_rank: 1 })
+const { records, total, loading, query, incrementRecords, resetQuery, getRecords } = useRecords({ max_rank: 1 })
 </script>
 
 <template>
@@ -9,7 +9,12 @@ const { records, total, loading, query, incrementRecords, resetQuery } = useReco
     <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
       <MainSwitch />
 
-      <RecordQuery type="records" v-model:query="query" @reset-query="() => resetQuery({ max_rank: 1 })" />
+      <RecordQuery
+        v-model:query="query"
+        :loading="loading"
+        @reset-query="resetQuery({ max_rank: 1 })"
+        @refresh="getRecords({ offset: 0 })"
+      />
     </div>
 
     <RecordTable
