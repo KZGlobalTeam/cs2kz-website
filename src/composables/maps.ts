@@ -96,7 +96,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
           approved_at: map.approved_at,
         }
       })
-      .filter((map) => map.name.includes(query.name))
+      .filter((map) => map.name.toLowerCase().includes(query.name.toLowerCase()))
       .filter((map) => {
         if (query.mapper === '') return true
         const needle = query.mapper.toLowerCase()
