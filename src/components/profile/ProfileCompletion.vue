@@ -11,6 +11,7 @@ defineProps<{
     completedCourses: number[]
     totalCourses: number[]
   }
+  loading: boolean
   selectedTier?: Tier
   selectedPoints?: number
 }>()
@@ -27,8 +28,10 @@ const emits = defineEmits<{
     <p class="text-3xl font-semibold mb-2">
       {{ $t('profile.completion.title') }}
     </p>
-
-    <div class="p-4 border border-gray-700 rounded-md">
+    <div v-if="loading" class="p-4 border border-gray-700 rounded-md flex justify-center items-center">
+      <IconLoading />
+    </div>
+    <div v-else class="p-4 border border-gray-700 rounded-md">
       <!-- top records -->
       <p class="text-xl font-medium mb-2">
         {{ $t('profile.completion.topRecords') }}

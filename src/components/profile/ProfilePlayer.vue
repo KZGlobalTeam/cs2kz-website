@@ -7,6 +7,7 @@ const props = defineProps<{
   profile: Player | null
   steamProfile: PlayerSteam | null
   mode: Mode
+  loading: boolean
 }>()
 
 const avatarUrl = computed(() => props.steamProfile?.avatar_url.replace(/_medium/, '_full') || '')
@@ -19,7 +20,11 @@ const rankInfo = computed(() => getRankByRating(rating.value))
   <div class="flex gap-2 lg:gap-4 p-4 border border-gray-700 rounded-md lg:text-lg">
     <TheImage :src="avatarUrl" class="w-24 h-24 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400" />
 
-    <div class="flex flex-col gap-2 lg:gap-5">
+    <div v-if="loading" class="w-20 flex justify-center items-center">
+      <IconLoading />
+    </div>
+
+    <div v-else class="flex flex-col gap-2 lg:gap-5">
       <div class="flex items-center gap-1">
         <p class="text-2xl font-semibold max-w-56 truncate" :class="profile ? 'text-cyan-600' : 'text-gray-700'">
           {{ profile ? profile.name : $t('common.unknown') }}
