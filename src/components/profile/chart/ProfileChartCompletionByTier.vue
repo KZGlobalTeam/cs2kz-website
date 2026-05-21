@@ -44,7 +44,7 @@ const completionPercentages = computed(() => {
 
         <!-- Bar container -->
         <div
-          class="flex-grow h-8 rounded-sm overflow-hidden transition-colors"
+          class="flex-grow h-8 rounded-sm overflow-hidden hover:scale-102 hover:bg-blue-600/20 transition-all"
           :class="
             selectedTier === completionTiers[index]
               ? 'bg-blue-600/20 ring-1 ring-blue-500/60'
