@@ -166,7 +166,13 @@
       "title": "制作地图"
     },
     "runs": {
-      "title": "记录"
+      "title": "记录",
+      "query": {
+        "rank": "选择排名",
+        "tier": "选择难度",
+        "points": "选择分数",
+        "pointsAll": "全部分数"
+      }
     },
     "history": {
       "title": "历史记录",

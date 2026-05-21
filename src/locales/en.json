@@ -166,7 +166,13 @@
       "title": "Maps created"
     },
     "runs": {
-      "title": "Runs"
+      "title": "Runs",
+      "query": {
+        "rank": "Select rank",
+        "tier": "Select tier",
+        "points": "Select points",
+        "pointsAll": "All points"
+      }
     },
     "history": {
       "title": "History",

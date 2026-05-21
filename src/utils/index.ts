@@ -63,8 +63,45 @@ export const mapStateColorMap = {
   graveyard: 'text-gray-400 bg-gray-400',
 }
 
-export function isNubRecord(record: Run): boolean {
-  return record.teleports > 0
+export const completionTiers: Tier[] = [
+  'very-easy',
+  'easy',
+  'medium',
+  'advanced',
+  'hard',
+  'very-hard',
+  'extreme',
+  'death',
+]
+
+export const pointsDistLabels = [
+  '0-1000',
+  '1000+',
+  '2000+',
+  '3000+',
+  '4000+',
+  '5000+',
+  '6000+',
+  '7000+',
+  '8000+',
+  '9000+',
+  'WRs',
+]
+
+export function getRecordTier(record: Run, leaderboardType: LeaderboardType): Tier {
+  return leaderboardType === 'pro' ? record.course.pro_tier : record.course.nub_tier
+}
+
+export function getRecordRank(record: Run, leaderboardType: LeaderboardType) {
+  return leaderboardType === 'pro' ? (record.pro_rank as number) : (record.nub_rank as number)
+}
+
+export function getRecordPoints(record: Run, leaderboardType: LeaderboardType) {
+  return leaderboardType === 'pro' ? (record.pro_points as number) : (record.nub_points as number)
+}
+
+export function getPointsBucket(points: number) {
+  return Math.min(Math.floor(points / 1000), 10)
 }
 
 export function getTierNumber(tier: string) {
@@ -164,8 +201,7 @@ export function getWrHistory(records: Run[]) {
   return history.reverse()
 }
 
-// top records and points distribution
-export function calcRanksAndPointsDist(runs: Run[], leaderboardType: LeaderboardType) {
+export function calcTopRecords(runs: Run[], leaderboardType: LeaderboardType) {
   const wrs = runs.filter((record) =>
     leaderboardType === 'pro' ? record.pro_rank === 1 : record.nub_rank === 1,
   ).length
@@ -182,42 +218,30 @@ export function calcRanksAndPointsDist(runs: Run[], leaderboardType: Leaderboard
     leaderboardType === 'pro' ? record.pro_rank! <= 50 : record.nub_rank! <= 50,
   ).length
 
-  const pointsDist = Array.from({ length: 11 }, (_, i) => {
-    const lower = i * 1000
-    const upper = lower + 1000
-    return runs.filter((record) => {
-      if (leaderboardType === 'pro') {
-        return record.pro_points! >= lower && record.pro_points! < upper
-      } else {
-        return record.nub_points! >= lower && record.nub_points! < upper
-      }
-    }).length
-  })
-
   return {
     wrs,
     top10,
     top20,
     top50,
-    pointsDist,
   }
+}
+export function calcPointsDistribution(runs: Run[], leaderboardType: LeaderboardType) {
+  const pointsDistribution = Array.from({ length: pointsDistLabels.length }, (_, index) => {
+    return runs.filter((record) => getPointsBucket(getRecordPoints(record, leaderboardType)) === index).length
+  })
+
+  return pointsDistribution
 }
 
 // completion by tier
 export function calcCompletedCourses(runs: Run[], leaderboardType: LeaderboardType) {
-  const tiers = ['very-easy', 'easy', 'medium', 'advanced', 'hard', 'very-hard', 'extreme', 'death']
-
-  return tiers.map((tier) => {
-    return runs.filter(
-      (record) => tier === (leaderboardType === 'pro' ? record.course.pro_tier : record.course.nub_tier),
-    ).length
+  return completionTiers.map((tier) => {
+    return runs.filter((record) => tier === getRecordTier(record, leaderboardType)).length
   })
 }
 
 export function calcTotalCourses(courses: CourseInfo[]) {
-  const tiers = ['very-easy', 'easy', 'medium', 'advanced', 'hard', 'very-hard', 'extreme', 'death']
-
-  return tiers.map((tier) => {
+  return completionTiers.map((tier) => {
     return courses.filter((course) => course.tier === tier).length
   })
 }

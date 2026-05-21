@@ -1,36 +1,18 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { api, toLocal, seperateThousands, getRankByRating } from '@/utils'
-import { useRoute } from 'vue-router'
-import { useProfile } from '@/composables/profile'
-import type { PlayerSteam } from '@/types'
+import { computed } from 'vue'
+import type { Mode, Player, PlayerSteam } from '@/types'
+import { getRankByRating, seperateThousands, toLocal } from '@/utils'
 
-const route = useRoute()
+const props = defineProps<{
+  profile: Player | null
+  steamProfile: PlayerSteam | null
+  mode: Mode
+}>()
 
-const avatarUrl = ref('')
-const profileUrl = ref('')
-
-const { profile, query } = useProfile(route.params.steamId as string)
-
-watch(
-  () => route.params.steamId,
-  (steamId) => {
-    query.player_id = steamId as string
-    getSteamProfile()
-  },
-)
-
-getSteamProfile()
-
-async function getSteamProfile() {
-  try {
-    const { data: player } = await api.get<PlayerSteam | undefined>(`/players/${route.params.steamId}/steam-profile`)
-    avatarUrl.value = player?.avatar_url.replace(/_medium/, '_full') || ''
-    profileUrl.value = player?.profile_url || ''
-  } catch (error) {
-    console.error(error)
-  }
-}
+const avatarUrl = computed(() => props.steamProfile?.avatar_url.replace(/_medium/, '_full') || '')
+const profileUrl = computed(() => props.steamProfile?.profile_url || '')
+const rating = computed(() => (props.mode === 'classic' ? props.profile?.ckz_rating : props.profile?.vnl_rating) || 0)
+const rankInfo = computed(() => getRankByRating(rating.value))
 </script>
 
 <template>
@@ -61,17 +43,17 @@ async function getSteamProfile() {
           <div
             v-if="profile"
             :style="{
-              color: getRankByRating(query.mode === 'classic' ? profile.ckz_rating : profile.vnl_rating)[1],
-              backgroundColor: `${getRankByRating(query.mode === 'classic' ? profile.ckz_rating : profile.vnl_rating)[1]}20`,
-              border: `1px solid ${getRankByRating(query.mode === 'classic' ? profile.ckz_rating : profile.vnl_rating)[1]}`,
+              color: rankInfo[1],
+              backgroundColor: `${rankInfo[1]}20`,
+              border: `1px solid ${rankInfo[1]}`,
             }"
             class="flex justify-center items-center px-1 font-semibold text-sm rounded-md"
           >
-            {{ getRankByRating(query.mode === 'classic' ? profile.ckz_rating : profile.vnl_rating)[0] }}
+            {{ rankInfo[0] }}
           </div>
           <span class="text-gray-600">/</span>
           <span class="font-medium">
-            {{ profile ? seperateThousands(query.mode === 'classic' ? profile.ckz_rating : profile.vnl_rating) : '-' }}
+            {{ profile ? seperateThousands(rating) : '-' }}
           </span>
         </div>
       </div>

@@ -1,56 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
 import type { Map } from '@/types'
-import { api } from '@/utils'
 
-const route = useRoute()
-
-const maps = ref<Map[]>([])
-const loading = ref(false)
-
-const mapperId = computed(() => route.params.steamId as string)
-
-const mapperMaps = computed(() =>
-  maps.value.filter((map) => map.mappers.some((mapper) => mapper.id === mapperId.value)),
-)
-
-const shouldShow = computed(() => !loading.value && mapperMaps.value.length > 0)
-
-onMounted(() => {
-  getMaps()
-})
-
-async function getMaps() {
-  try {
-    loading.value = true
-
-    const { data } = await api.get('/maps', {
-      params: {
-        state: 'approved',
-        limit: 10000,
-        offset: 0,
-        sort_order: 'descending',
-        sort_by: 'submission-date',
-      },
-    })
-
-    if (data) {
-      maps.value = data.values
-    } else {
-      maps.value = []
-    }
-  } catch (error) {
-    console.log('[fetch error]', error)
-    maps.value = []
-  } finally {
-    loading.value = false
-  }
-}
+defineProps<{
+  maps: Map[]
+}>()
 </script>
 
 <template>
-  <div v-if="shouldShow" class="text-gray-300">
+  <div v-if="maps.length > 0" class="text-gray-300">
     <p class="text-3xl font-semibold mb-2">
       {{ $t('profile.maps.title') }}
     </p>
@@ -58,7 +15,7 @@ async function getMaps() {
     <div class="p-4 border border-gray-700 rounded-md">
       <div class="grid grid-cols-[repeat(auto-fill,13rem)] justify-between gap-4">
         <RouterLink
-          v-for="map in mapperMaps"
+          v-for="map in maps"
           :key="map.id"
           :to="`/maps/${map.name}`"
           class="group rounded-md overflow-hidden ring ring-blue-600/40 hover:ring-blue-600 hover:ring-2 transition"

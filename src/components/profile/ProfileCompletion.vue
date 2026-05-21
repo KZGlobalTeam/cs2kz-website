@@ -1,36 +1,24 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { useRecords } from '@/composables/records'
-import { useCourses } from '@/composables/courses'
-import { useRoute } from 'vue-router'
-import { calcRanksAndPointsDist, calcCompletedCourses, calcTotalCourses } from '@/utils'
+import type { Tier } from '@/types'
 
-const route = useRoute()
+defineProps<{
+  completion: {
+    wrs: number
+    top10: number
+    top20: number
+    top50: number
+    pointsDistribution: number[]
+    completedCourses: number[]
+    totalCourses: number[]
+  }
+  selectedTier?: Tier
+  selectedPoints?: number
+}>()
 
-const { records, query: completionQuery } = useRecords({ player: route.params.steamId as string, limit: 10000 })
-
-const { courses } = useCourses({ limit: 10000 })
-
-const ranksAndPoints = ref()
-const completedCourses = ref()
-
-watch(
-  () => route.params.steamId,
-  (steamId) => {
-    completionQuery.player = steamId as string
-  },
-)
-
-watch(
-  records,
-  (records) => {
-    ranksAndPoints.value = calcRanksAndPointsDist(records, completionQuery.leaderboardType)
-    completedCourses.value = calcCompletedCourses(records, completionQuery.leaderboardType)
-  },
-  { immediate: true },
-)
-
-const totalCourses = computed(() => calcTotalCourses(courses.value))
+const emits = defineEmits<{
+  (e: 'selectTier', tier: Tier | undefined): void
+  (e: 'selectPoints', points: number | undefined): void
+}>()
 </script>
 
 <template>
@@ -47,10 +35,10 @@ const totalCourses = computed(() => calcTotalCourses(courses.value))
       </p>
       <ProfileTopRecords
         class="mb-4"
-        :wrs="ranksAndPoints.wrs"
-        :top10="ranksAndPoints.top10"
-        :top20="ranksAndPoints.top20"
-        :top50="ranksAndPoints.top50"
+        :wrs="completion.wrs"
+        :top10="completion.top10"
+        :top20="completion.top20"
+        :top50="completion.top50"
       />
 
       <div class="flex flex-col lg:flex-row gap-4">
@@ -59,14 +47,24 @@ const totalCourses = computed(() => calcTotalCourses(courses.value))
           <p class="text-xl font-medium mb-2">
             {{ $t('profile.completion.completionPerTier') }}
           </p>
-          <ProfileChartCompletionByTier :completed-courses="completedCourses" :total-courses="totalCourses" />
+          <ProfileChartCompletionByTier
+            :completed-courses="completion.completedCourses"
+            :total-courses="completion.totalCourses"
+            :selected-tier="selectedTier"
+            @select-tier="emits('selectTier', $event)"
+          />
         </div>
         <!-- points distribution -->
         <div class="flex-1">
           <p class="text-xl font-medium mb-2">
             {{ $t('profile.completion.pointsDist') }}
           </p>
-          <ProfileChartPointsDist class="mb-4" :points-dist="ranksAndPoints.pointsDist" />
+          <ProfileChartPointsDist
+            class="mb-4"
+            :points-distribution="completion.pointsDistribution"
+            :selected-points="selectedPoints"
+            @select-points="emits('selectPoints', $event)"
+          />
         </div>
       </div>
     </div>

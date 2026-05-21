@@ -1,24 +1,22 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { Tier } from '@/types'
 import { useI18n } from 'vue-i18n'
+import { completionTiers } from '@/utils'
 
 const props = defineProps<{
   completedCourses: number[]
   totalCourses: number[]
+  selectedTier?: Tier
+}>()
+
+const emits = defineEmits<{
+  (e: 'selectTier', tier: Tier): void
 }>()
 
 const { t } = useI18n()
 
-const labels = computed(() => [
-  t('common.tier.very-easy'),
-  t('common.tier.easy'),
-  t('common.tier.medium'),
-  t('common.tier.advanced'),
-  t('common.tier.hard'),
-  t('common.tier.very-hard'),
-  t('common.tier.extreme'),
-  t('common.tier.death'),
-])
+const labels = computed(() => completionTiers.map((tier) => t(`common.tier.${tier}`)))
 const labelColors = ['#02e319', '#4CAF50', '#8BC34A', '#d8e302', '#FFC107', '#e34202', '#bb02db', '#e800e1']
 
 const completionPercentages = computed(() => {
@@ -32,17 +30,31 @@ const completionPercentages = computed(() => {
 <template>
   <div class="w-full">
     <div class="flex flex-col space-y-3">
-      <div v-for="(total, index) in totalCourses" :key="index" class="flex items-center w-full">
+      <button
+        v-for="(total, index) in totalCourses"
+        :key="index"
+        type="button"
+        class="flex items-center w-full text-left cursor-pointer"
+        @click="emits('selectTier', completionTiers[index])"
+      >
         <!-- Tier label with its color -->
         <div class="w-[90px] text-right pr-2 text-sm flex-shrink-0" :style="{ color: labelColors[index] }">
           {{ labels[index] }}
         </div>
 
         <!-- Bar container -->
-        <div class="flex-grow bg-[rgba(69,69,69,0.3)] h-8 rounded-sm overflow-hidden">
+        <div
+          class="flex-grow h-8 rounded-sm overflow-hidden transition-colors"
+          :class="
+            selectedTier === completionTiers[index]
+              ? 'bg-blue-600/20 ring-1 ring-blue-500/60'
+              : 'bg-[rgba(69,69,69,0.3)]'
+          "
+        >
           <!-- Inner bar representing completed -->
           <div
-            class="h-full bg-[#bfbfbf] transition-all duration-500 ease-in-out flex items-center"
+            class="h-full transition-all duration-500 ease-in-out flex items-center"
+            :class="selectedTier === completionTiers[index] ? 'bg-blue-500/80' : 'bg-[#bfbfbf]'"
             :style="{ width: `${completionPercentages[index]}%` }"
           ></div>
         </div>
@@ -53,7 +65,7 @@ const completionPercentages = computed(() => {
         >
           {{ completedCourses[index] }} / {{ total }}
         </span>
-      </div>
+      </button>
     </div>
   </div>
 </template>

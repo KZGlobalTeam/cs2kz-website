@@ -107,6 +107,17 @@ export interface RecordQuery {
   offset: number
 }
 
+export interface PlayerRecordQuery {
+  map: string
+  rank?: number
+  server: string
+  tier?: Tier
+  points?: number
+  top: boolean
+  sort_by?: 'submission-date' | 'time'
+  sort_order?: 'ascending' | 'descending'
+}
+
 export type Server = components['schemas']['Server']
 
 export interface RunningServer {

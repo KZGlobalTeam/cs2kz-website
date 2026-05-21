@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import type { Record, RecordQuery } from '@/types'
+import type { Record, RecordQuery, PlayerRecordQuery } from '@/types'
 import RecordDetail from './RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
@@ -12,7 +12,6 @@ import {
   getTierNumber,
   formatTime,
   getTierColor,
-  isNubRecord,
   seperateThousands,
   uuidToLocal,
   uuidToLocalDistance,
@@ -21,7 +20,7 @@ import {
 
 const props = defineProps<{
   type: 'profile-runs' | 'records' | 'course-ranking' | 'player-wrs'
-  total: number
+  total?: number
   records: Record[]
   loading: boolean
 }>()
@@ -47,7 +46,7 @@ const sorting = ref([])
 
 const { toggleExpand } = useExpand()
 
-const query = defineModel<RecordQuery>('query', { required: true })
+const query = defineModel<RecordQuery | PlayerRecordQuery>('query', { required: true })
 
 const { t, locale } = useI18n()
 const toast = useToast()
@@ -144,7 +143,7 @@ const columns = computed(() => {
       return h(
         RouterLink,
         {
-          class: 'block max-w-48 truncate text-lg hover:text-slate-300 cursor-pointer',
+          class: 'block max-w-42 truncate text-lg hover:text-slate-300 cursor-pointer',
           to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
         },
         () => row.original.course.name,
@@ -156,7 +155,7 @@ const columns = computed(() => {
     accessorKey: 'tier',
     header: t('records.title.tier'),
     cell: ({ row }) => {
-      const tier = isNubRecord(row.original) ? row.original.course.nub_tier : row.original.course.pro_tier
+      const tier = row.original.teleports > 0 ? row.original.course.nub_tier : row.original.course.pro_tier
       const tierNumber = getTierNumber(tier)
       const tierColor = getTierColor(tier)
 
@@ -191,9 +190,9 @@ const columns = computed(() => {
         h(
           'div',
           {
-            class: `flex justify-center items-center text-gray-100 text-[10px] leading-3 rounded-sm px-1 ${isNubRecord(row.original) ? 'bg-yellow-600' : 'bg-blue-600'}`,
+            class: `flex justify-center items-center text-gray-100 text-[10px] leading-3 rounded-sm px-1 ${row.original.teleports > 0 ? 'bg-yellow-600' : 'bg-blue-600'}`,
           },
-          isNubRecord(row.original) ? 'TP' : 'PRO',
+          row.original.teleports > 0 ? 'TP' : 'PRO',
         ),
       ])
     },
@@ -389,18 +388,20 @@ const columns = computed(() => {
 })
 
 onMounted(() => {
-  useInfiniteScroll(
-    table.value?.$el,
-    () => {
-      emits('intersect')
-    },
-    {
-      distance: 200,
-      canLoadMore: () => {
-        return !props.loading
+  if (props.type !== 'profile-runs') {
+    useInfiniteScroll(
+      table.value?.$el,
+      () => {
+        emits('intersect')
       },
-    },
-  )
+      {
+        distance: 200,
+        canLoadMore: () => {
+          return !props.loading
+        },
+      },
+    )
+  }
 })
 </script>
 
