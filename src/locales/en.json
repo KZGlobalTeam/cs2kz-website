@@ -1,6 +1,7 @@
 {
   "common": {
     "testingAlert": "CS2KZ is currently in the testing phase. Please be aware that all records and data will be wiped when CS2KZ is out of beta.",
+    "dontShowAgain": "Don't show again",
     "mode": {
       "ckz": "CKZ",
       "vnl": "VNL"

@@ -1,22 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconClose from './icon/IconClose.vue'
 
 const { t } = useI18n()
 
-const isVisible = ref(true)
+const BETA_NOTICE_STORAGE_KEY = 'cs2kz:beta-notice-hidden'
+
+const isVisible = shallowRef(false)
+const dontShowAgain = shallowRef(false)
+
+onMounted(() => {
+  isVisible.value = window.localStorage.getItem(BETA_NOTICE_STORAGE_KEY) !== 'true'
+})
 
 function closeNotice() {
+  if (dontShowAgain.value) {
+    window.localStorage.setItem(BETA_NOTICE_STORAGE_KEY, 'true')
+  }
+
   isVisible.value = false
 }
 </script>
 
 <template>
   <Transition name="slide-up">
-    <div v-if="isVisible" class="fixed bottom-0 left-0 right-0 z-50 bg-gray-800 border-t border-gray-700 px-4 py-3">
-      <div class="max-w-7xl mx-auto flex items-center justify-center px-5 relative">
-        <span class="text-sm text-yellow-400 leading-relaxed text-center">{{ t('common.testingAlert') }}</span>
+    <div v-if="isVisible" class="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-700 bg-gray-800 px-4 py-3">
+      <div class="relative mx-auto flex gap-2 max-w-7xl items-center justify-center px-5">
+        <span class="text-center text-sm leading-relaxed text-yellow-400">{{ t('common.testingAlert') }}</span>
+        <UCheckbox v-model="dontShowAgain" :label="t('common.dontShowAgain')" />
         <UButton variant="ghost" square class="absolute right-0" @click="closeNotice" size="xs"><IconClose /></UButton>
       </div>
     </div>

@@ -1,6 +1,7 @@
 {
   "common": {
     "testingAlert": "CS2KZ目前正处于测试阶段。在CS2KZ正式发布后，所有的记录和数据都会被清除，请知悉。",
+    "dontShowAgain": "不再显示",
     "mode": {
       "ckz": "CKZ",
       "vnl": "VNL"
