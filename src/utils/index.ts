@@ -42,12 +42,12 @@ const tierNumberMap = new Map([
   ['impossible', 10],
 ])
 
-const tierColorMap = new Map([
-  ['very-easy', '#02e319'],
-  ['easy', '#4CAF50'],
-  ['medium', '#8BC34A'],
-  ['advanced', '#d8e302'],
-  ['hard', '#FFC107'],
+export const tierColorMap = new Map([
+  ['very-easy', '#6bc96f'],
+  ['easy', '#33bd3a'],
+  ['medium', '#d8e302'],
+  ['advanced', '#FFC107'],
+  ['hard', '#e37910'],
   ['very-hard', '#e34202'],
   ['extreme', '#e31c02'],
   ['death', '#bb02db'],

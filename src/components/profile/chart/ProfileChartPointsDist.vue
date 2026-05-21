@@ -40,7 +40,7 @@ const barPercentages = computed(() => {
                 ? 'bg-blue-500/80'
                 : index === pointsDistLabels.length - 1
                   ? 'bg-[#f5da42]'
-                  : 'bg-[#bfbfbf]',
+                  : 'bg-[#5da6e1]',
             ]"
           ></div>
         </div>

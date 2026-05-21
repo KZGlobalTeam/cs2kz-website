@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import type { Tier } from '@/types'
 import { useI18n } from 'vue-i18n'
 import { completionTiers } from '@/utils'
+import { tierColorMap } from '@/utils'
 
 const props = defineProps<{
   completedCourses: number[]
@@ -17,7 +18,9 @@ const emits = defineEmits<{
 const { t } = useI18n()
 
 const labels = computed(() => completionTiers.map((tier) => t(`common.tier.${tier}`)))
-const labelColors = ['#02e319', '#4CAF50', '#8BC34A', '#d8e302', '#FFC107', '#e34202', '#bb02db', '#e800e1']
+
+const labelColors = computed(() => Array.from(tierColorMap.values()))
+// const labelColors = ['#6bc96f', '#4CAF50',  '#d8e302', '#FFC107', '#e37910', '#e34202', '#bb02db', '#e800e1']
 
 const completionPercentages = computed(() => {
   return props.completedCourses.map((completed, index) => {
@@ -54,8 +57,8 @@ const completionPercentages = computed(() => {
           <!-- Inner bar representing completed -->
           <div
             class="h-full transition-all duration-500 ease-in-out flex items-center"
-            :class="selectedTier === completionTiers[index] ? 'bg-blue-500/80' : 'bg-[#bfbfbf]'"
-            :style="{ width: `${completionPercentages[index]}%` }"
+            :class="selectedTier === completionTiers[index] ? 'bg-blue-500/80' : ''"
+            :style="{ width: `${completionPercentages[index]}%`, backgroundColor: labelColors[index] }"
           ></div>
         </div>
         <!-- Values display -->
