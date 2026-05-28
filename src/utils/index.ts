@@ -258,22 +258,3 @@ export function getRankByRating(rating: number) {
   if (rating > 0) return ['Beginner', '#d1d1d1']
   return ['New', '#cbcbcb']
 }
-
-export function isReplayUnavailable(record: Run): boolean {
-  if ((record.nub_rank && record.nub_rank <= 10) || (record.pro_rank && record.pro_rank <= 10)) {
-    return false
-  }
-
-  if (record.course.nub_tier === 'death' || record.course.pro_tier === 'death') {
-    return false
-  }
-
-  const timestamp = extractTimestampFromUUIDv7(record.id).getTime()
-  const hours48 = 48 * 60 * 60 * 1000
-
-  if (Date.now() - timestamp > hours48) {
-    return true
-  }
-
-  return false
-}

@@ -8,15 +8,7 @@ import { useExpand } from '@/composables/expand'
 import { useInfiniteScroll } from '@vueuse/core'
 import { RouterLink } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
-import {
-  getTierNumber,
-  formatTime,
-  getTierColor,
-  seperateThousands,
-  uuidToLocal,
-  uuidToLocalDistance,
-  isReplayUnavailable,
-} from '@/utils'
+import { getTierNumber, formatTime, getTierColor, seperateThousands, uuidToLocal, uuidToLocalDistance } from '@/utils'
 
 const props = defineProps<{
   type: 'profile-runs' | 'records' | 'course-ranking' | 'player-wrs'
@@ -323,7 +315,7 @@ const columns = computed(() => {
           ),
       )
 
-      const isUnavailable = isReplayUnavailable(row.original)
+      const isUnavailable = !row.original.replay_available
 
       const downloadBtn = h(
         UTooltip,

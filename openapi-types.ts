@@ -979,6 +979,8 @@ export interface components {
         id: components['schemas']['SteamId']
         /** @description The player's name on Steam. */
         name: string
+        /** @description Whether the player's prime status has been verified. */
+        is_prime_verified: boolean
         /**
          * Format: double
          * @description The player's VNL rating.
@@ -1053,6 +1055,7 @@ export interface components {
         pro_rank?: number | null
         /** Format: double */
         pro_points?: number | null
+        replay_available: boolean
       }[]
     }
     Paginated_Server: {
@@ -1112,6 +1115,8 @@ export interface components {
       id: components['schemas']['SteamId']
       /** @description The player's name on Steam. */
       name: string
+      /** @description Whether the player's prime status has been verified. */
+      is_prime_verified: boolean
       /**
        * Format: double
        * @description The player's VNL rating.
@@ -1176,6 +1181,7 @@ export interface components {
       pro_rank?: number | null
       /** Format: double */
       pro_points?: number | null
+      replay_available: boolean
     }
     /** @enum {string} */
     Records_SortBy: 'submission-date' | 'time'
