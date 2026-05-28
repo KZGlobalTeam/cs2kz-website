@@ -45,14 +45,6 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     maps.value.filter((map) => map.mappers.some((mapper) => mapper.id === currentPlayerId.value)),
   )
 
-  const leaderboardRecords = computed(() => {
-    if (leaderboardType.value === 'pro') {
-      return allRecords.value.filter((record) => record.teleports === 0)
-    }
-
-    return allRecords.value
-  })
-
   const totalCourses = computed(() =>
     calcTotalCourses(
       maps.value.flatMap((map) =>
@@ -77,19 +69,19 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
 
   const completion = computed(() => {
     const tierRecords = recordQuery.tier
-      ? leaderboardRecords.value.filter((record) => getRecordTier(record, leaderboardType.value) === recordQuery.tier)
-      : leaderboardRecords.value
+      ? allRecords.value.filter((record) => getRecordTier(record, leaderboardType.value) === recordQuery.tier)
+      : allRecords.value
 
     return {
-      ...calcTopRecords(leaderboardRecords.value, leaderboardType.value),
+      ...calcTopRecords(allRecords.value, leaderboardType.value),
       pointsDistribution: calcPointsDistribution(tierRecords, leaderboardType.value),
-      completedCourses: calcCompletedCourses(leaderboardRecords.value, leaderboardType.value),
+      completedCourses: calcCompletedCourses(allRecords.value, leaderboardType.value),
       totalCourses: totalCourses.value,
     }
   })
 
   const filteredRecords = computed(() => {
-    const records = leaderboardRecords.value.filter((record) => {
+    const records = allRecords.value.filter((record) => {
       if (recordQuery.map && !record.map.name.toLowerCase().includes(recordQuery.map.toLowerCase())) {
         return false
       }
@@ -132,7 +124,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   )
 
   watch(
-    [() => currentPlayerId.value, () => mode.value],
+    [() => currentPlayerId.value, () => mode.value, () => leaderboardType.value],
     async () => {
       await fetchPlayerData()
     },
@@ -196,6 +188,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
         params: {
           player: currentPlayerId.value,
           mode: mode.value,
+          has_teleports: leaderboardType.value === 'overall' ? null : false,
           top: true,
           offset: 0,
           limit: 10000,
