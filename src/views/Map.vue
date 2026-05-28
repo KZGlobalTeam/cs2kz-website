@@ -46,13 +46,16 @@ const {
   total,
   query,
   incrementRecords,
-} = useRecords({
-  sort_by: 'time',
-  sort_order: 'ascending',
-  limit: 100,
-  map: map.value?.name,
-  course: currentCourse.value?.name,
-})
+} = useRecords(
+  {
+    sort_by: 'time',
+    sort_order: 'ascending',
+    limit: 100,
+    map: map.value?.name,
+    course: currentCourse.value?.name,
+  },
+  { withAvatar: true },
+)
 
 const { records: playerRecords, query: playerQuery } = useRecords({
   map: map.value?.name,

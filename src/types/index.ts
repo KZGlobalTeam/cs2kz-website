@@ -20,6 +20,9 @@ export type CourseFilters = components['schemas']['CourseFilters']
 export type Course = components['schemas']['Course']
 
 export type Player = components['schemas']['Player']
+export type PlayerWithAvatar = Player & {
+  playerAvatar?: string
+}
 
 export type PlayerInfo = components['schemas']['PlayerInfo']
 
@@ -86,9 +89,13 @@ export interface CourseQuery {
   offset: number
 }
 
-export type Record = components['schemas']['Record']
+export type RecordRaw = components['schemas']['Record']
 
 export type RecordWithImproved = { timeImproved: number } & Record
+
+export type Record = RecordRaw & {
+  playerAvatar?: string
+}
 
 export type RecordResponse = paths['/records']['get']['responses']['200']['content']['application/json']
 

@@ -31,9 +31,15 @@ const emits = defineEmits<{
         </span>
         <RouterLink
           :to="`/profile/${entry.player.id}`"
-          class="truncate text-cyan-500 hover:text-cyan-400 transition-colors"
+          class="flex items-center gap-2 min-w-0 text-cyan-500 hover:text-cyan-400 transition-colors"
         >
-          {{ entry.player.name || $t('common.unknown') }}
+          <UAvatar
+            v-if="entry.player.playerAvatar"
+            size="sm"
+            :src="entry.player.playerAvatar"
+            :alt="entry.player.name"
+          />
+          <span class="truncate">{{ entry.player.name || $t('common.unknown') }}</span>
         </RouterLink>
 
         <button

@@ -40,3 +40,6 @@ openapi.json
 .trae
 
 .playwright-cli
+
+.wrangler
+wrangler.jsonc

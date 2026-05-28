@@ -28,6 +28,7 @@
     "date-fns": "^4.1.0",
     "pinia": "^3.0.1",
     "radash": "^12.1.0",
+    "steamid": "^2.1.0",
     "tailwindcss": "^4.0.14",
     "universal-cookie": "^8.0.0",
     "uuid": "^11.1.0",
@@ -55,6 +56,7 @@
     "typescript": "~5.8.0",
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^2.2.8",
+    "wrangler": "^4.95.0"
   }
 }

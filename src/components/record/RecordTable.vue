@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import type { Record, RecordQuery, PlayerRecordQuery } from '@/types'
+import type { RecordQuery, PlayerRecordQuery, Record } from '@/types'
 import RecordDetail from './RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
@@ -32,6 +32,7 @@ const IconSortDown = resolveComponent('IconSortDown')
 const IconUpDown = resolveComponent('IconUpDown')
 const UTooltip = resolveComponent('UTooltip')
 const UButton = resolveComponent('UButton')
+const UAvatar = resolveComponent('UAvatar')
 const TheImage = resolveComponent('TheImage')
 
 const sorting = ref([])
@@ -90,10 +91,19 @@ const columns = computed(() => {
       return h(
         RouterLink,
         {
-          class: 'text-cyan-600 whitespace-nowrap hover:text-cyan-400 cursor-pointer',
+          class: 'flex items-center gap-2 min-w-0 text-cyan-600 hover:text-cyan-400 cursor-pointer',
           to: `/profile/${row.original.player.id}`,
         },
-        () => row.original.player.name,
+        () => [
+          row.original.playerAvatar
+            ? h(UAvatar, {
+                src: row.original.playerAvatar,
+                alt: row.original.player.name,
+                size: 'sm',
+              })
+            : null,
+          h('span', { class: 'truncate whitespace-nowrap' }, row.original.player.name),
+        ],
       )
     },
   }

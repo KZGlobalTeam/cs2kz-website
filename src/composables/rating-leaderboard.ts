@@ -1,14 +1,15 @@
-import type { LeaderboardQuery, Player } from '@/types'
+import type { LeaderboardQuery, PlayerWithAvatar } from '@/types'
 import { useStyleStore } from '@/stores/style'
 import { reactive, ref, watch } from 'vue'
 import { api } from '@/utils'
+import { attachAvatarsToPlayers } from '@/composables/steam-avatars'
 
 export function useRatingLeaderboard() {
   const styleStore = useStyleStore()
 
   const loading = ref(false)
 
-  const leaderboard = ref<Player[]>([])
+  const leaderboard = ref<PlayerWithAvatar[]>([])
 
   const total = ref(0)
 
@@ -44,46 +45,6 @@ export function useRatingLeaderboard() {
     try {
       loading.value = true
 
-      // leaderboard.value = [
-      //   {
-      //     id: '1',
-      //     name: 'neon',
-      //     ckz_rating: 37500,
-      //     vnl_rating: 28000,
-      //     first_joined_at: '',
-      //   },
-      //   {
-      //     id: '2',
-      //     name: 'razor',
-      //     ckz_rating: 35000,
-      //     vnl_rating: 29000,
-      //     first_joined_at: '',
-      //   },
-      //   {
-      //     id: '3',
-      //     name: 'leetly',
-      //     ckz_rating: 30000,
-      //     vnl_rating: 26000,
-      //     first_joined_at: '',
-      //   },
-      //   {
-      //     id: '4',
-      //     name: 'Reeed',
-      //     ckz_rating: 25000,
-      //     vnl_rating: 26000,
-      //     first_joined_at: '',
-      //   },
-      //   {
-      //     id: '5',
-      //     name: 'gus-qwq',
-      //     ckz_rating: 20000,
-      //     vnl_rating: 26000,
-      //     first_joined_at: '',
-      //   },
-      // ]
-
-      // return
-
       const { data } = await api.get(`/players`, {
         params: {
           sort_by: query.mode === 'classic' ? 'ckz-rating' : 'vnl-rating',
@@ -93,7 +54,7 @@ export function useRatingLeaderboard() {
       })
 
       if (data) {
-        leaderboard.value = data.values
+        leaderboard.value = await attachAvatarsToPlayers(data.values)
         total.value = data.total
       } else {
         leaderboard.value = []

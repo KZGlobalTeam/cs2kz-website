@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
 
-const { records, total, loading, query, incrementRecords, resetQuery, getRecords } = useRecords({ max_rank: 1 })
+const { records, total, loading, query, incrementRecords, resetQuery, getRecords } = useRecords(
+  { max_rank: 1 },
+  { withAvatar: true },
+)
 </script>
 
 <template>

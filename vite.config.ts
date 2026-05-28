@@ -51,6 +51,11 @@ export default defineConfig({
             content: 'z-10',
           },
         },
+        avatar: {
+          slots: {
+            image: 'ring-1 ring-slate-600',
+          },
+        },
       },
     }),
   ],

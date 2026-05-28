@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { LeaderboardQuery, Player } from '@/types'
+import type { LeaderboardQuery, PlayerWithAvatar } from '@/types'
 import { getRankByRating, seperateThousands } from '@/utils'
 
 const props = defineProps<{
-  leaderboard: Player[]
+  leaderboard: PlayerWithAvatar[]
   query: LeaderboardQuery
 }>()
 
@@ -47,9 +47,10 @@ const rows = computed(() => {
 
         <RouterLink
           :to="`/profile/${row.player.id}`"
-          class="truncate text-cyan-500 hover:text-cyan-400 transition-colors"
+          class="flex items-center gap-2 min-w-0 text-cyan-500 hover:text-cyan-400 transition-colors"
         >
-          {{ row.player.name || $t('common.unknown') }}
+          <UAvatar v-if="row.player.playerAvatar" size="sm" :src="row.player.playerAvatar" :alt="row.player.name" />
+          <span class="truncate">{{ row.player.name || $t('common.unknown') }}</span>
         </RouterLink>
 
         <span class="text-gray-300 font-semibold" :style="{ color: `${row.rankColor}` }">{{

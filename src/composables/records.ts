@@ -1,10 +1,15 @@
-import type { Record, RecordQuery } from '@/types'
+import type { RecordRaw, Record, RecordQuery } from '@/types'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
 import { useStyleStore } from '@/stores/style'
 import { debounce } from 'radash'
+import { attachAvatarsToPlayerRecords } from '@/composables/steam-avatars'
 
-export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
+interface UseRecordsOptions {
+  withAvatar?: boolean
+}
+
+export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: UseRecordsOptions = {}) {
   const styleStore = useStyleStore()
 
   const loading = ref(false)
@@ -53,6 +58,14 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
 
   getRecords({ offset: 0 })
 
+  async function attachSteamProfiles(batch: RecordRaw[]) {
+    if (!options.withAvatar || batch.length === 0) {
+      return batch
+    }
+
+    return attachAvatarsToPlayerRecords(batch)
+  }
+
   async function getRecords({ offset }: { offset: number }) {
     try {
       loading.value = true
@@ -69,11 +82,13 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}) {
       })
 
       if (data) {
+        const nextRecords = await attachSteamProfiles(data.values)
+
         // reset records if offset is 0 (new query), otherwise append
         if (offset === 0) {
-          records.value = data.values
+          records.value = nextRecords
         } else {
-          records.value = [...records.value, ...data.values]
+          records.value = [...records.value, ...nextRecords]
         }
         total.value = data.total
       } else {
