@@ -48,7 +48,8 @@ async function copyServerIp() {
 
       <div class="mt-1 flex items-center gap-1">
         <RouterLink
-          class="text-base font-semibold text-slate-300 hover:text-slate-200"
+          :class="server.current_map.isGlobal ? '' : 'max-w-38'"
+          class="block truncate text-base font-semibold text-slate-300 hover:text-slate-200"
           :to="`/maps/${server.current_map.name}`"
           >{{ server.current_map.name }}</RouterLink
         >
