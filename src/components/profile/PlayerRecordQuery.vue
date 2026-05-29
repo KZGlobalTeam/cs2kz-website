@@ -47,18 +47,6 @@ const pointsItems = computed(() => [
       :placeholder="$t('profile.runs.query.rank')"
     />
 
-    <UInput v-model="query.map" :placeholder="$t('records.query.map')">
-      <template #trailing>
-        <IconMap />
-      </template>
-    </UInput>
-
-    <UInput v-model="query.server" :placeholder="$t('records.query.server')">
-      <template #trailing>
-        <IconServer />
-      </template>
-    </UInput>
-
     <USelect
       v-model="query.tier"
       :ui="{ content: 'z-10' }"
@@ -72,6 +60,18 @@ const pointsItems = computed(() => [
       :items="pointsItems"
       :placeholder="$t('profile.runs.query.points')"
     />
+
+    <UInput v-model="query.map" :placeholder="$t('records.query.map')">
+      <template #trailing>
+        <IconMap />
+      </template>
+    </UInput>
+
+    <UInput v-model="query.server" :placeholder="$t('records.query.server')">
+      <template #trailing>
+        <IconServer />
+      </template>
+    </UInput>
 
     <UButton color="neutral" variant="outline" @click="emits('resetQuery')">
       {{ $t('common.reset') }}

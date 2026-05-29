@@ -30,7 +30,7 @@ const barPercentages = computed(() => {
         <div class="w-[70px] text-right pr-2 text-sm text-gray-500 flex-shrink-0">{{ pointsDistLabels[index] }}</div>
         <div
           class="flex-grow h-5 rounded-sm overflow-hidden hover:scale-102 hover:bg-blue-600/20 transition-all"
-          :class="selectedPoints === index ? 'bg-blue-600/20 ring-1 ring-blue-500/60' : 'bg-[rgba(69,69,69,0.3)]'"
+          :class="selectedPoints === index ? 'bg-blue-600/20 ring-2 ring-blue-500/80' : 'bg-[rgba(69,69,69,0.3)]'"
         >
           <div
             :style="{ width: `${barPercentages[index]}%` }"

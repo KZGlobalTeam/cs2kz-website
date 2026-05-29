@@ -11,10 +11,14 @@ const {
   steamProfile,
   maps,
   mode,
+  rankedOnly,
   recordQuery,
   records,
   loading,
-  completion,
+  totalCourses,
+  completedCourses,
+  topRecords,
+  pointsDistribution,
   resetRecordQuery,
   setTierFilter,
   setPointsFilter,
@@ -33,9 +37,13 @@ const {
         <ProfileCompletion
           class="mb-5"
           :loading="loading"
-          :completion="completion"
+          :top-records="topRecords"
+          :points-distribution="pointsDistribution"
+          :total-courses="totalCourses"
+          :completed-courses="completedCourses"
           :selected-tier="recordQuery.tier"
           :selected-points="recordQuery.points"
+          v-model:ranked-only="rankedOnly"
           @select-tier="setTierFilter"
           @select-points="setPointsFilter"
         />
@@ -59,7 +67,10 @@ const {
     <ProfileCompletion
       class="mb-5"
       :loading="loading"
-      :completion="completion"
+      :top-records="topRecords"
+      :points-distribution="pointsDistribution"
+      :total-courses="totalCourses"
+      :completed-courses="completedCourses"
       :selected-tier="recordQuery.tier"
       :selected-points="recordQuery.points"
       @select-tier="setTierFilter"

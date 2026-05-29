@@ -611,6 +611,7 @@ export interface components {
       name: string
       nub_tier: components['schemas']['CourseFilterTier']
       pro_tier: components['schemas']['CourseFilterTier']
+      state: components['schemas']['CourseFilterState']
     }
     CourseUpdate: {
       /** @description The index of the course to update.
@@ -654,6 +655,11 @@ export interface components {
     FilterUpdates: {
       vanilla?: null | components['schemas']['FilterUpdate']
       classic?: null | components['schemas']['FilterUpdate']
+    }
+    GeoInfo: {
+      country_code: string
+      /** @description More specific region within the country, such as a city. */
+      region: string
     }
     /** @description a git revision */
     GitRevision: string
@@ -1082,6 +1088,7 @@ export interface components {
         /** @description When this server was approved by the API. */
         approved_at: components['schemas']['Timestamp']
         a2s_info?: null | components['schemas']['A2SInfo']
+        geo_info?: null | components['schemas']['GeoInfo']
       }[]
     }
     Paginated_User: {
@@ -1200,6 +1207,7 @@ export interface components {
       /** @description When this server was approved by the API. */
       approved_at: components['schemas']['Timestamp']
       a2s_info?: null | components['schemas']['A2SInfo']
+      geo_info?: null | components['schemas']['GeoInfo']
     }
     /**
      * Format: hostname
@@ -2356,6 +2364,8 @@ export interface operations {
       query?: {
         /** @description Only include PBs. */
         top?: boolean
+        /** @description Only include records set on ranked filters. */
+        ranked?: boolean
         /** @description Only include records set by this player. */
         player?: components['schemas']['PlayerIdentifier']
         /** @description Only include records set on this server. */

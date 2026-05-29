@@ -201,49 +201,12 @@ export function getWrHistory(records: Run[]) {
   return history.reverse()
 }
 
-export function calcTopRecords(runs: Run[], leaderboardType: LeaderboardType) {
-  const wrs = runs.filter((record) =>
-    leaderboardType === 'pro' ? record.pro_rank === 1 : record.nub_rank === 1,
-  ).length
-
-  const top10 = runs.filter((record) =>
-    leaderboardType === 'pro' ? record.pro_rank! <= 10 : record.nub_rank! <= 10,
-  ).length
-
-  const top20 = runs.filter((record) =>
-    leaderboardType === 'pro' ? record.pro_rank! <= 20 : record.nub_rank! <= 20,
-  ).length
-
-  const top50 = runs.filter((record) =>
-    leaderboardType === 'pro' ? record.pro_rank! <= 50 : record.nub_rank! <= 50,
-  ).length
-
-  return {
-    wrs,
-    top10,
-    top20,
-    top50,
-  }
-}
 export function calcPointsDistribution(runs: Run[], leaderboardType: LeaderboardType) {
   const pointsDistribution = Array.from({ length: pointsDistLabels.length }, (_, index) => {
     return runs.filter((record) => getPointsBucket(getRecordPoints(record, leaderboardType)) === index).length
   })
 
   return pointsDistribution
-}
-
-// completion by tier
-export function calcCompletedCourses(runs: Run[], leaderboardType: LeaderboardType) {
-  return completionTiers.map((tier) => {
-    return runs.filter((record) => tier === getRecordTier(record, leaderboardType)).length
-  })
-}
-
-export function calcTotalCourses(courses: CourseInfo[]) {
-  return completionTiers.map((tier) => {
-    return courses.filter((course) => course.tier === tier).length
-  })
 }
 
 export function getRankByRating(rating: number) {

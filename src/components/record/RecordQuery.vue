@@ -25,6 +25,11 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
 <template>
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
     <UCheckbox v-model="query.top" :label="$t('records.query.pbOnly')" />
+    <UCheckbox
+      :model-value="query.ranked === true"
+      :label="$t('records.query.rankedOnly')"
+      @update:model-value="(value) => (query.ranked = value === true ? true : undefined)"
+    />
 
     <USelect
       v-model="query.max_rank"

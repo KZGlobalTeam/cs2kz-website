@@ -84,7 +84,9 @@
   },
   "records": {
     "query": {
-      "pbOnly": "PB only",
+      "pbOnly": "PB Only",
+      "rankedOnly": "Ranked Only",
+      "all": "All",
       "map": "Map",
       "course": "Course",
       "player": "Player",

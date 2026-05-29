@@ -50,7 +50,7 @@ const completionPercentages = computed(() => {
           class="flex-grow h-8 rounded-sm overflow-hidden hover:scale-102 hover:bg-blue-600/20 transition-all"
           :class="
             selectedTier === completionTiers[index]
-              ? 'bg-blue-600/20 ring-1 ring-blue-500/60'
+              ? 'bg-blue-600/20 ring-2 ring-blue-500/80'
               : 'bg-[rgba(69,69,69,0.3)]'
           "
         >

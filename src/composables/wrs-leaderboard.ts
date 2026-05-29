@@ -20,6 +20,8 @@ export function useWRsLeaderboard() {
   const loading = ref(false)
   const records = ref<Record[]>([])
 
+  const ranked = ref<boolean | undefined>(true)
+
   const leaderboard = computed<PlayerWrEntry[]>(() => {
     const playerMap = new Map<string, PlayerWrEntry>()
 
@@ -58,12 +60,12 @@ export function useWRsLeaderboard() {
   })
 
   watch(
-    () => [styleStore.mode, styleStore.leaderboardType] as const,
-    async ([mode, leaderboardType]) => {
+    () => [styleStore.mode, styleStore.leaderboardType, ranked.value] as const,
+    async ([mode, leaderboardType, ranked]) => {
       loading.value = true
 
       try {
-        const playerWrs = await fetchWorldRecords(mode, leaderboardType)
+        const playerWrs = await fetchWorldRecords(mode, leaderboardType, ranked)
 
         records.value = playerWrs
       } catch (error) {
@@ -78,16 +80,18 @@ export function useWRsLeaderboard() {
   )
 
   return {
+    ranked,
     leaderboard,
     loading,
   }
 }
 
-async function fetchWorldRecords(mode: Mode, leaderboardType: LeaderboardType) {
+async function fetchWorldRecords(mode: Mode, leaderboardType: LeaderboardType, ranked: boolean | undefined) {
   const { data } = await api.get('/records', {
     params: {
       mode,
       top: true,
+      ranked,
       max_rank: 1,
       sort_by: 'submission-date',
       sort_order: 'descending',

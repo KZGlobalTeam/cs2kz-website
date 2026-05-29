@@ -2,15 +2,15 @@
 import type { Tier } from '@/types'
 
 defineProps<{
-  completion: {
+  topRecords: {
     wrs: number
     top10: number
     top20: number
     top50: number
-    pointsDistribution: number[]
-    completedCourses: number[]
-    totalCourses: number[]
   }
+  pointsDistribution: number[]
+  completedCourses: number[]
+  totalCourses: number[]
   loading: boolean
   selectedTier?: Tier
   selectedPoints?: number
@@ -20,14 +20,27 @@ const emits = defineEmits<{
   (e: 'selectTier', tier: Tier | undefined): void
   (e: 'selectPoints', points: number | undefined): void
 }>()
+
+const rankedOnly = defineModel<boolean>('rankedOnly')
 </script>
 
 <template>
   <div class="text-gray-300">
-    <!-- title -->
-    <p class="text-3xl font-semibold mb-2">
-      {{ $t('profile.completion.title') }}
-    </p>
+    <div class="flex items-center gap-4 mb-2">
+      <!-- title -->
+      <p class="text-3xl font-semibold">
+        {{ $t('profile.completion.title') }}
+      </p>
+      <UButtonGroup size="xs" orientation="horizontal" class="mt-1">
+        <UButton color="neutral" :variant="rankedOnly ? 'solid' : 'outline'" @click="rankedOnly = true">
+          {{ $t('records.query.rankedOnly') }}
+        </UButton>
+        <UButton color="neutral" :variant="rankedOnly ? 'outline' : 'solid'" @click="rankedOnly = false">
+          {{ $t('records.query.all') }}</UButton
+        >
+      </UButtonGroup>
+    </div>
+
     <div v-if="loading" class="p-4 border border-gray-700 rounded-md flex justify-center items-center">
       <IconLoading />
     </div>
@@ -38,10 +51,10 @@ const emits = defineEmits<{
       </p>
       <ProfileTopRecords
         class="mb-4"
-        :wrs="completion.wrs"
-        :top10="completion.top10"
-        :top20="completion.top20"
-        :top50="completion.top50"
+        :wrs="topRecords.wrs"
+        :top10="topRecords.top10"
+        :top20="topRecords.top20"
+        :top50="topRecords.top50"
       />
 
       <div class="flex flex-col lg:flex-row gap-4">
@@ -51,8 +64,8 @@ const emits = defineEmits<{
             {{ $t('profile.completion.completionPerTier') }}
           </p>
           <ProfileChartCompletionByTier
-            :completed-courses="completion.completedCourses"
-            :total-courses="completion.totalCourses"
+            :completed-courses="completedCourses"
+            :total-courses="totalCourses"
             :selected-tier="selectedTier"
             @select-tier="emits('selectTier', $event)"
           />
@@ -64,7 +77,7 @@ const emits = defineEmits<{
           </p>
           <ProfileChartPointsDist
             class="mb-4"
-            :points-distribution="completion.pointsDistribution"
+            :points-distribution="pointsDistribution"
             :selected-points="selectedPoints"
             @select-points="emits('selectPoints', $event)"
           />

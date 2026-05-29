@@ -1,12 +1,11 @@
 import { computed, reactive, ref, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
-import type { CourseInfo, Map, Player, PlayerRecordQuery, PlayerSteam, Record } from '@/types'
+import type { CourseInfo, Tier, Map, Player, PlayerRecordQuery, PlayerSteam, Record } from '@/types'
 import {
   api,
-  calcCompletedCourses,
-  calcTopRecords,
   calcPointsDistribution,
-  calcTotalCourses,
+  completionTiers,
+  pointsDistLabels,
   extractTimestampFromUUIDv7,
   getPointsBucket,
   getRecordPoints,
@@ -38,50 +37,89 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   const recordQuery = reactive<PlayerRecordQuery>({ ...defaultRecordQuery })
 
   const currentPlayerId = computed(() => toValue(playerId))
+
   const mode = computed(() => styleStore.mode)
   const leaderboardType = computed(() => styleStore.leaderboardType)
+  const rankedOnly = ref(true)
 
   const mapperMaps = computed(() =>
     maps.value.filter((map) => map.mappers.some((mapper) => mapper.id === currentPlayerId.value)),
   )
 
-  const totalCourses = computed(() =>
-    calcTotalCourses(
-      maps.value.flatMap((map) =>
-        map.courses.map((course, index) => {
-          return {
-            id: `${map.id}-${index}`,
-            name: course.name,
-            map: map.name,
-            tier:
-              leaderboardType.value === 'pro'
-                ? course.filters[mode.value].pro_tier
-                : course.filters[mode.value].nub_tier,
-            state: course.filters[mode.value].state,
-            mappers: course.mappers,
-            approved_at: map.approved_at,
-            img: '',
-          } satisfies CourseInfo
-        }),
-      ),
-    ),
-  )
+  const totalCourses = computed(() => {
+    const courseTiers = maps.value.flatMap((map) =>
+      map.courses
+        .filter((course) => (rankedOnly.value ? course.filters[mode.value].state === 'ranked' : true))
+        .map((course) =>
+          leaderboardType.value === 'pro' ? course.filters[mode.value].pro_tier : course.filters[mode.value].nub_tier,
+        ),
+    )
+    return completionTiers.map((tier) => {
+      return courseTiers.filter((courseTier) => courseTier === tier).length
+    })
+  })
 
-  const completion = computed(() => {
-    const tierRecords = recordQuery.tier
-      ? allRecords.value.filter((record) => getRecordTier(record, leaderboardType.value) === recordQuery.tier)
-      : allRecords.value
+  const completedCourses = computed(() => {
+    return completionTiers.map((tier) => {
+      return allRecords.value.filter((record) => {
+        const recordTier = leaderboardType.value === 'pro' ? record.course.pro_tier : record.course.nub_tier
+        return tier === recordTier
+      }).length
+    })
+  })
+
+  const topRecords = computed(() => {
+    let wrs = 0
+    let top10 = 0
+    let top20 = 0
+    let top50 = 0
+
+    allRecords.value.forEach((record) => {
+      const rank = leaderboardType.value === 'pro' ? record.pro_rank! : record.nub_rank!
+      if (rank === 1) {
+        wrs++
+      } else if (rank <= 10) {
+        top10++
+      } else if (rank <= 20) {
+        top20++
+      } else if (rank <= 50) {
+        top50++
+      }
+    })
 
     return {
-      ...calcTopRecords(allRecords.value, leaderboardType.value),
-      pointsDistribution: calcPointsDistribution(tierRecords, leaderboardType.value),
-      completedCourses: calcCompletedCourses(allRecords.value, leaderboardType.value),
-      totalCourses: totalCourses.value,
+      wrs,
+      top10,
+      top20,
+      top50,
     }
+  })
+
+  const pointsDistribution = computed(() => {
+    const recordsInTier = recordQuery.tier
+      ? allRecords.value.filter((record) => {
+          const recordTier = leaderboardType.value === 'pro' ? record.course.pro_tier : record.course.nub_tier
+          return recordTier === recordQuery.tier
+        })
+      : allRecords.value
+    const pointsDistribution = Array.from({ length: pointsDistLabels.length }, (_, index) => {
+      return recordsInTier.filter((record) => {
+        const recordPoints = leaderboardType.value === 'pro' ? record.pro_points! : record.nub_points!
+        const pointsBucket = Math.min(Math.floor(recordPoints / 1000), 10)
+        return pointsBucket === index
+      }).length
+    })
+
+    return pointsDistribution
   })
 
   const filteredRecords = computed(() => {
     const records = allRecords.value.filter((record) => {
+      const recordTier = leaderboardType.value === 'pro' ? record.course.pro_tier : record.course.nub_tier
+      const recordRank = leaderboardType.value === 'pro' ? record.pro_rank! : record.nub_rank!
+      const recordPoints = leaderboardType.value === 'pro' ? record.pro_points! : record.nub_points!
+      const pointsBucket = Math.min(Math.floor(recordPoints / 1000), 10)
+
       if (recordQuery.map && !record.map.name.toLowerCase().includes(recordQuery.map.toLowerCase())) {
         return false
       }
@@ -90,24 +128,16 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
         return false
       }
 
-      if (recordQuery.tier && getRecordTier(record, leaderboardType.value) !== recordQuery.tier) {
+      if (recordQuery.tier && recordTier !== recordQuery.tier) {
         return false
       }
 
-      if (recordQuery.rank !== undefined) {
-        const rank = getRecordRank(record, leaderboardType.value)
-
-        if (rank > recordQuery.rank) {
-          return false
-        }
+      if (recordQuery.rank && recordRank > recordQuery.rank) {
+        return false
       }
 
-      if (recordQuery.points !== undefined) {
-        const points = getRecordPoints(record, leaderboardType.value)
-
-        if (getPointsBucket(points) !== recordQuery.points) {
-          return false
-        }
+      if (recordQuery.points && pointsBucket !== recordQuery.points) {
+        return false
       }
 
       return true
@@ -116,30 +146,43 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     return sortPlayerRecords(records, recordQuery.sort_by, recordQuery.sort_order)
   })
 
-  watch(
-    () => currentPlayerId.value,
-    () => {
-      resetRecordQuery()
-    },
-  )
+  watch(currentPlayerId, async () => {
+    resetRecordQuery()
+  })
 
   watch(
-    [() => currentPlayerId.value, () => mode.value, () => leaderboardType.value],
+    currentPlayerId,
     async () => {
-      await fetchPlayerData()
+      loading.value = true
+
+      try {
+        await Promise.all([getProfile(), getSteamProfile(), getMaps(), getPlayerRecords()])
+      } finally {
+        loading.value = false
+      }
     },
     { immediate: true },
   )
 
-  async function fetchPlayerData() {
+  watch(mode, async () => {
     loading.value = true
 
     try {
-      await Promise.all([getProfile(), getSteamProfile(), getMaps(), getPlayerRecords()])
+      await Promise.all([getProfile(), getPlayerRecords()])
     } finally {
       loading.value = false
     }
-  }
+  })
+
+  watch([() => leaderboardType.value, () => rankedOnly.value], async () => {
+    loading.value = true
+
+    try {
+      await getPlayerRecords()
+    } finally {
+      loading.value = false
+    }
+  })
 
   async function getProfile() {
     try {
@@ -190,6 +233,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
           mode: mode.value,
           has_teleports: leaderboardType.value === 'overall' ? null : false,
           top: true,
+          ranked: rankedOnly.value ? true : undefined,
           offset: 0,
           limit: 10000,
         },
@@ -225,9 +269,13 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     maps: mapperMaps,
     mode,
     leaderboardType,
+    rankedOnly,
     recordQuery,
     records: filteredRecords,
-    completion,
+    totalCourses,
+    completedCourses,
+    topRecords,
+    pointsDistribution,
     resetRecordQuery,
     setTierFilter,
     setPointsFilter,

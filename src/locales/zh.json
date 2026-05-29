@@ -85,6 +85,8 @@
   "records": {
     "query": {
       "pbOnly": "仅PB",
+      "rankedOnly": "仅排位记录",
+      "all": "所有记录",
       "map": "地图",
       "course": "关卡",
       "player": "玩家",

@@ -104,6 +104,7 @@ export interface RecordQuery {
   leaderboardType: LeaderboardType
   top: boolean
   max_rank?: number
+  ranked?: boolean
   player: string
   map: string
   course: string

@@ -50,6 +50,7 @@ const {
   {
     sort_by: 'time',
     sort_order: 'ascending',
+    ranked: undefined,
     limit: 100,
     map: map.value?.name,
     course: currentCourse.value?.name,
@@ -61,6 +62,7 @@ const { records: playerRecords, query: playerQuery } = useRecords({
   map: map.value?.name,
   course: currentCourse.value?.name,
   player: playerStore.player?.id,
+  ranked: undefined,
 })
 
 watch(

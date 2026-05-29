@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRatingLeaderboard } from '@/composables/rating-leaderboard'
 import { useWRsLeaderboard } from '@/composables/wrs-leaderboard'
 import { useRecords } from '@/composables/records'
+
+const rankedOnly = ref<boolean>(true)
 
 const {
   leaderboard: raingLeaderboard,
@@ -10,7 +12,7 @@ const {
   total: ratingTotal,
   query: ratingQuery,
 } = useRatingLeaderboard()
-const { leaderboard: wrLeaderboard, loading: wrLoading } = useWRsLeaderboard()
+const { leaderboard: wrLeaderboard, loading: wrLoading, ranked: wrRanked } = useWRsLeaderboard()
 
 const {
   records: playerRecords,
@@ -36,6 +38,12 @@ const playerWrs = computed({
 const drawerOpen = ref(false)
 
 const currentPlayerId = ref<string>()
+
+watch(rankedOnly, (rankedOnly) => {
+  const value = rankedOnly === true ? true : undefined
+  wrRanked.value = value
+  playerWrsQuery.ranked = value
+})
 
 function openDrawer(playerId: string) {
   if (currentPlayerId.value !== playerId) {
@@ -78,8 +86,11 @@ function openDrawer(playerId: string) {
       </div>
 
       <div class="border border-gray-700 rounded-md bg-gray-950/40 overflow-hidden h-full">
-        <div class="flex h-12 px-4 py-2 border-b border-gray-700 text-lg font-semibold text-gray-100">
-          {{ $t('leaderboards.wrs.title') }}
+        <div
+          class="flex items-center justify-between h-12 px-4 py-2 border-b border-gray-700 text-lg font-semibold text-gray-100"
+        >
+          <span>{{ $t('leaderboards.wrs.title') }}</span>
+          <UCheckbox v-model="rankedOnly" :label="$t('records.query.rankedOnly')" />
         </div>
 
         <div v-if="wrLoading" class="flex justify-center py-8">
