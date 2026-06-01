@@ -1,5 +1,4 @@
 import type { Server, ServerResponse, ServerQuery, RunningServer, GeoData } from '@/types'
-import { debounce } from 'radash'
 import { ref, reactive, watch, computed } from 'vue'
 import { api, sort } from '@/utils'
 import axios from 'axios'
@@ -25,29 +24,13 @@ export function useServers() {
 
   const query = reactive<ServerQuery>({ ...defaultQuery })
 
-  const debouncedQuery = reactive({
-    name: '',
-    map: '',
-    owner: '',
-  })
-
-  function updateDebouncedQuery() {
-    debouncedQuery.name = query.name
-    debouncedQuery.map = query.map
-    debouncedQuery.owner = query.owner
-  }
-
-  const debouncedUpdate = debounce({ delay: 300 }, updateDebouncedQuery)
-
-  watch([() => query.name, () => query.map, () => query.owner], debouncedUpdate)
-
   const servers = computed(() => {
     const filtered = runningServers.value.filter(
       (server) =>
         !(server.current_map.name.startsWith('de_') && server.num_players > 0) &&
-        server.name.toLowerCase().includes(debouncedQuery.name.toLowerCase()) &&
-        server.owner.name.toLowerCase().includes(debouncedQuery.owner.toLowerCase()) &&
-        server.current_map.name.toLowerCase().includes(debouncedQuery.map.toLowerCase()) &&
+        server.name.toLowerCase().includes(query.name.toLowerCase()) &&
+        server.owner.name.toLowerCase().includes(query.owner.toLowerCase()) &&
+        server.current_map.name.toLowerCase().includes(query.map.toLowerCase()) &&
         (query.region_code === undefined ? true : query.region_code === server.region!.code) &&
         (query.globalMapOnly ? server.current_map.isGlobal : true),
     )

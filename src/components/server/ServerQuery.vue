@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useDebouncedStringFilters } from '@/composables/debounced-string-filters'
 import type { ServerQuery } from '@/types'
 
 const query = defineModel<ServerQuery>('query', { required: true })
+const { name, map, owner } = useDebouncedStringFilters(query, ['name', 'map', 'owner'])
 
 const props = defineProps<{
   availableRegions: { name: string; code: string }[]
@@ -29,19 +31,19 @@ const localizedRegions = computed(() => {
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
     <UCheckbox v-model="query.globalMapOnly" :label="$t('servers.query.globalMapsOnly')" />
 
-    <UInput v-model="query.name" :placeholder="$t('servers.query.name')">
+    <UInput v-model="name" :placeholder="$t('servers.query.name')">
       <template #trailing>
         <IconServer />
       </template>
     </UInput>
 
-    <UInput v-model="query.map" :placeholder="$t('servers.query.map')">
+    <UInput v-model="map" :placeholder="$t('servers.query.map')">
       <template #trailing>
         <IconMap />
       </template>
     </UInput>
 
-    <UInput v-model="query.owner" :placeholder="$t('servers.query.ownedBy')">
+    <UInput v-model="owner" :placeholder="$t('servers.query.ownedBy')">
       <template #trailing>
         <IconAdmin />
       </template>

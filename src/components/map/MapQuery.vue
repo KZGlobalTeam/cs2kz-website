@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { MapQuery } from '@/types'
 import { useI18n } from 'vue-i18n'
+import { useDebouncedStringFilters } from '@/composables/debounced-string-filters'
 import { usePlayerStore } from '@/stores/player'
+import type { MapQuery } from '@/types'
 
 const playerStore = usePlayerStore()
 
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
+const { name, mapper } = useDebouncedStringFilters(query, ['name', 'mapper'])
 
 const props = defineProps<{
   lengthRanges: { key: string; minMinutes: number; maxMinutes: number }[]
@@ -62,13 +64,13 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
     >
     </USelect>
 
-    <UInput v-model="query.name" :placeholder="$t('maps.query.map')">
+    <UInput v-model="name" :placeholder="$t('maps.query.map')">
       <template #trailing>
         <IconMap />
       </template>
     </UInput>
 
-    <UInput v-model="query.mapper" :placeholder="$t('maps.query.mapper')">
+    <UInput v-model="mapper" :placeholder="$t('maps.query.mapper')">
       <template #trailing>
         <IconHammer :width="1.5" />
       </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import { debounce } from 'radash'
+import { useDebouncedStringFilters } from '@/composables/debounced-string-filters'
 import type { RecordQuery } from '@/types'
 
 defineProps<{
@@ -10,16 +9,7 @@ defineProps<{
 const emits = defineEmits(['resetQuery', 'refresh'])
 
 const query = defineModel<RecordQuery>('query', { required: true })
-
-watch([() => query.value.player, () => query.value.course, () => query.value.server], ([player, course, server]) => {
-  updateStringQueries(player, course, server)
-})
-
-const updateStringQueries = debounce({ delay: 300 }, (player, course, server) => {
-  query.value.player = player
-  query.value.course = course
-  query.value.server = server
-})
+const { map, course, player, server } = useDebouncedStringFilters(query, ['map', 'course', 'player', 'server'])
 </script>
 
 <template>
@@ -45,25 +35,25 @@ const updateStringQueries = debounce({ delay: 300 }, (player, course, server) =>
       :placeholder="$t('records.query.maxRank.placeholder')"
     />
 
-    <UInput v-model="query.map" :placeholder="$t('records.query.map')">
+    <UInput v-model="map" :placeholder="$t('records.query.map')">
       <template #trailing>
         <IconMap />
       </template>
     </UInput>
 
-    <UInput v-model="query.course" :placeholder="$t('records.query.course')">
+    <UInput v-model="course" :placeholder="$t('records.query.course')">
       <template #trailing>
         <IconCourse />
       </template>
     </UInput>
 
-    <UInput v-model="query.player" :placeholder="$t('records.query.player')">
+    <UInput v-model="player" :placeholder="$t('records.query.player')">
       <template #trailing>
         <IconPlayer />
       </template>
     </UInput>
 
-    <UInput v-model="query.server" :placeholder="$t('records.query.server')" class="hidden lg:block">
+    <UInput v-model="server" :placeholder="$t('records.query.server')" class="hidden lg:block">
       <template #trailing>
         <IconServer />
       </template>

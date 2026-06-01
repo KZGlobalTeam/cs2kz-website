@@ -2,7 +2,6 @@ import type { RecordRaw, Record, RecordQuery } from '@/types'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
 import { useStyleStore } from '@/stores/style'
-import { debounce } from 'radash'
 import { attachAvatarsToPlayerRecords } from '@/composables/steam-avatars'
 
 interface UseRecordsOptions {
@@ -32,8 +31,6 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: Use
     offset: 0,
   }
 
-  const debouncedUpdate = debounce({ delay: 500 }, () => getRecords({ offset: 0 }))
-
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
 
   styleStore.$subscribe((_mutation, state) => {
@@ -41,7 +38,9 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: Use
     query.leaderboardType = state.leaderboardType
   })
 
-  watch([() => query.player, () => query.map, () => query.course, () => query.server], debouncedUpdate)
+  watch([() => query.player, () => query.map, () => query.course, () => query.server], () => {
+    getRecords({ offset: 0 })
+  })
 
   watch(
     [

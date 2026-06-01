@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useDebouncedStringFilters } from '@/composables/debounced-string-filters'
 import type { PlayerRecordQuery } from '@/types'
 import { completionTiers, pointsDistLabels } from '@/utils'
 
@@ -9,6 +10,7 @@ const emits = defineEmits<{
 }>()
 
 const query = defineModel<PlayerRecordQuery>('query', { required: true })
+const { map, server } = useDebouncedStringFilters(query, ['map', 'server'])
 
 const { t } = useI18n()
 
@@ -61,13 +63,13 @@ const pointsItems = computed(() => [
       :placeholder="$t('profile.runs.query.points')"
     />
 
-    <UInput v-model="query.map" :placeholder="$t('records.query.map')">
+    <UInput v-model="map" :placeholder="$t('records.query.map')">
       <template #trailing>
         <IconMap />
       </template>
     </UInput>
 
-    <UInput v-model="query.server" :placeholder="$t('records.query.server')">
+    <UInput v-model="server" :placeholder="$t('records.query.server')">
       <template #trailing>
         <IconServer />
       </template>
