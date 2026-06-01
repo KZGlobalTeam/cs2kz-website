@@ -254,7 +254,7 @@
     "global": "GLOBAL",
     "nonGlobal": "NON-GLOBAL",
     "toast": {
-      "ipCopied": "Server IP copied to clipboard"
+      "ipCopied": "connect string copied to clipboard"
     }
   }
 }

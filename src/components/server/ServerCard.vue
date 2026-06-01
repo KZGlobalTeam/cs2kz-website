@@ -11,7 +11,7 @@ const toast = useToast()
 const { t } = useI18n()
 
 async function copyServerIp() {
-  await navigator.clipboard.writeText(`${props.server.host}:${props.server.port}`)
+  await navigator.clipboard.writeText(`connect ${props.server.host}:${props.server.port}`)
   toast.add({
     title: t('servers.toast.ipCopied'),
     color: 'success',

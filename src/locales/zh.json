@@ -255,7 +255,7 @@
     "nonGlobal": "非全球图",
     "noPlayers": "无",
     "toast": {
-      "ipCopied": "服务器 IP 已复制到剪贴板"
+      "ipCopied": "连接指令已复制到剪贴板"
     }
   }
 }
