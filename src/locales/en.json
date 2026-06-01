@@ -223,8 +223,9 @@
       "SA": "South America",
       "EU": "Europe",
       "CN": "China",
-      "ASIA": "Asia",
-      "OCE": "Oceania",
+      "AS": "Asia",
+      "OC": "Oceania",
+      "ME": "Middle East",
       "CIS": "CIS"
     },
     "query": {
