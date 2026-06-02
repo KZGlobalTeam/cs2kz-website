@@ -178,6 +178,15 @@
         "pointsAll": "全部分数"
       }
     },
+    "unfinished": {
+      "title": "未完成",
+      "query": {
+        "tier": "选择难度"
+      },
+      "table": {
+        "courses": "关卡"
+      }
+    },
     "history": {
       "title": "历史记录",
       "playHistory": "游玩历史",

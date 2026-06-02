@@ -178,6 +178,15 @@
         "pointsAll": "All points"
       }
     },
+    "unfinished": {
+      "title": "Unfinished",
+      "query": {
+        "tier": "Select tier"
+      },
+      "table": {
+        "courses": "Courses"
+      }
+    },
     "history": {
       "title": "History",
       "playHistory": "Play History",

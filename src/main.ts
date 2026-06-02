@@ -12,8 +12,6 @@ import { createI18n } from 'vue-i18n'
 import en from '@/locales/en.json'
 import zh from '@/locales/zh.json'
 
-console.log('navigator lang', navigator.language)
-
 const availableLocales = ['zh', 'en']
 
 const browserLang = navigator.language.split('-')[0]

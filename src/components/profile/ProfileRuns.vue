@@ -8,7 +8,6 @@ defineProps<{
 
 const emits = defineEmits<{
   (e: 'resetQuery'): void
-  (e: 'intersect'): void
 }>()
 
 const query = defineModel<PlayerRecordQuery>('query', { required: true })
@@ -16,7 +15,10 @@ const query = defineModel<PlayerRecordQuery>('query', { required: true })
 
 <template>
   <div>
-    <p class="text-3xl text-gray-300 font-semibold mb-2">{{ $t('profile.runs.title') }}</p>
+    <!-- title -->
+    <p class="text-3xl font-semibold mb-2">
+      {{ $t('profile.runs.title') }}
+    </p>
 
     <div class="flex flex-wrap gap-3 text-gray-300 border border-gray-800 rounded-md p-3 mb-2">
       <PlayerRecordQuery v-model:query="query" @reset-query="emits('resetQuery')" />

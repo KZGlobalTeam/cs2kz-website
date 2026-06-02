@@ -13,13 +13,16 @@ const {
   mode,
   rankedOnly,
   recordQuery,
+  unfinishedQuery,
   records,
+  unfinishedCourses,
   loading,
   totalCourses,
   completedCourses,
   topRecords,
   pointsDistribution,
   resetRecordQuery,
+  resetUnfinishedQuery,
   setTierFilter,
   setPointsFilter,
 } = usePlayerProfile(steamId)
@@ -49,14 +52,22 @@ const {
         />
 
         <ProfileMaps class="mb-5" :loading="loading" :maps="maps" />
+
+        <ProfileUnfinished
+          v-model:query="unfinishedQuery"
+          :unfinished-courses="unfinishedCourses"
+          :loading="loading"
+          @reset-query="resetUnfinishedQuery"
+        />
       </div>
-      <ProfileRuns
-        class="w-4/7"
-        v-model:query="recordQuery"
-        :records="records"
-        :loading="loading"
-        @reset-query="resetRecordQuery"
-      />
+      <div class="w-4/7">
+        <ProfileRuns
+          v-model:query="recordQuery"
+          :records="records"
+          :loading="loading"
+          @reset-query="resetRecordQuery"
+        />
+      </div>
     </div>
   </div>
 
@@ -78,6 +89,19 @@ const {
     />
 
     <ProfileMaps class="mb-5" :loading="loading" :maps="maps" />
-    <ProfileRuns v-model:query="recordQuery" :records="records" :loading="loading" @reset-query="resetRecordQuery" />
+
+    <ProfileRuns
+      class="mb-5"
+      v-model:query="recordQuery"
+      :records="records"
+      :loading="loading"
+      @reset-query="resetRecordQuery"
+    />
+    <ProfileUnfinished
+      v-model:query="unfinishedQuery"
+      :unfinished-courses="unfinishedCourses"
+      :loading="loading"
+      @reset-query="resetUnfinishedQuery"
+    />
   </div>
 </template>

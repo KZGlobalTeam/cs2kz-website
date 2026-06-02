@@ -126,6 +126,16 @@ export interface PlayerRecordQuery {
   sort_order?: 'ascending' | 'descending'
 }
 
+export interface UnfinishedCourseQuery {
+  tier?: Tier
+}
+
+export interface UnfinishedMapRow {
+  id: number
+  name: string
+  courses: CourseExt[]
+}
+
 export type Server = components['schemas']['Server']
 
 export interface RunningServer {

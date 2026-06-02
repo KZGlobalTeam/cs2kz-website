@@ -1,16 +1,22 @@
 import { computed, reactive, ref, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
-import type { CourseInfo, Tier, Map, Player, PlayerRecordQuery, PlayerSteam, Record } from '@/types'
+import type {
+  CourseInfo,
+  Map,
+  Player,
+  PlayerRecordQuery,
+  PlayerSteam,
+  Record,
+  UnfinishedCourseQuery,
+  UnfinishedMapRow,
+} from '@/types'
 import {
   api,
-  calcPointsDistribution,
   completionTiers,
   pointsDistLabels,
   extractTimestampFromUUIDv7,
-  getPointsBucket,
-  getRecordPoints,
-  getRecordRank,
-  getRecordTier,
+  getTierColor,
+  getTierNumber,
 } from '@/utils'
 import { useStyleStore } from '@/stores/style'
 
@@ -28,6 +34,10 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     sort_order: 'descending',
   }
 
+  const defaultUnfinishedQuery: UnfinishedCourseQuery = {
+    tier: undefined,
+  }
+
   const loading = ref(false)
   const profile = ref<Player | null>(null)
   const steamProfile = ref<PlayerSteam | null>(null)
@@ -35,6 +45,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   const allRecords = ref<Record[]>([])
 
   const recordQuery = reactive<PlayerRecordQuery>({ ...defaultRecordQuery })
+  const unfinishedQuery = reactive<UnfinishedCourseQuery>({ ...defaultUnfinishedQuery })
 
   const currentPlayerId = computed(() => toValue(playerId))
 
@@ -95,6 +106,10 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     }
   })
 
+  const completedCourseKeys = computed(
+    () => new Set(allRecords.value.map((record) => `${record.map.name}:${record.course.name}`)),
+  )
+
   const pointsDistribution = computed(() => {
     const recordsInTier = recordQuery.tier
       ? allRecords.value.filter((record) => {
@@ -146,6 +161,36 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     return sortPlayerRecords(records, recordQuery.sort_by, recordQuery.sort_order)
   })
 
+  const unfinishedCourses = computed<UnfinishedMapRow[]>(() =>
+    maps.value
+      .map((map) => {
+        const courses = map.courses
+          .filter((course) => !completedCourseKeys.value.has(`${map.name}:${course.name}`))
+          .map((course) => {
+            const courseFilter = course.filters[mode.value]
+            const tier = leaderboardType.value === 'pro' ? courseFilter.pro_tier : courseFilter.nub_tier
+
+            return {
+              name: course.name,
+              tier,
+              tierNo: getTierNumber(tier),
+              tierColor: getTierColor(tier),
+              state: courseFilter.state,
+            }
+          })
+          .filter((course) => (unfinishedQuery.tier ? course.tier === unfinishedQuery.tier : true))
+
+        return {
+          id: map.id,
+          name: map.name,
+          approved_at: map.approved_at,
+          courses,
+        }
+      })
+      .filter((map) => map.courses.length > 0)
+      .sort((a, b) => new Date(b.approved_at).getTime() - new Date(a.approved_at).getTime()),
+  )
+
   watch(currentPlayerId, async () => {
     resetRecordQuery()
   })
@@ -174,7 +219,17 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     }
   })
 
-  watch([() => leaderboardType.value, () => rankedOnly.value], async () => {
+  watch(leaderboardType, async () => {
+    loading.value = true
+
+    try {
+      await getPlayerRecords()
+    } finally {
+      loading.value = false
+    }
+  })
+
+  watch(rankedOnly, async () => {
     loading.value = true
 
     try {
@@ -254,6 +309,10 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     Object.assign(recordQuery, { ...defaultRecordQuery })
   }
 
+  function resetUnfinishedQuery() {
+    Object.assign(unfinishedQuery, { ...defaultUnfinishedQuery })
+  }
+
   function setTierFilter(tier: PlayerRecordQuery['tier']) {
     recordQuery.tier = recordQuery.tier === tier ? undefined : tier
   }
@@ -271,12 +330,15 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     leaderboardType,
     rankedOnly,
     recordQuery,
+    unfinishedQuery,
     records: filteredRecords,
+    unfinishedCourses,
     totalCourses,
     completedCourses,
     topRecords,
     pointsDistribution,
     resetRecordQuery,
+    resetUnfinishedQuery,
     setTierFilter,
     setPointsFilter,
   }

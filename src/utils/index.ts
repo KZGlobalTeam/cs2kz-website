@@ -88,22 +88,6 @@ export const pointsDistLabels = [
   'WRs',
 ]
 
-export function getRecordTier(record: Run, leaderboardType: LeaderboardType): Tier {
-  return leaderboardType === 'pro' ? record.course.pro_tier : record.course.nub_tier
-}
-
-export function getRecordRank(record: Run, leaderboardType: LeaderboardType) {
-  return leaderboardType === 'pro' ? (record.pro_rank as number) : (record.nub_rank as number)
-}
-
-export function getRecordPoints(record: Run, leaderboardType: LeaderboardType) {
-  return leaderboardType === 'pro' ? (record.pro_points as number) : (record.nub_points as number)
-}
-
-export function getPointsBucket(points: number) {
-  return Math.min(Math.floor(points / 1000), 10)
-}
-
 export function getTierNumber(tier: string) {
   return tierNumberMap.get(tier) as number
 }
@@ -199,14 +183,6 @@ export function getWrHistory(records: Run[]) {
   })
 
   return history.reverse()
-}
-
-export function calcPointsDistribution(runs: Run[], leaderboardType: LeaderboardType) {
-  const pointsDistribution = Array.from({ length: pointsDistLabels.length }, (_, index) => {
-    return runs.filter((record) => getPointsBucket(getRecordPoints(record, leaderboardType)) === index).length
-  })
-
-  return pointsDistribution
 }
 
 export function getRankByRating(rating: number) {
