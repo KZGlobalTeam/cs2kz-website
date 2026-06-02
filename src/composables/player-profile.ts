@@ -165,7 +165,12 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     maps.value
       .map((map) => {
         const courses = map.courses
-          .filter((course) => !completedCourseKeys.value.has(`${map.name}:${course.name}`))
+          .filter((course) => {
+            if (completedCourseKeys.value.has(`${map.name}:${course.name}`)) {
+              return false
+            }
+            return rankedOnly.value ? course.filters[mode.value].state === 'ranked' : true
+          })
           .map((course) => {
             const courseFilter = course.filters[mode.value]
             const tier = leaderboardType.value === 'pro' ? courseFilter.pro_tier : courseFilter.nub_tier
