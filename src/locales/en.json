@@ -235,7 +235,8 @@
       "AS": "Asia",
       "OC": "Oceania",
       "ME": "Middle East",
-      "CIS": "CIS"
+      "CIS": "CIS",
+      "AF": "Africa"
     },
     "query": {
       "name": "Name",
