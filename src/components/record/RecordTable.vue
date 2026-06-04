@@ -79,9 +79,9 @@ function getRankColor(rank: number | undefined | null) {
   if (rank === null || rank === undefined) return ''
 
   if (rank <= 10) {
-    return 'text-red-400'
-  } else if (rank <= 20) {
     return 'text-purple-400'
+  } else if (rank <= 20) {
+    return 'text-red-400'
   } else if (rank <= 50) {
     return 'text-orange-400'
   } else {
