@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick } from 'vue'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, VNode } from 'vue'
 import type { RecordQuery, PlayerRecordQuery, Record } from '@/types'
 import RecordDetail from './RecordDetail.vue'
 import { useI18n } from 'vue-i18n'
@@ -218,16 +218,19 @@ const columns = computed(() => {
     accessorKey: 'nub_rank',
     header: styleStore.leaderboardType === 'overall' ? t('records.title.nubRank') : t('records.title.proRank'),
     cell: ({ row }) => {
+      let node: VNode
       const recordRank = styleStore.leaderboardType === 'overall' ? row.original.nub_rank : row.original.pro_rank
       if (recordRank === 1) {
-        return h(IconMedalFirst)
+        node = h(IconMedalFirst)
       } else if (recordRank === 2) {
-        return h(IconMedalSecond)
+        node = h(IconMedalSecond)
       } else if (recordRank === 3) {
-        return h(IconMedalThird)
+        node = h(IconMedalThird)
       } else {
-        return h('span', { class: getRankColor(recordRank) }, recordRank || '-')
+        node = h('span', { class: getRankColor(recordRank) }, recordRank || '-')
       }
+
+      return h('div', { class: 'flex w-8 justify-center' }, [node])
     },
   }
 
