@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import { setupStyleQuerySync } from './router/style-query-sync'
 
 import ui from '@nuxt/ui/vue-plugin'
 
@@ -25,8 +26,11 @@ const i18n = createI18n({
 })
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+setupStyleQuerySync(router, pinia)
+
+app.use(pinia)
 app.use(router)
 app.use(ui)
 app.use(i18n)
