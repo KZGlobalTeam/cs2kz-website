@@ -155,14 +155,16 @@ const columns = computed(() => {
     accessorKey: 'course',
     header: t('records.title.course'),
     cell: ({ row }) => {
-      return h(
-        RouterLink,
-        {
-          class: 'block max-w-42 truncate text-lg hover:text-slate-300 cursor-pointer',
-          to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
-        },
-        () => row.original.course.name,
-      )
+      return h('div', { class: 'max-w-44 truncate' }, [
+        h(
+          RouterLink,
+          {
+            class: 'w-max text-lg hover:text-slate-300 cursor-pointer',
+            to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
+          },
+          () => row.original.course.name,
+        ),
+      ])
     },
   }
 
@@ -406,7 +408,6 @@ onMounted(() => {
     :data="records"
     :columns
     :loading
-    :ui="{ tbody: 'cursor-pointer' }"
     @select="toggleExpand"
     :class="type === 'player-wrs' ? '' : 'border border-gray-700 rounded-md'"
   >
