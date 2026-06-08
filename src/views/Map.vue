@@ -211,7 +211,7 @@ async function getMap() {
     <div class="mt-2">
       <RankCard v-if="worldRecord" :record="worldRecord" :leaderboard-type="query.leaderboardType" :total="total" />
       <RankCard
-        v-if="playerRecord && playerRecord.player.id !== worldRecord?.player.id"
+        v-if="worldRecord && playerRecord && playerRecord.player.id !== worldRecord?.player.id"
         :record="playerRecord"
         :leaderboard-type="query.leaderboardType"
         :total="total"
