@@ -205,7 +205,7 @@ async function getMap() {
     </div>
 
     <!-- ranking filters -->
-    <p class="mt-4 text-2xl lg:text-3xl font-semibold">Course Ranking</p>
+    <p class="mt-4 text-2xl lg:text-3xl font-semibold">{{ $t('map.courseRanking') }}</p>
 
     <!-- ranking -->
     <div class="mt-2">

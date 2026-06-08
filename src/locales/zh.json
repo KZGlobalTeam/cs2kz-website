@@ -111,8 +111,8 @@
       "proTier": "裸跳难度",
       "player": "玩家",
       "time": "用时",
-      "nubRank": "总排名",
-      "nubPoints": "总积分",
+      "nubRank": "总体排名",
+      "nubPoints": "总体积分",
       "proRank": "裸跳排名",
       "proPoints": "裸跳积分",
       "server": "服务器",
@@ -133,8 +133,8 @@
   },
   "maps": {
     "query": {
-      "selectLength": "长度(WR)",
-      "lengthRange": "{min}-{max} 分钟",
+      "selectLength": "长度(世界记录)",
+      "lengthRange": "{最短}-{最长} 分钟",
       "lengthUnderOne": "< 1 分钟",
       "selectTier": "选择难度",
       "unfinishedOnly": "仅展示未完成",
@@ -149,7 +149,7 @@
       "hours": "记录时长",
       "worldRank": "世界排名",
       "rating": "评分",
-      "rank": "排位",
+      "rank": "等级",
       "coursesFinished": "完成关卡"
     },
     "completion": {
@@ -164,7 +164,7 @@
       "top100": "前100",
       "topRecords": "Top 记录",
       "pointsDist": "分数分布",
-      "completionPerTier": "难度完成情况"
+      "completionPerTier": "分难度完成情况"
     },
     "maps": {
       "title": "制作地图"
