@@ -17,12 +17,12 @@ defineProps<{
 
     <div v-if="top10 > 0">
       <span class="mr-1 text-gray-400">{{ $t('profile.completion.top10') }}:</span>
-      <span class="text-purple-400">{{ top10 }}</span>
+      <span class="text-red-400">{{ top10 }}</span>
     </div>
 
     <div v-if="top20 > 0">
       <span class="mr-1 text-gray-400">{{ $t('profile.completion.top20') }}:</span>
-      <span class="text-red-400">{{ top20 }}</span>
+      <span class="text-purple-400">{{ top20 }}</span>
     </div>
 
     <div v-if="top50 > 0">

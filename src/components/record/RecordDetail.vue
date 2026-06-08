@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { Record } from '@/types'
 import { getTierColor, getTierNumber, formatTime, seperateThousands, uuidToLocal } from '@/utils'
 
-const filterTier = computed(() => {
-  const key = props.record.teleports > 0 ? 'nub_tier' : 'pro_tier'
-  return props.record.course[key]
-})
-
-const props = defineProps<{
+defineProps<{
   type: 'records' | 'profile-runs' | 'course-ranking' | 'player-wrs'
   record: Record
 }>()
@@ -36,10 +30,17 @@ const props = defineProps<{
         </RouterLink>
       </div>
 
-      <div v-if="type === 'records' || type === 'profile-runs' || type === 'player-wrs'" class="grid-item col-span-2">
+      <div v-if="type === 'records' || type === 'profile-runs' || type === 'player-wrs'" class="grid-item">
         <p class="item-key">{{ $t('records.title.tier') }}:</p>
-        <p class="font-medium" :style="{ color: getTierColor(filterTier) }">
-          {{ getTierNumber(filterTier) }}
+        <p class="font-medium" :style="{ color: getTierColor(record.course.nub_tier) }">
+          {{ getTierNumber(record.course.nub_tier) }}
+        </p>
+      </div>
+
+      <div v-if="type === 'records' || type === 'profile-runs' || type === 'player-wrs'" class="grid-item">
+        <p class="item-key">{{ $t('records.title.proTier') }}:</p>
+        <p class="font-medium" :style="{ color: getTierColor(record.course.pro_tier) }">
+          {{ getTierNumber(record.course.pro_tier) }}
         </p>
       </div>
 

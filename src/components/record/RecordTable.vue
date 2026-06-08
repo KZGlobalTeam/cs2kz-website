@@ -9,6 +9,7 @@ import { useInfiniteScroll } from '@vueuse/core'
 import { RouterLink } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
 import { getTierNumber, formatTime, getTierColor, seperateThousands, uuidToLocal, uuidToLocalDistance } from '@/utils'
+import { useStyleStore } from '@/stores/style.ts'
 
 const props = defineProps<{
   type: 'profile-runs' | 'records' | 'course-ranking' | 'player-wrs'
@@ -20,6 +21,8 @@ const props = defineProps<{
 const emits = defineEmits<{
   (e: 'intersect'): void
 }>()
+
+const styleStore = useStyleStore()
 
 const IconMedalFirst = resolveComponent('IconMedalFirst')
 const IconMedalSecond = resolveComponent('IconMedalSecond')
@@ -79,18 +82,14 @@ function getRankColor(rank: number | undefined | null) {
   if (rank === null || rank === undefined) return ''
 
   if (rank <= 10) {
-    return 'text-purple-400'
-  } else if (rank <= 20) {
     return 'text-red-400'
-  } else if (rank <= 50) {
-    return 'text-orange-400'
   } else {
     return ''
   }
 }
 
 const columns = computed(() => {
-  const rankCol: TableColumn<Record> = {
+  const indexCol: TableColumn<Record> = {
     id: 'rank',
     header: t('records.title.rank'),
     cell: ({ row }) => {
@@ -169,21 +168,10 @@ const columns = computed(() => {
 
   const tierCol: TableColumn<Record> = {
     accessorKey: 'tier',
-    header: t('records.title.tier'),
+    header: styleStore.leaderboardType === 'overall' ? t('records.title.tier') : t('records.title.proTier'),
     cell: ({ row }) => {
-      const tier = row.original.course.nub_tier
-      const tierNumber = getTierNumber(tier)
-      const tierColor = getTierColor(tier)
-
-      return h('span', { class: 'text-lg font-medium ', style: { color: tierColor } }, tierNumber)
-    },
-  }
-
-  const proTierCol: TableColumn<Record> = {
-    accessorKey: 'tier',
-    header: t('records.title.proTier'),
-    cell: ({ row }) => {
-      const tier = row.original.course.pro_tier
+      const tier =
+        styleStore.leaderboardType === 'overall' ? row.original.course.nub_tier : row.original.course.pro_tier
       const tierNumber = getTierNumber(tier)
       const tierColor = getTierColor(tier)
 
@@ -226,34 +214,19 @@ const columns = computed(() => {
     },
   }
 
-  const nubRankCol: TableColumn<Record> = {
+  const rankCol: TableColumn<Record> = {
     accessorKey: 'nub_rank',
-    header: t('records.title.nubRank'),
+    header: styleStore.leaderboardType === 'overall' ? t('records.title.nubRank') : t('records.title.proRank'),
     cell: ({ row }) => {
-      if (row.original.nub_rank === 1) {
+      const recordRank = styleStore.leaderboardType === 'overall' ? row.original.nub_rank : row.original.pro_rank
+      if (recordRank === 1) {
         return h(IconMedalFirst)
-      } else if (row.original.nub_rank === 2) {
+      } else if (recordRank === 2) {
         return h(IconMedalSecond)
-      } else if (row.original.nub_rank === 3) {
+      } else if (recordRank === 3) {
         return h(IconMedalThird)
       } else {
-        return h('span', { class: getRankColor(row.original.nub_rank) }, row.original.nub_rank || '-')
-      }
-    },
-  }
-
-  const proRankCol: TableColumn<Record> = {
-    accessorKey: 'pro_rank',
-    header: t('records.title.proRank'),
-    cell: ({ row }) => {
-      if (row.original.pro_rank === 1) {
-        return h(IconMedalFirst)
-      } else if (row.original.pro_rank === 2) {
-        return h(IconMedalSecond)
-      } else if (row.original.pro_rank === 3) {
-        return h(IconMedalThird)
-      } else {
-        return h('span', { class: getRankColor(row.original.pro_rank) }, row.original.pro_rank || '-')
+        return h('span', { class: getRankColor(recordRank) }, recordRank || '-')
       }
     },
   }
@@ -392,25 +365,13 @@ const columns = computed(() => {
   const cols: TableColumn<Record>[] = []
 
   if (props.type === 'records') {
-    cols.push(
-      mapCol,
-      courseCol,
-      tierCol,
-      proTierCol,
-      playerCol,
-      timeCol,
-      nubRankCol,
-      proRankCol,
-      submissionDateCol,
-      replayCol,
-      serverCol,
-    )
+    cols.push(mapCol, courseCol, tierCol, playerCol, timeCol, rankCol, submissionDateCol, replayCol, serverCol)
   } else if (props.type === 'profile-runs') {
-    cols.push(mapCol, courseCol, tierCol, proTierCol, timeCol, nubRankCol, proRankCol, submissionDateCol, replayCol)
+    cols.push(mapCol, courseCol, tierCol, timeCol, rankCol, submissionDateCol, replayCol)
   } else if (props.type === 'course-ranking') {
-    cols.push(rankCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol, replayCol)
+    cols.push(indexCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol, replayCol)
   } else if (props.type === 'player-wrs') {
-    cols.push(mapCol, courseCol, tierCol, proTierCol, timeCol, submissionDateCol)
+    cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol)
   }
 
   return cols
