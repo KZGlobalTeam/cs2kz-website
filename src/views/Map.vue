@@ -23,14 +23,28 @@ const map = ref<Map | null>(null)
 const currentCourse = ref<Course | null>(null)
 
 useHead({
-  title: () => (map.value && currentCourse.value ? `${map.value.name} [${currentCourse.value.name}] - CS2KZ` : 'Map'),
+  title: () =>
+    map.value && currentCourse.value ? `${map.value.name} [${currentCourse.value.name}] - CS2KZ` : 'Map - CS2KZ',
   meta: [
     {
       name: 'description',
-      content: () =>
-        map.value && currentCourse.value
-          ? `View ${map.value.name} [${currentCourse.value.name}] details, rankings, world records, and course information on CS2KZ.`
-          : 'View CS2KZ map details, rankings, world records, and course information.',
+      content: 'View CS2KZ map details, rankings, world records, and course information.',
+    },
+    {
+      property: 'og:title',
+      content: 'Map - CS2KZ',
+    },
+    {
+      property: 'og:description',
+      content: 'View CS2KZ map details, rankings, world records, and course information.',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:site_name',
+      content: 'CS2KZ',
     },
   ],
 })

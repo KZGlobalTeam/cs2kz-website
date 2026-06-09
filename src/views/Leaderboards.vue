@@ -13,6 +13,23 @@ useHead({
       content:
         'Compare CS2KZ player rankings, rating leaderboards, and world record leaders across the latest competitive stats.',
     },
+    {
+      property: 'og:title',
+      content: 'Leaderboards - CS2KZ',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Compare CS2KZ player rankings, rating leaderboards, and world record leaders across the latest competitive stats.',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:site_name',
+      content: 'CS2KZ',
+    },
   ],
 })
 

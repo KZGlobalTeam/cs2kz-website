@@ -10,6 +10,23 @@ useHead({
       content:
         'Explore CS2KZ world records, filter top runs, and track the fastest times across maps, modes, and courses.',
     },
+    {
+      property: 'og:title',
+      content: 'Records - CS2KZ',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Explore CS2KZ world records, filter top runs, and track the fastest times across maps, modes, and courses.',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:site_name',
+      content: 'CS2KZ',
+    },
   ],
 })
 

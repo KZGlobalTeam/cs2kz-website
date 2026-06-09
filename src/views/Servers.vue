@@ -10,6 +10,23 @@ useHead({
       content:
         'Find active CS2KZ servers, browse regions, and choose where to play based on current server availability.',
     },
+    {
+      property: 'og:title',
+      content: 'Servers - CS2KZ',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Find active CS2KZ servers, browse regions, and choose where to play based on current server availability.',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:site_name',
+      content: 'CS2KZ',
+    },
   ],
 })
 

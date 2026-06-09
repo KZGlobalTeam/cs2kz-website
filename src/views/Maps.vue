@@ -10,6 +10,23 @@ useHead({
       content:
         'Browse CS2KZ maps, filter by course settings, and discover new maps to play across the global map list.',
     },
+    {
+      property: 'og:title',
+      content: 'Maps - CS2KZ',
+    },
+    {
+      property: 'og:description',
+      content:
+        'Browse CS2KZ maps, filter by course settings, and discover new maps to play across the global map list.',
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:site_name',
+      content: 'CS2KZ',
+    },
   ],
 })
 

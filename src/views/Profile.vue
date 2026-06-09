@@ -29,14 +29,27 @@ const {
 } = usePlayerProfile(steamId)
 
 useHead({
-  title: () => (profile.value ? `${profile.value.name}'s profile - CS2KZ` : 'Profile - CS2KZ'),
+  title: () => (profile.value ? `${profile.value.name}'s profile - CS2KZ` : 'Player Profile - CS2KZ'),
   meta: [
     {
       name: 'description',
-      content: () =>
-        profile.value
-          ? `View ${profile.value.name}'s CS2KZ profile, records, map completion, and performance stats.`
-          : 'View CS2KZ player records, map completion, and performance stats.',
+      content: 'View CS2KZ player records, map completion, and performance stats.',
+    },
+    {
+      property: 'og:title',
+      content: 'Player Profile - CS2KZ',
+    },
+    {
+      property: 'og:description',
+      content: 'View CS2KZ player records, map completion, and performance stats.',
+    },
+    {
+      property: 'og:type',
+      content: 'profile',
+    },
+    {
+      property: 'og:site_name',
+      content: 'CS2KZ',
     },
   ],
 })
