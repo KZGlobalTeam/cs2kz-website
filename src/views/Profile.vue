@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePlayerProfile } from '@/composables/player-profile'
+import { useHead } from '@unhead/vue'
 
 const route = useRoute()
 const steamId = computed(() => route.params.steamId as string)
@@ -26,6 +27,19 @@ const {
   setTierFilter,
   setPointsFilter,
 } = usePlayerProfile(steamId)
+
+useHead({
+  title: () => (profile.value ? `${profile.value.name}'s profile - CS2KZ` : 'Profile - CS2KZ'),
+  meta: [
+    {
+      name: 'description',
+      content: () =>
+        profile.value
+          ? `View ${profile.value.name}'s CS2KZ profile, records, map completion, and performance stats.`
+          : 'View CS2KZ player records, map completion, and performance stats.',
+    },
+  ],
+})
 </script>
 
 <template>

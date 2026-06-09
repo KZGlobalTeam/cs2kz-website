@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Records - CS2KZ',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Explore CS2KZ world records, filter top runs, and track the fastest times across maps, modes, and courses.',
+    },
+  ],
+})
 
 const { records, total, loading, query, incrementRecords, resetQuery, getRecords } = useRecords(
   { max_rank: 1 },

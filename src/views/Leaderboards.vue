@@ -3,6 +3,18 @@ import { ref, computed, watch } from 'vue'
 import { useRatingLeaderboard } from '@/composables/rating-leaderboard'
 import { useWRsLeaderboard } from '@/composables/wrs-leaderboard'
 import { useRecords } from '@/composables/records'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Leaderboards - CS2KZ',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Compare CS2KZ player rankings, rating leaderboards, and world record leaders across the latest competitive stats.',
+    },
+  ],
+})
 
 const rankedOnly = ref<boolean>(true)
 

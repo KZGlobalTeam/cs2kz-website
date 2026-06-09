@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Not Found - CS2KZ',
+})
 
 const router = useRouter()
 </script>

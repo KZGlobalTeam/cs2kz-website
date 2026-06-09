@@ -5,6 +5,7 @@ import type { Map, Course } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, getTierNumber } from '@/utils'
+import { useHead } from '@unhead/vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -20,6 +21,19 @@ const mapStateColorMap = {
 const map = ref<Map | null>(null)
 
 const currentCourse = ref<Course | null>(null)
+
+useHead({
+  title: () => (map.value && currentCourse.value ? `${map.value.name} [${currentCourse.value.name}] - CS2KZ` : 'Map'),
+  meta: [
+    {
+      name: 'description',
+      content: () =>
+        map.value && currentCourse.value
+          ? `View ${map.value.name} [${currentCourse.value.name}] details, rankings, world records, and course information on CS2KZ.`
+          : 'View CS2KZ map details, rankings, world records, and course information.',
+    },
+  ],
+})
 
 const activeCourseNumber = computed(() => {
   if (map.value && currentCourse.value) {

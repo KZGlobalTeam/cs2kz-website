@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import { useServers } from '@/composables/servers'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Servers - CS2KZ',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Find active CS2KZ servers, browse regions, and choose where to play based on current server availability.',
+    },
+  ],
+})
 
 const { servers, availableRegions, loading, query, resetQuery, getServers } = useServers()
 </script>

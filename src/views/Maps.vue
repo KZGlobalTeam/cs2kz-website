@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { useMaps } from '@/composables/maps'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Maps - CS2KZ',
+  meta: [
+    {
+      name: 'description',
+      content:
+        'Browse CS2KZ maps, filter by course settings, and discover new maps to play across the global map list.',
+    },
+  ],
+})
 
 const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMaps()
-//
 </script>
 
 <template>
