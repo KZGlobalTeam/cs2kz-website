@@ -18,7 +18,11 @@ const rankInfo = computed(() => getRankByRating(rating.value))
 
 <template>
   <div class="flex gap-2 lg:gap-4 p-4 border border-gray-700 rounded-md lg:text-lg">
-    <TheImage :src="avatarUrl" class="w-24 h-24 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400" />
+    <TheImage
+      :src="avatarUrl"
+      alt="Player Avatar"
+      class="w-24 h-24 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400"
+    />
 
     <div v-if="loading" class="w-20 flex justify-center items-center">
       <IconLoading />

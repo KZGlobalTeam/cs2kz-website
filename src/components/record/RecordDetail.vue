@@ -13,6 +13,7 @@ defineProps<{
     <TheImage
       v-if="type === 'records' || type === 'profile-runs' || type === 'player-wrs'"
       :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`"
+      alt="Map Image"
       class="w-64 h-36 rounded-md ring-1 ring-slate-400"
     />
     <div class="grid grid-cols-[1fr_1fr_1fr_1fr] gap-x-10 gap-y-3">

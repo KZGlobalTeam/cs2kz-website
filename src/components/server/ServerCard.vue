@@ -30,6 +30,7 @@ async function copyServerIp() {
           ? `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`
           : `https://github.com/vap222222/nonglobalmaps/raw/main/${server.current_map.name}.jpg`
       "
+      alt="Map Image"
     ></TheImage>
 
     <div class="text-sm text-muted p-2">
@@ -37,7 +38,7 @@ async function copyServerIp() {
         <UTooltip v-if="server.country" :text="server.country.name" :content="{ side: 'top' }">
           <img
             class="w-5 h-auto"
-            :alt="server.country.name"
+            alt="Country Flag"
             :src="`https://purecatamphetamine.github.io/country-flag-icons/3x2/${server.country.code.toUpperCase()}.svg`"
           />
         </UTooltip>

@@ -15,6 +15,7 @@ defineProps<{
         <TheImage
           class="w-36 lg:w-64 h-36 object-cover rounded-bl-md rounded-tl-md cursor-pointer"
           :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
+          alt="Map Image"
       /></RouterLink>
 
       <div

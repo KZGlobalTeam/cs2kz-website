@@ -4,6 +4,7 @@ import { useImage } from '@vueuse/core'
 
 const props = defineProps<{
   src: string
+  alt: string
 }>()
 
 let _loading = ref()
@@ -21,7 +22,7 @@ watch(() => props.src, loadImage, { immediate: true })
 </script>
 
 <template>
-  <img v-if="!_loading && !_error" :src="props.src" loading="lazy" class="animate-fade-in" />
+  <img v-if="!_loading && !_error" :src="props.src" :alt="alt" loading="lazy" class="animate-fade-in" />
 
-  <img v-else src="@/assets/img/fallback.jpg" class="animate-fade-in" />
+  <img v-else src="@/assets/img/fallback.jpg" :alt="alt" class="animate-fade-in" />
 </template>

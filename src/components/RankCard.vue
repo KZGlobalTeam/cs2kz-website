@@ -43,7 +43,7 @@ async function getAvatar(steamId: string) {
 <template>
   <div :class="wr ? 'wr-card' : 'normal-card'">
     <RouterLink :to="`/profile/${record.player.id}`">
-      <TheImage :src="avatarUrl" class="w-20 h-20 object-cover rounded-md ring-2 ring-white/30" />
+      <TheImage :src="avatarUrl" alt="Player Avatar" class="w-20 h-20 object-cover rounded-md ring-2 ring-white/30" />
     </RouterLink>
 
     <div>

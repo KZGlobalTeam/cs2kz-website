@@ -129,6 +129,7 @@ const columns = computed(() => {
         ? h('div', { class: 'flex items-center gap-2' }, [
             h(TheImage, {
               src: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/1.webp`,
+              alt: 'Map Image',
               class: 'hidden lg:inline w-24 h-auto object-cover rounded-sm ring-1 ring-gray-700',
             }),
             h(
