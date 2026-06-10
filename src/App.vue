@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { useHead } from '@unhead/vue'
+import { RouterView, useRoute } from 'vue-router'
 import Cookies from 'universal-cookie'
 import { usePlayerStore } from './stores/player'
 import { api } from './utils'
@@ -8,11 +9,24 @@ import BetaNotice from './components/BetaNotice.vue'
 import { useColorMode } from '@vueuse/core'
 
 const playerStore = usePlayerStore()
+const route = useRoute()
 
 const cookies = new Cookies(null, { path: '/' })
 
 const colorMode = useColorMode()
 colorMode.value = 'dark'
+
+useHead(() => ({
+  link:
+    route.name === 'NotFound'
+      ? []
+      : [
+          {
+            rel: 'canonical',
+            href: 'https://cs2kz.org' + route.path,
+          },
+        ],
+}))
 
 playerStore.player = cookies.get('kz-player') || null
 
