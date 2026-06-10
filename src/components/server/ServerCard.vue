@@ -49,11 +49,14 @@ async function copyServerIp() {
 
       <div class="mt-1 flex items-center gap-1">
         <RouterLink
-          :class="server.current_map.isGlobal ? '' : 'max-w-38'"
-          class="block truncate text-base font-semibold text-slate-300 hover:text-slate-200"
+          v-if="server.current_map.isGlobal"
+          class="text-base font-semibold text-slate-300 hover:text-slate-200"
           :to="`/maps/${server.current_map.name}`"
           >{{ server.current_map.name }}</RouterLink
         >
+        <span v-else class="max-w-38 block truncate text-base font-semibold text-slate-300">{{
+          server.current_map.name
+        }}</span>
 
         <span v-if="!server.current_map.isGlobal" class="px-1 text-xs rounded-sm text-yellow-400 bg-yellow-800">
           {{ $t('servers.nonGlobal') }}
