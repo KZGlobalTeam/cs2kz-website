@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <div class="list-wrapper mx-auto w-max">
-    <div class="grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-6 gap-4 lg:gap-10 lg:place-items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-10 lg:place-items-center">
       <ServerCard v-for="server in servers" :key="server.id" :query="query" :server="server" />
     </div>
   </div>

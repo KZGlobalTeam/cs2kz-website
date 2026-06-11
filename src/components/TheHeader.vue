@@ -48,8 +48,8 @@ const profileOptions = computed(() => [
 
 const navigation = [
   {
-    localePath: 'nav.servers',
-    path: '/servers',
+    localePath: 'nav.home',
+    path: '/',
   },
   {
     localePath: 'nav.leaderboards',

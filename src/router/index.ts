@@ -4,8 +4,14 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/servers',
+      redirect: '/',
+    },
+    {
       path: '/',
-      redirect: '/servers',
+      name: 'Home',
+      meta: { usesStyleQuery: false },
+      component: () => import('@/views/Home.vue'),
     },
     {
       path: '/leaderboards',
@@ -36,12 +42,6 @@ const router = createRouter({
       name: 'Profile',
       meta: { usesStyleQuery: true },
       component: () => import('@/views/Profile.vue'),
-    },
-    {
-      path: '/servers',
-      name: 'Servers',
-      meta: { usesStyleQuery: false },
-      component: () => import('@/views/Servers.vue'),
     },
     {
       path: '/:pathMatch(.*)*',

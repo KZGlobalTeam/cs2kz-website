@@ -27,6 +27,7 @@
     "@vueuse/core": "^13.3.0",
     "axios": "^1.8.3",
     "date-fns": "^4.1.0",
+    "markdown-it": "^14.2.0",
     "pinia": "^3.0.1",
     "radash": "^12.1.0",
     "steamid": "^2.1.0",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.13.9",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-prettier": "^10.2.0",
