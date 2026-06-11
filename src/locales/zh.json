@@ -82,6 +82,26 @@
       "title": "头衔"
     }
   },
+  "home": {
+    "filters": "筛选",
+    "leaderboards": {
+      "title": "排行榜",
+      "top10": "前 10 名玩家",
+      "rating": "Rating",
+      "wrs": "世界纪录"
+    },
+    "latestWrs": {
+      "title": "最新 WR",
+      "subtitle": "按时间从新到旧显示世界纪录",
+      "record": "记录",
+      "time": "用时",
+      "map": "地图",
+      "course": "关卡",
+      "date": "日期",
+      "overallRecord": "总体 WR",
+      "proRecord": "裸跳 WR"
+    }
+  },
   "records": {
     "query": {
       "pbOnly": "仅PB",

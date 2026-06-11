@@ -6,6 +6,7 @@ import { attachAvatarsToPlayerRecords } from '@/composables/steam-avatars'
 
 interface UseRecordsOptions {
   withAvatar?: boolean
+  syncStyleStore?: boolean
 }
 
 export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: UseRecordsOptions = {}) {
@@ -33,10 +34,12 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: Use
 
   const query = reactive<RecordQuery>({ ...defaultQuery, ...initialQuery })
 
-  styleStore.$subscribe((_mutation, state) => {
-    query.mode = state.mode
-    query.leaderboardType = state.leaderboardType
-  })
+  if (options.syncStyleStore !== false) {
+    styleStore.$subscribe((_mutation, state) => {
+      query.mode = state.mode
+      query.leaderboardType = state.leaderboardType
+    })
+  }
 
   watch([() => query.player, () => query.map, () => query.course, () => query.server], () => {
     getRecords({ offset: 0 })

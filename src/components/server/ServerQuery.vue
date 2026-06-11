@@ -5,7 +5,7 @@ import { useDebouncedStringFilters } from '@/composables/debounced-string-filter
 import type { ServerQuery } from '@/types'
 
 const query = defineModel<ServerQuery>('query', { required: true })
-const { name, map, owner } = useDebouncedStringFilters(query, ['name', 'map', 'owner'])
+const { name, map } = useDebouncedStringFilters(query, ['name', 'map', 'owner'])
 
 const props = defineProps<{
   availableRegions: { name: string; code: string }[]
@@ -40,12 +40,6 @@ const localizedRegions = computed(() => {
     <UInput v-model="map" :placeholder="$t('servers.query.map')">
       <template #trailing>
         <IconMap />
-      </template>
-    </UInput>
-
-    <UInput v-model="owner" :placeholder="$t('servers.query.ownedBy')">
-      <template #trailing>
-        <IconAdmin />
       </template>
     </UInput>
 

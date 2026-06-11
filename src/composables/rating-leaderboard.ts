@@ -1,10 +1,16 @@
-import type { LeaderboardQuery, PlayerWithAvatar } from '@/types'
+import type { LeaderboardQuery, Mode, PlayerWithAvatar } from '@/types'
 import { useStyleStore } from '@/stores/style'
 import { reactive, ref, watch } from 'vue'
 import { api } from '@/utils'
 import { attachAvatarsToPlayers } from '@/composables/steam-avatars'
 
-export function useRatingLeaderboard() {
+interface UseRatingLeaderboardOptions {
+  limit?: number
+  mode?: Mode
+  syncStyleStore?: boolean
+}
+
+export function useRatingLeaderboard(options: UseRatingLeaderboardOptions = {}) {
   const styleStore = useStyleStore()
 
   const loading = ref(false)
@@ -14,14 +20,16 @@ export function useRatingLeaderboard() {
   const total = ref(0)
 
   const query = reactive<LeaderboardQuery>({
-    mode: styleStore.mode,
+    mode: options.mode ?? styleStore.mode,
     offset: 0,
-    limit: 50,
+    limit: options.limit ?? 50,
   })
 
-  styleStore.$subscribe((_mutation, state) => {
-    query.mode = state.mode
-  })
+  if (options.syncStyleStore !== false) {
+    styleStore.$subscribe((_mutation, state) => {
+      query.mode = state.mode
+    })
+  }
 
   watch([() => query.offset, () => query.limit], () => {
     getLeaderboard({})

@@ -13,10 +13,11 @@ const renderedGuide = computed(() => md.render(markdown))
 </script>
 
 <template>
-  <section
-    class="list-wrapper flex flex-col rounded-md border border-gray-700 bg-gray-900/60 p-4 max-h-[calc(100dvh-5rem)] overflow-auto"
-  >
-    <div class="guide-content min-h-0 flex-1 pr-1 text-gray-200" v-html="renderedGuide" />
+  <section class="max-h-[calc(100dvh-5rem)] flex flex-col">
+    <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">How to CS2KZ</span>
+    <section class="mt-2 list-wrapper rounded-md border border-gray-700 bg-gray-900/60 p-4 flex-1 overflow-auto">
+      <div class="guide-content min-h-0 flex-1 pr-1 text-gray-200" v-html="renderedGuide" />
+    </section>
   </section>
 </template>
 
@@ -32,6 +33,10 @@ const renderedGuide = computed(() => md.render(markdown))
   font-size: 1.125rem;
   font-weight: 600;
   color: #fff;
+}
+
+.guide-content :deep(h2:first-of-type) {
+  margin-top: 0;
 }
 
 .guide-content :deep(p),

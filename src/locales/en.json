@@ -82,6 +82,26 @@
       "title": "Title"
     }
   },
+  "home": {
+    "filters": "Filters",
+    "leaderboards": {
+      "title": "Leaderboards",
+      "top10": "Top 10 players",
+      "rating": "Rating",
+      "wrs": "World Records"
+    },
+    "latestWrs": {
+      "title": "Latest WRs",
+      "subtitle": "Newest world records from top to bottom",
+      "record": "Record",
+      "time": "Time",
+      "map": "Map",
+      "course": "Course",
+      "date": "Date",
+      "overallRecord": "Overall WR",
+      "proRecord": "Pro WR"
+    }
+  },
   "records": {
     "query": {
       "pbOnly": "PB Only",
