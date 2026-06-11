@@ -9,7 +9,7 @@ const { servers, availableRegions, loading, query, resetQuery, getServers } = us
 
 <template>
   <section class="flex flex-col max-h-[calc(100dvh-5rem)]">
-    <div class="flex justify-between items-center border border-gray-800 rounded-md p-3">
+    <div class="hidden xl:flex justify-between items-center border border-gray-800 rounded-md p-3">
       <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">Servers</span>
       <ServerQuery
         v-model:query="query"
@@ -19,6 +19,16 @@ const { servers, availableRegions, loading, query, resetQuery, getServers } = us
         @refresh="getServers"
       />
     </div>
+    <div class="block xl:hidden border border-gray-800 rounded-md p-3">
+      <ServerQuery
+        v-model:query="query"
+        :available-regions="availableRegions"
+        :loading="loading"
+        @reset-query="resetQuery"
+        @refresh="getServers"
+      />
+    </div>
+
     <div v-if="loading" class="mt-4 p-3 flex justify-center border border-gray-700 rounded-md">
       <IconLoading />
     </div>
