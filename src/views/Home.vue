@@ -37,4 +37,7 @@ useHead({
     <Servers />
     <Sidebar />
   </div>
+  <div class="block xl:hidden mx-auto p-2 lg:p-4">
+    <Servers />
+  </div>
 </template>
