@@ -1,32 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import MarkdownIt from 'markdown-it'
-
-const markdown = `
-# How to CS2KZ
-
-## Getting started
-
-- Join a server from our server browser by copying the ip, preferably from your region.
-  - If you're new to kz, aim for tier 1 and 2 maps. You can find tier labels next to the map names.
-  - Other servers that don't appear in our server browser might run similar KZ plugins, those records will not be saved on our leaderboards.
-
-## Menu/Binds/Commands
-
-- Most CS2KZ servers have converted the radio menu to a KZ Menu.
-  - Open it by typing \`radio\`, \`radio1\`, \`radio2\` or \`radio3\` in the console.
-  - Or by using the default binds: \`Z\`, \`X\` and \`C\`.
-- Another way is to manually bind them or create a cfg.
-  - Example binds: \`bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause\`, you can copy and paste them into console directly.
-  - add \`-disable_workshop_command_filtering\` to your lanuch options if you want to exec the cfg in game.
-- Maps can be changed by typing \`!rtv\` or \`!nominate\`.
-- Type \`!help\` in game chat for all available kz commands.
-
-**If you want to know how the whole CS2KZ system works, check out the [documention page](https://docs.cs2kz.org). If you have more questions or want to meet more people playing kz, join our [discord](https://www.discord.gg/csgokz). Happy kreedzing!**
-`
+import markdown from './Guide.md?raw'
 
 const md = new MarkdownIt({
-  html: false,
+  html: true,
   linkify: true,
   breaks: true,
 })
@@ -50,14 +28,10 @@ const renderedGuide = computed(() => md.render(markdown))
 }
 
 .guide-content :deep(h2) {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   font-size: 1.125rem;
   font-weight: 600;
   color: #fff;
-}
-
-.guide-content :deep(h2:first-of-type) {
-  margin-top: 0;
 }
 
 .guide-content :deep(p),
@@ -87,7 +61,7 @@ const renderedGuide = computed(() => md.render(markdown))
   background: #111827;
   padding: 0.1rem 0.35rem;
   font-size: 0.875rem;
-  color: #bfdbfe;
+  color: #6099df;
 }
 
 .guide-content :deep(a) {
