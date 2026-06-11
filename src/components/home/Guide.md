@@ -13,10 +13,10 @@
   - Or by using the default binds: `Z`, `X` and `C`.
 - Another way is to manually bind them or create a cfg.
   - Example binds: `bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause`, you can copy and paste them into console directly.
-  - add `-disable_workshop_command_filtering` to your lanuch options if you want to exec the cfg in game.
+  - add `-disable_workshop_command_filtering` to your launch options if you want to exec the cfg in game.
 - Maps can be changed by typing `!rtv` or `!nominate`.
 - Type `!help` in game chat for all available kz commands.
 
 <br>
 
-If you want to know how the whole CS2KZ system works, check out the [documention page](https://docs.cs2kz.org). If you have more questions or want to meet more people playing kz, join our [discord](https://www.discord.gg/csgokz). Happy kreedzing!
+If you want to know how the whole CS2KZ system works, check out the [documentation page](https://docs.cs2kz.org). If you have more questions or want to meet more people playing kz, join our [discord](https://www.discord.gg/csgokz). Happy kreedzing!
