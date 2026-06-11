@@ -20,6 +20,26 @@ function usesStyleQuery(route: RouteLocationNormalized | RouteLocationNormalized
   return route.matched.some((record) => record.meta.usesStyleQuery === true)
 }
 
+function buildCanonicalQuery(
+  route: RouteLocationNormalized | RouteLocationNormalizedLoaded,
+  mode: Mode,
+  leaderboardType: LeaderboardType,
+) {
+  const nextQuery: LocationQueryRaw = { ...route.query }
+
+  if (!usesStyleQuery(route)) {
+    delete nextQuery.mode
+    delete nextQuery.leaderboardType
+
+    return nextQuery
+  }
+
+  nextQuery.mode = mode
+  nextQuery.leaderboardType = leaderboardType
+
+  return nextQuery
+}
+
 function buildRouteLocation(route: RouteLocationNormalized | RouteLocationNormalizedLoaded, query: LocationQueryRaw) {
   if (route.name) {
     return {
@@ -27,7 +47,6 @@ function buildRouteLocation(route: RouteLocationNormalized | RouteLocationNormal
       params: route.params,
       query,
       hash: route.hash,
-      replace: true,
     }
   }
 
@@ -35,7 +54,27 @@ function buildRouteLocation(route: RouteLocationNormalized | RouteLocationNormal
     path: route.path,
     query,
     hash: route.hash,
-    replace: true,
+  }
+}
+
+function syncStyleStoreFromRoute(
+  route: RouteLocationNormalized | RouteLocationNormalizedLoaded,
+  mode: Mode,
+  leaderboardType: LeaderboardType,
+  pinia: Pinia,
+) {
+  const styleStore = useStyleStore(pinia)
+
+  if (!usesStyleQuery(route)) {
+    return
+  }
+
+  if (styleStore.mode !== mode) {
+    styleStore.mode = mode
+  }
+
+  if (styleStore.leaderboardType !== leaderboardType) {
+    styleStore.leaderboardType = leaderboardType
   }
 }
 
@@ -43,48 +82,20 @@ export function setupStyleQuerySync(router: Router, pinia: Pinia) {
   const styleStore = useStyleStore(pinia)
 
   router.beforeEach((to) => {
-    const nextQuery: LocationQueryRaw = { ...to.query }
-
-    if (!usesStyleQuery(to)) {
-      let changed = false
-
-      if ('mode' in nextQuery) {
-        delete nextQuery.mode
-        changed = true
-      }
-
-      if ('leaderboardType' in nextQuery) {
-        delete nextQuery.leaderboardType
-        changed = true
-      }
-
-      return changed ? buildRouteLocation(to, nextQuery) : true
-    }
-
     const nextMode = parseMode(to.query.mode) ?? styleStore.mode
     const nextLeaderboardType = parseLeaderboardType(to.query.leaderboardType) ?? styleStore.leaderboardType
 
-    if (styleStore.mode !== nextMode) {
-      styleStore.mode = nextMode
+    syncStyleStoreFromRoute(to, nextMode, nextLeaderboardType, pinia)
+  })
+
+  router.afterEach((to) => {
+    const nextQuery = buildCanonicalQuery(to, styleStore.mode, styleStore.leaderboardType)
+
+    if (to.query.mode === nextQuery.mode && to.query.leaderboardType === nextQuery.leaderboardType) {
+      return
     }
 
-    if (styleStore.leaderboardType !== nextLeaderboardType) {
-      styleStore.leaderboardType = nextLeaderboardType
-    }
-
-    let changed = false
-
-    if (to.query.mode !== nextMode) {
-      nextQuery.mode = nextMode
-      changed = true
-    }
-
-    if (to.query.leaderboardType !== nextLeaderboardType) {
-      nextQuery.leaderboardType = nextLeaderboardType
-      changed = true
-    }
-
-    return changed ? buildRouteLocation(to, nextQuery) : true
+    void router.replace(buildRouteLocation(to, nextQuery))
   })
 
   watch(
@@ -100,13 +111,7 @@ export function setupStyleQuerySync(router: Router, pinia: Pinia) {
         return
       }
 
-      void router.replace(
-        buildRouteLocation(route, {
-          ...route.query,
-          mode,
-          leaderboardType,
-        }),
-      )
+      void router.replace(buildRouteLocation(route, buildCanonicalQuery(route, mode, leaderboardType)))
     },
   )
 }
