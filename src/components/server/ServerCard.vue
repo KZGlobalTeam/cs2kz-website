@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { RunningServer, ServerQuery } from '@/types'
 import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
+import { getTierColor, getTierNumber } from '@/utils'
 
 const props = defineProps<{
   server: RunningServer
@@ -9,6 +11,9 @@ const props = defineProps<{
 
 const toast = useToast()
 const { t } = useI18n()
+const mapTier = computed(() => props.server.current_map.tier)
+const mapTierColor = computed(() => (mapTier.value ? getTierColor(mapTier.value) : undefined))
+const mapTierNumber = computed(() => (mapTier.value ? getTierNumber(mapTier.value) : undefined))
 
 async function copyServerIp() {
   await navigator.clipboard.writeText(`connect ${props.server.host}:${props.server.port}`)
@@ -23,17 +28,54 @@ async function copyServerIp() {
 
 <template>
   <div class="rounded-md ring-2 ring-gray-700">
-    <TheImage
-      class="w-64 h-36 rounded-tl-md rounded-tr-md"
-      :src="
-        server.current_map.isGlobal
-          ? `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`
-          : `https://github.com/vap222222/nonglobalmaps/raw/main/${server.current_map.name}.jpg`
-      "
-      alt="Map Image"
-    ></TheImage>
+    <div class="relative">
+      <TheImage
+        class="w-64 h-36 rounded-tl-md rounded-tr-md"
+        :src="
+          server.current_map.isGlobal
+            ? `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${server.current_map.name}/1.webp`
+            : `https://github.com/vap222222/nonglobalmaps/raw/main/${server.current_map.name}.jpg`
+        "
+        alt="Map Image"
+      ></TheImage>
 
-    <div class="text-sm text-muted p-2">
+      <div
+        class="absolute inset-x-0 bottom-0 flex items-end bg-gradient-to-t from-black/85 via-black/45 to-transparent p-2"
+      >
+        <div class="flex flex-wrap items-center gap-1">
+          <RouterLink
+            v-if="server.current_map.isGlobal"
+            class="max-w-38 truncate text-base font-semibold text-slate-100 hover:text-white"
+            :to="`/maps/${server.current_map.name}`"
+          >
+            {{ server.current_map.name }}
+          </RouterLink>
+          <span v-else class="max-w-38 truncate text-base font-semibold text-slate-100">
+            {{ server.current_map.name }}
+          </span>
+
+          <span
+            v-if="mapTier && mapTierColor && mapTierNumber"
+            class="rounded-sm border px-1 text-xs font-semibold"
+            :style="{
+              color: mapTierColor,
+              backgroundColor: `${mapTierColor}44`,
+            }"
+          >
+            T{{ mapTierNumber }}
+          </span>
+
+          <span v-if="!server.current_map.isGlobal" class="px-1 text-xs rounded-sm text-yellow-300 bg-yellow-900/90">
+            {{ $t('servers.nonGlobal') }}
+          </span>
+          <span v-else class="px-1 border text-xs rounded-sm text-green-300 bg-green-900/90">
+            {{ $t('servers.global') }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm text-muted p-1.5">
       <div class="flex items-center gap-1">
         <UTooltip v-if="server.country" :text="server.country.name" :content="{ side: 'top' }">
           <img
@@ -47,26 +89,7 @@ async function copyServerIp() {
         </UTooltip>
       </div>
 
-      <div class="mt-1 flex items-center gap-1">
-        <RouterLink
-          v-if="server.current_map.isGlobal"
-          class="text-base font-semibold text-slate-300 hover:text-slate-200"
-          :to="`/maps/${server.current_map.name}`"
-          >{{ server.current_map.name }}</RouterLink
-        >
-        <span v-else class="max-w-38 block truncate text-base font-semibold text-slate-300">{{
-          server.current_map.name
-        }}</span>
-
-        <span v-if="!server.current_map.isGlobal" class="px-1 text-xs rounded-sm text-yellow-400 bg-yellow-800">
-          {{ $t('servers.nonGlobal') }}
-        </span>
-        <span v-else class="px-1 text-xs rounded-sm text-green-400 bg-green-800">
-          {{ $t('servers.global') }}
-        </span>
-      </div>
-
-      <div class="mt-1 flex items-center justify-between">
+      <div class="flex items-center justify-between">
         <span>{{ server.num_players }} / {{ server.max_players }}</span>
         <div class="flex items-center gap-1">
           <IconAdmin class="mt-0.5" />

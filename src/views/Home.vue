@@ -31,7 +31,7 @@ useHead({
 </script>
 
 <template>
-  <div class="mx-auto p-2 lg:p-4 grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4">
+  <div class="mx-auto p-2 lg:p-4 grid grid-cols-[minmax(0,2fr)_minmax(0,5fr)] gap-4">
     <Guide />
     <Servers />
   </div>

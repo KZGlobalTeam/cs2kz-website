@@ -154,6 +154,7 @@ export interface RunningServer {
     name: string
     // as in whether it's in the API
     isGlobal: boolean
+    tier?: Tier
   }
   num_players: number
   max_players: number

@@ -1,14 +1,14 @@
-import type { Server, ServerResponse, ServerQuery, RunningServer, GeoData } from '@/types'
-import { ref, reactive, watch, computed } from 'vue'
+import type { ServerResponse, ServerQuery, RunningServer, GeoData, MapResponse, Tier } from '@/types'
+import { ref, reactive, computed } from 'vue'
 import { api, sort } from '@/utils'
 import axios from 'axios'
 
 export function useServers() {
   const loading = ref(false)
   const error = ref(null)
-  const allServers = ref<Server[]>([])
 
   const runningServers = ref<RunningServer[]>([])
+  const globalMapTiers = ref(new Map<string, Tier>())
 
   const availableRegions = ref<{ name: string; code: string }[]>([])
 
@@ -68,20 +68,57 @@ export function useServers() {
               isGlobal:
                 server.a2s_info!.current_map_info !== null &&
                 server.a2s_info!.current_map_info?.global_state === 'approved',
+              tier: undefined,
             },
             num_players: server.a2s_info!.num_players,
             max_players: server.a2s_info!.max_players,
           }
         })
       } else {
-        allServers.value = []
+        runningServers.value = []
       }
     } catch (err) {
       console.error(err)
-      allServers.value = []
+      runningServers.value = []
     } finally {
       loading.value = false
     }
+  }
+
+  async function fetchGlobalMapTiers() {
+    try {
+      const { data } = await api.get<MapResponse | undefined>('/maps', {
+        params: {
+          state: 'approved',
+          limit: 10000,
+          offset: 0,
+        },
+      })
+
+      if (data) {
+        const nextTiers = new Map<string, Tier>()
+
+        for (const map of data.values) {
+          const firstCourse = map.courses[0]
+          if (!firstCourse) continue
+
+          nextTiers.set(map.name, firstCourse.filters.classic.nub_tier)
+        }
+
+        globalMapTiers.value = nextTiers
+      } else {
+        globalMapTiers.value = new Map()
+      }
+    } catch (error) {
+      console.error('[fetch error', error)
+      globalMapTiers.value = new Map()
+    }
+  }
+
+  function fillMapTiers() {
+    runningServers.value.forEach((server) => {
+      server.current_map.tier = globalMapTiers.value.get(server.current_map.name)
+    })
   }
 
   async function fillCountries() {
@@ -113,7 +150,8 @@ export function useServers() {
   }
 
   async function getServers() {
-    await fetchServers()
+    await Promise.all([fetchServers(), fetchGlobalMapTiers()])
+    fillMapTiers()
     await fillCountries()
   }
 
