@@ -1,0 +1,296 @@
+{
+  "common": {
+    "testingAlert": "CS2KZ находится на стадии тестирования. Напоминаем, что все рекорды и данные будут стёрты, когда CS2KZ выйдет из беты.",
+    "dontShowAgain": "Не показывать снова",
+    "mode": {
+      "ckz": "CKZ",
+      "vnl": "VNL"
+    },
+    "tier": {
+      "all": "Все",
+      "very-easy": "Очень лёгкий",
+      "easy": "Лёгкий",
+      "medium": "Средний",
+      "advanced": "Продвинутый",
+      "hard": "Сложный",
+      "very-hard": "Очень сложный",
+      "extreme": "Экстремальный",
+      "death": "Смертельный",
+      "unfeasible": "Нереальный",
+      "impossible": "Невозможный"
+    },
+    "style": {
+      "normal": "Обычный",
+      "autoBhop": "Auto Bhop"
+    },
+    "leaderboardType": {
+      "overall": "Общий",
+      "pro": "Pro"
+    },
+    "sortBy": {
+      "date": "Дата",
+      "time": "Время",
+      "map": "Карта",
+      "tier": "Tier",
+      "createdOn": "Дата выхода"
+    },
+    "reset": "Сбросить",
+    "noData": "Нет данных",
+    "goBack": "Назад",
+    "unknown": "Неизвестно"
+  },
+  "nav": {
+    "home": "Главная",
+    "records": "Рекорды",
+    "leaderboards": "Лидерборды",
+    "maps": "Карты",
+    "courses": "Маршруты",
+    "profile": "Профиль",
+    "servers": "Серверы",
+    "jumpstats": "Прыжки",
+    "signOut": "Выйти",
+    "signOutAll": "Выйти из всех веб-сайтов",
+    "links": "Ссылки",
+    "tooltip": {
+      "locale": "Сменить язык",
+      "login": "Войти через Steam",
+      "kreedzDiscord": "Kreedz Discord",
+      "mappingDiscord": "Mapping Discord",
+      "github": "Github",
+      "docs": "Документация",
+      "dashboard": "Панель управления",
+      "app": "Приложение"
+    }
+  },
+  "pagination": {
+    "first": "первый",
+    "last": "последний",
+    "page": "страница",
+    "refresh": "Обновить"
+  },
+  "leaderboards": {
+    "rating": {
+      "title": "Рейтинг"
+    },
+    "wrs": {
+      "title": "Мировые рекорды",
+      "count": "WRs"
+    },
+    "title": {
+      "player": "Игрок",
+      "rating": "Рейтинг",
+      "title": "Звание"
+    }
+  },
+  "home": {
+    "filters": "Фильтры",
+    "leaderboards": {
+      "title": "Лидерборды",
+      "top10": "Топ 10 игроков",
+      "rating": "Рейтинг",
+      "wrs": "Мировые рекорды"
+    },
+    "guide": {
+      "title": "Инструкция по CS2KZ"
+    },
+    "servers": {
+      "title": "Глобальные серверы"
+    },
+    "latestWrs": {
+      "title": "Последние мировые рекорды",
+      "subtitle": "Последние мировые рекорды сверху вниз",
+      "record": "Рекорд",
+      "time": "Время",
+      "map": "Карта",
+      "course": "Маршрут",
+      "date": "Дата",
+      "overallRecord": "Обший WR",
+      "proRecord": "Pro WR"
+    }
+  },
+  "records": {
+    "query": {
+      "pbOnly": "Только PB",
+      "rankedOnly": "Только рейтинговые",
+      "all": "Все",
+      "map": "Карта",
+      "course": "Маршрут",
+      "player": "Игрок",
+      "server": "Сервер",
+      "styles": "Выберите стиль",
+      "maxRank": {
+        "placeholder": "Выберите ранк",
+        "all": "Все",
+        "wr": "Мировой рекорд",
+        "top10": "Топ 10",
+        "top20": "Топ 20",
+        "top50": "Топ 50",
+        "top100": "Топ 100"
+      }
+    },
+    "title": {
+      "rank": "Ранг",
+      "id": "ID рекорда",
+      "map": "Карта",
+      "course": "Маршрут",
+      "tier": "Tier",
+      "proTier": "Pro Tier",
+      "player": "Игрок",
+      "time": "Время",
+      "nubRank": "Место в общем",
+      "nubPoints": "Очки в общем",
+      "proRank": "Место в Pro",
+      "proPoints": "Очки Pro",
+      "server": "Сервер",
+      "teleports": "Телепорты",
+      "date": "Дата",
+      "replay": "Повтор"
+    },
+    "actions": {
+      "copyId": "Скопировать ID",
+      "downloadReplay": "Скачать повтор",
+      "replayUnavailable": "Повтор недоступен"
+    },
+    "toast": {
+      "idCopied": "ID повтора скопирован",
+      "replayNotFoundTitle": "Файл повтора не найден",
+      "replayNotFoundDescription": "Мировые рекорды, рекорды в Топ 10 и рекорды на Tier 8 маршрутах хранятся бессрочно. Остальные повторы хранятся 24-48 часов."
+    }
+  },
+  "maps": {
+    "query": {
+      "selectLength": "Длительность WR",
+      "lengthRange": "{min}-{max} мин",
+      "lengthUnderOne": "< 1 мин",
+      "selectTier": "Выберите Tier",
+      "unfinishedOnly": "Только непройденные",
+      "map": "Карта",
+      "mapper": "Создатель"
+    }
+  },
+  "profile": {
+    "notFound": "Профиль не найден",
+    "info": {
+      "joinedOn": "Присоединился",
+      "hours": "ч. всего",
+      "worldRank": "Место в мире",
+      "rating": "Рейтинг",
+      "rank": "Место",
+      "coursesFinished": "Маршрутов пройдено"
+    },
+    "completion": {
+      "finished": "Пройдено",
+      "total": "Всего",
+      "average": "В среднем",
+      "title": "Прохождения",
+      "wrs": "WRs",
+      "top10": "Топ 10",
+      "top20": "Топ 20",
+      "top50": "Топ 50",
+      "top100": "Топ 100",
+      "topRecords": "Лучшие рекорды",
+      "pointsDist": "Распределение очков",
+      "completionPerTier": "Прохождения по Tier"
+    },
+    "maps": {
+      "title": "Созданные карты"
+    },
+    "runs": {
+      "title": "Рекорды",
+      "query": {
+        "rank": "Выберите место",
+        "tier": "Выберите tier",
+        "points": "Выберите очки",
+        "pointsAll": "Все очки"
+      }
+    },
+    "unfinished": {
+      "title": "Непройденные",
+      "query": {
+        "tier": "Выберите tier"
+      },
+      "table": {
+        "courses": "Маршруты"
+      }
+    },
+    "history": {
+      "title": "История",
+      "playHistory": "История игр",
+      "mostPlayedCourse": "Любимый маршрут",
+      "chartFilter": {
+        "week": "Неделя",
+        "month": "Месяц",
+        "year": "Год"
+      },
+      "course": "Маршрут",
+      "map": "Карта",
+      "mostPlayedFilter": {
+        "time": "Время",
+        "runs": "Рекорды"
+      }
+    }
+  },
+  "map": {
+    "state": {
+      "approved": "Одобрена",
+      "inTesting": "Тестируется",
+      "invalid": "Неверная"
+    },
+    "filters": "Фильтры",
+    "styles": "Стили",
+    "madeBy": "Авторы",
+    "creator": "Создатель",
+    "tags": "Тэги",
+    "rating": "Рейтинг",
+    "overallTier": "Общий Tier",
+    "proTier": "PRO Tier",
+    "filterState": {
+      "name": "Статус",
+      "ranked": "рейтинговый",
+      "unranked": "нерейтинговый",
+      "pending": "на рассмотрении"
+    },
+    "courseRanking": "Лидерборд маршрута"
+  },
+  "servers": {
+    "regions": {
+      "NA": "Северная Америка",
+      "SA": "Южная Америка",
+      "EU": "Европа",
+      "CN": "Китай",
+      "AS": "Азия",
+      "OC": "Океания",
+      "ME": "Средний Восток",
+      "CIS": "СНГ",
+      "AF": "Африка"
+    },
+    "query": {
+      "name": "Название",
+      "map": "Карта",
+      "ipAddress": "IP",
+      "ownedBy": "Владелец",
+      "globalMapsOnly": "Только глобальные карты",
+      "sort": {
+        "name": "Название",
+        "playerCount": "Кол-во игроков",
+        "date": "Дата"
+      },
+      "selectRegion": "Выберите регион"
+    },
+    "title": {
+      "name": "Название",
+      "ipAddress": "IP",
+      "globalStatus": "Глобальный статус",
+      "owner": "Владелец",
+      "ping": "Пинг",
+      "currentMap": "Текущая карта",
+      "players": "Игроки",
+      "createdOn": "Создана"
+    },
+    "global": "GLOBAL",
+    "nonGlobal": "NON-GLOBAL",
+    "toast": {
+      "ipCopied": "connect скопирован"
+    }
+  }
+}
