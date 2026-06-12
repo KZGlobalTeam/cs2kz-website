@@ -1,7 +1,7 @@
 import axios from 'axios'
-import type { CourseInfo, Record as Run, RecordWithImproved, Tier, LeaderboardType } from '@/types'
+import type { Record as Run, RecordWithImproved, Tier } from '@/types'
 import { format, formatDistanceToNowStrict } from 'date-fns'
-import { zhCN } from 'date-fns/locale'
+import { zhCN, ru } from 'date-fns/locale'
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -128,6 +128,8 @@ export function uuidToLocalDistance(uuid: string, locale: string) {
     return formatDistanceToNowStrict(extractTimestampFromUUIDv7(uuid), { addSuffix: true })
   } else if (locale === 'zh') {
     return formatDistanceToNowStrict(extractTimestampFromUUIDv7(uuid), { addSuffix: true, locale: zhCN })
+  } else if (locale === 'ru') {
+    return formatDistanceToNowStrict(extractTimestampFromUUIDv7(uuid), { addSuffix: true, locale: ru })
   }
 }
 
