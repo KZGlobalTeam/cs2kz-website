@@ -45,7 +45,7 @@ const latestWrs = computed(() => records.value.filter((record) => record.nub_ran
             />
           </RouterLink>
 
-          <div class="flex min-w-0 flex-1 flex-col xl:gap-0.5 pl-1 xl:p-2">
+          <div class="flex min-w-0 flex-1 flex-col justify-center xl:gap-1.5 pl-1.5">
             <div class="hidden xl:flex items-center gap-2">
               <RouterLink
                 :to="`/maps/${record.map.name}`"

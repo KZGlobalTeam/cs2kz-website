@@ -6,8 +6,8 @@ import { useI18n } from 'vue-i18n'
 const { locale } = useI18n()
 
 const guideLoaders = {
-  en: () => import('./Guide-en.md?raw'),
-  zh: () => import('./Guide-zh.md?raw'),
+  en: () => import('@/locales/guide/en.md?raw'),
+  zh: () => import('@/locales/guide/zh.md?raw'),
 } as const
 
 const guideMarkdown = ref('')
