@@ -7,6 +7,7 @@ const { locale } = useI18n()
 
 const guideLoaders = {
   en: () => import('@/locales/guide/en.md?raw'),
+  ru: () => import('@/locales/guide/ru.md?raw'),
   zh: () => import('@/locales/guide/zh.md?raw'),
 } as const
 

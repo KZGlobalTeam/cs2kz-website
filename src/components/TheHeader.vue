@@ -11,6 +11,7 @@ import Cookies from 'universal-cookie'
 const localeMap = {
   en: 'English',
   zh: '简体中文',
+  ru: 'Русский',
 }
 
 const cookies = new Cookies(null, { path: '/' })

@@ -1,6 +1,6 @@
 const LOCALE_STORAGE_KEY = 'cs2kz-locale'
 
-const availableLocales = ['zh', 'en']
+const availableLocales = ['zh', 'ru', 'en']
 
 export function getSavedLocale() {
   if (typeof window === 'undefined') return null

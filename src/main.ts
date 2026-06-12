@@ -12,12 +12,14 @@ import ui from '@nuxt/ui/vue-plugin'
 import { createI18n } from 'vue-i18n'
 import en from '@/locales/en.json'
 import zh from '@/locales/zh.json'
+import ru from '@/locales/ru.json'
 import { getPreferredLocale } from '@/utils/locale'
 
 const i18n = createI18n({
   locale: getPreferredLocale(),
   messages: {
     en,
+    ru,
     zh,
   },
 })
