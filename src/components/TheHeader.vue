@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { usePlayerStore } from '@/stores/player'
 import { api } from '@/utils'
 import AppLogo from './AppLogo.vue'
@@ -17,9 +17,8 @@ const cookies = new Cookies(null, { path: '/' })
 const playerStore = usePlayerStore()
 
 const route = useRoute()
-const router = useRouter()
 
-const { t, locale, availableLocales } = useI18n()
+const { locale, availableLocales } = useI18n()
 
 const localeOptions = computed(() => {
   return availableLocales
@@ -34,17 +33,6 @@ const localeOptions = computed(() => {
 })
 
 const openNavigation = ref(false)
-
-const profileOptions = computed(() => [
-  {
-    label: t('nav.profile'),
-    onSelect: () => router.push(`/profile/${playerStore.player!.id}`),
-  },
-  {
-    label: t('nav.signOut'),
-    onSelect: signOut,
-  },
-])
 
 const navigation = [
   {
@@ -117,19 +105,17 @@ function signOut() {
         </UPopover>
 
         <!-- avatar -->
-        <UPopover mode="hover" v-if="playerStore.player">
+        <UPopover mode="click" v-if="playerStore.player">
           <UButton variant="ghost" square>
             <PlayerAvatar :avatar-url="playerStore.player.avatar_url" :username="playerStore.player.name" />
           </UButton>
           <template #content>
             <div class="flex flex-col gap-1 p-1">
-              <div
-                v-for="option in profileOptions"
-                :key="option.label"
-                @click="option.onSelect"
-                class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
-              >
-                {{ option.label }}
+              <div class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer">
+                <RouterLink :to="`/profile/${playerStore.player!.id}`">{{ $t('nav.profile') }}</RouterLink>
+              </div>
+              <div @click="signOut" class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer">
+                {{ $t('nav.signOut') }}
               </div>
             </div>
           </template>
