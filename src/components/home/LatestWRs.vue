@@ -16,6 +16,7 @@ const { records, loading } = useRecords(
     limit: 40,
   },
   {
+    withAvatar: true,
     syncStyleStore: false,
   },
 )
@@ -65,12 +66,12 @@ const latestWrs = computed(() => records.value.filter((record) => record.nub_ran
 
             <p class="block xl:hidden text-lg text-slate-300">{{ record.course.name }}</p>
 
-            <div class="flex items-center gap-1">
+            <div class="flex items-center gap-2">
               <UAvatar
                 v-if="record.playerAvatar"
                 :src="record.playerAvatar"
                 :alt="record.player.name"
-                size="sm"
+                size="xs"
               ></UAvatar>
               <RouterLink
                 :to="`/profile/${record.player.id}`"
