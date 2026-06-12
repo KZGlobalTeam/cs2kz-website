@@ -63,8 +63,7 @@ function jumpToPage() {
         min="1"
         :max="totalPages"
         inputmode="numeric"
-        class="w-20"
-        :ui="{ base: 'text-center' }"
+        :ui="{ root: 'w-20', base: 'text-center' }"
       />
     </form>
 

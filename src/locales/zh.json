@@ -269,7 +269,7 @@
       "map": "地图",
       "ipAddress": "IP",
       "ownedBy": "所有者",
-      "globalMapsOnly": "仅选择全球图",
+      "globalMapsOnly": "仅全球图",
       "sort": {
         "name": "服务器名称",
         "playerCount": "在线玩家数",

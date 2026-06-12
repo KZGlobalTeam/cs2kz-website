@@ -28,16 +28,16 @@ const localizedRegions = computed(() => {
 </script>
 
 <template>
-  <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
+  <div class="flex items-center flex-wrap justify-center gap-2 lg:gap-4">
     <UCheckbox v-model="query.globalMapOnly" :label="$t('servers.query.globalMapsOnly')" />
 
-    <UInput :ui="{ root: 'w-36' }" v-model="name" :placeholder="$t('servers.query.name')">
+    <UInput v-model="name" :placeholder="$t('servers.query.name')">
       <template #trailing>
         <IconServer />
       </template>
     </UInput>
 
-    <UInput :ui="{ root: 'w-36' }" v-model="map" :placeholder="$t('servers.query.map')">
+    <UInput v-model="map" :placeholder="$t('servers.query.map')">
       <template #trailing>
         <IconMap />
       </template>

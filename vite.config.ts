@@ -46,6 +46,11 @@ export default defineConfig({
             content: 'max-h-96',
           },
         },
+        input: {
+          slots: {
+            root: 'w-36',
+          },
+        },
         popover: {
           slots: {
             content: 'z-10',
