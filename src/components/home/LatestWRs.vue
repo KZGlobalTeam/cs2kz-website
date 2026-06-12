@@ -54,7 +54,7 @@ const latestWrs = computed(() => records.value.filter((record) => record.nub_ran
                 {{ record.map.name }}
               </RouterLink>
               <span>-</span>
-              <p class="text-lg text-slate-300">{{ record.course.name }}</p>
+              <p class="text-lg text-slate-300 text-nowrap">{{ record.course.name }}</p>
             </div>
 
             <RouterLink

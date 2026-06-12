@@ -27,7 +27,7 @@ const rows = computed(() => {
 <template>
   <div>
     <div
-      class="grid grid-cols-[40px_1fr_100px_100px] gap-3 px-3 py-2 border-b border-gray-700 text-sm font-semibold text-gray-500"
+      class="grid grid-cols-[40px_1fr_60px_60px] gap-3 px-3 py-2 border-b border-gray-700 text-sm font-semibold text-gray-500"
     >
       <span>#</span>
       <span>{{ $t('leaderboards.title.player') }}</span>
@@ -39,7 +39,7 @@ const rows = computed(() => {
       <li
         v-for="row in rows"
         :key="row.player.id"
-        class="grid grid-cols-[40px_1fr_100px_100px] h-12 gap-3 px-3 py-2 items-center"
+        class="grid grid-cols-[40px_1fr_60px_60px] h-12 gap-3 px-3 py-2 items-center"
       >
         <span class="text-gray-400">
           {{ row.rank }}

@@ -18,7 +18,7 @@ const { map, course, player, server } = useDebouncedStringFilters(query, ['map',
     <UCheckbox
       :model-value="query.ranked === true"
       :label="$t('records.query.rankedOnly')"
-      @update:model-value="(value) => (query.ranked = value === true ? true : undefined)"
+      @update:model-value="(value: boolean | 'indeterminate') => (query.ranked = value === true ? true : undefined)"
     />
 
     <USelect
