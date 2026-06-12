@@ -12,13 +12,10 @@ import ui from '@nuxt/ui/vue-plugin'
 import { createI18n } from 'vue-i18n'
 import en from '@/locales/en.json'
 import zh from '@/locales/zh.json'
-
-const availableLocales = ['zh', 'en']
-
-const browserLang = navigator.language.split('-')[0]
+import { getPreferredLocale } from '@/utils/locale'
 
 const i18n = createI18n({
-  locale: availableLocales.includes(browserLang) ? browserLang : 'en',
+  locale: getPreferredLocale(),
   messages: {
     en,
     zh,

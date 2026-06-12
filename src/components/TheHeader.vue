@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { usePlayerStore } from '@/stores/player'
 import { api } from '@/utils'
+import { saveLocale } from '@/utils/locale'
 import AppLogo from './AppLogo.vue'
 import Cookies from 'universal-cookie'
 
@@ -28,6 +29,7 @@ const localeOptions = computed(() => {
       label: localeMap[l as keyof typeof localeMap],
       click: () => {
         locale.value = l
+        saveLocale(l)
       },
     })) as { value: string; label: string; click: () => void }[]
 })
@@ -96,7 +98,7 @@ function signOut() {
                 v-for="option in localeOptions"
                 :key="option.value"
                 class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
-                @click="locale = option.value"
+                @click="option.click()"
               >
                 {{ option.label }}
               </div>
