@@ -117,9 +117,9 @@
       "course": "Маршрут",
       "player": "Игрок",
       "server": "Сервер",
-      "styles": "Выберите стиль",
+      "styles": "Стиль",
       "maxRank": {
-        "placeholder": "Выберите ранк",
+        "placeholder": "Место",
         "all": "Все",
         "wr": "Мировой рекорд",
         "top10": "Топ 10",
@@ -162,7 +162,7 @@
       "selectLength": "Длительность WR",
       "lengthRange": "{min}-{max} мин",
       "lengthUnderOne": "< 1 мин",
-      "selectTier": "Выберите Tier",
+      "selectTier": "Tier",
       "unfinishedOnly": "Только непройденные",
       "map": "Карта",
       "mapper": "Создатель"
@@ -198,16 +198,16 @@
     "runs": {
       "title": "Рекорды",
       "query": {
-        "rank": "Выберите место",
-        "tier": "Выберите tier",
-        "points": "Выберите очки",
+        "rank": "Место",
+        "tier": "Tier",
+        "points": "Кол-во очков",
         "pointsAll": "Все очки"
       }
     },
     "unfinished": {
       "title": "Непройденные",
       "query": {
-        "tier": "Выберите tier"
+        "tier": "Tier"
       },
       "table": {
         "courses": "Маршруты"
@@ -272,10 +272,10 @@
       "globalMapsOnly": "Только глобальные карты",
       "sort": {
         "name": "Название",
-        "playerCount": "Кол-во игроков",
+        "playerCount": "Игроки",
         "date": "Дата"
       },
-      "selectRegion": "Выберите регион"
+      "selectRegion": "Регион"
     },
     "title": {
       "name": "Название",
@@ -290,7 +290,7 @@
     "global": "GLOBAL",
     "nonGlobal": "NON-GLOBAL",
     "toast": {
-      "ipCopied": "connect скопирован"
+      "ipCopied": "connect IP скопирован"
     }
   }
 }
