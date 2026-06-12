@@ -7,7 +7,7 @@ const {
   loading: ratingLoading,
   query: ratingQuery,
 } = useRatingLeaderboard({
-  limit: 10,
+  limit: 20,
   mode: 'classic',
   syncStyleStore: false,
 })

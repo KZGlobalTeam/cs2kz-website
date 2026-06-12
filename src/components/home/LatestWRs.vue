@@ -56,7 +56,13 @@ const latestWrs = computed(() => records.value.filter((record) => record.nub_ran
               <p class="text-lg text-slate-400">{{ record.course.name }}</p>
             </div>
 
-            <div class="">
+            <div class="flex items-center gap-1">
+              <UAvatar
+                v-if="record.playerAvatar"
+                :src="record.playerAvatar"
+                :alt="record.player.name"
+                size="sm"
+              ></UAvatar>
               <RouterLink
                 :to="`/profile/${record.player.id}`"
                 class="truncate text-base font-semibold text-cyan-500 transition-colors hover:text-cyan-400"
