@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import MarkdownIt from 'markdown-it'
-import markdown from './Guide.md?raw'
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
+
+const guideLoaders = {
+  en: () => import('./Guide-en.md?raw'),
+  zh: () => import('./Guide-zh.md?raw'),
+} as const
+
+const guideMarkdown = ref('')
 
 const md = new MarkdownIt({
   html: true,
@@ -9,12 +18,21 @@ const md = new MarkdownIt({
   breaks: true,
 })
 
-const renderedGuide = computed(() => md.render(markdown))
+async function loadGuide(currentLocale: string) {
+  const loader = guideLoaders[currentLocale as keyof typeof guideLoaders] ?? guideLoaders.en
+  const module = await loader()
+
+  guideMarkdown.value = module.default
+}
+
+watch(locale, loadGuide, { immediate: true })
+
+const renderedGuide = computed(() => md.render(guideMarkdown.value))
 </script>
 
 <template>
   <section class="max-h-[calc(100dvh-5rem)] flex flex-col">
-    <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">How to CS2KZ</span>
+    <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">{{ $t('home.guide.title') }}</span>
     <section class="mt-2 list-wrapper rounded-md border border-gray-700 bg-gray-900/60 p-4 flex-1 overflow-auto">
       <div class="guide-content min-h-0 flex-1 pr-1 text-gray-200" v-html="renderedGuide" />
     </section>

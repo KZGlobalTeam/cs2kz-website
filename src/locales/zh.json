@@ -90,8 +90,14 @@
       "rating": "Rating",
       "wrs": "世界纪录"
     },
+    "guide": {
+      "title": "怎么玩CS2KZ"
+    },
+    "servers": {
+      "title": "全球服务器"
+    },
     "latestWrs": {
-      "title": "最新 WR",
+      "title": "最新世界记录",
       "subtitle": "按时间从新到旧显示世界纪录",
       "record": "记录",
       "time": "用时",

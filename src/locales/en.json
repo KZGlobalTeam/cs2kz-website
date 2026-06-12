@@ -90,8 +90,14 @@
       "rating": "Rating",
       "wrs": "World Records"
     },
+    "guide": {
+      "title": "How to CS2KZ"
+    },
+    "servers": {
+      "title": "Global Servers"
+    },
     "latestWrs": {
-      "title": "Latest WRs",
+      "title": "Latest World Records",
       "subtitle": "Newest world records from top to bottom",
       "record": "Record",
       "time": "Time",
