@@ -32,12 +32,9 @@ useHead({
 </script>
 
 <template>
-  <div class="hidden xl:grid mx-auto p-2 lg:p-4 grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(320px,1fr)] gap-4">
+  <div class="flex flex-col xl:grid mx-auto p-2 lg:p-4 grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(320px,1fr)] gap-4">
     <Guide />
     <Servers />
     <Sidebar />
-  </div>
-  <div class="block xl:hidden mx-auto p-2 lg:p-4">
-    <Servers />
   </div>
 </template>

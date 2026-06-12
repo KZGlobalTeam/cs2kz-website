@@ -31,7 +31,7 @@ const renderedGuide = computed(() => md.render(guideMarkdown.value))
 </script>
 
 <template>
-  <section class="max-h-[calc(100dvh-5rem)] flex flex-col">
+  <section class="h-128 xl:h-[calc(100dvh-5rem)] flex flex-col">
     <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">{{ $t('home.guide.title') }}</span>
     <section class="mt-2 list-wrapper rounded-md border border-gray-700 bg-gray-900/60 p-4 flex-1 overflow-auto">
       <div class="guide-content min-h-0 flex-1 pr-1 text-gray-200" v-html="renderedGuide" />

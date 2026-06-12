@@ -33,28 +33,37 @@ const latestWrs = computed(() => records.value.filter((record) => record.nub_ran
       <article
         v-for="record in latestWrs"
         :key="record.id"
-        class="mb-2 overflow-hidden rounded-tl-md rounded-bl-md border-l border-t border-b border-gray-700 bg-gray-900/60 last:mb-0"
+        class="mb-2 overflow-hidden rounded xl:rounded-tr-none xl:rounded-br-none xl:rounded-tl-md xl:rounded-bl-md border xl:border-r-0 xl:border-l xl:border-t xl:border-b border-gray-700 bg-gray-900/60 last:mb-0"
       >
-        <div class="flex flex-col sm:flex-row">
+        <div class="flex">
           <RouterLink :to="`/maps/${record.map.name}`">
             <img
               :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`"
               :alt="record.map.name"
-              class="w-42 h-24"
+              class="w-48 h-auto xl:w-42 xl:h-24"
             />
           </RouterLink>
 
-          <div class="flex min-w-0 flex-1 flex-col gap-0.5 p-2">
-            <div class="flex items-center gap-2">
+          <div class="flex min-w-0 flex-1 flex-col xl:gap-0.5 pl-1 xl:p-2">
+            <div class="hidden xl:flex items-center gap-2">
               <RouterLink
                 :to="`/maps/${record.map.name}`"
-                class="text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer"
+                class="text-slate-100 font-semibold text-lg hover:text-slate-200 cursor-pointer"
               >
                 {{ record.map.name }}
               </RouterLink>
               <span>-</span>
-              <p class="text-lg text-slate-400">{{ record.course.name }}</p>
+              <p class="text-lg text-slate-300">{{ record.course.name }}</p>
             </div>
+
+            <RouterLink
+              :to="`/maps/${record.map.name}`"
+              class="inline xl:hidden text-slate-100 font-semibold text-lg hover:text-slate-200 cursor-pointer"
+            >
+              {{ record.map.name }}
+            </RouterLink>
+
+            <p class="block xl:hidden text-lg text-slate-300">{{ record.course.name }}</p>
 
             <div class="flex items-center gap-1">
               <UAvatar
