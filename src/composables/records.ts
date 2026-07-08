@@ -94,6 +94,11 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: Use
         } else {
           records.value = [...records.value, ...nextRecords]
         }
+        if (query.max_rank === 1) {
+          records.value = records.value.filter((record) =>
+            query.leaderboardType === 'overall' ? record.nub_rank === 1 : record.pro_rank === 1,
+          )
+        }
         total.value = data.total
       } else {
         records.value = []

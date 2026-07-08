@@ -21,7 +21,7 @@ const { records, loading } = useRecords(
   },
 )
 
-const latestWrs = computed(() => records.value.filter((record) => record.nub_rank === 1).slice(0, 10))
+const latestWrs = computed(() => records.value.slice(0, 20))
 </script>
 
 <template>
