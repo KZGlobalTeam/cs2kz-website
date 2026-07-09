@@ -34,7 +34,7 @@ const latestWrs = computed(() => records.value.slice(0, 20))
       <article
         v-for="record in latestWrs"
         :key="record.id"
-        class="mb-2 overflow-hidden rounded xl:rounded-tr-none xl:rounded-br-none xl:rounded-tl-md xl:rounded-bl-md border xl:border-r-0 xl:border-l xl:border-t xl:border-b border-gray-700 bg-gray-900/60 last:mb-0"
+        class="mb-2 overflow-hidden rounded xl:rounded-tr-none xl:rounded-br-none xl:rounded-tl-md xl:rounded-bl-md border xl:border-r-0 xl:border-l xl:border-t xl:border-b border-zinc-700 bg-zinc-900/60 last:mb-0"
       >
         <div class="flex">
           <RouterLink :to="`/maps/${record.map.name}`">

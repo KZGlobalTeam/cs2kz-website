@@ -59,7 +59,7 @@ function goToLink(href: string) {
           v-for="item in items"
           :key="item.label"
           @click="goToLink(item.href)"
-          class="hover:bg-gray-700 flex items-center pl-2 pr-3 py-1 rounded-sm cursor-pointer"
+          class="hover:bg-zinc-700 flex items-center pl-2 pr-3 py-1 rounded-sm cursor-pointer"
         >
           <component :is="item.icon" class="w-4 h-4 mr-2" />
           <span class="text-sm">{{ item.label }}</span>

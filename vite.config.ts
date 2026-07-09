@@ -16,6 +16,7 @@ export default defineConfig({
       ui: {
         colors: {
           primary: 'blue',
+          neutral: 'zinc',
         },
         button: {
           slots: {

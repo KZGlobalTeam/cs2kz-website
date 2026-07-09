@@ -35,7 +35,7 @@ const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMap
 
 <template>
   <div class="mx-auto p-2 lg:p-4 flex flex-col max-h-[calc(100dvh-3rem)]">
-    <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
+    <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-zinc-800 rounded-md p-3">
       <MainSwitch />
 
       <MapQuery
@@ -52,7 +52,7 @@ const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMap
 
     <div
       v-else-if="maps.length > 0"
-      class="mt-4 p-3 flex-1 list-wrapper overflow-auto border border-gray-700 rounded-md"
+      class="mt-4 p-3 flex-1 list-wrapper overflow-auto border border-zinc-700 rounded-md"
     >
       <MapTiles :query="query" :loading="loading" :maps="maps" />
     </div>

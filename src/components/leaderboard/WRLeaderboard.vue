@@ -13,14 +13,14 @@ const emits = defineEmits<{
 <template>
   <div class="overflow-auto">
     <div
-      class="grid grid-cols-[40px_1fr_auto] gap-3 px-4 py-2 border-b border-gray-700 text-sm font-semibold text-gray-500"
+      class="grid grid-cols-[40px_1fr_auto] gap-3 px-4 py-2 border-b border-zinc-700 text-sm font-semibold text-gray-500"
     >
       <span>#</span>
       <span>{{ $t('leaderboards.title.player') }}</span>
       <span>{{ $t('leaderboards.wrs.count') }}</span>
     </div>
 
-    <ul class="divide-y divide-gray-800">
+    <ul class="divide-y divide-zinc-800">
       <li
         v-for="(entry, index) in leaderboard"
         :key="entry.player.id"

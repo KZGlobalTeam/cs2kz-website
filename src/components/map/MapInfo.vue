@@ -18,7 +18,7 @@ const activeCourseName = defineModel<string>('activeCourseName')
 const stateColorMap = {
   approved: 'text-green-400 bg-green-300/50',
   'in-testing': 'text-orange-400 bg-orange-300/50',
-  invalid: 'text-gray-400 bg-gray-400',
+  invalid: 'text-gray-400 bg-zinc-400',
 }
 </script>
 

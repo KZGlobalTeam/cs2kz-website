@@ -14,7 +14,7 @@ const {
 </script>
 
 <template>
-  <div class="mt-2 flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border border-gray-700">
+  <div class="mt-2 flex min-h-0 flex-1 flex-col overflow-hidden rounded-md border border-zinc-700">
     <div v-if="ratingLoading" class="flex items-center justify-center py-8">
       <IconLoading class="inline" />
     </div>

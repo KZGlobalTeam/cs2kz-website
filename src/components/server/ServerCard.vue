@@ -27,7 +27,7 @@ async function copyServerIp() {
 </script>
 
 <template>
-  <div class="rounded-md ring-2 ring-gray-700">
+  <div class="rounded-md ring-2 ring-zinc-700">
     <div class="relative">
       <TheImage
         class="w-64 h-36 rounded-tl-md rounded-tr-md"

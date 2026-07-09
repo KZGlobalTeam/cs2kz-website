@@ -17,7 +17,7 @@ const rankInfo = computed(() => getRankByRating(rating.value))
 </script>
 
 <template>
-  <div class="flex gap-2 lg:gap-4 p-4 border border-gray-700 rounded-md lg:text-lg">
+  <div class="flex gap-2 lg:gap-4 p-4 border border-zinc-700 rounded-md lg:text-lg">
     <TheImage
       :src="avatarUrl"
       alt="Player Avatar"

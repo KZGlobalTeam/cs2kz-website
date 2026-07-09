@@ -8,10 +8,10 @@ defineProps<{
 </script>
 
 <template>
-  <div class="border border-gray-700 rounded-md overflow-hidden">
+  <div class="border border-zinc-700 rounded-md overflow-hidden">
     <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-700 text-gray-300">
-        <thead class="bg-gray-900/70">
+      <table class="min-w-full divide-y divide-zinc-700 text-gray-300">
+        <thead class="bg-zinc-900/70">
           <tr>
             <th class="w-72 px-4 py-3 text-left text-sm font-semibold text-gray-100">
               {{ $t('records.title.map') }}
@@ -22,7 +22,7 @@ defineProps<{
           </tr>
         </thead>
 
-        <tbody class="divide-y divide-gray-700 bg-gray-950/30">
+        <tbody class="divide-y divide-zinc-700 bg-zinc-950/30">
           <tr v-if="loading">
             <td colspan="2" class="px-4 py-6">
               <div class="flex justify-center items-center">
@@ -46,7 +46,7 @@ defineProps<{
                 <TheImage
                   :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${map.name}/1.webp`"
                   alt="Map Image"
-                  class="w-24 h-auto object-cover rounded-sm ring-1 ring-gray-700 shrink-0"
+                  class="w-24 h-auto object-cover rounded-sm ring-1 ring-zinc-700 shrink-0"
                 />
                 <span class="font-semibold text-lg">{{ map.name }}</span>
               </RouterLink>

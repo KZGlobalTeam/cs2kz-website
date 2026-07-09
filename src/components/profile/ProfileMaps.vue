@@ -12,7 +12,7 @@ defineProps<{
       {{ $t('profile.maps.title') }}
     </p>
 
-    <div class="p-4 border border-gray-700 rounded-md">
+    <div class="p-4 border border-zinc-700 rounded-md">
       <div class="grid grid-cols-[repeat(auto-fill,13rem)] justify-between gap-4">
         <RouterLink
           v-for="map in maps"
@@ -25,7 +25,7 @@ defineProps<{
             :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
             alt="Map Image"
           />
-          <div class="px-2 py-1 bg-gray-800">
+          <div class="px-2 py-1 bg-zinc-800">
             <p class="text-sm text-gray-100 font-semibold truncate">{{ map.name }}</p>
           </div>
         </RouterLink>

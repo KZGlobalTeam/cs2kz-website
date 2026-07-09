@@ -86,14 +86,14 @@ function openDrawer(playerId: string) {
 
 <template>
   <div class="max-w-7xl mx-auto px-2 p-2 lg:p-4 flex flex-col max-h-[calc(100dvh-3rem)]">
-    <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-gray-800 rounded-md p-3">
+    <div class="flex flex-wrap gap-3 justify-between text-gray-300 border border-zinc-800 rounded-md p-3">
       <MainSwitch />
     </div>
 
     <div class="mt-4 flex-1 min-h-0 grid gap-4 lg:grid-cols-2">
-      <div class="border border-gray-700 rounded-md bg-gray-950/40 overflow-hidden h-full">
+      <div class="border border-zinc-700 rounded-md bg-zinc-950/40 overflow-hidden h-full">
         <div
-          class="flex items-center justify-between h-12 px-4 py-2 border-b border-gray-700 text-lg font-semibold text-gray-100"
+          class="flex items-center justify-between h-12 px-4 py-2 border-b border-zinc-700 text-lg font-semibold text-gray-100"
         >
           <span>{{ $t('leaderboards.rating.title') }}</span>
           <MainPagination v-model:query="ratingQuery" :total="ratingTotal" />
@@ -114,9 +114,9 @@ function openDrawer(playerId: string) {
         </div>
       </div>
 
-      <div class="border border-gray-700 rounded-md bg-gray-950/40 overflow-hidden h-full">
+      <div class="border border-zinc-700 rounded-md bg-zinc-950/40 overflow-hidden h-full">
         <div
-          class="flex items-center justify-between h-12 px-4 py-2 border-b border-gray-700 text-lg font-semibold text-gray-100"
+          class="flex items-center justify-between h-12 px-4 py-2 border-b border-zinc-700 text-lg font-semibold text-gray-100"
         >
           <span>{{ $t('leaderboards.wrs.title') }}</span>
           <UCheckbox v-model="rankedOnly" :label="$t('records.query.rankedOnly')" />

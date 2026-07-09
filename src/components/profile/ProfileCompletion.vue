@@ -41,10 +41,10 @@ const rankedOnly = defineModel<boolean>('rankedOnly')
       </UButtonGroup>
     </div>
 
-    <div v-if="loading" class="p-4 border border-gray-700 rounded-md flex justify-center items-center">
+    <div v-if="loading" class="p-4 border border-zinc-700 rounded-md flex justify-center items-center">
       <IconLoading />
     </div>
-    <div v-else class="p-4 border border-gray-700 rounded-md">
+    <div v-else class="p-4 border border-zinc-700 rounded-md">
       <!-- top records -->
       <p class="text-xl font-medium mb-2">
         {{ $t('profile.completion.topRecords') }}

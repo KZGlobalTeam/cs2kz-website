@@ -20,7 +20,7 @@ const query = defineModel<UnfinishedCourseQuery>('query', { required: true })
       {{ $t('profile.unfinished.title') }}
     </p>
 
-    <div class="flex flex-wrap gap-3 text-gray-300 border border-gray-800 rounded-md p-3 mb-2">
+    <div class="flex flex-wrap gap-3 text-gray-300 border border-zinc-800 rounded-md p-3 mb-2">
       <ProfileUnfinishedQuery v-model:query="query" @reset-query="emits('resetQuery')" />
     </div>
 

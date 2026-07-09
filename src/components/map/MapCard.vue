@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="relative w-max rounded-md ring ring-blue-600/40 hover:ring-blue-600 hover:ring-2 hover:rounded-b-md">
+  <div class="relative w-max rounded-md ring ring-zinc-600/80 hover:ring-blue-600 hover:ring-2 hover:rounded-b-md">
     <div class="flex items-center">
       <RouterLink :to="`/maps/${map.name}`">
         <TheImage
@@ -80,7 +80,7 @@ defineProps<{
                   </template>
                   <RouterLink
                     :to="`/maps/${map.name}?course=${course.name}`"
-                    class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-sm border border-gray-600 bg-gray-700/80 hover:bg-gray-600 cursor-pointer"
+                    class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-sm border border-zinc-600 bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
                   >
                     <span
                       class="inline-block w-2 h-2 rounded-full"

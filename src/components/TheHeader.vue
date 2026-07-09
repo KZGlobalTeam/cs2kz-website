@@ -68,7 +68,7 @@ function signOut() {
 }
 </script>
 <template>
-  <div class="h-12 border-b border-gray-700 w-full bg-gray-900">
+  <div class="h-12 border-b border-zinc-700 w-full bg-zinc-900">
     <header class="h-full xl:max-w-7xl px-2 md:px-6 lg:mx-auto grid grid-cols-2 lg:grid-cols-3 items-center">
       <div class="flex items-center">
         <AppLogo />
@@ -98,7 +98,7 @@ function signOut() {
               <div
                 v-for="option in localeOptions"
                 :key="option.value"
-                class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
+                class="hover:bg-zinc-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer"
                 @click="option.click()"
               >
                 {{ option.label }}
@@ -114,10 +114,10 @@ function signOut() {
           </UButton>
           <template #content>
             <div class="flex flex-col gap-1 p-1">
-              <div class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer">
+              <div class="hover:bg-zinc-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer">
                 <RouterLink :to="`/profile/${playerStore.player!.id}`">{{ $t('nav.profile') }}</RouterLink>
               </div>
-              <div @click="signOut" class="hover:bg-gray-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer">
+              <div @click="signOut" class="hover:bg-zinc-700 text-sm pl-2 pr-3 py-1 rounded-sm cursor-pointer">
                 {{ $t('nav.signOut') }}
               </div>
             </div>

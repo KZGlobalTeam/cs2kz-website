@@ -15,7 +15,7 @@ const playerStore = usePlayerStore()
 const mapStateColorMap = {
   'in-testing': 'text-orange-400 bg-orange-300/50',
   approved: 'text-green-400 bg-green-300/50',
-  invalid: 'text-gray-400 bg-gray-400',
+  invalid: 'text-gray-400 bg-zinc-400',
 }
 
 const map = ref<Map | null>(null)
@@ -195,10 +195,10 @@ async function getMap() {
             v-for="course in map.courses"
             :key="course.name"
             :class="{
-              'text-gray-300 bg-gray-600': course.name === currentCourse.name,
-              'text-gray-400 bg-gray-800': course.name !== currentCourse.name,
+              'text-gray-300 bg-zinc-600': course.name === currentCourse.name,
+              'text-gray-400 bg-zinc-800': course.name !== currentCourse.name,
             }"
-            class="group flex items-center gap-1 cursor-pointer hover:bg-gray-600 hover:text-gray-300 border-gray-400 rounded-md px-1"
+            class="group flex items-center gap-1 cursor-pointer hover:bg-zinc-600 hover:text-gray-300 border-zinc-400 rounded-md px-1"
             @click="router.push({ path: `/maps/${map.name}`, query: { course: course.name } })"
           >
             <div

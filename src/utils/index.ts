@@ -60,7 +60,7 @@ export const mapStateColorMap = {
   pending: 'text-orange-400 bg-orange-300/50',
   approved: 'text-green-400 bg-green-300/50',
   completed: 'text-blue-400 bg-blue-300/50',
-  graveyard: 'text-gray-400 bg-gray-400',
+  graveyard: 'text-gray-400 bg-zinc-400',
 }
 
 export const completionTiers: Tier[] = [
