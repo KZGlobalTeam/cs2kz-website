@@ -30,6 +30,8 @@ const IconMedalThird = resolveComponent('IconMedalThird')
 const IconCopy = resolveComponent('IconCopy')
 const IconDownload = resolveComponent('IconDownload')
 const IconDownloadGrey = resolveComponent('IconDownloadGrey')
+const IconPlay = resolveComponent('IconPlay')
+const IconPlayGrey = resolveComponent('IconPlayGrey')
 const IconSortUp = resolveComponent('IconSortUp')
 const IconSortDown = resolveComponent('IconSortDown')
 const IconUpDown = resolveComponent('IconUpDown')
@@ -364,7 +366,35 @@ const columns = computed(() => {
           ),
       )
 
-      return h('div', { class: 'flex items-center gap-1' }, [copyBtn, downloadBtn])
+      const watchBtn = h(
+        UTooltip,
+        {
+          text: isUnavailable ? t('records.actions.replayUnavailable') : t('records.actions.watchReplay'),
+          content: { side: 'top' },
+          ui: { content: 'z-[2]' },
+        },
+        () =>
+          h(
+            UButton,
+            {
+              size: 'xs',
+              variant: 'ghost',
+              square: true,
+              color: 'neutral',
+              disabled: isUnavailable,
+              class: isUnavailable ? 'cursor-not-allowed' : '',
+              onClick: async (e: Event) => {
+                e.stopPropagation()
+                if (isUnavailable) return
+
+                window.open(`https://demo.kzcomp.com/watch?ids=${row.original.id}`, '_blank', 'noopener,noreferrer')
+              },
+            },
+            () => (isUnavailable ? h(IconPlayGrey) : h(IconPlay)),
+          ),
+      )
+
+      return h('div', { class: 'flex items-center gap-1' }, [watchBtn, copyBtn, downloadBtn])
     },
   }
 

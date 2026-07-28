@@ -151,6 +151,7 @@
     "actions": {
       "copyId": "复制 ID",
       "downloadReplay": "下载回放",
+      "watchReplay": "观看回放",
       "replayUnavailable": "回放不可用"
     },
     "toast": {
