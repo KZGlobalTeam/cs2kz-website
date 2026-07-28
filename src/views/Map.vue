@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { usePlayerStore } from '@/stores/player'
-import type { Map, Course } from '@/types'
+import type { Map, Course, Record, CompareEntry } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, getTierNumber } from '@/utils'
 import { useHead } from '@unhead/vue'
+import CompareCard from '@/components/record/CompareCard.vue'
+import type { ComparePick } from '@/components/record/CompareButton.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -65,6 +67,44 @@ const playerRecord = computed(() => {
     return null
   }
 })
+
+const compareSlotA = ref<CompareEntry | null>(null)
+const compareSlotB = ref<CompareEntry | null>(null)
+
+function entryFrom(record: Record): CompareEntry {
+  return { id: record.id, name: record.player.name }
+}
+
+function onComparePick(pick: ComparePick) {
+  if (pick.type === 'me') {
+    if (!playerRecord.value) return
+    compareSlotA.value = entryFrom(pick.record)
+    compareSlotB.value = entryFrom(playerRecord.value)
+    openCompareUrl()
+    return
+  }
+  if (pick.type === 'A') compareSlotA.value = entryFrom(pick.record)
+  if (pick.type === 'B') compareSlotB.value = entryFrom(pick.record)
+}
+
+function clearSlot(which: 'A' | 'B') {
+  if (which === 'A') compareSlotA.value = null
+  else compareSlotB.value = null
+}
+
+function clearAll() {
+  compareSlotA.value = null
+  compareSlotB.value = null
+}
+
+function openCompareUrl() {
+  if (!compareSlotA.value || !compareSlotB.value) return
+  window.open(
+    `https://demo.kzcomp.com/watch?ids=${compareSlotA.value.id},${compareSlotB.value.id}`,
+    '_blank',
+    'noopener,noreferrer',
+  )
+}
 
 await getMap()
 
@@ -252,9 +292,19 @@ async function getMap() {
         :loading="loadingRecords"
         :total="total"
         :records="records"
-        @intersect="incrementRecords"
+        :my-record="playerRecord"
         class="mt-2 max-h-[90dvh]"
+        @intersect="incrementRecords"
+        @compare="onComparePick"
       />
     </div>
+
+    <CompareCard
+      :slot-a="compareSlotA"
+      :slot-b="compareSlotB"
+      @clear="clearAll"
+      @clear-slot="clearSlot"
+      @compare="openCompareUrl"
+    />
   </div>
 </template>

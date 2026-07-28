@@ -152,7 +152,13 @@
       "copyId": "复制 ID",
       "downloadReplay": "下载回放",
       "watchReplay": "观看回放",
-      "replayUnavailable": "回放不可用"
+      "replayUnavailable": "回放不可用",
+      "compareRuns": "对比记录",
+      "compareAsA": "作为 A 对比",
+      "compareAsB": "作为 B 对比",
+      "compareWithMe": "与我对比",
+      "compare": "对比",
+      "slotEmpty": "未选择"
     },
     "toast": {
       "idCopied": "记录 ID 已复制到剪贴板",

@@ -152,7 +152,13 @@
       "copyId": "Copy ID",
       "downloadReplay": "Download Replay",
       "watchReplay": "Watch Replay",
-      "replayUnavailable": "Replay unavailable"
+      "replayUnavailable": "Replay unavailable",
+      "compareRuns": "Compare Runs",
+      "compareAsA": "Compare as A",
+      "compareAsB": "Compare as B",
+      "compareWithMe": "Compare with Me",
+      "compare": "Compare",
+      "slotEmpty": "Empty"
     },
     "toast": {
       "idCopied": "Record ID copied to clipboard",

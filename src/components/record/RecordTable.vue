@@ -3,6 +3,7 @@ import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick
 import type { ComponentPublicInstance, VNode } from 'vue'
 import type { RecordQuery, PlayerRecordQuery, Record } from '@/types'
 import RecordDetail from './RecordDetail.vue'
+import CompareButton, { type ComparePick } from './CompareButton.vue'
 import { useI18n } from 'vue-i18n'
 import { useExpand } from '@/composables/expand'
 import { useInfiniteScroll } from '@vueuse/core'
@@ -16,10 +17,12 @@ const props = defineProps<{
   total?: number
   records: Record[]
   loading: boolean
+  myRecord?: Record | null
 }>()
 
 const emits = defineEmits<{
   (e: 'intersect'): void
+  (e: 'compare', pick: ComparePick): void
 }>()
 
 const styleStore = useStyleStore()
@@ -394,7 +397,17 @@ const columns = computed(() => {
           ),
       )
 
-      return h('div', { class: 'flex items-center gap-1' }, [watchBtn, copyBtn, downloadBtn])
+      const compareBtn =
+        props.type === 'course-ranking'
+          ? h(CompareButton, {
+              record: row.original,
+              unavailable: isUnavailable,
+              myRecord: props.myRecord,
+              onSelect: (pick: ComparePick) => emits('compare', pick),
+            })
+          : null
+
+      return h('div', { class: 'flex items-center gap-1' }, [watchBtn, compareBtn, copyBtn, downloadBtn])
     },
   }
 

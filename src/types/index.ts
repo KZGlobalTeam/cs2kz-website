@@ -97,6 +97,11 @@ export type Record = RecordRaw & {
   playerAvatar?: string
 }
 
+export interface CompareEntry {
+  id: string
+  name: string
+}
+
 export type RecordResponse = paths['/records']['get']['responses']['200']['content']['application/json']
 
 export interface RecordQuery {
