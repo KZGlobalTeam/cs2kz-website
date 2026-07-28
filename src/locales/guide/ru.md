@@ -10,7 +10,7 @@
   - Откройте его, написав `radio`, `radio1`, `radio2` или `radio3` в игровой консоли.
   - Бинды по умолчанию: `Z`, `X` или `C`.
 - Также можно вручную забиндить их или создать конфиг.
-  - Образец биндов: `bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause`, можете скопировать их и вставить прямо в консоль.
+  - Образец биндов: `bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause; bind 7 kz_restart;`, можете скопировать их и вставить прямо в консоль.
   - Добавьте `-disable_workshop_command_filtering` в настройки запуска игры, если вы хотите применить конфиг в игре.
 - Карту можно сменить, написав `!rtv` или `!nominate`.
 - Напишите `!help` для просмотра всех KZ-команд.

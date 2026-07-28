@@ -10,7 +10,7 @@
   - 你可以在控制台输入 `radio`、`radio1`、`radio2` 或 `radio3` 打开菜单。
   - 也可以直接使用默认按键：`Z`、`X` 和 `C`。
 - 另一种方式是手动绑定按键，或者写一个 cfg。
-  - 绑键示例：`bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause`，可以直接复制到控制台执行。
+  - 绑键示例：`bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause; bind 7 kz_restart;`，可以直接复制到控制台执行。
   - 如果你想在游戏里直接执行 cfg，需要在启动项里加上 `-disable_workshop_command_filtering`。
 - 在游戏里输入 `!rtv` 或 `!nominate` 可以发起换图或提名地图。
 - 在游戏里输入 `!help` 可以查看所有可用的 KZ 指令。
