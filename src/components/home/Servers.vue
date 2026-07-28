@@ -4,6 +4,8 @@ import ServerQuery from '@/components/server/ServerQuery.vue'
 import ServerTiles from '@/components/server/ServerTiles.vue'
 import IconLoading from '@/components/icon/IconLoading.vue'
 
+defineProps<{ guideHidden: boolean }>()
+
 const { servers, availableRegions, loading, query, resetQuery, getServers } = useServers()
 </script>
 
@@ -33,7 +35,7 @@ const { servers, availableRegions, loading, query, resetQuery, getServers } = us
       <IconLoading />
     </div>
     <div v-else class="mt-2 p-3 flex-1 list-wrapper overflow-auto border border-zinc-700 rounded-md">
-      <ServerTiles :query="query" :loading="loading" :servers="servers" />
+      <ServerTiles :query="query" :loading="loading" :servers="servers" :guide-hidden="guideHidden" />
     </div>
   </section>
 </template>

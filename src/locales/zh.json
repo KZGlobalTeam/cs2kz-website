@@ -91,7 +91,9 @@
       "wrs": "世界纪录"
     },
     "guide": {
-      "title": "怎么玩CS2KZ"
+      "title": "怎么玩CS2KZ",
+      "hide": "隐藏指南",
+      "show": "显示指南"
     },
     "servers": {
       "title": "全球服务器"

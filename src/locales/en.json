@@ -91,7 +91,9 @@
       "wrs": "World Records"
     },
     "guide": {
-      "title": "How to CS2KZ"
+      "title": "How to CS2KZ",
+      "hide": "Hide guide",
+      "show": "Show guide"
     },
     "servers": {
       "title": "Global Servers"

@@ -2,8 +2,13 @@
 import { computed, ref, watch } from 'vue'
 import MarkdownIt from 'markdown-it'
 import { useI18n } from 'vue-i18n'
+import IconClose from '@/components/icon/IconClose.vue'
+import IconRight from '@/components/icon/IconRight.vue'
 
-const { locale } = useI18n()
+defineProps<{ hidden: boolean }>()
+const emit = defineEmits<{ hide: []; show: [] }>()
+
+const { locale, t } = useI18n()
 
 const guideLoaders = {
   en: () => import('@/locales/guide/en.md?raw'),
@@ -32,8 +37,32 @@ const renderedGuide = computed(() => md.render(guideMarkdown.value))
 </script>
 
 <template>
-  <section class="h-128 xl:h-[calc(100dvh-5rem)] flex flex-col">
-    <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">{{ $t('home.guide.title') }}</span>
+  <section v-if="hidden" class="h-12 xl:h-[calc(100dvh-5rem)]">
+    <button
+      type="button"
+      class="group flex h-full w-full flex-row items-center justify-center gap-2 rounded-md border border-zinc-700 bg-zinc-900/60 px-2 text-zinc-400 transition-colors hover:border-zinc-500 hover:text-white xl:flex-col xl:gap-2 xl:py-2"
+      :aria-label="t('home.guide.show')"
+      :title="t('home.guide.show')"
+      @click="emit('show')"
+    >
+      <IconRight />
+      <span class="text-sm font-medium xl:[writing-mode:vertical-rl]">{{ t('home.guide.title') }}</span>
+    </button>
+  </section>
+
+  <section v-else class="h-128 xl:h-[calc(100dvh-5rem)] flex flex-col">
+    <div class="flex items-center justify-between">
+      <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">{{ t('home.guide.title') }}</span>
+      <UButton
+        variant="ghost"
+        size="xs"
+        :aria-label="t('home.guide.hide')"
+        :title="t('home.guide.hide')"
+        @click="emit('hide')"
+      >
+        <IconClose />
+      </UButton>
+    </div>
     <section class="mt-2 list-wrapper rounded-md border border-zinc-700 bg-zinc-900/60 p-4 flex-1 overflow-auto">
       <div class="guide-content min-h-0 flex-1 pr-1 text-gray-200" v-html="renderedGuide" />
     </section>
