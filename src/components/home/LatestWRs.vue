@@ -3,6 +3,9 @@ import { computed } from 'vue'
 import { useRecords } from '@/composables/records'
 import { formatTime, uuidToLocalDistance } from '@/utils'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const { locale } = useI18n()
 
@@ -22,6 +25,10 @@ const { records, loading } = useRecords(
 )
 
 const latestWrs = computed(() => records.value.slice(0, 20))
+
+function goToCourse() {
+  router.push(`/maps/`)
+}
 </script>
 
 <template>
@@ -37,7 +44,7 @@ const latestWrs = computed(() => records.value.slice(0, 20))
         class="mb-2 overflow-hidden rounded xl:rounded-tr-none xl:rounded-br-none xl:rounded-tl-md xl:rounded-bl-md border xl:border-r-0 xl:border-l xl:border-t xl:border-b border-zinc-700 bg-zinc-900/60 last:mb-0"
       >
         <div class="flex">
-          <RouterLink :to="`/maps/${record.map.name}`">
+          <RouterLink :to="`/maps/${record.map.name}?course=${record.course.name}`">
             <TheImage
               :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`"
               :alt="record.map.name"
@@ -46,15 +53,20 @@ const latestWrs = computed(() => records.value.slice(0, 20))
           </RouterLink>
 
           <div class="flex min-w-0 flex-1 flex-col justify-center xl:gap-1.5 pl-1.5">
-            <div class="hidden xl:flex items-center gap-2">
+            <div @click="goToCourse" class="hidden xl:flex items-center gap-2">
               <RouterLink
-                :to="`/maps/${record.map.name}`"
-                class="text-slate-100 font-semibold text-lg hover:text-slate-200 cursor-pointer"
+                :to="`/maps/${record.map.name}?course=${record.course.name}`"
+                class="text-slate-100 font-semibold text-lg cursor-pointer"
               >
                 {{ record.map.name }}
               </RouterLink>
               <span>-</span>
-              <p class="text-lg text-slate-300 text-nowrap">{{ record.course.name }}</p>
+              <RouterLink
+                :to="`/maps/${record.map.name}?course=${record.course.name}`"
+                class="text-lg text-slate-300 text-nowrap cursor-pointer"
+              >
+                {{ record.course.name }}
+              </RouterLink>
             </div>
 
             <RouterLink
