@@ -17,11 +17,6 @@ const items = computed(() => [
     href: 'https://www.discord.gg/csgokz',
   },
   {
-    label: t('nav.tooltip.mappingDiscord'),
-    icon: IconDiscord,
-    href: 'https://discord.gg/R593VhE',
-  },
-  {
     label: t('nav.tooltip.docs'),
     icon: IconBook,
     href: 'https://docs.cs2kz.org',
