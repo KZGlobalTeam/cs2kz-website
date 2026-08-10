@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 
 const IconDiscord = resolveComponent('IconDiscord')
 const IconGithub = resolveComponent('IconGithub')
+const IconForum = resolveComponent('IconForum')
 const IconBook = resolveComponent('IconBook')
 const IconDashboard = resolveComponent('IconDashboard')
 const IconPhone = resolveComponent('IconPhone')
@@ -17,9 +18,19 @@ const items = computed(() => [
     href: 'https://www.discord.gg/csgokz',
   },
   {
+    label: t('nav.tooltip.mappingDiscord'),
+    icon: IconDiscord,
+    href: 'https://discord.gg/V4qXddCKN',
+  },
+  {
     label: t('nav.tooltip.docs'),
     icon: IconBook,
     href: 'https://docs.cs2kz.org',
+  },
+  {
+    label: t('nav.tooltip.forum'),
+    icon: IconForum,
+    href: 'https://forum.global-kz.net/',
   },
   {
     label: t('nav.tooltip.github'),
