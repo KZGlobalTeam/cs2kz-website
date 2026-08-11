@@ -14,7 +14,7 @@ let _loading = ref()
 let _error = ref()
 
 const proxiedSrc = computed(() => {
-  if (locale.value === 'zh' && props.src.includes('cs2kz-images')) {
+  if (locale.value === 'zh' && (props.src.includes('cs2kz-images') || props.src.includes('nonglobalmaps'))) {
     return 'https://gh-proxy.org/' + props.src
   } else {
     return props.src
