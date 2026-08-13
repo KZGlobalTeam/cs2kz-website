@@ -125,8 +125,9 @@ function signOut() {
         </UPopover>
 
         <!-- login -->
-        <UButton v-else variant="ghost" square @click="signIn" :ui="{ base: 'cursor-pointer' }">
-          <IconSteam />
+        <UButton v-else variant="outline" @click="signIn" :ui="{ base: 'cursor-pointer' }">
+          <span>{{ $t('nav.signIn') }}</span
+          ><IconSteamBlue />
         </UButton>
 
         <NavModal v-model="openNavigation" :navigation="navigation" />

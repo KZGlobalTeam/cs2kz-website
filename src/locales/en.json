@@ -48,7 +48,8 @@
     "profile": "Profile",
     "servers": "Servers",
     "jumpstats": "Jumpstats",
-    "signOut": "Sign out",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
     "signOutAll": "Sign out from all websites",
     "links": "Links",
     "tooltip": {
