@@ -7,7 +7,7 @@
 ## 菜单 / 绑键 / 指令
 
 - 大多数 CS2KZ 服务器都已经把无线电菜单改成了 KZ 菜单。
-  - 你可以在控制台输入 `radio`、`radio1`、`radio2` 或 `radio3` 打开菜单。
+  - 你可以在控制台输入 `radio` (简易菜单)、`radio1` (进阶菜单) or `radio2` (选项菜单) 打开菜单。
   - 也可以直接使用默认按键：`Z`、`X` 和 `C`。
 - 另一种方式是手动绑定按键，或者写一个 cfg。
   - 绑键示例：`bind 1 kz_cp; bind 2 kz_tp; bind 3 kz_prevcp; bind 4 kz_nextcp; bind 5 kz_undo; bind 6 kz_pause; bind 7 kz_restart;`，可以直接复制到控制台执行。
@@ -17,4 +17,4 @@
 
 <br>
 
-如果你想进一步了解整个 CS2KZ 系统的运作方式，可以查看 [文档页面](https://docs.cs2kz.org)。如果你还有问题，或者想认识更多玩 KZ 的玩家，欢迎加入我们的 [QQ群](https://qun.qq.com/universal-share/share?ac=1&authKey=DffST7WGLsQMAe8pKrazYaNhR8dkCHmD4iUjphiKc4AfrZpOzzvtKOpWIJv33alt&busi_data=eyJncm91cENvZGUiOiI4NzAzNDAzNTgiLCJ0b2tlbiI6InlCOE4xdlBoUVlDWm4zamNCNHk3TEN3NXVUOUFWaVgzQmovcUJUTVZ3Sm03eFFQYUVyYVlRR2VTZHhmd3JJMFAiLCJ1aW4iOiIxOTg2MDk3NTE0In0%3D&data=wkdGtDWwk_oyivv3_EWTgR2rMGV0pc5V9OgaPkK85kbZr2bJOfWV_Uk4N_HJMXwbFsluDIBAvrr1U95nXf95wA&svctype=4&tempid=h5_group_info)。祝你玩得开心，KZ 愉快！
+如果你想详细了解如何入门CS2KZ，可以观看这个视频: [CS2KZ入门指南](https://b23.tv/Tarzjx9)。如果你还有问题，或者想认识更多玩 KZ 的玩家，欢迎加入我们的 [QQ群](https://qun.qq.com/universal-share/share?ac=1&authKey=DffST7WGLsQMAe8pKrazYaNhR8dkCHmD4iUjphiKc4AfrZpOzzvtKOpWIJv33alt&busi_data=eyJncm91cENvZGUiOiI4NzAzNDAzNTgiLCJ0b2tlbiI6InlCOE4xdlBoUVlDWm4zamNCNHk3TEN3NXVUOUFWaVgzQmovcUJUTVZ3Sm03eFFQYUVyYVlRR2VTZHhmd3JJMFAiLCJ1aW4iOiIxOTg2MDk3NTE0In0%3D&data=wkdGtDWwk_oyivv3_EWTgR2rMGV0pc5V9OgaPkK85kbZr2bJOfWV_Uk4N_HJMXwbFsluDIBAvrr1U95nXf95wA&svctype=4&tempid=h5_group_info)。如果你想进一步了解整个 CS2KZ 系统的运作方式，可以查看 [文档页面](https://docs.cs2kz.org)。祝你玩得开心，KZ 愉快！
