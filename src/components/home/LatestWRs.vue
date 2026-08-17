@@ -3,9 +3,6 @@ import { computed } from 'vue'
 import { useRecords } from '@/composables/records'
 import { formatTime, uuidToLocalDistance } from '@/utils'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 const { locale } = useI18n()
 
@@ -25,10 +22,6 @@ const { records, loading } = useRecords(
 )
 
 const latestWrs = computed(() => records.value.slice(0, 20))
-
-function goToCourse() {
-  router.push(`/maps/`)
-}
 </script>
 
 <template>
@@ -53,7 +46,7 @@ function goToCourse() {
           </RouterLink>
 
           <div class="flex min-w-0 flex-1 flex-col justify-center xl:gap-1.5 pl-1.5">
-            <div @click="goToCourse" class="hidden xl:flex items-center gap-2">
+            <div class="hidden xl:flex items-center gap-2">
               <RouterLink
                 :to="`/maps/${record.map.name}?course=${record.course.name}`"
                 class="text-slate-100 font-semibold text-lg cursor-pointer"
