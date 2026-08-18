@@ -124,6 +124,9 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: Use
 
   function resetQuery(initialQuery: Partial<RecordQuery> = {}) {
     Object.assign(query, { ...defaultQuery, ...initialQuery })
+    if (options.syncStyleStore !== false) {
+      styleStore.$reset()
+    }
   }
 
   return {

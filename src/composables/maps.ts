@@ -165,6 +165,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
 
   function resetQuery() {
     Object.assign(query, defaultQuery)
+    styleStore.$reset()
   }
 
   async function getMaps() {
