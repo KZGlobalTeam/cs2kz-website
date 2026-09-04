@@ -1,12 +1,62 @@
 <script setup lang="ts">
 import { useServers } from '@/composables/servers'
+import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import type { QueryStateConfig } from '@/composables/query-state'
 import ServerQuery from '@/components/server/ServerQuery.vue'
 import ServerTiles from '@/components/server/ServerTiles.vue'
 import IconLoading from '@/components/icon/IconLoading.vue'
+import type { ServerQuery as ServerQueryState } from '@/types'
+import { useRoute } from 'vue-router'
+
+const queryConfig = {
+  name: {
+    name: 'server',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  map: {
+    name: 'serverMap',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  region_code: {
+    name: 'region',
+    defaultValue: undefined,
+    parse: (value) => getQueryValue(value) ?? undefined,
+    serialize: (value) => value,
+  },
+  globalMapOnly: {
+    name: 'globalOnly',
+    defaultValue: false,
+    parse: (value) => getQueryValue(value) === '1',
+    serialize: (value) => (value ? '1' : '0'),
+  },
+  sortBy: {
+    name: 'serverSort',
+    defaultValue: 'num_players',
+    parse: (value) => {
+      const sortBy = getQueryValue(value)
+      return sortBy === 'name' || sortBy === 'num_players' || sortBy === 'approved_at' ? sortBy : 'num_players'
+    },
+    serialize: (value) => value,
+  },
+  sortOrder: {
+    name: 'serverOrder',
+    defaultValue: 'descending',
+    parse: (value) => (getQueryValue(value) === 'ascending' ? 'ascending' : 'descending'),
+    serialize: (value) => value,
+  },
+} satisfies QueryStateConfig<ServerQueryState>
 
 defineProps<{ guideHidden: boolean }>()
 
-const { servers, availableRegions, loading, query, resetQuery, getServers } = useServers()
+const route = useRoute()
+const initialQuery = readQueryState<ServerQueryState>(route.query, queryConfig)
+const { servers, availableRegions, loading, query, resetQuery, getServers } = useServers(initialQuery)
+
+syncQueryState(query, queryConfig)
 </script>
 
 <template>

@@ -3,7 +3,7 @@ import { ref, reactive, computed } from 'vue'
 import { api, sort } from '@/utils'
 import axios from 'axios'
 
-export function useServers() {
+export function useServers(initialQuery: Partial<ServerQuery> = {}) {
   const loading = ref(false)
   const error = ref(null)
 
@@ -22,7 +22,7 @@ export function useServers() {
     sortOrder: 'descending',
   }
 
-  const query = reactive<ServerQuery>({ ...defaultQuery })
+  const query = reactive<ServerQuery>({ ...defaultQuery, ...initialQuery })
 
   const servers = computed(() => {
     const filtered = runningServers.value.filter(
@@ -33,7 +33,7 @@ export function useServers() {
         server.name.toLowerCase().includes(query.name.toLowerCase()) &&
         server.owner.name.toLowerCase().includes(query.owner.toLowerCase()) &&
         server.current_map.name.toLowerCase().includes(query.map.toLowerCase()) &&
-        (query.region_code === undefined ? true : query.region_code === server.region!.code) &&
+        (query.region_code === undefined ? true : query.region_code === server.region?.code) &&
         (query.globalMapOnly ? server.current_map.isGlobal : true),
     )
 
