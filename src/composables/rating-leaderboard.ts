@@ -6,6 +6,7 @@ import { attachAvatarsToPlayers } from '@/composables/steam-avatars'
 
 interface UseRatingLeaderboardOptions {
   limit?: number
+  offset?: number
   mode?: Mode
   syncStyleStore?: boolean
 }
@@ -21,7 +22,7 @@ export function useRatingLeaderboard(options: UseRatingLeaderboardOptions = {}) 
 
   const query = reactive<LeaderboardQuery>({
     mode: options.mode ?? styleStore.mode,
-    offset: 0,
+    offset: options.offset ?? 0,
     limit: options.limit ?? 50,
   })
 

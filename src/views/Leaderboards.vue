@@ -1,9 +1,65 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { reactive, computed, toRef, watch } from 'vue'
 import { useRatingLeaderboard } from '@/composables/rating-leaderboard'
 import { useWRsLeaderboard } from '@/composables/wrs-leaderboard'
 import { useRecords } from '@/composables/records'
+import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import type { QueryStateConfig } from '@/composables/query-state'
+import type { LeaderboardQuery, RecordQuery } from '@/types'
 import { useHead } from '@unhead/vue'
+import { useRoute } from 'vue-router'
+
+interface LeaderboardState {
+  rankedOnly: boolean
+}
+
+const ratingQueryConfig = {
+  offset: {
+    name: 'page',
+    defaultValue: 0,
+    parse: (value) => {
+      const page = Number(getQueryValue(value))
+      return Number.isInteger(page) && page > 0 ? (page - 1) * 50 : 0
+    },
+    serialize: (value) => (Math.floor(value / 50) + 1).toString(),
+  },
+} satisfies QueryStateConfig<LeaderboardQuery>
+
+const playerQueryConfig = {
+  player: {
+    name: 'wrPlayer',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  sort_by: {
+    name: 'wrSortBy',
+    defaultValue: 'submission-date',
+    parse: (value) => {
+      const sortBy = getQueryValue(value)
+      return sortBy === 'time' || sortBy === 'submission-date' ? sortBy : undefined
+    },
+    serialize: (value) => value ?? 'none',
+  },
+  sort_order: {
+    name: 'wrSortOrder',
+    defaultValue: 'descending',
+    parse: (value) => {
+      const sortOrder = getQueryValue(value)
+      return sortOrder === 'ascending' || sortOrder === 'descending' ? sortOrder : undefined
+    },
+    serialize: (value) => value ?? 'none',
+  },
+} satisfies QueryStateConfig<RecordQuery>
+
+const leaderboardStateConfig = {
+  rankedOnly: {
+    name: 'ranked',
+    defaultValue: true,
+    parse: (value) => getQueryValue(value) !== '0',
+    serialize: (value) => (value ? '1' : '0'),
+  },
+} satisfies QueryStateConfig<LeaderboardState>
 
 useHead({
   title: 'Leaderboards - CS2KZ',
@@ -33,14 +89,21 @@ useHead({
   ],
 })
 
-const rankedOnly = ref<boolean>(true)
+const route = useRoute()
+const leaderboardState = reactive<LeaderboardState>({
+  rankedOnly: true,
+  ...readQueryState<LeaderboardState>(route.query, leaderboardStateConfig),
+})
+const rankedOnly = toRef(leaderboardState, 'rankedOnly')
+const initialRatingQuery = readQueryState<LeaderboardQuery>(route.query, ratingQueryConfig)
+const initialPlayerQuery = readQueryState<RecordQuery>(route.query, playerQueryConfig)
 
 const {
   leaderboard: raingLeaderboard,
   loading: ratingLoading,
   total: ratingTotal,
   query: ratingQuery,
-} = useRatingLeaderboard()
+} = useRatingLeaderboard(initialRatingQuery)
 const { leaderboard: wrLeaderboard, loading: wrLoading, ranked: wrRanked } = useWRsLeaderboard()
 
 const {
@@ -48,7 +111,11 @@ const {
   loading: playerWrsLoading,
   total: playerWrsTotal,
   query: playerWrsQuery,
-} = useRecords({ max_rank: 1 })
+} = useRecords({ max_rank: 1, ranked: rankedOnly.value ? true : undefined, ...initialPlayerQuery })
+
+syncQueryState(leaderboardState, leaderboardStateConfig)
+syncQueryState(ratingQuery, ratingQueryConfig)
+syncQueryState(playerWrsQuery, playerQueryConfig)
 
 const playerWrs = computed({
   get() {
@@ -64,9 +131,14 @@ const playerWrs = computed({
   },
 })
 
-const drawerOpen = ref(false)
-
-const currentPlayerId = ref<string>()
+const drawerOpen = computed({
+  get: () => playerWrsQuery.player !== '',
+  set: (open) => {
+    if (!open) {
+      playerWrsQuery.player = ''
+    }
+  },
+})
 
 watch(rankedOnly, (rankedOnly) => {
   const value = rankedOnly === true ? true : undefined
@@ -75,12 +147,10 @@ watch(rankedOnly, (rankedOnly) => {
 })
 
 function openDrawer(playerId: string) {
-  if (currentPlayerId.value !== playerId) {
+  if (playerWrsQuery.player !== playerId) {
     playerWrs.value = []
     playerWrsQuery.player = playerId
   }
-  drawerOpen.value = true
-  currentPlayerId.value = playerId
 }
 </script>
 
