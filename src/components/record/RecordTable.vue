@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick } from 'vue'
+import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick, watch } from 'vue'
 import type { ComponentPublicInstance, VNode } from 'vue'
 import type { RecordQuery, PlayerRecordQuery, Record } from '@/types'
 import RecordDetail from './RecordDetail.vue'
 import CompareButton, { type ComparePick } from './CompareButton.vue'
 import { useI18n } from 'vue-i18n'
-import { useExpand } from '@/composables/expand'
 import { useInfiniteScroll } from '@vueuse/core'
-import { RouterLink } from 'vue-router'
-import type { TableColumn } from '@nuxt/ui'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+import type { TableColumn, TableRow } from '@nuxt/ui'
 import { getTierNumber, formatTime, getTierColor, seperateThousands, uuidToLocal, uuidToLocalDistance } from '@/utils'
 import { useStyleStore } from '@/stores/style.ts'
 
@@ -44,8 +43,9 @@ const UAvatar = resolveComponent('UAvatar')
 const TheImage = resolveComponent('TheImage')
 
 const sorting = ref([])
-
-const { toggleExpand } = useExpand()
+const expanded = ref<{ [key: string]: boolean }>({})
+const route = useRoute()
+const router = useRouter()
 
 const query = defineModel<RecordQuery | PlayerRecordQuery>('query', { required: true })
 
@@ -53,6 +53,42 @@ const { t, locale } = useI18n()
 const toast = useToast()
 
 const table = useTemplateRef<ComponentPublicInstance>('table')
+
+watch(
+  () => route.query.record,
+  (value) => {
+    const recordId = Array.isArray(value) ? value[0] : value
+    expanded.value = recordId ? { [recordId]: true } : {}
+  },
+  { immediate: true },
+)
+
+watch(
+  expanded,
+  (value) => {
+    const recordId = Object.keys(value).find((key) => value[key])
+    const nextQuery = { ...route.query }
+
+    if (recordId) {
+      nextQuery.record = recordId
+    } else {
+      delete nextQuery.record
+    }
+
+    if (route.query.record !== nextQuery.record) {
+      void router.replace({ query: nextQuery })
+    }
+  },
+  { deep: true },
+)
+
+function toggleExpand(row: TableRow<Record>) {
+  expanded.value = expanded.value[row.original.id] ? {} : { [row.original.id]: true }
+}
+
+function getRowId(record: Record) {
+  return record.id
+}
 
 async function toggleSorting(sortBy: RecordQuery['sort_by']) {
   if (query.value.sort_order === 'descending') {
@@ -448,9 +484,11 @@ onMounted(() => {
   <UTable
     ref="table"
     v-model:sorting="sorting"
+    v-model:expanded="expanded"
     sticky
     :data="records"
     :columns
+    :get-row-id="getRowId"
     :loading
     @select="toggleExpand"
     :class="type === 'player-wrs' ? '' : 'border border-zinc-700 rounded-md'"
