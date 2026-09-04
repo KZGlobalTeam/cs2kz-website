@@ -1,6 +1,62 @@
 <script setup lang="ts">
 import { useMaps } from '@/composables/maps'
+import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import type { QueryStateConfig } from '@/composables/query-state'
+import type { MapQuery, Tier } from '@/types'
 import { useHead } from '@unhead/vue'
+import { useRoute } from 'vue-router'
+
+const tiers: Tier[] = [
+  'very-easy',
+  'easy',
+  'medium',
+  'advanced',
+  'hard',
+  'very-hard',
+  'extreme',
+  'death',
+  'unfeasible',
+  'impossible',
+]
+const queryConfig = {
+  name: {
+    name: 'map',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  mapper: {
+    name: 'mapper',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  randomName: {
+    name: 'random',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  unfinishedOnly: {
+    name: 'unfinished',
+    defaultValue: false,
+    parse: (value) => getQueryValue(value) === '1',
+    serialize: (value) => (value ? '1' : '0'),
+  },
+  lengthRangeKeys: {
+    name: 'length',
+    defaultValue: [],
+    parse: (value) => (Array.isArray(value) ? value : [value]).filter((item): item is string => item !== null),
+    serialize: (value) => value,
+  },
+  tier: {
+    name: 'tier',
+    defaultValue: [],
+    parse: (value) =>
+      (Array.isArray(value) ? value : [value]).filter((item): item is Tier => tiers.includes(item as Tier)),
+    serialize: (value) => value,
+  },
+} satisfies QueryStateConfig<MapQuery>
 
 useHead({
   title: 'Maps - CS2KZ',
@@ -30,7 +86,11 @@ useHead({
   ],
 })
 
-const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMaps()
+const route = useRoute()
+const initialQuery = readQueryState<MapQuery>(route.query, queryConfig)
+const { maps, loading, query, lengthRanges, resetQuery, pickRandomMap } = useMaps(initialQuery)
+
+syncQueryState(query, queryConfig)
 </script>
 
 <template>
