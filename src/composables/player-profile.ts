@@ -20,7 +20,13 @@ import {
 } from '@/utils'
 import { useStyleStore } from '@/stores/style'
 
-export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
+interface PlayerProfileInitialState {
+  rankedOnly?: boolean
+  recordQuery?: Partial<PlayerRecordQuery>
+  unfinishedQuery?: Partial<UnfinishedCourseQuery>
+}
+
+export function usePlayerProfile(playerId: MaybeRefOrGetter<string>, initialState: PlayerProfileInitialState = {}) {
   const styleStore = useStyleStore()
 
   const defaultRecordQuery: PlayerRecordQuery = {
@@ -44,14 +50,17 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   const maps = ref<Map[]>([])
   const allRecords = ref<Record[]>([])
 
-  const recordQuery = reactive<PlayerRecordQuery>({ ...defaultRecordQuery })
-  const unfinishedQuery = reactive<UnfinishedCourseQuery>({ ...defaultUnfinishedQuery })
+  const recordQuery = reactive<PlayerRecordQuery>({ ...defaultRecordQuery, ...initialState.recordQuery })
+  const unfinishedQuery = reactive<UnfinishedCourseQuery>({
+    ...defaultUnfinishedQuery,
+    ...initialState.unfinishedQuery,
+  })
 
   const currentPlayerId = computed(() => toValue(playerId))
 
   const mode = computed(() => styleStore.mode)
   const leaderboardType = computed(() => styleStore.leaderboardType)
-  const rankedOnly = ref(true)
+  const rankedOnly = ref(initialState.rankedOnly ?? true)
 
   const mapperMaps = computed(() =>
     maps.value.filter((map) => map.mappers.some((mapper) => mapper.id === currentPlayerId.value)),
@@ -151,7 +160,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
         return false
       }
 
-      if (recordQuery.points && pointsBucket !== recordQuery.points) {
+      if (recordQuery.points !== undefined && pointsBucket !== recordQuery.points) {
         return false
       }
 
