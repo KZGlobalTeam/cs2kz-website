@@ -136,21 +136,28 @@ const { records: playerRecords, query: playerQuery } = useRecords({
 watch(
   () => route.query.course,
   (course) => {
-    if (course) {
-      const foundCourse = map.value?.courses.find((c) => c.name === course)
-
-      if (!foundCourse) {
-        router.replace({ name: 'NotFound' })
-      } else {
-        currentCourse.value = foundCourse
-      }
+    if (!map.value) {
+      return
     }
+
+    if (!course) {
+      currentCourse.value = map.value.courses[0]
+      return
+    }
+
+    const foundCourse = map.value.courses.find((candidate) => candidate.name === course)
+
+    if (!foundCourse) {
+      router.replace({ name: 'NotFound' })
+      return
+    }
+
+    currentCourse.value = foundCourse
   },
 )
 
 watch(currentCourse, (c) => {
   if (c) {
-    route.query.course = c.name
     query.course = c.name
     playerQuery.course = c.name
   }
@@ -239,7 +246,7 @@ async function getMap() {
               'text-gray-400 bg-zinc-800': course.name !== currentCourse.name,
             }"
             class="group flex items-center gap-1 cursor-pointer hover:bg-zinc-600 hover:text-gray-300 border-zinc-400 rounded-md px-1"
-            @click="router.push({ path: `/maps/${map.name}`, query: { course: course.name } })"
+            @click="router.push({ path: `/maps/${map.name}`, query: { ...route.query, course: course.name } })"
           >
             <div
               class="w-2 h-2 rounded-full"
