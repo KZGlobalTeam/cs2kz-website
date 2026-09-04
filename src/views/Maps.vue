@@ -31,11 +31,11 @@ const queryConfig = {
     parse: (value) => getQueryValue(value) ?? '',
     serialize: (value) => value,
   },
-  randomName: {
+  random: {
     name: 'random',
-    defaultValue: '',
-    parse: (value) => getQueryValue(value) ?? '',
-    serialize: (value) => value,
+    defaultValue: false,
+    parse: (value) => getQueryValue(value) === 'true',
+    serialize: (value) => (value ? 'true' : 'false'),
   },
   unfinishedOnly: {
     name: 'unfinished',

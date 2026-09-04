@@ -39,7 +39,7 @@ export type LeaderboardType = 'overall' | 'pro'
 export interface MapQuery {
   name: string
   mapper: string
-  randomName: string
+  random: boolean
   unfinishedOnly: boolean
   lengthRangeKeys: string[]
   state: MapState

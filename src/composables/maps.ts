@@ -17,11 +17,12 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
 
   const completedCourseKeys = ref(new Set<string>())
   const wrCourseTimes = ref(new Map<string, number>())
+  const randomMapName = ref('')
 
   const defaultQuery: MapQuery = {
     name: '',
     mapper: '',
-    randomName: '',
+    random: false,
     unfinishedOnly: false,
     lengthRangeKeys: [],
     tier: [],
@@ -62,7 +63,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     return lengthRanges.value.filter((range) => selectedKeys.has(range.key))
   })
 
-  const transformedMaps = computed(() =>
+  const filteredMaps = computed(() =>
     maps.value
       .map((map) => {
         return {
@@ -103,15 +104,19 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
         return map.mappers.some((mapper) => mapper.name.toLowerCase().includes(needle))
       })
       .filter((map) => {
-        if (map.courses.length === 0) return false
-        if (query.randomName === '') {
-          return true
-        } else {
-          return map.name === query.randomName
-        }
+        return map.courses.length > 0
       })
       .sort((a, b) => new Date(b.approved_at).getTime() - new Date(a.approved_at).getTime()),
   )
+
+  const transformedMaps = computed(() => {
+    if (!query.random) {
+      return filteredMaps.value
+    }
+
+    const randomMap = filteredMaps.value.find((map) => map.name === randomMapName.value)
+    return randomMap ? [randomMap] : []
+  })
 
   styleStore.$subscribe((_mutation, state) => {
     query.mode = state.mode
@@ -124,6 +129,26 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     if (query.lengthRangeKeys.length === 0) return
     const validKeys = new Set(ranges.map((range) => range.key))
     query.lengthRangeKeys = query.lengthRangeKeys.filter((key) => validKeys.has(key))
+  })
+  watch(
+    () => query.random,
+    (random) => {
+      if (!random) {
+        randomMapName.value = ''
+      } else if (randomMapName.value === '') {
+        selectRandomMap()
+      }
+    },
+  )
+  watch(filteredMaps, (availableMaps) => {
+    if (!query.random) {
+      return
+    }
+
+    const selectedMapIsAvailable = availableMaps.some((map) => map.name === randomMapName.value)
+    if (!selectedMapIsAvailable) {
+      selectRandomMap()
+    }
   })
 
   watch(
@@ -233,11 +258,21 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     }
   }
 
-  function pickRandomMap() {
-    const mapCount = maps.value.length
-    if (mapCount > 0) {
-      query.randomName = maps.value[Math.floor(Math.random() * mapCount)].name
+  function selectRandomMap() {
+    const availableMaps = filteredMaps.value
+    if (availableMaps.length === 0) {
+      randomMapName.value = ''
+      return
     }
+
+    const candidates = availableMaps.filter((map) => map.name !== randomMapName.value)
+    const randomCandidates = candidates.length > 0 ? candidates : availableMaps
+    randomMapName.value = randomCandidates[Math.floor(Math.random() * randomCandidates.length)].name
+  }
+
+  function pickRandomMap() {
+    query.random = true
+    selectRandomMap()
   }
 
   return {
