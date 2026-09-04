@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, reactive } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import type { Map, Course, Record, CompareEntry } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
+import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import type { QueryStateConfig } from '@/composables/query-state'
 import { api, getTierColor, getTierNumber } from '@/utils'
 import { useHead } from '@unhead/vue'
 import CompareCard from '@/components/record/CompareCard.vue'
@@ -19,6 +21,34 @@ const mapStateColorMap = {
   approved: 'text-green-400 bg-green-300/50',
   invalid: 'text-gray-400 bg-zinc-400',
 }
+
+interface CompareState {
+  compareA: string
+  compareB: string
+}
+
+const compareStateConfig = {
+  compareA: {
+    name: 'compareA',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+  compareB: {
+    name: 'compareB',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+} satisfies QueryStateConfig<CompareState>
+
+const compareState = reactive<CompareState>({
+  compareA: '',
+  compareB: '',
+  ...readQueryState<CompareState>(route.query, compareStateConfig),
+})
+
+syncQueryState(compareState, compareStateConfig)
 
 const map = ref<Map | null>(null)
 
@@ -68,39 +98,52 @@ const playerRecord = computed(() => {
   }
 })
 
-const compareSlotA = ref<CompareEntry | null>(null)
-const compareSlotB = ref<CompareEntry | null>(null)
-
 function entryFrom(record: Record): CompareEntry {
   return { id: record.id, name: record.player.name }
 }
 
 function onComparePick(pick: ComparePick) {
   if (pick.type === 'me') {
-    if (!playerRecord.value) return
-    compareSlotA.value = entryFrom(pick.record)
-    compareSlotB.value = entryFrom(playerRecord.value)
+    if (!playerRecord.value) {
+      return
+    }
+
+    compareState.compareA = pick.record.id
+    compareState.compareB = playerRecord.value.id
     openCompareUrl()
     return
   }
-  if (pick.type === 'A') compareSlotA.value = entryFrom(pick.record)
-  if (pick.type === 'B') compareSlotB.value = entryFrom(pick.record)
+
+  if (pick.type === 'A') {
+    compareState.compareA = pick.record.id
+  }
+
+  if (pick.type === 'B') {
+    compareState.compareB = pick.record.id
+  }
 }
 
 function clearSlot(which: 'A' | 'B') {
-  if (which === 'A') compareSlotA.value = null
-  else compareSlotB.value = null
+  if (which === 'A') {
+    compareState.compareA = ''
+    return
+  }
+
+  compareState.compareB = ''
 }
 
 function clearAll() {
-  compareSlotA.value = null
-  compareSlotB.value = null
+  compareState.compareA = ''
+  compareState.compareB = ''
 }
 
 function openCompareUrl() {
-  if (!compareSlotA.value || !compareSlotB.value) return
+  if (!compareState.compareA || !compareState.compareB) {
+    return
+  }
+
   window.open(
-    `https://demo.kzcomp.com/watch?ids=${compareSlotA.value.id},${compareSlotB.value.id}`,
+    `https://demo.kzcomp.com/watch?ids=${compareState.compareA},${compareState.compareB}`,
     '_blank',
     'noopener,noreferrer',
   )
@@ -132,6 +175,18 @@ const { records: playerRecords, query: playerQuery } = useRecords({
   player: playerStore.player?.id,
   ranked: undefined,
 })
+
+const compareSlotA = computed(() => getCompareEntry(compareState.compareA))
+const compareSlotB = computed(() => getCompareEntry(compareState.compareB))
+
+function getCompareEntry(recordId: string): CompareEntry | null {
+  if (!recordId) {
+    return null
+  }
+
+  const record = [...records.value, ...playerRecords.value].find((candidate) => candidate.id === recordId)
+  return record ? entryFrom(record) : { id: recordId, name: recordId }
+}
 
 watch(
   () => route.query.course,
