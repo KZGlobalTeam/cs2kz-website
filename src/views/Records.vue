@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { useRecords } from '@/composables/records'
-import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import {
+  getQueryValue,
+  parseBooleanQueryValue,
+  readQueryState,
+  serializeBooleanQueryValue,
+  syncQueryState,
+} from '@/composables/query-state'
 import type { QueryStateConfig } from '@/composables/query-state'
 import type { RecordQuery } from '@/types'
 import { useHead } from '@unhead/vue'
@@ -11,8 +17,8 @@ const queryConfig = {
   top: {
     name: 'top',
     defaultValue: true,
-    parse: (value) => getQueryValue(value) !== '0',
-    serialize: (value) => (value ? '1' : '0'),
+    parse: (value) => parseBooleanQueryValue(value, true),
+    serialize: serializeBooleanQueryValue,
   },
   ranked: {
     name: 'ranked',

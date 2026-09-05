@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { useServers } from '@/composables/servers'
-import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import {
+  getQueryValue,
+  parseBooleanQueryValue,
+  readQueryState,
+  serializeBooleanQueryValue,
+  syncQueryState,
+} from '@/composables/query-state'
 import type { QueryStateConfig } from '@/composables/query-state'
 import ServerQuery from '@/components/server/ServerQuery.vue'
 import ServerTiles from '@/components/server/ServerTiles.vue'
@@ -30,8 +36,8 @@ const queryConfig = {
   globalMapOnly: {
     name: 'globalOnly',
     defaultValue: false,
-    parse: (value) => getQueryValue(value) === '1',
-    serialize: (value) => (value ? '1' : '0'),
+    parse: (value) => parseBooleanQueryValue(value, false),
+    serialize: serializeBooleanQueryValue,
   },
   sortBy: {
     name: 'serverSort',

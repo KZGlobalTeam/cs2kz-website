@@ -17,6 +17,27 @@ export function getQueryValue(value: LocationQueryValue | LocationQueryValue[] |
   return Array.isArray(value) ? value[0] : value
 }
 
+export function parseBooleanQueryValue(value: LocationQueryValue | LocationQueryValue[], fallbackValue: boolean) {
+  const queryValue = getQueryValue(value)
+  if (queryValue === 'true' || queryValue === '1') {
+    return true
+  }
+
+  if (queryValue === 'false' || queryValue === '0') {
+    return false
+  }
+
+  return fallbackValue
+}
+
+export function serializeBooleanQueryValue(value: boolean) {
+  if (value) {
+    return 'true'
+  }
+
+  return 'false'
+}
+
 export function readQueryState<T>(query: LocationQuery, config: QueryStateConfig<T>) {
   const state: Partial<T> = {}
 
@@ -43,29 +64,45 @@ export function readQueryState<T>(query: LocationQuery, config: QueryStateConfig
 export function syncQueryState<T extends object>(state: T, config: QueryStateConfig<T>) {
   const route = useRoute()
   const router = useRouter()
+  const configKeys = Object.keys(config) as (keyof T)[]
+  const queryParameterNames: string[] = []
+
+  for (const key of configKeys) {
+    const param = config[key]
+    if (!param) {
+      continue
+    }
+
+    queryParameterNames.push(param.name)
+  }
 
   watch(
-    () => route.query,
-    (query) => {
-      for (const key in config) {
+    () => queryParameterNames.map((name) => route.query[name]),
+    () => {
+      for (const key of configKeys) {
         const param = config[key]
         if (!param) {
           continue
         }
 
-        const value = query[param.name]
-        state[key] = (value === undefined ? cloneValue(param.defaultValue) : param.parse(value)) as T[typeof key]
+        const value = route.query[param.name]
+        if (value === undefined) {
+          state[key] = cloneValue(param.defaultValue)
+          continue
+        }
+
+        state[key] = param.parse(value) as T[typeof key]
       }
     },
     { deep: true },
   )
 
   watch(
-    () => Object.keys(config).map((key) => state[key as keyof T]),
+    () => configKeys.map((key) => state[key]),
     () => {
       const query: LocationQueryRaw = { ...route.query }
 
-      for (const key in config) {
+      for (const key of configKeys) {
         const param = config[key]
         if (!param) {
           continue

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, h, resolveComponent, useTemplateRef, onMounted, nextTick, reactive, watch } from 'vue'
 import type { ComponentPublicInstance, VNode } from 'vue'
 import type { RecordQuery, PlayerRecordQuery, Record } from '@/types'
+import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import type { QueryStateConfig } from '@/composables/query-state'
 import RecordDetail from './RecordDetail.vue'
 import CompareButton, { type ComparePick } from './CompareButton.vue'
 import { useI18n } from 'vue-i18n'
 import { useInfiniteScroll } from '@vueuse/core'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import type { TableColumn, TableRow } from '@nuxt/ui'
 import { getTierNumber, formatTime, getTierColor, seperateThousands, uuidToLocal, uuidToLocalDistance } from '@/utils'
 import { useStyleStore } from '@/stores/style.ts'
@@ -45,7 +47,26 @@ const TheImage = resolveComponent('TheImage')
 const sorting = ref([])
 const expanded = ref<{ [key: string]: boolean }>({})
 const route = useRoute()
-const router = useRouter()
+
+interface RecordTableState {
+  expandedRecordId: string
+}
+
+const recordTableStateConfig = {
+  expandedRecordId: {
+    name: 'record',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
+} satisfies QueryStateConfig<RecordTableState>
+
+const recordTableState = reactive<RecordTableState>({
+  expandedRecordId: '',
+  ...readQueryState<RecordTableState>(route.query, recordTableStateConfig),
+})
+
+syncQueryState(recordTableState, recordTableStateConfig)
 
 const query = defineModel<RecordQuery | PlayerRecordQuery>('query', { required: true })
 
@@ -55,9 +76,8 @@ const toast = useToast()
 const table = useTemplateRef<ComponentPublicInstance>('table')
 
 watch(
-  () => route.query.record,
-  (value) => {
-    const recordId = Array.isArray(value) ? value[0] : value
+  () => recordTableState.expandedRecordId,
+  (recordId) => {
     expanded.value = recordId ? { [recordId]: true } : {}
   },
   { immediate: true },
@@ -67,17 +87,13 @@ watch(
   expanded,
   (value) => {
     const recordId = Object.keys(value).find((key) => value[key])
-    const nextQuery = { ...route.query }
+    const nextRecordId = recordId ?? ''
 
-    if (recordId) {
-      nextQuery.record = recordId
-    } else {
-      delete nextQuery.record
+    if (recordTableState.expandedRecordId === nextRecordId) {
+      return
     }
 
-    if (route.query.record !== nextQuery.record) {
-      void router.replace({ query: nextQuery })
-    }
+    recordTableState.expandedRecordId = nextRecordId
   },
   { deep: true },
 )

@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { useMaps } from '@/composables/maps'
-import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import {
+  getQueryValue,
+  parseBooleanQueryValue,
+  readQueryState,
+  serializeBooleanQueryValue,
+  syncQueryState,
+} from '@/composables/query-state'
 import type { QueryStateConfig } from '@/composables/query-state'
 import type { MapQuery, Tier } from '@/types'
 import { useHead } from '@unhead/vue'
@@ -34,14 +40,14 @@ const queryConfig = {
   random: {
     name: 'random',
     defaultValue: false,
-    parse: (value) => getQueryValue(value) === 'true',
-    serialize: (value) => (value ? 'true' : 'false'),
+    parse: (value) => parseBooleanQueryValue(value, false),
+    serialize: serializeBooleanQueryValue,
   },
   unfinishedOnly: {
     name: 'unfinished',
     defaultValue: false,
-    parse: (value) => getQueryValue(value) === '1',
-    serialize: (value) => (value ? '1' : '0'),
+    parse: (value) => parseBooleanQueryValue(value, false),
+    serialize: serializeBooleanQueryValue,
   },
   lengthRangeKeys: {
     name: 'length',

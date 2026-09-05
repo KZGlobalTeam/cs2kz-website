@@ -22,12 +22,19 @@ const mapStateColorMap = {
   invalid: 'text-gray-400 bg-zinc-400',
 }
 
-interface CompareState {
+interface MapQueryState {
+  course: string
   compareA: string
   compareB: string
 }
 
-const compareStateConfig = {
+const queryStateConfig = {
+  course: {
+    name: 'course',
+    defaultValue: '',
+    parse: (value) => getQueryValue(value) ?? '',
+    serialize: (value) => value,
+  },
   compareA: {
     name: 'compareA',
     defaultValue: '',
@@ -40,15 +47,16 @@ const compareStateConfig = {
     parse: (value) => getQueryValue(value) ?? '',
     serialize: (value) => value,
   },
-} satisfies QueryStateConfig<CompareState>
+} satisfies QueryStateConfig<MapQueryState>
 
-const compareState = reactive<CompareState>({
+const queryState = reactive<MapQueryState>({
+  course: '',
   compareA: '',
   compareB: '',
-  ...readQueryState<CompareState>(route.query, compareStateConfig),
+  ...readQueryState<MapQueryState>(route.query, queryStateConfig),
 })
 
-syncQueryState(compareState, compareStateConfig)
+syncQueryState(queryState, queryStateConfig)
 
 const map = ref<Map | null>(null)
 
@@ -108,42 +116,42 @@ function onComparePick(pick: ComparePick) {
       return
     }
 
-    compareState.compareA = pick.record.id
-    compareState.compareB = playerRecord.value.id
+    queryState.compareA = pick.record.id
+    queryState.compareB = playerRecord.value.id
     openCompareUrl()
     return
   }
 
   if (pick.type === 'A') {
-    compareState.compareA = pick.record.id
+    queryState.compareA = pick.record.id
   }
 
   if (pick.type === 'B') {
-    compareState.compareB = pick.record.id
+    queryState.compareB = pick.record.id
   }
 }
 
 function clearSlot(which: 'A' | 'B') {
   if (which === 'A') {
-    compareState.compareA = ''
+    queryState.compareA = ''
     return
   }
 
-  compareState.compareB = ''
+  queryState.compareB = ''
 }
 
 function clearAll() {
-  compareState.compareA = ''
-  compareState.compareB = ''
+  queryState.compareA = ''
+  queryState.compareB = ''
 }
 
 function openCompareUrl() {
-  if (!compareState.compareA || !compareState.compareB) {
+  if (!queryState.compareA || !queryState.compareB) {
     return
   }
 
   window.open(
-    `https://demo.kzcomp.com/watch?ids=${compareState.compareA},${compareState.compareB}`,
+    `https://demo.kzcomp.com/watch?ids=${queryState.compareA},${queryState.compareB}`,
     '_blank',
     'noopener,noreferrer',
   )
@@ -176,8 +184,8 @@ const { records: playerRecords, query: playerQuery } = useRecords({
   ranked: undefined,
 })
 
-const compareSlotA = computed(() => getCompareEntry(compareState.compareA))
-const compareSlotB = computed(() => getCompareEntry(compareState.compareB))
+const compareSlotA = computed(() => getCompareEntry(queryState.compareA))
+const compareSlotB = computed(() => getCompareEntry(queryState.compareB))
 
 function getCompareEntry(recordId: string): CompareEntry | null {
   if (!recordId) {
@@ -188,28 +196,7 @@ function getCompareEntry(recordId: string): CompareEntry | null {
   return record ? entryFrom(record) : { id: recordId, name: recordId }
 }
 
-watch(
-  () => route.query.course,
-  (course) => {
-    if (!map.value) {
-      return
-    }
-
-    if (!course) {
-      currentCourse.value = map.value.courses[0]
-      return
-    }
-
-    const foundCourse = map.value.courses.find((candidate) => candidate.name === course)
-
-    if (!foundCourse) {
-      router.replace({ name: 'NotFound' })
-      return
-    }
-
-    currentCourse.value = foundCourse
-  },
-)
+watch(() => queryState.course, selectCourse)
 
 watch(currentCourse, (c) => {
   if (c) {
@@ -227,22 +214,35 @@ async function getMap() {
     }
 
     map.value = data.values[0] as Map
-
-    if (route.query.course) {
-      const foundCourse = map.value.courses.find((course) => course.name === route.query.course)
-
-      if (!foundCourse) {
-        router.replace({ name: 'NotFound' })
-      } else {
-        currentCourse.value = foundCourse
-      }
-    } else {
-      currentCourse.value = map.value.courses[0]
-    }
+    selectCourse(queryState.course)
   } catch (error) {
     console.log('[fetch error]', error)
     router.replace({ name: 'NotFound' })
   }
+}
+
+function selectCourse(courseName: string) {
+  const selectedMap = map.value
+  if (!selectedMap) {
+    return
+  }
+
+  if (!courseName) {
+    currentCourse.value = selectedMap.courses[0]
+    return
+  }
+
+  const course = selectedMap.courses.find((candidate) => candidate.name === courseName)
+  if (!course) {
+    void router.replace({ name: 'NotFound' })
+    return
+  }
+
+  currentCourse.value = course
+}
+
+function chooseCourse(course: Course) {
+  queryState.course = course.name
 }
 </script>
 
@@ -301,7 +301,7 @@ async function getMap() {
               'text-gray-400 bg-zinc-800': course.name !== currentCourse.name,
             }"
             class="group flex items-center gap-1 cursor-pointer hover:bg-zinc-600 hover:text-gray-300 border-zinc-400 rounded-md px-1"
-            @click="router.push({ path: `/maps/${map.name}`, query: { ...route.query, course: course.name } })"
+            @click="chooseCourse(course)"
           >
             <div
               class="w-2 h-2 rounded-full"

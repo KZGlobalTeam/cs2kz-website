@@ -1,18 +1,29 @@
 import { watch } from 'vue'
 import type { Pinia } from 'pinia'
 import type { LeaderboardType, Mode } from '@/types'
+import { getQueryValue } from '@/composables/query-state'
 import { useStyleStore } from '@/stores/style'
-import type { LocationQueryRaw, RouteLocationNormalized, RouteLocationNormalizedLoaded, Router } from 'vue-router'
+import type {
+  LocationQueryRaw,
+  LocationQueryValue,
+  RouteLocationNormalized,
+  RouteLocationNormalizedLoaded,
+  Router,
+} from 'vue-router'
 
-function parseMode(value: unknown): Mode | undefined {
-  if (value === 'classic' || value === 'vanilla') {
-    return value
+function parseMode(value: LocationQueryValue | LocationQueryValue[] | undefined): Mode | undefined {
+  const queryValue = getQueryValue(value)
+  if (queryValue === 'classic' || queryValue === 'vanilla') {
+    return queryValue
   }
 }
 
-function parseLeaderboardType(value: unknown): LeaderboardType | undefined {
-  if (value === 'overall' || value === 'pro') {
-    return value
+function parseLeaderboardType(
+  value: LocationQueryValue | LocationQueryValue[] | undefined,
+): LeaderboardType | undefined {
+  const queryValue = getQueryValue(value)
+  if (queryValue === 'overall' || queryValue === 'pro') {
+    return queryValue
   }
 }
 

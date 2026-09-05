@@ -2,7 +2,13 @@
 import { computed, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePlayerProfile } from '@/composables/player-profile'
-import { getQueryValue, readQueryState, syncQueryState } from '@/composables/query-state'
+import {
+  getQueryValue,
+  parseBooleanQueryValue,
+  readQueryState,
+  serializeBooleanQueryValue,
+  syncQueryState,
+} from '@/composables/query-state'
 import type { QueryStateConfig } from '@/composables/query-state'
 import type { PlayerRecordQuery, Tier, UnfinishedCourseQuery } from '@/types'
 import { useHead } from '@unhead/vue'
@@ -100,8 +106,8 @@ const profileStateConfig = {
   rankedOnly: {
     name: 'ranked',
     defaultValue: true,
-    parse: (value) => getQueryValue(value) !== '0',
-    serialize: (value) => (value ? '1' : '0'),
+    parse: (value) => parseBooleanQueryValue(value, true),
+    serialize: serializeBooleanQueryValue,
   },
 } satisfies QueryStateConfig<ProfileState>
 
