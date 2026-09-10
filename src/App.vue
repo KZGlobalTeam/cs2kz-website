@@ -3,13 +3,18 @@ import { useHead } from '@unhead/vue'
 import { RouterView, useRoute } from 'vue-router'
 import Cookies from 'universal-cookie'
 import { usePlayerStore } from './stores/player'
+import { useCourseIndexStore } from './stores/course-index.ts'
 import { api } from './utils'
 import TheHeader from './components/TheHeader.vue'
 import BetaNotice from './components/BetaNotice.vue'
 import { useColorMode } from '@vueuse/core'
 
 const playerStore = usePlayerStore()
+const courseIndexStore = useCourseIndexStore()
+
 const route = useRoute()
+
+courseIndexStore.buildCourseIndices()
 
 const cookies = new Cookies(null, { path: '/' })
 

@@ -130,30 +130,14 @@ const columns = computed(() => {
     accessorKey: 'map',
     header: t('records.title.map'),
     cell: ({ row }) => {
-      return props.type === 'records' || props.type === 'player-wrs'
-        ? h('div', { class: 'flex items-center gap-2' }, [
-            h(TheImage, {
-              src: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/1.webp`,
-              alt: 'Map Image',
-              class: 'hidden lg:inline w-24 h-auto object-cover rounded-sm ring-1 ring-zinc-700',
-            }),
-            h(
-              RouterLink,
-              {
-                class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
-                to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
-              },
-              () => row.original.map.name,
-            ),
-          ])
-        : h(
-            RouterLink,
-            {
-              class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
-              to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
-            },
-            () => row.original.map.name,
-          )
+      return h(
+        RouterLink,
+        {
+          class: 'text-slate-300 font-semibold text-lg hover:text-slate-200 cursor-pointer',
+          to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
+        },
+        () => row.original.map.name,
+      )
     },
   }
 
@@ -161,16 +145,34 @@ const columns = computed(() => {
     accessorKey: 'course',
     header: t('records.title.course'),
     cell: ({ row }) => {
-      return h('div', { class: 'max-w-44 truncate' }, [
-        h(
-          RouterLink,
-          {
-            class: 'w-max text-lg hover:text-slate-300 cursor-pointer',
-            to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
-          },
-          () => row.original.course.name,
-        ),
-      ])
+      return props.type === 'records' || props.type === 'player-wrs'
+        ? h('div', { class: 'flex items-center gap-2' }, [
+            h(TheImage, {
+              src: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/${row.original.course.index || 1}.webp`,
+              alt: 'Course Image',
+              class: 'hidden lg:inline w-24 h-auto object-cover rounded-sm ring-1 ring-zinc-700',
+            }),
+            h('div', { class: 'max-w-44 truncate' }, [
+              h(
+                RouterLink,
+                {
+                  class: 'w-max text-lg hover:text-slate-300 cursor-pointer',
+                  to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
+                },
+                () => row.original.course.name,
+              ),
+            ]),
+          ])
+        : h('div', { class: 'max-w-44 truncate' }, [
+            h(
+              RouterLink,
+              {
+                class: 'w-max text-lg hover:text-slate-300 cursor-pointer',
+                to: `/maps/${row.original.map.name}?course=${row.original.course.name}`,
+              },
+              () => row.original.course.name,
+            ),
+          ])
     },
   }
 

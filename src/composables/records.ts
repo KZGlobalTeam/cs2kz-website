@@ -2,6 +2,7 @@ import type { RecordRaw, Record, RecordQuery } from '@/types'
 import { ref, reactive, watch, toRaw } from 'vue'
 import { api, validQuery } from '@/utils'
 import { useStyleStore } from '@/stores/style'
+import { useCourseIndexStore } from '@/stores/course-index'
 import { attachAvatarsToPlayerRecords } from '@/composables/steam-avatars'
 
 interface UseRecordsOptions {
@@ -11,6 +12,7 @@ interface UseRecordsOptions {
 
 export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: UseRecordsOptions = {}) {
   const styleStore = useStyleStore()
+  const courseIndexStore = useCourseIndexStore()
 
   const loading = ref(false)
   const records = ref<Record[]>([])
@@ -86,6 +88,19 @@ export function useRecords(initialQuery: Partial<RecordQuery> = {}, options: Use
       })
 
       if (data) {
+        // prefill course local index
+        if (courseIndexStore.courseIndexMap !== null) {
+          data.values = data.values.map((record: RecordRaw) => {
+            return {
+              ...record,
+              course: {
+                ...record.course,
+                index: courseIndexStore.courseIndexMap!.get(`${record.map.name}&${record.course.name}`),
+              },
+            }
+          })
+        }
+
         const nextRecords = await attachSteamProfiles(data.values)
 
         // reset records if offset is 0 (new query), otherwise append

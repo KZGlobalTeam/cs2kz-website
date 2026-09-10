@@ -95,6 +95,7 @@ export type RecordWithImproved = { timeImproved: number } & Record
 
 export type Record = RecordRaw & {
   playerAvatar?: string
+  course: RecordRaw['course'] & { index?: number }
 }
 
 export interface CompareEntry {

@@ -39,7 +39,7 @@ const latestWrs = computed(() => records.value.slice(0, 20))
         <div class="flex">
           <RouterLink :to="`/maps/${record.map.name}?course=${record.course.name}`">
             <TheImage
-              :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`"
+              :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/${record.course.index || 1}.webp`"
               :alt="record.map.name"
               class="w-48 h-auto xl:w-42 xl:h-24"
             />
