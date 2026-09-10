@@ -151,7 +151,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
         return false
       }
 
-      if (recordQuery.points && pointsBucket !== recordQuery.points) {
+      if (recordQuery.points !== undefined && pointsBucket !== recordQuery.points) {
         return false
       }
 
