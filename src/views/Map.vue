@@ -164,7 +164,7 @@ async function getMap() {
       return
     }
 
-    map.value = data.values[0] as Map
+    map.value = data.values.find((item: Map) => item.name === route.params.name) as Map
 
     if (route.query.course) {
       const foundCourse = map.value.courses.find((course) => course.name === route.query.course)
