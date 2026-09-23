@@ -1,3 +1,4 @@
+import type { ICountryData } from 'countries-list'
 import type { paths, components } from '../../openapi-types'
 
 export type Tier = components['schemas']['CourseFilterTier']
@@ -153,8 +154,7 @@ export interface RunningServer {
     id: string
     name: string
   }
-  country: { name: string; code: string } | null
-  region: { name: string; code: string } | null
+  countryData: ICountryData
   approved_at: string
   current_map: {
     name: string
@@ -172,20 +172,10 @@ export interface ServerQuery {
   name: string
   map: string
   owner: string
-  region_code?: string
+  continentCode?: string
   globalMapOnly: boolean
   sortBy: 'name' | 'num_players' | 'approved_at'
   sortOrder: 'ascending' | 'descending'
-}
-
-export interface GeoData {
-  ip: string
-  country: string
-  country_code: string
-  region: string | null
-  city: string | null
-  region_name: string
-  region_code: string
 }
 
 export interface ProfileQuery {

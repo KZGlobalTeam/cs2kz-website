@@ -77,11 +77,11 @@ async function copyServerIp() {
 
     <div class="text-sm text-muted p-1.5">
       <div class="flex items-center gap-1">
-        <UTooltip v-if="server.country" :text="server.country.name" :content="{ side: 'top' }">
+        <UTooltip v-if="server.countryData" :text="server.countryData.name" :content="{ side: 'top' }">
           <TheImage
             class="w-5 h-auto"
             alt="Country Flag"
-            :src="`https://purecatamphetamine.github.io/country-flag-icons/3x2/${server.country.code.toUpperCase()}.svg`"
+            :src="`https://purecatamphetamine.github.io/country-flag-icons/3x2/${server.countryData.iso2.toUpperCase()}.svg`"
           />
         </UTooltip>
         <UTooltip :text="server.name" :content="{ side: 'top' }">

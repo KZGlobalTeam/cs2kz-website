@@ -6,29 +6,17 @@ import IconLoading from '@/components/icon/IconLoading.vue'
 
 defineProps<{ guideHidden: boolean }>()
 
-const { servers, availableRegions, loading, query, resetQuery, getServers } = useServers()
+const { servers, loading, query, resetQuery, getServers } = useServers()
 </script>
 
 <template>
   <section class="flex flex-col max-h-[calc(100dvh-5rem)]">
     <span class="text-white text-xl font-semibold border-l-4 border-blue-600 pl-2">{{ $t('home.servers.title') }}</span>
     <div class="mt-2 hidden xl:flex justify-center items-center border border-zinc-800 rounded-md p-3">
-      <ServerQuery
-        v-model:query="query"
-        :available-regions="availableRegions"
-        :loading="loading"
-        @reset-query="resetQuery"
-        @refresh="getServers"
-      />
+      <ServerQuery v-model:query="query" :loading="loading" @reset-query="resetQuery" @refresh="getServers" />
     </div>
     <div class="mt-2 block xl:hidden border border-zinc-800 rounded-md p-3">
-      <ServerQuery
-        v-model:query="query"
-        :available-regions="availableRegions"
-        :loading="loading"
-        @reset-query="resetQuery"
-        @refresh="getServers"
-      />
+      <ServerQuery v-model:query="query" :loading="loading" @reset-query="resetQuery" @refresh="getServers" />
     </div>
 
     <div v-if="loading" class="mt-2 p-3 flex justify-center border border-zinc-700 rounded-md">

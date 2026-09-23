@@ -7,8 +7,7 @@ import type { ServerQuery } from '@/types'
 const query = defineModel<ServerQuery>('query', { required: true })
 const { name, map } = useDebouncedStringFilters(query, ['name', 'map', 'owner'])
 
-const props = defineProps<{
-  availableRegions: { name: string; code: string }[]
+defineProps<{
   loading?: boolean
 }>()
 
@@ -16,12 +15,21 @@ const emits = defineEmits(['resetQuery', 'refresh'])
 
 const { t, te } = useI18n()
 
-const localizedRegions = computed(() => {
-  return props.availableRegions.map((region) => {
-    const key = `servers.regions.${region.code}`
+const continentOptions = [
+  { name: 'Asia', code: 'AS' },
+  { name: 'Europe', code: 'EU' },
+  { name: 'Oceania', code: 'OC' },
+  { name: 'North America', code: 'NA' },
+  { name: 'South America', code: 'SA' },
+  { name: 'Africa', code: 'AF' },
+]
+
+const localizedContinentOptions = computed(() => {
+  return continentOptions.map((continent) => {
+    const key = `servers.regions.${continent.code}`
     return {
-      ...region,
-      name: te(key) ? t(key) : region.name,
+      ...continent,
+      name: te(key) ? t(key) : continent.name,
     }
   })
 })
@@ -44,9 +52,9 @@ const localizedRegions = computed(() => {
     </UInput>
 
     <USelect
-      v-if="availableRegions.length > 0"
-      v-model="query.region_code"
-      :items="localizedRegions"
+      v-if="localizedContinentOptions.length > 0"
+      v-model="query.continentCode"
+      :items="localizedContinentOptions"
       label-key="name"
       value-key="code"
       :placeholder="$t('servers.query.selectRegion')"

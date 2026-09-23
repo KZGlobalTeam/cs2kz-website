@@ -1,7 +1,7 @@
-import type { ServerResponse, ServerQuery, RunningServer, GeoData, MapResponse, Tier } from '@/types'
+import type { ServerResponse, ServerQuery, RunningServer, MapResponse, Tier } from '@/types'
 import { ref, reactive, computed } from 'vue'
 import { api, sort } from '@/utils'
-import axios from 'axios'
+import { type TCountryCode, getCountryData } from 'countries-list'
 
 export function useServers() {
   const loading = ref(false)
@@ -10,13 +10,11 @@ export function useServers() {
   const runningServers = ref<RunningServer[]>([])
   const globalMapTiers = ref(new Map<string, Tier>())
 
-  const availableRegions = ref<{ name: string; code: string }[]>([])
-
   const defaultQuery: ServerQuery = {
     name: '',
     map: '',
     owner: '',
-    region_code: undefined,
+    continentCode: undefined,
     globalMapOnly: false,
     sortBy: 'num_players',
     sortOrder: 'descending',
@@ -33,7 +31,7 @@ export function useServers() {
         server.name.toLowerCase().includes(query.name.toLowerCase()) &&
         server.owner.name.toLowerCase().includes(query.owner.toLowerCase()) &&
         server.current_map.name.toLowerCase().includes(query.map.toLowerCase()) &&
-        (query.region_code === undefined ? true : query.region_code === server.region!.code) &&
+        (query.continentCode === undefined ? true : query.continentCode === server.countryData.continent) &&
         (query.globalMapOnly ? server.current_map.isGlobal : true),
     )
 
@@ -51,7 +49,7 @@ export function useServers() {
       })
 
       if (data) {
-        const reachableServers = data.values.filter((server) => server.a2s_info !== null)
+        const reachableServers = data.values.filter((server) => server.a2s_info !== null && server.geo_info !== null)
 
         runningServers.value = reachableServers.map((server) => {
           return {
@@ -60,8 +58,7 @@ export function useServers() {
             host: server.host,
             port: server.port,
             owner: server.owner,
-            country: null,
-            region: null,
+            countryData: getCountryData(server.geo_info!.country_code as TCountryCode),
             approved_at: server.approved_at,
             current_map: {
               name: server.a2s_info!.current_map,
@@ -121,38 +118,9 @@ export function useServers() {
     })
   }
 
-  async function fillCountries() {
-    try {
-      const { data } = await axios.post<GeoData[]>(`${import.meta.env.VITE_GOKZ_TOP_API_URL}/misc/ip`, {
-        addresses: runningServers.value.map((server) => server.host),
-      })
-
-      if (data) {
-        runningServers.value.forEach((server, index) => {
-          server.country = { name: data[index].country, code: data[index].country_code }
-          server.region = { name: data[index].region_name, code: data[index].region_code }
-        })
-        // deduplicate regions and sort by occurences
-        availableRegions.value = data
-          .map((item) => ({ name: item.region_name, code: item.region_code }))
-          .filter((item, index, arr) => arr.findIndex((i) => i.code === item.code) === index)
-          .sort(
-            (a, b) =>
-              data.filter((i) => i.region_code === b.code).length - data.filter((i) => i.region_code === a.code).length,
-          )
-      } else {
-        availableRegions.value = []
-      }
-    } catch (err) {
-      console.error(err)
-      availableRegions.value = []
-    }
-  }
-
   async function getServers() {
     await Promise.all([fetchServers(), fetchGlobalMapTiers()])
     fillMapTiers()
-    await fillCountries()
   }
 
   function resetQuery() {
@@ -165,7 +133,6 @@ export function useServers() {
     resetQuery,
     getServers,
     servers,
-    availableRegions,
     loading,
     error,
     query,

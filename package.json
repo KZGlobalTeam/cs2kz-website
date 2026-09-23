@@ -26,6 +26,7 @@
     "@unhead/vue": "3.0.0-beta.9",
     "@vueuse/core": "^13.3.0",
     "axios": "^1.8.3",
+    "countries-list": "^3.4.1",
     "date-fns": "^4.1.0",
     "markdown-it": "^14.2.0",
     "pinia": "^3.0.1",
