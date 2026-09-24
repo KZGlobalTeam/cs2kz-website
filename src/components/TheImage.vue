@@ -2,6 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import { useImage } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import fallbackSrc from '@/assets/img/fallback.jpg'
 
 const props = defineProps<{
   src: string
@@ -21,6 +22,8 @@ const proxiedSrc = computed(() => {
   }
 })
 
+const imgSrc = computed(() => (!_loading.value && !_error.value ? proxiedSrc.value : fallbackSrc))
+
 function loadImage(src: string) {
   const { isLoading, error } = useImage({ src })
   /* eslint-disable */
@@ -33,7 +36,5 @@ watch(proxiedSrc, loadImage, { immediate: true })
 </script>
 
 <template>
-  <img v-if="!_loading && !_error" :src="proxiedSrc" :alt="alt" loading="lazy" class="animate-fade-in" />
-
-  <img v-else src="@/assets/img/fallback.jpg" :alt="alt" class="animate-fade-in" />
+  <img :src="imgSrc" :alt="alt" loading="lazy" class="animate-fade-in" />
 </template>
