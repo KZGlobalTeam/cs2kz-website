@@ -518,10 +518,13 @@ export interface components {
        * @description The maximum number of players that can join the server.
        */
       max_players: number
+      /** @description When this information was last updated. */
+      _updated_at: components['schemas']['Timestamp']
     }
     /**
      * Format: ulid
      * @description an opaque access key
+     * @example 01JG9X9ZMAKCNXH19VMXZ7BC08
      */
     AccessKey: string
     ApprovedMap: {
@@ -559,7 +562,10 @@ export interface components {
           /** @enum {string} */
           type: 'admin'
         }
-    /** @description an MD5 checksum */
+    /**
+     * @description an MD5 checksum
+     * @example ba29b1da0f9c28e2a9e072aba46cf040
+     */
     Checksum: string
     Course: {
       /** @description The course's name. */
@@ -614,9 +620,11 @@ export interface components {
       state: components['schemas']['CourseFilterState']
     }
     CourseUpdate: {
-      /** @description The index of the course to update.
+      /**
+       * @description The index of the course to update.
        *
-       *     Courses are 1-indexed and always returned in-order by the API. */
+       *     Courses are 1-indexed and always returned in-order by the API.
+       */
       idx: number
       /** @description A new name. */
       name?: string | null
@@ -647,9 +655,11 @@ export interface components {
       nub_tier?: null | components['schemas']['CourseFilterTier']
       pro_tier?: null | components['schemas']['CourseFilterTier']
       state?: null | components['schemas']['CourseFilterState']
-      /** @description New notes.
+      /**
+       * @description New notes.
        *
-       *     If you specify this, the old notes will be **replaced**! */
+       *     If you specify this, the old notes will be **replaced**!
+       */
       notes?: string | null
     }
     FilterUpdates: {
@@ -660,8 +670,13 @@ export interface components {
       country_code: string
       /** @description More specific region within the country, such as a city. */
       region: string
+      /** @description When this information was last updated. */
+      _updated_at: components['schemas']['Timestamp']
     }
-    /** @description a git revision */
+    /**
+     * @description a git revision
+     * @example 24bfd2242fc46340c95574468d78af687dea0e93
+     */
     GitRevision: string
     /** @enum {string} */
     JumpType: 'long-jump' | 'bhop' | 'multi-bhop' | 'weird-jump' | 'ladder-jump' | 'ladderhop' | 'jumpbug' | 'fall'
@@ -780,15 +795,19 @@ export interface components {
       reason: components['schemas']['BanReason']
     }
     NewCourse: {
-      /** @description The course's name.
+      /**
+       * @description The course's name.
        *
-       *     This has to be unique across all courses belonging to this map. */
+       *     This has to be unique across all courses belonging to this map.
+       */
       name: string
       /** @description A brief description of the course. */
       description?: string | null
-      /** @description A list of SteamIDs of players who have contributed to the creation of this course.
+      /**
+       * @description A list of SteamIDs of players who have contributed to the creation of this course.
        *
-       *     You must specify at least 1 player. */
+       *     You must specify at least 1 player.
+       */
       mappers: components['schemas']['SteamId'][]
       /** @description The filters for this course. */
       filters: components['schemas']['CourseFilters']
@@ -803,13 +822,17 @@ export interface components {
       description?: string | null
       /** @description The initial state the map should be in. */
       state: components['schemas']['MapState']
-      /** @description A list of SteamIDs of players who have contributed to the creation of this map.
+      /**
+       * @description A list of SteamIDs of players who have contributed to the creation of this map.
        *
-       *     You must specify at least 1 player. */
+       *     You must specify at least 1 player.
+       */
       mappers: components['schemas']['SteamId'][]
-      /** @description A list of courses present on the map.
+      /**
+       * @description A list of courses present on the map.
        *
-       *     You must specify at least 1 course. */
+       *     You must specify at least 1 course.
+       */
       courses: components['schemas']['NewCourse'][]
     }
     NewMode: {
@@ -835,9 +858,11 @@ export interface components {
       styles: components['schemas']['NewStyle'][]
     }
     NewServer: {
-      /** @description The server's name.
+      /**
+       * @description The server's name.
        *
-       *     This has to be a unique value and will be displayed in UIs. */
+       *     This has to be a unique value and will be displayed in UIs.
+       */
       name: string
       /** @description The server's IP address / domain. */
       host: components['schemas']['ServerHost']
@@ -993,10 +1018,20 @@ export interface components {
          */
         vnl_rating: number
         /**
+         * Format: u-int64
+         * @description The player's rank on the VNL rating leaderboard.
+         */
+        vnl_rank: number
+        /**
          * Format: double
          * @description The player's CKZ rating.
          */
         ckz_rating: number
+        /**
+         * Format: u-int64
+         * @description The player's rank on the CKZ rating leaderboard.
+         */
+        ckz_rank: number
         /** @description When this player first joined an approved CS2 server. */
         first_joined_at: components['schemas']['Timestamp']
       }[]
@@ -1130,10 +1165,20 @@ export interface components {
        */
       vnl_rating: number
       /**
+       * Format: u-int64
+       * @description The player's rank on the VNL rating leaderboard.
+       */
+      vnl_rank: number
+      /**
        * Format: double
        * @description The player's CKZ rating.
        */
       ckz_rating: number
+      /**
+       * Format: u-int64
+       * @description The player's rank on the CKZ rating leaderboard.
+       */
+      ckz_rank: number
       /** @description When this player first joined an approved CS2 server. */
       first_joined_at: components['schemas']['Timestamp']
     }
@@ -1212,6 +1257,9 @@ export interface components {
     /**
      * Format: hostname
      * @description an IPv4/IPv6 address or domain
+     * @example 255.255.255.255
+     * @example ::1
+     * @example example.org
      */
     ServerHost: string
     ServerIdentifier: string | number
@@ -1250,11 +1298,15 @@ export interface components {
       /** @description When your session will expire. */
       expires_at: components['schemas']['Timestamp']
     }
-    /** @description a SteamID */
+    /**
+     * @description a SteamID
+     * @example STEAM_1:1:161178172
+     */
     SteamId: string
     /**
      * Format: u-int64
      * @description a 64-bit SteamID
+     * @example 76561198282622073
      */
     SteamId64: string
     SteamUser: {
@@ -1271,6 +1323,7 @@ export interface components {
     /**
      * Format: date-time
      * @description a UTC timestamp
+     * @example 1970-01-01T00:00:00Z
      */
     Timestamp: string
     Unban: {
@@ -2140,10 +2193,12 @@ export interface operations {
   get_maps: {
     parameters: {
       query?: {
-        /** @description Only include maps with this Steam Workshop ID.
+        /**
+         * @description Only include maps with this Steam Workshop ID.
          *
          *     As multiple versions of the same map are represented as different maps, a request may
-         *     return multiple values (multiple versions of the same map with the same workshop ID). */
+         *     return multiple values (multiple versions of the same map with the same workshop ID).
+         */
         workshop_id?: number
         /** @description Only include maps whose name matches this value. */
         name?: string
@@ -2378,13 +2433,17 @@ export interface operations {
         mode?: components['schemas']['Mode']
         /** @description Restrict the results to records that (do not) have teleports. */
         has_teleports?: boolean
-        /** @description The highest rank that any record should have.
+        /**
+         * @description The highest rank that any record should have.
          *
-         *     This can be used, for example, to query world records only (`max_rank=1`). */
+         *     This can be used, for example, to query world records only (`max_rank=1`).
+         */
         max_rank?: number
-        /** @description Which value to sort the results by.
+        /**
+         * @description Which value to sort the results by.
          *
-         *     Defaults to 'submission-date'. */
+         *     Defaults to 'submission-date'.
+         */
         sort_by?: components['schemas']['Records_SortBy']
         /** @description Which direction to sort the results in. */
         sort_order?: components['schemas']['Records_SortOrder']

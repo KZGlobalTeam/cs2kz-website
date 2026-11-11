@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import type { Mode, Player, PlayerSteam } from '@/types'
 import { getTitleByRating, seperateThousands, toLocal } from '@/utils'
-import { useRankingStore } from '@/stores/ranking'
 
 const props = defineProps<{
   profile: Player | null
@@ -11,27 +10,13 @@ const props = defineProps<{
   loading: boolean
 }>()
 
-const rankingStore = useRankingStore()
-
 const avatarUrl = computed(() => props.steamProfile?.avatar_url.replace(/_medium/, '_full') || '')
 const profileUrl = computed(() => props.steamProfile?.profile_url || '')
 const rating = computed(() => (props.mode === 'classic' ? props.profile?.ckz_rating : props.profile?.vnl_rating) || 0)
 const title = computed(() => getTitleByRating(rating.value))
 
 const globalRank = computed(() => {
-  if (props.mode === 'classic') {
-    if (rankingStore.ckzRanking !== null) {
-      return rankingStore.ckzRanking.findIndex((player) => player.id === props.profile?.id) + 1
-    } else {
-      return null
-    }
-  } else {
-    if (rankingStore.vnlRanking !== null) {
-      return rankingStore.vnlRanking.findIndex((player) => player.id === props.profile?.id) + 1
-    } else {
-      return null
-    }
-  }
+  return props.mode === 'classic' ? props.profile?.ckz_rank : props.profile?.vnl_rank
 })
 </script>
 
@@ -63,7 +48,7 @@ const globalRank = computed(() => {
 
       <p>
         <span class="text-gray-400 mr-1">{{ $t('profile.info.joinedOn') }}: </span>
-        <span class="font-semibold mr-1" :class="profile ? 'text-gray-400' : 'text-gray-700'">{{
+        <span :class="profile ? 'text-gray-300' : 'text-gray-700'">{{
           profile ? toLocal(profile.first_joined_at, true) : '-'
         }}</span>
       </p>
@@ -71,10 +56,10 @@ const globalRank = computed(() => {
       <p v-if="globalRank">
         <span class="text-gray-400 mr-1">{{ $t('profile.info.globalRank') }}: </span>
         <span v-if="globalRank === 1" class="text-yellow-400 font-bold">{{ `# ${globalRank}` }}</span>
-        <span v-else-if="globalRank < 20" class="text-red-400 font-semibold">{{ `#${globalRank}` }}</span>
-        <span v-else-if="globalRank < 100" class="text-purple-400 font-semibold">{{ `#${globalRank}` }}</span>
-        <span v-else-if="globalRank < 500" class="text-orange-400 font-semibold">{{ `#${globalRank}` }}</span>
-        <span v-else class="text-gray-400">{{ `#${globalRank}` }}</span>
+        <span v-else-if="globalRank < 20" class="text-red-400 font-semibold">{{ `# ${globalRank}` }}</span>
+        <span v-else-if="globalRank < 100" class="text-purple-400 font-semibold">{{ `# ${globalRank}` }}</span>
+        <span v-else-if="globalRank < 500" class="text-orange-400 font-semibold">{{ `# ${globalRank}` }}</span>
+        <span v-else class="text-gray-200">{{ `# ${globalRank}` }}</span>
       </p>
 
       <div class="flex items-center gap-2">
@@ -93,7 +78,12 @@ const globalRank = computed(() => {
             {{ title[0] }}
           </div>
           <span class="text-gray-600">/</span>
-          <span class="font-medium">
+          <span
+            class="text-gray-200 font-medium"
+            :style="{
+              color: title[1],
+            }"
+          >
             {{ profile ? seperateThousands(rating) : '-' }}
           </span>
         </div>

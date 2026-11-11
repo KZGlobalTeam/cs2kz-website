@@ -254,7 +254,7 @@ const columns = computed(() => {
           class:
             row.original.nub_points === 10000
               ? 'text-yellow-400'
-              : row.original.nub_points >= 9000
+              : row.original.nub_points && row.original.nub_points >= 9000
                 ? 'text-red-400'
                 : '',
         },
@@ -272,7 +272,7 @@ const columns = computed(() => {
           class:
             row.original.pro_points === 10000
               ? 'text-yellow-400'
-              : row.original.pro_points >= 9000
+              : row.original.pro_points && row.original.pro_points >= 9000
                 ? 'text-red-400'
                 : '',
         },
