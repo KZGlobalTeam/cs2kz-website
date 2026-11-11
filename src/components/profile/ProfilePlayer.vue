@@ -36,19 +36,19 @@ const globalRank = computed(() => {
 </script>
 
 <template>
-  <div class="flex gap-2 lg:gap-4 p-4 border border-zinc-700 rounded-md lg:text-lg">
+  <div class="flex gap-3 lg:gap-4 p-4 border border-zinc-700 rounded-md lg:text-lg">
     <TheImage
       v-if="avatarUrl"
       :src="avatarUrl"
       alt="Player Avatar"
-      class="w-24 h-24 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400"
+      class="w-26 h-26 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400"
     />
 
     <div v-if="loading" class="w-20 flex justify-center items-center">
       <IconLoading />
     </div>
 
-    <div v-else class="flex flex-col gap-1">
+    <div v-else class="flex flex-col justify-between">
       <div class="flex items-center gap-1">
         <p
           class="text-2xl font-semibold max-w-56 xl:max-w-fit truncate"
