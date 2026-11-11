@@ -182,11 +182,10 @@
   "profile": {
     "notFound": "Profile Not Found",
     "info": {
-      "joinedOn": "Joined on",
+      "joinedOn": "Joined On",
       "hours": "hrs on record",
-      "worldRank": "World Rank",
       "rating": "Rating",
-      "rank": "Rank",
+      "globalRank": "Global Rank",
       "coursesFinished": "Courses Finished"
     },
     "completion": {

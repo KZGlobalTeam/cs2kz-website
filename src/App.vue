@@ -8,13 +8,16 @@ import { api } from './utils'
 import TheHeader from './components/TheHeader.vue'
 import BetaNotice from './components/BetaNotice.vue'
 import { useColorMode } from '@vueuse/core'
+import { useRankingStore } from './stores/ranking.ts'
 
 const playerStore = usePlayerStore()
 const courseIndexStore = useCourseIndexStore()
+const rankingStore = useRankingStore()
 
 const route = useRoute()
 
 courseIndexStore.buildCourseIndices()
+rankingStore.buildRankings()
 
 const cookies = new Cookies(null, { path: '/' })
 

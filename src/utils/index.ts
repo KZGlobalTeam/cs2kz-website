@@ -187,7 +187,7 @@ export function getWrHistory(records: Run[]) {
   return history.reverse()
 }
 
-export function getRankByRating(rating: number) {
+export function getTitleByRating(rating: number) {
   if (rating >= 37500) return ['Legend', '#ffb800']
   if (rating >= 35000) return ['Master', '#ff3131']
   if (rating >= 30000) return ['Pro', '#ff5151']

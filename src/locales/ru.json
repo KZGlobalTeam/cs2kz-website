@@ -177,9 +177,8 @@
     "info": {
       "joinedOn": "Присоединился",
       "hours": "ч. всего",
-      "worldRank": "Место в мире",
       "rating": "Рейтинг",
-      "rank": "Место",
+      "globalRank": "Место в мире",
       "coursesFinished": "Маршрутов пройдено"
     },
     "completion": {

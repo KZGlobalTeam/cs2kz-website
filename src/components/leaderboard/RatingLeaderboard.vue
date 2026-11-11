@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { LeaderboardQuery, PlayerWithAvatar } from '@/types'
-import { getRankByRating, seperateThousands } from '@/utils'
+import { getTitleByRating, seperateThousands } from '@/utils'
 
 const props = defineProps<{
   leaderboard: PlayerWithAvatar[]
@@ -11,13 +11,13 @@ const props = defineProps<{
 const rows = computed(() => {
   return props.leaderboard.map((player, index) => {
     const rating = props.query.mode === 'classic' ? player.ckz_rating : player.vnl_rating
-    const [rankName, rankColor] = getRankByRating(rating)
+    const [titleName, titleColor] = getTitleByRating(rating)
 
     return {
       player,
       rank: props.query.offset + index + 1,
-      rankName,
-      rankColor,
+      titleName,
+      titleColor,
       rating,
     }
   })
@@ -53,19 +53,19 @@ const rows = computed(() => {
           <span class="truncate">{{ row.player.name || $t('common.unknown') }}</span>
         </RouterLink>
 
-        <span class="text-gray-300 font-semibold" :style="{ color: `${row.rankColor}` }">{{
+        <span class="text-gray-300 font-semibold" :style="{ color: `${row.titleColor}` }">{{
           seperateThousands(row.rating)
         }}</span>
 
         <div
           :style="{
-            color: row.rankColor,
-            backgroundColor: `${row.rankColor}20`,
-            border: `1px solid ${row.rankColor}`,
+            color: row.titleColor,
+            backgroundColor: `${row.titleColor}20`,
+            border: `1px solid ${row.titleColor}`,
           }"
           class="inline-flex justify-center items-center px-1 rounded-sm w-fit"
         >
-          {{ row.rankName }}
+          {{ row.titleName }}
         </div>
       </li>
     </ul>
