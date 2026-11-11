@@ -247,13 +247,37 @@ const columns = computed(() => {
   const nubPointsCol: TableColumn<Record> = {
     accessorKey: 'nub_points',
     header: t('records.title.nubPoints'),
-    cell: ({ row }) => h('span', {}, row.original.nub_points ? seperateThousands(row.original.nub_points) : '-'),
+    cell: ({ row }) =>
+      h(
+        'span',
+        {
+          class:
+            row.original.nub_points === 10000
+              ? 'text-yellow-400'
+              : row.original.nub_points >= 9000
+                ? 'text-red-400'
+                : '',
+        },
+        row.original.nub_points ? seperateThousands(row.original.nub_points) : '-',
+      ),
   }
 
   const proPointsCol: TableColumn<Record> = {
     accessorKey: 'pro_points',
     header: t('records.title.proPoints'),
-    cell: ({ row }) => h('span', {}, row.original.pro_points ? seperateThousands(row.original.pro_points) : '-'),
+    cell: ({ row }) =>
+      h(
+        'span',
+        {
+          class:
+            row.original.pro_points === 10000
+              ? 'text-yellow-400'
+              : row.original.pro_points >= 9000
+                ? 'text-red-400'
+                : '',
+        },
+        row.original.pro_points ? seperateThousands(row.original.pro_points) : '-',
+      ),
   }
 
   const submissionDateCol: TableColumn<Record> = {
@@ -418,9 +442,17 @@ const columns = computed(() => {
   if (props.type === 'records') {
     cols.push(mapCol, courseCol, tierCol, playerCol, timeCol, rankCol, submissionDateCol, replayCol, serverCol)
   } else if (props.type === 'profile-runs') {
-    cols.push(mapCol, courseCol, tierCol, timeCol, rankCol, submissionDateCol, replayCol)
+    if (styleStore.leaderboardType === 'overall') {
+      cols.push(mapCol, courseCol, tierCol, timeCol, nubPointsCol, submissionDateCol, replayCol)
+    } else {
+      cols.push(mapCol, courseCol, tierCol, timeCol, proPointsCol, submissionDateCol, replayCol)
+    }
   } else if (props.type === 'course-ranking') {
-    cols.push(indexCol, playerCol, timeCol, nubPointsCol, proPointsCol, submissionDateCol, replayCol)
+    if (styleStore.leaderboardType === 'overall') {
+      cols.push(indexCol, playerCol, timeCol, nubPointsCol, submissionDateCol, replayCol)
+    } else {
+      cols.push(indexCol, playerCol, timeCol, proPointsCol, submissionDateCol, replayCol)
+    }
   } else if (props.type === 'player-wrs') {
     cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol)
   }
