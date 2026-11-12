@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useMediaQuery } from '@vueuse/core'
 import { usePlayerProfile } from '@/composables/player-profile'
 import { useHead } from '@unhead/vue'
 
 const route = useRoute()
 const steamId = computed(() => route.params.steamId as string)
+
+const isDesktop = useMediaQuery('(min-width: 1280px)')
 
 const {
   profile,
@@ -56,7 +59,7 @@ useHead({
 </script>
 
 <template>
-  <div class="hidden xl:block py-4 px-10 mx-auto text-gray-300">
+  <div v-if="isDesktop" class="py-4 px-10 mx-auto text-gray-300">
     <div>
       <MainSwitch class="mb-5" />
       <ProfilePlayer class="mb-5" :loading="loading" :profile="profile" :steam-profile="steamProfile" :mode="mode" />
@@ -98,7 +101,7 @@ useHead({
     </div>
   </div>
 
-  <div class="block xl:hidden py-2 px-2 max-w-5xl mx-auto text-gray-300">
+  <div v-else class="py-2 px-2 max-w-5xl mx-auto text-gray-300">
     <MainSwitch class="mb-5" />
     <ProfilePlayer class="mb-5" :loading="loading" :profile="profile" :steam-profile="steamProfile" :mode="mode" />
 
