@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Mode, Player, PlayerSteam } from '@/types'
-import { getTitleByRating, seperateThousands, toLocal } from '@/utils'
+import { getRankColor, getTitleByRating, seperateThousands, toLocal } from '@/utils'
 
 const props = defineProps<{
   profile: Player | null
@@ -55,11 +55,7 @@ const globalRank = computed(() => {
 
       <p v-if="globalRank">
         <span class="text-gray-400 mr-1">{{ $t('profile.info.globalRank') }}: </span>
-        <span v-if="globalRank === 1" class="text-yellow-400 font-bold">{{ `# ${globalRank}` }}</span>
-        <span v-else-if="globalRank < 20" class="text-red-400 font-semibold">{{ `# ${globalRank}` }}</span>
-        <span v-else-if="globalRank < 100" class="text-purple-400 font-semibold">{{ `# ${globalRank}` }}</span>
-        <span v-else-if="globalRank < 500" class="text-orange-400 font-semibold">{{ `# ${globalRank}` }}</span>
-        <span v-else class="text-gray-200">{{ `# ${globalRank}` }}</span>
+        <span :class="getRankColor(globalRank)">{{ `#${globalRank}` }}</span>
       </p>
 
       <div class="flex items-center gap-2">

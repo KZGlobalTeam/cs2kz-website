@@ -88,6 +88,7 @@
     "filters": "筛选",
     "leaderboards": {
       "title": "排行榜",
+      "search": "搜索玩家(昵称, Steam ID)",
       "top10": "前 10 名玩家",
       "rating": "Rating",
       "wrs": "世界纪录"

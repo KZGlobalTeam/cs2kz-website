@@ -88,6 +88,7 @@
     "filters": "Filters",
     "leaderboards": {
       "title": "Leaderboards",
+      "search": "Search player (Name, ID)",
       "top10": "Top 10 players",
       "rating": "Rating",
       "wrs": "World Records"

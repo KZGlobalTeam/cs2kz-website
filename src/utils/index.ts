@@ -199,3 +199,12 @@ export function getTitleByRating(rating: number) {
   if (rating > 0) return ['Beginner', '#d1d1d1']
   return ['New', '#cbcbcb']
 }
+
+export function getRankColor(rank?: number) {
+  if (!rank) return 'text-gray-200'
+  if (rank === 1) return 'text-yellow-400 font-bold'
+  if (rank < 20) return 'text-red-400 font-semibold'
+  if (rank < 100) return 'text-purple-400 font-semibold'
+  if (rank < 500) return 'text-orange-400 font-semibold'
+  return 'text-gray-200'
+}
