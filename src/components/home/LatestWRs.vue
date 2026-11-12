@@ -8,7 +8,6 @@ const { locale } = useI18n()
 
 const { records, loading } = useRecords(
   {
-    mode: 'classic',
     leaderboardType: 'overall',
     max_rank: 1,
     sort_by: 'submission-date',
@@ -17,7 +16,7 @@ const { records, loading } = useRecords(
   },
   {
     withAvatar: true,
-    syncStyleStore: false,
+    syncStyleStore: true,
   },
 )
 

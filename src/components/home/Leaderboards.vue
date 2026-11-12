@@ -8,8 +8,7 @@ const {
   query: ratingQuery,
 } = useRatingLeaderboard({
   limit: 20,
-  mode: 'classic',
-  syncStyleStore: false,
+  syncStyleStore: true,
 })
 </script>
 
