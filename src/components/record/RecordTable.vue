@@ -443,15 +443,15 @@ const columns = computed(() => {
     cols.push(mapCol, courseCol, tierCol, playerCol, timeCol, rankCol, submissionDateCol, replayCol, serverCol)
   } else if (props.type === 'profile-runs') {
     if (styleStore.leaderboardType === 'overall') {
-      cols.push(mapCol, courseCol, tierCol, timeCol, nubPointsCol, submissionDateCol, replayCol)
+      cols.push(mapCol, courseCol, tierCol, timeCol, nubPointsCol, rankCol, submissionDateCol, replayCol)
     } else {
-      cols.push(mapCol, courseCol, tierCol, timeCol, proPointsCol, submissionDateCol, replayCol)
+      cols.push(mapCol, courseCol, tierCol, timeCol, proPointsCol, rankCol, submissionDateCol, replayCol)
     }
   } else if (props.type === 'course-ranking') {
     if (styleStore.leaderboardType === 'overall') {
-      cols.push(indexCol, playerCol, timeCol, nubPointsCol, submissionDateCol, replayCol)
+      cols.push(indexCol, playerCol, timeCol, nubPointsCol, rankCol, submissionDateCol, replayCol)
     } else {
-      cols.push(indexCol, playerCol, timeCol, proPointsCol, submissionDateCol, replayCol)
+      cols.push(indexCol, playerCol, timeCol, proPointsCol, rankCol, submissionDateCol, replayCol)
     }
   } else if (props.type === 'player-wrs') {
     cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol)
