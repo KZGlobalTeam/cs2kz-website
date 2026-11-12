@@ -449,9 +449,9 @@ const columns = computed(() => {
     }
   } else if (props.type === 'course-ranking') {
     if (styleStore.leaderboardType === 'overall') {
-      cols.push(indexCol, playerCol, timeCol, nubPointsCol, rankCol, submissionDateCol, replayCol)
+      cols.push(indexCol, playerCol, timeCol, nubPointsCol, submissionDateCol, replayCol)
     } else {
-      cols.push(indexCol, playerCol, timeCol, proPointsCol, rankCol, submissionDateCol, replayCol)
+      cols.push(indexCol, playerCol, timeCol, proPointsCol, submissionDateCol, replayCol)
     }
   } else if (props.type === 'player-wrs') {
     cols.push(mapCol, courseCol, tierCol, timeCol, submissionDateCol)
