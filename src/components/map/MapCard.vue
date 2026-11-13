@@ -92,9 +92,9 @@ const unrankedCourses = computed(() => {
                       :to="`/profile/${mapper.id}`"
                       :title="mapper.name"
                       :aria-label="mapper.name"
-                      class="relative inline-flex shrink-0 rounded-full ring-2 ring-[#2e2e2e]"
+                      class="relative inline-flex shrink-0"
                     >
-                      <UAvatar :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="xs" />
+                      <UAvatar :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="2xs" />
                     </RouterLink>
                   </div>
 

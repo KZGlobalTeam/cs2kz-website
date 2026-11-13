@@ -236,7 +236,7 @@ async function getMap() {
           <div class="flex flex-wrap items-center mt-2">
             <span class="text-gray-400 mr-1">{{ `${$t('map.madeBy')}:` }}</span>
             <div v-for="(mapper, index) in currentCourse.mappers" :key="mapper.id" class="inline-flex items-center">
-              <UAvatar class="mr-1" :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="2xs" />
+              <UAvatar class="mr-1" :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="xs" />
               <RouterLink :to="`/profile/${mapper.id}`" class="text-cyan-500 hover:text-cyan-400">
                 {{ mapper.name }}
               </RouterLink>
