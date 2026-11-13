@@ -94,7 +94,12 @@ const unrankedCourses = computed(() => {
                       :aria-label="mapper.name"
                       class="relative inline-flex shrink-0"
                     >
-                      <UAvatar :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="2xs" />
+                      <UAvatar
+                        class="ring-0 border border-muted"
+                        :src="getPlayerAvatar(mapper.id)"
+                        :alt="mapper.name"
+                        size="2xs"
+                      />
                     </RouterLink>
                   </div>
 
