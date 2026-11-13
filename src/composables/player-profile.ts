@@ -1,7 +1,6 @@
 import { computed, reactive, ref, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 import type {
-  CourseInfo,
   Map,
   Player,
   PlayerRecordQuery,

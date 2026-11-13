@@ -60,6 +60,14 @@ const activeCourseNumber = computed(() => {
   }
 })
 
+const rankedCourses = computed(() => {
+  return map.value === null ? [] : map.value.courses.filter((course) => course.filters[query.mode].state === 'ranked')
+})
+
+const unrankedCourses = computed(() => {
+  return map.value === null ? [] : map.value.courses.filter((course) => course.filters[query.mode].state === 'unranked')
+})
+
 const worldRecord = computed(() => (records.value.length > 0 ? records.value[0] : null))
 const playerRecord = computed(() => {
   if (playerStore.player) {
@@ -197,12 +205,12 @@ async function getMap() {
 
     <div class="flex flex-col xl:flex-row items-start gap-4 mt-4">
       <TheImage
-        class="rounded-md ring-2 ring-blue-600/40"
+        class="rounded-md h-72 w-auto ring-2 ring-blue-600/40"
         :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/${activeCourseNumber}.webp`"
         alt="Course Image"
       />
 
-      <div class="flex flex-col lg:h-[288px] lg:justify-between">
+      <div class="flex flex-col lg:h-72 lg:justify-between">
         <div>
           <!-- map name and workshop link -->
           <div class="flex items-center gap-2">
@@ -238,44 +246,71 @@ async function getMap() {
         </div>
 
         <!-- courses -->
-        <div class="flex flex-wrap gap-2 mt-2 lg:mt-0">
-          <div
-            v-for="course in map.courses"
-            :key="course.name"
-            :class="{
-              'text-gray-300 bg-zinc-600': course.name === currentCourse.name,
-              'text-gray-400 bg-zinc-800': course.name !== currentCourse.name,
-            }"
-            class="group flex items-center gap-1 cursor-pointer hover:bg-zinc-600 hover:text-gray-300 border-zinc-400 rounded-md px-1"
-            @click="router.push({ path: `/maps/${map.name}`, query: { course: course.name } })"
-          >
-            <div
-              class="w-2 h-2 rounded-full"
-              :style="{
-                backgroundColor: course.filters[query.mode].state === 'ranked' ? '#05df72' : '#d1d5dc',
-              }"
-            ></div>
+        <div>
+          <!-- ranked courses -->
+          <div class="flex flex-wrap items-center gap-1">
+            <span class="shrink-0 whitespace-nowrap text-muted">{{ $t('map.filterState.ranked') }}:</span>
+            <div v-for="course in rankedCourses" :key="course.name">
+              <RouterLink
+                :to="`/maps/${map.name}?course=${course.name}`"
+                class="w-max px-1 py-0.5 flex justify-center items-center gap-1 rounded-sm border border-[#05df7250] bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
+              >
+                <span>{{ course.name }}</span>
+                <span
+                  class="border rounded-sm px-0.5"
+                  :style="{
+                    borderColor: `${getTierColor(
+                      query.leaderboardType === 'pro'
+                        ? course.filters[query.mode].pro_tier
+                        : course.filters[query.mode].nub_tier,
+                    )}70`,
+                    color: getTierColor(
+                      query.leaderboardType === 'pro'
+                        ? course.filters[query.mode].pro_tier
+                        : course.filters[query.mode].nub_tier,
+                    ),
+                  }"
+                  >T{{
+                    query.leaderboardType === 'pro'
+                      ? getTierNumber(course.filters[query.mode].pro_tier)
+                      : getTierNumber(course.filters[query.mode].nub_tier)
+                  }}</span
+                >
+              </RouterLink>
+            </div>
+          </div>
 
-            <span
-              :style="{
-                color: getTierColor(
-                  query.leaderboardType === 'pro'
-                    ? course.filters[query.mode].pro_tier
-                    : course.filters[query.mode].nub_tier,
-                ),
-              }"
-              >{{
-                query.leaderboardType === 'pro'
-                  ? getTierNumber(course.filters[query.mode].pro_tier)
-                  : getTierNumber(course.filters[query.mode].nub_tier)
-              }}</span
-            >
-            <span
-              class="group-hover:text-gray-400"
-              :class="currentCourse.name === course.name ? 'text-gray-400' : 'text-gray-600'"
-              >|</span
-            >
-            <span>{{ course.name }}</span>
+          <!-- unranked courses -->
+          <div v-if="unrankedCourses.length > 0" class="flex flex-wrap items-center gap-1 mt-1">
+            <span class="shrink-0 whitespace-nowrap text-muted">{{ $t('map.filterState.unranked') }}:</span>
+            <div v-for="course in unrankedCourses" :key="course.name">
+              <RouterLink
+                :to="`/maps/${map.name}?course=${course.name}`"
+                class="w-max px-1 py-0.5 flex justify-center items-center gap-1 rounded-sm border border-[#d1d5dc50] bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
+              >
+                <span>{{ course.name }}</span>
+                <span
+                  class="border rounded-sm px-0.5"
+                  :style="{
+                    borderColor: `${getTierColor(
+                      query.leaderboardType === 'pro'
+                        ? course.filters[query.mode].pro_tier
+                        : course.filters[query.mode].nub_tier,
+                    )}70`,
+                    color: getTierColor(
+                      query.leaderboardType === 'pro'
+                        ? course.filters[query.mode].pro_tier
+                        : course.filters[query.mode].nub_tier,
+                    ),
+                  }"
+                  >T{{
+                    query.leaderboardType === 'pro'
+                      ? getTierNumber(course.filters[query.mode].pro_tier)
+                      : getTierNumber(course.filters[query.mode].nub_tier)
+                  }}</span
+                >
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
