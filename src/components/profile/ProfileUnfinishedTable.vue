@@ -4,6 +4,7 @@ import type { UnfinishedMapRow } from '@/types'
 defineProps<{
   maps: UnfinishedMapRow[]
   loading: boolean
+  rankedOnly: boolean
 }>()
 </script>
 
@@ -13,18 +14,21 @@ defineProps<{
       <table class="min-w-full divide-y divide-zinc-700 text-gray-300">
         <thead class="bg-zinc-900/70">
           <tr>
-            <th class="w-72 px-4 py-3 text-left text-sm font-semibold text-gray-100">
+            <th class="w-72 px-2 py-3 text-left text-sm font-semibold text-gray-100">
               {{ $t('records.title.map') }}
             </th>
-            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-100">
-              {{ $t('profile.unfinished.table.courses') }}
+            <th class="px-2 py-3 text-left text-sm font-semibold text-gray-100">
+              {{ $t('profile.unfinished.table.rankedCourses') }}
+            </th>
+            <th v-if="!rankedOnly" class="px-2 py-3 text-left text-sm font-semibold text-gray-100">
+              {{ $t('profile.unfinished.table.unrankedCourses') }}
             </th>
           </tr>
         </thead>
 
         <tbody class="divide-y divide-zinc-700 bg-zinc-950/30">
           <tr v-if="loading">
-            <td colspan="2" class="px-4 py-6">
+            <td colspan="2" class="px-2 py-6">
               <div class="flex justify-center items-center">
                 <IconLoading />
               </div>
@@ -32,13 +36,13 @@ defineProps<{
           </tr>
 
           <tr v-else-if="maps.length === 0">
-            <td colspan="2" class="px-4 py-6 text-center text-gray-400">
+            <td colspan="2" class="px-2 py-6 text-center text-gray-400">
               {{ $t('common.noData') }}
             </td>
           </tr>
 
           <tr v-for="map in maps" v-else :key="map.id">
-            <td class="px-4 py-2 align-center">
+            <td class="px-2 py-2 align-center">
               <RouterLink
                 :to="`/maps/${map.name}`"
                 class="group flex items-center gap-3 text-slate-300 hover:text-slate-200"
@@ -51,8 +55,11 @@ defineProps<{
                 <span class="font-semibold text-lg">{{ map.name }}</span>
               </RouterLink>
             </td>
-            <td class="px-4 py-4 align-center">
-              <ProfileUnfinishedCourseTags :map-name="map.name" :courses="map.courses" />
+            <td class="px-2 py-4 align-center">
+              <ProfileUnfinishedCourseTags :map-name="map.name" :courses="map.rankedCourses" />
+            </td>
+            <td v-if="!rankedOnly" class="px-2 py-4 align-center">
+              <ProfileUnfinishedCourseTags :map-name="map.name" :courses="map.unrankedCourses" />
             </td>
           </tr>
         </tbody>

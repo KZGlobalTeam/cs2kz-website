@@ -2,6 +2,9 @@ import axios from 'axios'
 import type { Record as Run, RecordWithImproved, Tier } from '@/types'
 import { format, formatDistanceToNowStrict } from 'date-fns'
 import { zhCN, ru } from 'date-fns/locale'
+import { useI18n } from 'vue-i18n'
+
+const t = useI18n()
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

@@ -221,7 +221,8 @@
         "tier": "Select tier"
       },
       "table": {
-        "courses": "Courses"
+        "rankedCourses": "Ranked Courses",
+        "unrankedCourses": "Unranked Courses"
       }
     },
     "history": {
@@ -257,9 +258,9 @@
     "proTier": "PRO Tier",
     "filterState": {
       "name": "Filter State",
-      "all": "Both",
-      "ranked": "Ranked",
-      "unranked": "Unranked",
+      "both": "Both",
+      "ranked": "Ranked Courses",
+      "unranked": "Unranked Courses",
       "pending": "pending"
     },
     "courseRanking": "Course Ranking"

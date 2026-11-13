@@ -221,7 +221,8 @@
         "tier": "选择难度"
       },
       "table": {
-        "courses": "关卡"
+        "rankedCourses": "排位关卡",
+        "unrankedCourses": "非排位关卡"
       }
     },
     "history": {

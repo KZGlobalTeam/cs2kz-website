@@ -140,7 +140,8 @@ export interface UnfinishedCourseQuery {
 export interface UnfinishedMapRow {
   id: number
   name: string
-  courses: CourseExt[]
+  rankedCourses: CourseExt[]
+  unrankedCourses: CourseExt[]
 }
 
 export type Server = components['schemas']['Server']

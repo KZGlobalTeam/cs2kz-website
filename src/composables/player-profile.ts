@@ -167,8 +167,9 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
           .filter((course) => {
             if (completedCourseKeys.value.has(`${map.name}:${course.name}`)) {
               return false
+            } else {
+              return true
             }
-            return rankedOnly.value ? course.filters[mode.value].state === 'ranked' : true
           })
           .map((course) => {
             const courseFilter = course.filters[mode.value]
@@ -188,10 +189,11 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
           id: map.id,
           name: map.name,
           approved_at: map.approved_at,
-          courses,
+          rankedCourses: courses.filter((course) => course.state === 'ranked'),
+          unrankedCourses: courses.filter((course) => course.state === 'unranked'),
         }
       })
-      .filter((map) => map.courses.length > 0)
+      .filter((map) => (rankedOnly && map.rankedCourses.length > 0) || (!rankedOnly && map.unrankedCourses.length > 0))
       .sort((a, b) => new Date(b.approved_at).getTime() - new Date(a.approved_at).getTime()),
   )
 

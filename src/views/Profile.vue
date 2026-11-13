@@ -86,6 +86,7 @@ useHead({
         <ProfileUnfinished
           v-model:query="unfinishedQuery"
           :unfinished-courses="unfinishedCourses"
+          :ranked-only="rankedOnly"
           :loading="loading"
           @reset-query="resetUnfinishedQuery"
         />
@@ -130,6 +131,7 @@ useHead({
     <ProfileUnfinished
       v-model:query="unfinishedQuery"
       :unfinished-courses="unfinishedCourses"
+      :ranked-only="rankedOnly"
       :loading="loading"
       @reset-query="resetUnfinishedQuery"
     />

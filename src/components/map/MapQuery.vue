@@ -31,7 +31,7 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
       class="w-36"
       v-model="query.filterState"
       :items="[
-        { label: t('map.filterState.both'), value: 'all' },
+        { label: t('map.filterState.both'), value: 'both' },
         { label: t('map.filterState.ranked'), value: 'ranked' },
         { label: t('map.filterState.unranked'), value: 'unranked' },
       ]"

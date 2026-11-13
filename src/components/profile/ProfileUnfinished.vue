@@ -4,6 +4,7 @@ import type { UnfinishedCourseQuery, UnfinishedMapRow } from '@/types'
 defineProps<{
   unfinishedCourses: UnfinishedMapRow[]
   loading: boolean
+  rankedOnly: boolean
 }>()
 
 const emits = defineEmits<{
@@ -24,6 +25,6 @@ const query = defineModel<UnfinishedCourseQuery>('query', { required: true })
       <ProfileUnfinishedQuery v-model:query="query" @reset-query="emits('resetQuery')" />
     </div>
 
-    <ProfileUnfinishedTable :maps="unfinishedCourses" :loading="loading" />
+    <ProfileUnfinishedTable :ranked-only="rankedOnly" :maps="unfinishedCourses" :loading="loading" />
   </div>
 </template>

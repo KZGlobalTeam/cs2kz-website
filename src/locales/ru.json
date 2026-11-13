@@ -214,7 +214,8 @@
         "tier": "Tier"
       },
       "table": {
-        "courses": "Маршруты"
+        "rankedCourses": "рейтинговый Маршруты",
+        "unrankedCourses": "нерейтинговый Маршруты"
       }
     },
     "history": {
@@ -251,8 +252,8 @@
     "filterState": {
       "name": "Статус",
       "both": "оба",
-      "ranked": "рейтинговый",
-      "unranked": "нерейтинговый",
+      "ranked": "рейтинговый Маршруты",
+      "unranked": "нерейтинговый Маршруты",
       "pending": "на рассмотрении"
     },
     "courseRanking": "Лидерборд маршрута"
