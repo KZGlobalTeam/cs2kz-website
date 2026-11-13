@@ -257,6 +257,7 @@
     "proTier": "PRO Tier",
     "filterState": {
       "name": "Filter State",
+      "all": "Both",
       "ranked": "Ranked",
       "unranked": "Unranked",
       "pending": "pending"

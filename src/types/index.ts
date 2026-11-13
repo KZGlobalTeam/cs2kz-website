@@ -46,7 +46,7 @@ export interface MapQuery {
   mode: Mode
   leaderboardType: LeaderboardType
   tier: Tier[]
-  filterState: 'all' | 'ranked' | 'unranked'
+  filterState: 'both' | 'ranked' | 'unranked'
   limit: number
   offset: number
 }

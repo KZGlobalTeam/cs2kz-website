@@ -116,7 +116,7 @@ const unrankedCourses = computed(() => {
             </div>
             <div class="max-w-64 overflow-x-auto list-wrapper">
               <!-- ranked courses -->
-              <div v-if="query.filterState === 'ranked' || query.filterState === 'all'">
+              <div v-if="query.filterState === 'ranked' || query.filterState === 'both'">
                 <div class="flex items-center gap-1">
                   <span class="shrink-0 whitespace-nowrap text-sm text-muted">{{ $t('map.filterState.ranked') }}:</span>
                   <div v-for="course in rankedCourses" :key="course.name">
@@ -140,7 +140,7 @@ const unrankedCourses = computed(() => {
 
               <!-- unranked courses -->
               <div
-                v-if="(query.filterState === 'unranked' || query.filterState === 'all') && unrankedCourses.length > 0"
+                v-if="(query.filterState === 'unranked' || query.filterState === 'both') && unrankedCourses.length > 0"
                 class="mt-1"
               >
                 <div class="flex items-center gap-1">

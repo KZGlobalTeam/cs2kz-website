@@ -250,6 +250,7 @@
     "proTier": "PRO Tier",
     "filterState": {
       "name": "Статус",
+      "both": "оба",
       "ranked": "рейтинговый",
       "unranked": "нерейтинговый",
       "pending": "на рассмотрении"

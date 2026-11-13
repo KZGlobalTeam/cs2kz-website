@@ -20,7 +20,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     randomName: '',
     lengthRangeKeys: [],
     tier: [],
-    filterState: 'ranked',
+    filterState: 'both',
     mode: styleStore.mode,
     leaderboardType: styleStore.leaderboardType,
     state: 'approved',
@@ -89,7 +89,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
         }
       })
       .filter((map) => {
-        if (query.filterState === 'all' || query.filterState === 'ranked') {
+        if (query.filterState === 'both' || query.filterState === 'ranked') {
           return true
         } else {
           if (map.courses.filter((course) => course.state === 'unranked').length === 0) {
