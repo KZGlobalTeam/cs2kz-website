@@ -5,6 +5,7 @@ import type { Map, Course, Record, CompareEntry } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
 import { api, getTierColor, getTierNumber } from '@/utils'
+import { getPlayerAvatar, queuePlayerAvatars } from '@/composables/steam-avatars'
 import { useHead } from '@unhead/vue'
 import CompareCard from '@/components/record/CompareCard.vue'
 import type { ComparePick } from '@/components/record/CompareButton.vue'
@@ -156,6 +157,12 @@ watch(currentCourse, (c) => {
   }
 })
 
+watch(
+  () => currentCourse.value?.mappers.map((mapper) => mapper.id) ?? [],
+  (playerIds) => queuePlayerAvatars(playerIds),
+  { immediate: true },
+)
+
 async function getMap() {
   try {
     const { data } = await api.get(`/maps`, { params: { name: route.params.name as string, state: 'approved' } })
@@ -220,7 +227,8 @@ async function getMap() {
           <!-- mappers -->
           <div class="flex flex-wrap items-center mt-2">
             <span class="text-gray-400 mr-1">{{ `${$t('map.madeBy')}:` }}</span>
-            <div v-for="(mapper, index) in currentCourse.mappers" :key="mapper.id">
+            <div v-for="(mapper, index) in currentCourse.mappers" :key="mapper.id" class="inline-flex items-center">
+              <UAvatar class="mr-1" :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="2xs" />
               <RouterLink :to="`/profile/${mapper.id}`" class="text-cyan-500 hover:text-cyan-400">
                 {{ mapper.name }}
               </RouterLink>

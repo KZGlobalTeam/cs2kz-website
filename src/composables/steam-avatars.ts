@@ -13,7 +13,56 @@ interface SteamPlayerSummary {
 const avatarsByPlayerId = reactive<Record<string, string | undefined>>({})
 const loadingAvatarIds = new Set<string>()
 
-export async function getPlayersAvatars(playerIds: string[]) {
+const AVATAR_BATCH_SIZE = 100
+const AVATAR_QUEUE_DELAY_MS = 80
+
+const queuedAvatarIds = new Set<string>()
+let avatarQueueTimer: ReturnType<typeof setTimeout> | undefined
+
+/** Returns the already loaded avatar of a player, if there is one. Reactive. */
+export function getPlayerAvatar(playerId: string) {
+  return avatarsByPlayerId[playerId]
+}
+
+function flushQueuedAvatars() {
+  avatarQueueTimer = undefined
+
+  const playerIds = [...queuedAvatarIds]
+  queuedAvatarIds.clear()
+
+  for (let index = 0; index < playerIds.length; index += AVATAR_BATCH_SIZE) {
+    void getPlayersAvatars(playerIds.slice(index, index + AVATAR_BATCH_SIZE))
+  }
+}
+
+/**
+ * Queues avatar lookups without awaiting them.
+ * Calls made in quick succession get merged into as few batched requests as possible.
+ */
+export function queuePlayerAvatars(playerIds: string[]) {
+  let added = false
+
+  for (const playerId of playerIds) {
+    if (Object.prototype.hasOwnProperty.call(avatarsByPlayerId, playerId) || loadingAvatarIds.has(playerId)) {
+      continue
+    }
+
+    if (queuedAvatarIds.has(playerId)) {
+      continue
+    }
+
+    queuedAvatarIds.add(playerId)
+    added = true
+  }
+
+  if (!added || avatarQueueTimer) {
+    return
+  }
+
+  avatarQueueTimer = setTimeout(flushQueuedAvatars, AVATAR_QUEUE_DELAY_MS)
+}
+
+async function getPlayersAvatars(playerIds: string[]) {
   if (playerIds.length === 0) {
     return avatarsByPlayerId
   }

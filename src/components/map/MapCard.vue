@@ -1,12 +1,58 @@
 <script setup lang="ts">
 import type { MapCard, MapQuery } from '@/types'
 import { toLocal } from '@/utils'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useElementSize } from '@vueuse/core'
+import { getPlayerAvatar, queuePlayerAvatars } from '@/composables/steam-avatars'
 
 const props = defineProps<{
   query: MapQuery
   map: MapCard
 }>()
+
+// mappers are shown as overlapping avatars, so only as many as fit are rendered
+const AVATAR_SIZE = 24 // UAvatar size="xs"
+const AVATAR_OVERLAP = 6 // -space-x-1.5
+const AVATAR_STEP = AVATAR_SIZE - AVATAR_OVERLAP
+const ITEM_GAP = 4 // gap-1
+const MORE_LABEL_WIDTH = 26 // room for a "+12" label
+
+const mapperRow = ref<HTMLElement>()
+const { width: mapperRowWidth } = useElementSize(mapperRow)
+
+const avatarsWidth = (count: number) => (count > 0 ? AVATAR_SIZE + (count - 1) * AVATAR_STEP : 0)
+
+const visibleMapperCount = computed(() => {
+  const total = props.map.mappers.length
+  const available = mapperRowWidth.value
+
+  // the row has not been measured yet, render everything and let the overflow be clipped
+  if (available === 0) {
+    return total
+  }
+
+  if (avatarsWidth(total) <= available) {
+    return total
+  }
+
+  for (let count = total - 1; count > 0; count--) {
+    if (avatarsWidth(count) + ITEM_GAP + MORE_LABEL_WIDTH <= available) {
+      return count
+    }
+  }
+
+  return 1
+})
+
+const visibleMappers = computed(() => props.map.mappers.slice(0, visibleMapperCount.value))
+
+const hiddenMappers = computed(() => props.map.mappers.slice(visibleMapperCount.value))
+
+watch(
+  () => props.map.mappers.map((mapper) => mapper.id),
+  (playerIds) => queuePlayerAvatars(playerIds),
+  { immediate: true },
+)
 
 const rankedCourses = computed(() => {
   return props.map.courses.filter((course) => course.state === 'ranked')
@@ -35,17 +81,30 @@ const unrankedCourses = computed(() => {
             <div>
               <p class="text-gray-100 font-semibold">{{ map.name }}</p>
 
-              <div class="my-1 leading-0">
-                <IconHammer class="inline mr-1 mb-1" :width="1" />
+              <div class="my-1 flex items-center gap-1">
+                <IconHammer class="shrink-0" :width="1" />
 
-                <div class="inline-flex flex-wrap items-center" v-for="(mapper, index) in map.mappers" :key="mapper.id">
-                  <RouterLink
-                    :to="`/profile/${mapper.id}`"
-                    class="max-w-36 lg:max-w-44 truncate text-sm text-cyan-600 hover:text-cyan-400 leading-none"
+                <div ref="mapperRow" class="flex min-w-0 flex-1 items-center overflow-hidden">
+                  <div class="flex -space-x-1.5 items-center">
+                    <RouterLink
+                      v-for="mapper in visibleMappers"
+                      :key="mapper.id"
+                      :to="`/profile/${mapper.id}`"
+                      :title="mapper.name"
+                      :aria-label="mapper.name"
+                      class="relative inline-flex shrink-0 rounded-full ring-2 ring-[#2e2e2e]"
+                    >
+                      <UAvatar :src="getPlayerAvatar(mapper.id)" :alt="mapper.name" size="xs" />
+                    </RouterLink>
+                  </div>
+
+                  <span
+                    v-if="hiddenMappers.length > 0"
+                    :title="hiddenMappers.map((mapper) => mapper.name).join(', ')"
+                    class="ml-1 shrink-0 text-xs leading-none text-gray-300"
                   >
-                    {{ mapper.name }}
-                  </RouterLink>
-                  <span v-if="index < map.mappers.length - 1" class="text-gray-400 mx-1">·</span>
+                    +{{ hiddenMappers.length }}
+                  </span>
                 </div>
               </div>
               <div class="flex items-center gap-1">
