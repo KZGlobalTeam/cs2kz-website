@@ -12,8 +12,20 @@ const props = defineProps<{
 const { locale } = useI18n()
 
 const proxiedSrc = computed(() => {
-  if (locale.value === 'zh' && (props.src.includes('cs2kz-images') || props.src.includes('cs2kz-workshop-images'))) {
-    return 'https://gh-proxy.org/' + props.src
+  if (locale.value === 'zh') {
+    if (props.src.includes('cs2kz-images')) {
+      return props.src.replace(
+        'https://github.com/kzglobalteam/cs2kz-images/raw/public',
+        'https://cs2kz-images-1531759459.cos.ap-guangzhou.myqcloud.com',
+      )
+    } else if (props.src.includes('cs2kz-workshop-images')) {
+      return props.src.replace(
+        'https://github.com/jonahbearde/cs2kz-workshop-images/raw/main/images',
+        'https://cs2kz-workshop-images-1531759459.cos.ap-guangzhou.myqcloud.com',
+      )
+    } else {
+      return props.src
+    }
   } else {
     return props.src
   }
