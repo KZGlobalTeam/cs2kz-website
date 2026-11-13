@@ -257,8 +257,8 @@
     "proTier": "PRO Tier",
     "filterState": {
       "name": "Filter State",
-      "ranked": "ranked",
-      "unranked": "unranked",
+      "ranked": "Ranked",
+      "unranked": "Unranked",
       "pending": "pending"
     },
     "courseRanking": "Course Ranking"

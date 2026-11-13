@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import type { MapCard, MapQuery } from '@/types'
 import { toLocal } from '@/utils'
+import { computed } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   query: MapQuery
   map: MapCard
 }>()
+
+const rankedCourses = computed(() => {
+  return props.map.courses.filter((course) => course.state === 'ranked')
+})
+
+const unrankedCourses = computed(() => {
+  return props.map.courses.filter((course) => course.state === 'unranked')
+})
 </script>
 
 <template>
@@ -19,7 +28,7 @@ defineProps<{
       /></RouterLink>
 
       <div
-        class="w-52 lg:w-56 h-36 px-1 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-[length:200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
+        class="w-52 lg:w-64 h-36 px-1 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-size-[200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
       >
         <div class="relative w-full h-full">
           <div class="flex flex-col justify-between h-full">
@@ -46,55 +55,56 @@ defineProps<{
                 </span>
               </div>
             </div>
-
-            <div class="courses flex flex-wrap gap-1 max-h-32 overflow-auto">
-              <div v-for="course in map.courses" :key="course.name">
-                <UTooltip :ui="{ content: 'h-max' }">
-                  <template #content>
-                    <div class="flex flex-col">
-                      <div>
-                        <span class="text-gray-300">{{ $t('common.sortBy.tier') }}</span>
-                        <span class="mx-1 text-gray-400">:</span>
-                        <span
-                          :style="{
-                            color: course.tierColor,
-                          }"
-                          >{{ course.tierNo }}</span
-                        >
-                        <span class="mx-0.5 text-gray-500">-</span>
-                        <span
-                          :style="{
-                            color: course.tierColor,
-                          }"
-                          >{{ $t(`common.tier.${course.tier}`) }}</span
-                        >
-                      </div>
-                      <div>
-                        <span class="text-gray-300">{{ $t('map.filterState.name') }}</span>
-                        <span class="mx-1 text-gray-400">:</span>
-                        <span :style="{ color: course.state === 'ranked' ? '#05df72' : '#d1d5dc' }">{{
-                          $t(`map.filterState.${course.state}`)
-                        }}</span>
-                      </div>
-                    </div>
-                  </template>
-                  <RouterLink
-                    :to="`/maps/${map.name}?course=${course.name}`"
-                    class="w-max px-1 flex justify-center items-center gap-1 text-xs rounded-sm border border-zinc-600 bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
-                  >
-                    <span
-                      class="inline-block w-2 h-2 rounded-full"
-                      :style="{ backgroundColor: course.state === 'ranked' ? '#05df72' : '#d1d5dc' }"
-                    ></span>
-                    <span
-                      :style="{
-                        color: course.tierColor,
-                      }"
-                      >{{ course.tierNo }}</span
+            <div class="max-w-64 overflow-x-auto list-wrapper">
+              <!-- ranked courses -->
+              <div v-if="query.filterState === 'ranked' || query.filterState === 'all'">
+                <div class="flex items-center gap-1">
+                  <span class="shrink-0 whitespace-nowrap text-sm text-muted">{{ $t('map.filterState.ranked') }}:</span>
+                  <div v-for="course in rankedCourses" :key="course.name">
+                    <RouterLink
+                      :to="`/maps/${map.name}?course=${course.name}`"
+                      class="w-max px-1 py-0.5 flex justify-center items-center gap-1 text-xs rounded-sm border border-[#05df7250] bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
                     >
-                    <span>{{ course.name }}</span>
-                  </RouterLink>
-                </UTooltip>
+                      <span>{{ course.name }}</span>
+                      <span
+                        class="border rounded-sm px-0.5"
+                        :style="{
+                          borderColor: `${course.tierColor}70`,
+                          color: course.tierColor,
+                        }"
+                        >T{{ course.tierNo }}</span
+                      >
+                    </RouterLink>
+                  </div>
+                </div>
+              </div>
+
+              <!-- unranked courses -->
+              <div
+                v-if="(query.filterState === 'unranked' || query.filterState === 'all') && unrankedCourses.length > 0"
+                class="mt-1"
+              >
+                <div class="flex items-center gap-1">
+                  <span class="shrink-0 whitespace-nowrap text-sm text-muted">
+                    {{ $t('map.filterState.unranked') }}:
+                  </span>
+                  <div v-for="course in unrankedCourses" :key="course.name">
+                    <RouterLink
+                      :to="`/maps/${map.name}?course=${course.name}`"
+                      class="w-max px-1 py-0.5 flex justify-center items-center gap-1 text-xs rounded-sm border border-[#d1d5dc50] bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
+                    >
+                      <span>{{ course.name }}</span>
+                      <span
+                        class="border rounded-sm px-0.5"
+                        :style="{
+                          borderColor: `${course.tierColor}70`,
+                          color: course.tierColor,
+                        }"
+                        >T{{ course.tierNo }}</span
+                      >
+                    </RouterLink>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -103,28 +113,3 @@ defineProps<{
     </div>
   </div>
 </template>
-
-<style lang="css">
-.courses {
-  scrollbar-width: thin;
-  scrollbar-color: #343434 #212121;
-}
-
-.courses::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
-}
-
-.courses::-webkit-scrollbar-track {
-  background: #212121;
-}
-
-.courses::-webkit-scrollbar-thumb {
-  background: #343434;
-  border-radius: 5px;
-}
-
-.courses::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-</style>

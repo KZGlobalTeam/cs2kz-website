@@ -2,10 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDebouncedStringFilters } from '@/composables/debounced-string-filters'
-import { usePlayerStore } from '@/stores/player'
 import type { MapQuery } from '@/types'
-
-const playerStore = usePlayerStore()
 
 const { t } = useI18n()
 const query = defineModel<MapQuery>('query', { required: true })
@@ -30,7 +27,17 @@ const emits = defineEmits(['pickRandomMap', 'resetQuery'])
 
 <template>
   <div class="flex items-center flex-wrap lg:justify-end gap-2 lg:gap-4">
-    <UCheckbox v-if="playerStore.player" v-model="query.unfinishedOnly" :label="$t('maps.query.unfinishedOnly')" />
+    <USelect
+      class="w-36"
+      v-model="query.filterState"
+      :items="[
+        { label: t('common.tier.all'), value: 'all' },
+        { label: t('map.filterState.ranked'), value: 'ranked' },
+        { label: t('map.filterState.unranked'), value: 'unranked' },
+      ]"
+      :leading="true"
+    >
+    </USelect>
 
     <USelect
       class="w-40"

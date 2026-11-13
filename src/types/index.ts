@@ -41,12 +41,12 @@ export interface MapQuery {
   name: string
   mapper: string
   randomName: string
-  unfinishedOnly: boolean
   lengthRangeKeys: string[]
   state: MapState
   mode: Mode
   leaderboardType: LeaderboardType
   tier: Tier[]
+  filterState: 'all' | 'ranked' | 'unranked'
   limit: number
   offset: number
 }

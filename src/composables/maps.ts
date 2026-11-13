@@ -2,29 +2,25 @@ import type { Map, MapQuery, Record } from '@/types'
 import { ref, watch, reactive, computed } from 'vue'
 import { api, validQuery } from '@/utils'
 import { useStyleStore } from '@/stores/style'
-import { usePlayerStore } from '@/stores/player'
 import { getTierNumber, getTierColor } from '@/utils'
 
 export function useMaps(initialQuery: Partial<MapQuery> = {}) {
   const styleStore = useStyleStore()
-
-  const playerStore = usePlayerStore()
 
   const loading = ref(false)
   const maps = ref<Map[]>([])
 
   const total = ref(0)
 
-  const completedCourseKeys = ref(new Set<string>())
   const wrCourseTimes = ref(new Map<string, number>())
 
   const defaultQuery: MapQuery = {
     name: '',
     mapper: '',
     randomName: '',
-    unfinishedOnly: false,
     lengthRangeKeys: [],
     tier: [],
+    filterState: 'ranked',
     mode: styleStore.mode,
     leaderboardType: styleStore.leaderboardType,
     state: 'approved',
@@ -83,10 +79,6 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
             })
             .filter((course) => (query.tier.length > 0 ? query.tier.includes(course.tier) : true))
             .filter((course) => {
-              if (!query.unfinishedOnly) return true
-              return !completedCourseKeys.value.has(`${map.name}:${course.name}`)
-            })
-            .filter((course) => {
               const ranges = selectedLengthRanges.value
               if (ranges.length === 0) return true
               const wrTime = wrCourseTimes.value.get(`${map.name}:${course.name}`)
@@ -94,6 +86,17 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
               return ranges.some((range) => wrTime >= range.minSeconds && wrTime < range.maxSeconds)
             }),
           approved_at: map.approved_at,
+        }
+      })
+      .filter((map) => {
+        if (query.filterState === 'all' || query.filterState === 'ranked') {
+          return true
+        } else {
+          if (map.courses.filter((course) => course.state === 'unranked').length === 0) {
+            return false
+          } else {
+            return true
+          }
         }
       })
       .filter((map) => map.name.toLowerCase().includes(query.name.toLowerCase()))
@@ -125,40 +128,6 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     const validKeys = new Set(ranges.map((range) => range.key))
     query.lengthRangeKeys = query.lengthRangeKeys.filter((key) => validKeys.has(key))
   })
-
-  watch(
-    () => query.unfinishedOnly,
-    async (unfinishedOnly) => {
-      if (unfinishedOnly && playerStore.player) {
-        loading.value = true
-
-        try {
-          const { data } = await api.get('/records', {
-            params: {
-              mode: styleStore.mode,
-              has_teleports: styleStore.leaderboardType === 'overall' ? null : false,
-              top: true,
-              player: playerStore.player.id,
-              limit: 10000,
-              offset: 0,
-            },
-          })
-
-          if (data) {
-            const playerRecords: Record[] = data.values
-
-            completedCourseKeys.value = new Set(
-              playerRecords.map((record) => `${record.map.name}:${record.course.name}`),
-            )
-          }
-        } catch (error) {
-          console.error('[fetch error]', error)
-        } finally {
-          loading.value = false
-        }
-      }
-    },
-  )
 
   getMaps()
   getWrs()

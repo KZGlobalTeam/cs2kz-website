@@ -258,7 +258,7 @@
     "filterState": {
       "name": "关卡类型",
       "ranked": "排位关卡",
-      "unranked": "不计排位",
+      "unranked": "非排位关卡",
       "pending": "待处理"
     },
     "courseRanking": "关卡排名"
