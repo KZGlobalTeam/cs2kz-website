@@ -9,7 +9,15 @@ import { useExpand } from '@/composables/expand'
 import { useInfiniteScroll } from '@vueuse/core'
 import { RouterLink } from 'vue-router'
 import type { TableColumn } from '@nuxt/ui'
-import { getTierNumber, formatTime, getTierColor, seperateThousands, uuidToLocal, uuidToLocalDistance } from '@/utils'
+import {
+  getTierNumber,
+  formatTime,
+  getTierColor,
+  seperateThousands,
+  uuidToLocal,
+  uuidToLocalDistance,
+  replaceSrc,
+} from '@/utils'
 import { useStyleStore } from '@/stores/style.ts'
 
 const props = defineProps<{
@@ -148,7 +156,9 @@ const columns = computed(() => {
       return props.type === 'records' || props.type === 'player-wrs'
         ? h('div', { class: 'flex items-center gap-2' }, [
             h(TheImage, {
-              src: `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/${row.original.course.index || 1}.webp`,
+              src: replaceSrc(
+                `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${row.original.map.name}/${row.original.course.index || 1}.webp`,
+              ),
               alt: 'Course Image',
               class: 'hidden lg:inline w-24 h-auto object-cover rounded-sm ring-1 ring-zinc-700',
             }),

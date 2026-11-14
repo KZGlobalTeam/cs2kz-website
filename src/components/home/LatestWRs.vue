@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRecords } from '@/composables/records'
-import { formatTime, uuidToLocalDistance } from '@/utils'
+import { formatTime, replaceSrc, uuidToLocalDistance } from '@/utils'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
@@ -38,7 +38,11 @@ const latestWrs = computed(() => records.value.slice(0, 20))
         <div class="flex">
           <RouterLink :to="`/maps/${record.map.name}?course=${record.course.name}`">
             <TheImage
-              :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/${record.course.index || 1}.webp`"
+              :src="
+                replaceSrc(
+                  `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/${record.course.index || 1}.webp`,
+                )
+              "
               :alt="record.map.name"
               class="w-48 h-auto xl:w-42 xl:h-24"
             />

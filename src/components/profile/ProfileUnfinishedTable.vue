@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UnfinishedMapRow } from '@/types'
+import { replaceSrc } from '@/utils'
 
 defineProps<{
   maps: UnfinishedMapRow[]
@@ -48,7 +49,11 @@ defineProps<{
                 class="group flex items-center gap-3 text-slate-300 hover:text-slate-200"
               >
                 <TheImage
-                  :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${map.name}/1.webp`"
+                  :src="
+                    replaceSrc(
+                      `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/thumbnail/${map.name}/1.webp`,
+                    )
+                  "
                   alt="Map Image"
                   class="w-24 h-auto object-cover rounded-sm ring-1 ring-zinc-700 shrink-0"
                 />

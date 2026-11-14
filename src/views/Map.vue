@@ -4,7 +4,7 @@ import { usePlayerStore } from '@/stores/player'
 import type { Map, Course, Record, CompareEntry } from '@/types'
 import { useRoute, useRouter } from 'vue-router'
 import { useRecords } from '@/composables/records'
-import { api, getTierColor, getTierNumber } from '@/utils'
+import { api, getTierColor, getTierNumber, replaceSrc } from '@/utils'
 import { getPlayerAvatar, queuePlayerAvatars } from '@/composables/steam-avatars'
 import { useHead } from '@unhead/vue'
 import CompareCard from '@/components/record/CompareCard.vue'
@@ -206,7 +206,11 @@ async function getMap() {
     <div class="flex flex-col xl:flex-row items-start gap-4 mt-4">
       <TheImage
         class="rounded-md h-72 w-auto ring-2 ring-blue-600/40"
-        :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/${activeCourseNumber}.webp`"
+        :src="
+          replaceSrc(
+            `https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/${activeCourseNumber}.webp`,
+          )
+        "
         alt="Course Image"
       />
 

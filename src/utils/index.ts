@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { Record as Run, RecordWithImproved, Tier } from '@/types'
 import { format, formatDistanceToNowStrict } from 'date-fns'
 import { zhCN, ru } from 'date-fns/locale'
+import { useI18n } from 'vue-i18n'
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -207,4 +208,26 @@ export function getRankColor(rank?: number) {
   if (rank < 100) return 'text-purple-400 font-semibold'
   if (rank < 500) return 'text-orange-400 font-semibold'
   return 'text-gray-200'
+}
+
+export function replaceSrc(src: string) {
+  const { locale } = useI18n()
+
+  if (locale.value !== 'zh') return src
+
+  if (src.includes('cs2kz-images')) {
+    return src.replace(
+      'https://github.com/kzglobalteam/cs2kz-images/raw/public',
+      'https://cs2kz-images-1531759459.cos.ap-guangzhou.myqcloud.com',
+    )
+  }
+
+  if (src.includes('cs2kz-workshop-images')) {
+    return src.replace(
+      'https://github.com/jonahbearde/cs2kz-workshop-images/raw/main/images',
+      'https://cs2kz-workshop-images-1531759459.cos.ap-guangzhou.myqcloud.com',
+    )
+  }
+
+  return src
 }

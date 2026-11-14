@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Record } from '@/types'
-import { getTierColor, getTierNumber, formatTime, seperateThousands, uuidToLocal } from '@/utils'
+import { getTierColor, getTierNumber, formatTime, seperateThousands, uuidToLocal, replaceSrc } from '@/utils'
 
 defineProps<{
   type: 'records' | 'profile-runs' | 'course-ranking' | 'player-wrs'
@@ -12,7 +12,7 @@ defineProps<{
   <div class="flex items-center gap-3 text-gray-300">
     <TheImage
       v-if="type === 'records' || type === 'profile-runs' || type === 'player-wrs'"
-      :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`"
+      :src="replaceSrc(`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${record.map.name}/1.webp`)"
       alt="Map Image"
       class="w-64 h-36 rounded-md ring-1 ring-slate-400"
     />

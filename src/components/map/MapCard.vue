@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { MapCard, MapQuery } from '@/types'
-import { toLocal } from '@/utils'
+import { replaceSrc, toLocal } from '@/utils'
 import { computed, ref, watch } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { getPlayerAvatar, queuePlayerAvatars } from '@/composables/steam-avatars'
@@ -69,7 +69,7 @@ const unrankedCourses = computed(() => {
       <RouterLink :to="`/maps/${map.name}`">
         <TheImage
           class="w-36 lg:w-64 h-36 object-cover rounded-bl-md rounded-tl-md cursor-pointer"
-          :src="`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`"
+          :src="replaceSrc(`https://github.com/kzglobalteam/cs2kz-images/raw/public/webp/medium/${map.name}/1.webp`)"
           alt="Map Image"
       /></RouterLink>
 
