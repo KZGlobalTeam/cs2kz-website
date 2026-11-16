@@ -20,6 +20,7 @@ const {
   unfinishedQuery,
   records,
   unfinishedCourses,
+  summary,
   loading,
   totalCourses,
   completedCourses,
@@ -62,7 +63,14 @@ useHead({
   <div v-if="isDesktop" class="py-4 px-10 mx-auto text-gray-300">
     <div>
       <MainSwitch class="mb-5" />
-      <ProfilePlayer class="mb-5" :loading="loading" :profile="profile" :steam-profile="steamProfile" :mode="mode" />
+      <ProfilePlayer
+        class="mb-5"
+        :loading="loading"
+        :profile="profile"
+        :steam-profile="steamProfile"
+        :mode="mode"
+        :summary="summary"
+      />
     </div>
 
     <div class="flex gap-5">
@@ -104,7 +112,14 @@ useHead({
 
   <div v-else class="py-2 px-2 max-w-5xl mx-auto text-gray-300">
     <MainSwitch class="mb-5" />
-    <ProfilePlayer class="mb-5" :loading="loading" :profile="profile" :steam-profile="steamProfile" :mode="mode" />
+    <ProfilePlayer
+      class="mb-5"
+      :loading="loading"
+      :profile="profile"
+      :steam-profile="steamProfile"
+      :mode="mode"
+      :summary="summary"
+    />
 
     <ProfileCompletion
       class="mb-5"

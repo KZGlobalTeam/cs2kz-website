@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Mode, Player, PlayerSteam } from '@/types'
+import type { ProfileSummary } from '@/utils/profile-stats'
 import { getRankColor, getTitleByRating, seperateThousands, toLocal } from '@/utils'
 
 const props = defineProps<{
   profile: Player | null
   steamProfile: PlayerSteam | null
   mode: Mode
+  summary: ProfileSummary
   loading: boolean
 }>()
 
@@ -21,69 +23,77 @@ const globalRank = computed(() => {
 </script>
 
 <template>
-  <div class="flex gap-3 lg:gap-4 p-4 border border-zinc-700 rounded-md lg:text-lg">
-    <TheImage
-      v-if="avatarUrl"
-      :src="avatarUrl"
-      alt="Player Avatar"
-      class="w-26 h-26 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400"
-    />
+  <div class="flex flex-col lg:flex-row gap-3 lg:gap-4 p-4 border border-zinc-700 rounded-md lg:text-lg">
+    <div class="flex gap-3 lg:gap-4 lg:shrink-0">
+      <TheImage
+        v-if="avatarUrl"
+        :src="avatarUrl"
+        alt="Player Avatar"
+        class="w-26 h-26 lg:w-32 lg:h-32 object-cover rounded-md ring-1 ring-slate-400"
+      />
 
-    <div v-if="loading" class="w-20 flex justify-center items-center">
-      <IconLoading />
-    </div>
-
-    <div v-else class="flex flex-col justify-between">
-      <div class="flex items-center gap-1">
-        <p
-          class="text-2xl font-semibold max-w-56 xl:max-w-fit truncate"
-          :class="profile ? 'text-cyan-600' : 'text-gray-700'"
-        >
-          {{ profile ? profile.name : $t('common.unknown') }}
-        </p>
-        <UButton v-if="profile" square variant="ghost" :to="profileUrl" target="_blank">
-          <IconSteam class="w-5 h-5" />
-        </UButton>
+      <div v-if="loading" class="w-20 flex justify-center items-center">
+        <IconLoading />
       </div>
 
-      <p>
-        <span class="text-gray-400 mr-1">{{ $t('profile.info.joinedOn') }}: </span>
-        <span :class="profile ? 'text-gray-300' : 'text-gray-700'">{{
-          profile ? toLocal(profile.first_joined_at, true) : '-'
-        }}</span>
-      </p>
-
-      <p v-if="globalRank">
-        <span class="text-gray-400 mr-1">{{ $t('profile.info.globalRank') }}: </span>
-        <span :class="getRankColor(globalRank)">{{ `#${globalRank}` }}</span>
-      </p>
-
-      <div class="flex items-center gap-2">
-        <span class="text-gray-400 mr-1">{{ $t('profile.info.rating') }}:</span>
-
+      <div v-else class="flex flex-col justify-between">
         <div class="flex items-center gap-1">
-          <div
-            v-if="profile"
-            :style="{
-              color: title[1],
-              backgroundColor: `${title[1]}20`,
-              border: `1px solid ${title[1]}`,
-            }"
-            class="flex justify-center items-center px-1 font-semibold text-sm rounded-md"
+          <p
+            class="text-2xl font-semibold max-w-56 xl:max-w-fit truncate"
+            :class="profile ? 'text-cyan-600' : 'text-gray-700'"
           >
-            {{ title[0] }}
+            {{ profile ? profile.name : $t('common.unknown') }}
+          </p>
+          <UButton v-if="profile" square variant="ghost" :to="profileUrl" target="_blank">
+            <IconSteam class="w-5 h-5" />
+          </UButton>
+        </div>
+
+        <p>
+          <span class="text-gray-400 mr-1">{{ $t('profile.info.joinedOn') }}: </span>
+          <span :class="profile ? 'text-gray-300' : 'text-gray-700'">{{
+            profile ? toLocal(profile.first_joined_at, true) : '-'
+          }}</span>
+        </p>
+
+        <p v-if="globalRank">
+          <span class="text-gray-400 mr-1">{{ $t('profile.info.globalRank') }}: </span>
+          <span :class="getRankColor(globalRank)">{{ `#${globalRank}` }}</span>
+        </p>
+
+        <div class="flex items-center gap-2">
+          <span class="text-gray-400 mr-1">{{ $t('profile.info.rating') }}:</span>
+
+          <div class="flex items-center gap-1">
+            <div
+              v-if="profile"
+              :style="{
+                color: title[1],
+                backgroundColor: `${title[1]}20`,
+                border: `1px solid ${title[1]}`,
+              }"
+              class="flex justify-center items-center px-1 font-semibold text-sm rounded-md"
+            >
+              {{ title[0] }}
+            </div>
+            <span class="text-gray-600">/</span>
+            <span
+              class="text-gray-200 font-medium"
+              :style="{
+                color: title[1],
+              }"
+            >
+              {{ profile ? seperateThousands(rating) : '-' }}
+            </span>
           </div>
-          <span class="text-gray-600">/</span>
-          <span
-            class="text-gray-200 font-medium"
-            :style="{
-              color: title[1],
-            }"
-          >
-            {{ profile ? seperateThousands(rating) : '-' }}
-          </span>
         </div>
       </div>
     </div>
+
+    <ProfileSummary
+      v-if="!loading && summary.bests > 0"
+      class="pt-3 border-t border-zinc-800 lg:pt-0 lg:border-t-0 lg:flex-1 lg:pl-5 lg:border-l lg:self-center"
+      :summary="summary"
+    />
   </div>
 </template>

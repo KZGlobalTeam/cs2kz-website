@@ -203,6 +203,19 @@
       "pointsDist": "分数分布",
       "completionPerTier": "分难度完成情况"
     },
+    "summary": {
+      "completion": "总完成数",
+      "completionsLast30Days": "30天内 +{count}",
+      "hardestCompletion": "最难纪录",
+      "noCompletion": "暂无纪录",
+      "top10Share": "前10占比",
+      "top100Share": "前100占 {percent}%",
+      "averagePoints": "平均分数",
+      "medianPoints": "中位数 {points}",
+      "proRuns": "裸跳",
+      "proRunCount": "{count} 次",
+      "oldestCompletion": "最早纪录"
+    },
     "maps": {
       "title": "制作地图"
     },

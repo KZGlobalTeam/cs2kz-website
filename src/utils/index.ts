@@ -117,6 +117,8 @@ export function toLocalDistance(date: string, locale: string) {
     return formatDistanceToNowStrict(new Date(date), { addSuffix: true })
   } else if (locale === 'zh') {
     return formatDistanceToNowStrict(new Date(date), { addSuffix: true, locale: zhCN })
+  } else if (locale === 'ru') {
+    return formatDistanceToNowStrict(new Date(date), { addSuffix: true, locale: ru })
   }
 }
 

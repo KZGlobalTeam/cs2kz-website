@@ -203,6 +203,19 @@
       "pointsDist": "Points distribution",
       "completionPerTier": "Completion per tier"
     },
+    "summary": {
+      "completion": "Completions",
+      "completionsLast30Days": "+{count} in 30d",
+      "hardestCompletion": "Hardest Completion",
+      "noCompletion": "No completions yet",
+      "top10Share": "Top-10 Share",
+      "top100Share": "{percent}% top-100",
+      "averagePoints": "Avg Points",
+      "medianPoints": "median {points}",
+      "proRuns": "Pro Runs",
+      "proRunCount": "{count} runs",
+      "oldestCompletion": "Oldest Standing"
+    },
     "maps": {
       "title": "Maps created"
     },

@@ -17,6 +17,7 @@ import {
   getTierColor,
   getTierNumber,
 } from '@/utils'
+import { buildProfileSummary } from '@/utils/profile-stats'
 import { useStyleStore } from '@/stores/style'
 
 export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
@@ -104,6 +105,8 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
       top50,
     }
   })
+
+  const summary = computed(() => buildProfileSummary(allRecords.value, leaderboardType.value))
 
   const completedCourseKeys = computed(
     () => new Set(allRecords.value.map((record) => `${record.map.name}:${record.course.name}`)),
@@ -343,6 +346,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     completedCourses,
     topRecords,
     pointsDistribution,
+    summary,
     resetRecordQuery,
     resetUnfinishedQuery,
     setTierFilter,

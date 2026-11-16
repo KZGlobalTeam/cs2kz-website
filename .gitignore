@@ -43,3 +43,9 @@ openapi.json
 
 .wrangler
 wrangler.jsonc
+
+.pi
+.scratch
+docs
+AGENTS.md
+CONTEXT.md

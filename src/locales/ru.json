@@ -196,6 +196,19 @@
       "pointsDist": "Распределение очков",
       "completionPerTier": "Прохождения по Tier"
     },
+    "summary": {
+      "completion": "Прохождения",
+      "completionsLast30Days": "+{count} за 30 дн.",
+      "hardestCompletion": "Сложнейшее прохождение",
+      "noCompletion": "Пока нет прохождений",
+      "top10Share": "Доля в Топ 10",
+      "top100Share": "{percent}% в Топ 100",
+      "averagePoints": "Средние очки",
+      "medianPoints": "медиана {points}",
+      "proRuns": "Pro-забеги",
+      "proRunCount": "{count} забегов",
+      "oldestCompletion": "Старейшее прохождение"
+    },
     "maps": {
       "title": "Созданные карты"
     },
