@@ -74,7 +74,7 @@ const unrankedCourses = computed(() => {
       /></RouterLink>
 
       <div
-        class="w-52 lg:w-64 h-36 px-1 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-size-[200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-gradient-to-r before:from-[rgba(46,46,46,1)] before:to-[rgba(46,46,46,0.6)] before:z-0 before:transition-all"
+        class="w-52 lg:w-64 h-36 px-1 pb-1 flex flex-col justify-between rounded-tr-md rounded-br-md relative bg-size-[200%_200%] bg-center before:content-[''] before:absolute before:inset-0 before:rounded-tr-md before:rounded-br-md before:bg-[#222] before:z-0 before:transition-all"
       >
         <div class="relative w-full h-full">
           <div class="flex flex-col justify-between h-full">

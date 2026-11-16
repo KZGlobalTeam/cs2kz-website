@@ -44,7 +44,7 @@ async function copyServerIp() {
       ></TheImage>
 
       <div
-        class="absolute inset-x-0 bottom-0 flex items-end bg-gradient-to-t from-black/85 via-black/45 to-transparent p-2"
+        class="absolute inset-x-0 bottom-0 flex items-end bg-linear-to-r from-black/85 via-black/45 to-transparent p-2"
       >
         <div class="flex flex-wrap items-center gap-1">
           <RouterLink
