@@ -207,7 +207,8 @@
       "medianPoints": "медиана {points}",
       "proRuns": "Pro-забеги",
       "proRunCount": "{count} забегов",
-      "oldestCompletion": "Старейшее прохождение"
+      "longestStreak": "Самая длинная серия",
+      "streakDays": "{count} дн."
     },
     "maps": {
       "title": "Созданные карты"

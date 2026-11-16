@@ -214,7 +214,8 @@
       "medianPoints": "median {points}",
       "proRuns": "Pro Runs",
       "proRunCount": "{count} runs",
-      "oldestCompletion": "Oldest Standing"
+      "longestStreak": "Longest Streak",
+      "streakDays": "{count} days"
     },
     "maps": {
       "title": "Maps created"

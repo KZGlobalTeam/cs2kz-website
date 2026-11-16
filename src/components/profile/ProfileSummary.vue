@@ -2,16 +2,22 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ProfileSummary } from '@/utils/profile-stats'
-import { seperateThousands, toLocal, toLocalDistance } from '@/utils'
+import { seperateThousands, toLocal } from '@/utils'
 
 const props = defineProps<{
   summary: ProfileSummary
 }>()
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
 const cells = computed(() => {
-  const { hardestClear, oldestBestDate } = props.summary
+  const { hardestClear, longestStreak } = props.summary
+
+  const longestStreakRange = longestStreak
+    ? longestStreak.from === longestStreak.to
+      ? toLocal(longestStreak.from, true)
+      : `${toLocal(longestStreak.from, true)} – ${toLocal(longestStreak.to, true)}`
+    : null
 
   return [
     {
@@ -55,10 +61,10 @@ const cells = computed(() => {
       color: undefined,
     },
     {
-      key: 'oldest',
-      label: t('profile.summary.oldestCompletion'),
-      value: oldestBestDate ? (toLocalDistance(oldestBestDate, locale.value) ?? toLocal(oldestBestDate, true)) : '–',
-      sub: oldestBestDate ? toLocal(oldestBestDate, true) : '–',
+      key: 'streak',
+      label: t('profile.summary.longestStreak'),
+      value: longestStreak ? t('profile.summary.streakDays', { count: longestStreak.days }) : '–',
+      sub: longestStreakRange ?? '–',
       title: undefined,
       color: undefined,
     },

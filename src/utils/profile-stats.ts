@@ -12,6 +12,12 @@ export interface HardestClear {
   time: string
 }
 
+export interface LongestStreak {
+  days: number
+  from: string
+  to: string
+}
+
 export interface ProfileSummary {
   bests: number
   bestsLast30Days: number
@@ -22,11 +28,50 @@ export interface ProfileSummary {
   medianPoints: number
   teleportFreeCount: number
   teleportFreeShare: number
-  oldestBestDate: string | null
+  longestStreak: LongestStreak | null
 }
 
 function share(part: number, whole: number) {
   return whole ? Math.round((part / whole) * 100) : 0
+}
+
+/** Start of the local calendar day, so streaks follow the user's timezone. */
+function startOfLocalDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
+}
+
+/** Longest run of consecutive calendar days with at least one PB. */
+function longestDayStreak(timestamps: number[]): LongestStreak | null {
+  const days = [...new Set(timestamps.map((timestamp) => startOfLocalDay(new Date(timestamp))))].sort((a, b) => a - b)
+
+  if (!days.length) return null
+
+  let best = 1
+  let bestFrom = days[0]!
+  let bestTo = days[0]!
+  let current = 1
+  let currentFrom = days[0]!
+
+  for (let index = 1; index < days.length; index++) {
+    const day = days[index]!
+    // `Math.round` keeps DST-shifted days (23h/25h) counted as one day
+    const isNextDay = Math.round((day - days[index - 1]!) / DAY) === 1
+
+    if (isNextDay) {
+      current++
+    } else {
+      current = 1
+      currentFrom = day
+    }
+
+    if (current > best) {
+      best = current
+      bestFrom = currentFrom
+      bestTo = day
+    }
+  }
+
+  return { days: best, from: new Date(bestFrom).toISOString(), to: new Date(bestTo).toISOString() }
 }
 
 /**
@@ -81,6 +126,6 @@ export function buildProfileSummary(
     medianPoints: points.length ? points[Math.floor(points.length / 2)]! : 0,
     teleportFreeCount,
     teleportFreeShare: share(teleportFreeCount, records.length),
-    oldestBestDate: timestamps.length ? new Date(timestamps[0]!).toISOString() : null,
+    longestStreak: longestDayStreak(timestamps),
   }
 }
