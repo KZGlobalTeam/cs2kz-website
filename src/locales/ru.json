@@ -256,7 +256,12 @@
       "unranked": "нерейтинговый Маршруты",
       "pending": "на рассмотрении"
     },
-    "courseRanking": "Лидерборд маршрута"
+    "courseRanking": "Лидерборд маршрута",
+    "wrProgression": "История WR",
+    "wrProgressionLoading": "Обрабатываем данные...",
+    "wrProgressionEmpty": "На этом маршруте пока нет мировых рекордов.",
+    "wrProgressionFirst": "Первый WR",
+    "wrProgressionCount": "{count} WR"
   },
   "servers": {
     "regions": {

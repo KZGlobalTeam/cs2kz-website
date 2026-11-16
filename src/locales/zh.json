@@ -109,8 +109,8 @@
       "map": "地图",
       "course": "关卡",
       "date": "日期",
-      "overallRecord": "总体 WR",
-      "proRecord": "裸跳 WR"
+      "overallRecord": "总体世界记录",
+      "proRecord": "裸跳世界记录"
     }
   },
   "records": {
@@ -263,7 +263,12 @@
       "unranked": "非排位关卡",
       "pending": "待处理"
     },
-    "courseRanking": "关卡排名"
+    "courseRanking": "关卡排名",
+    "wrProgression": "历史世界纪录",
+    "wrProgressionLoading": "正在计算数据...",
+    "wrProgressionEmpty": "该关卡暂无世界纪录。",
+    "wrProgressionFirst": "首个世界纪录",
+    "wrProgressionCount": "{count} 个世界纪录"
   },
   "servers": {
     "regions": {

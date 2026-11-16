@@ -263,7 +263,12 @@
       "unranked": "Unranked Courses",
       "pending": "pending"
     },
-    "courseRanking": "Course Ranking"
+    "courseRanking": "Course Ranking",
+    "wrProgression": "WR Progression",
+    "wrProgressionLoading": "Crunching the data...",
+    "wrProgressionEmpty": "No world records on this course yet.",
+    "wrProgressionFirst": "First WR",
+    "wrProgressionCount": "{count} WRs"
   },
   "servers": {
     "regions": {

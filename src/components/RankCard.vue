@@ -50,7 +50,7 @@ async function getAvatar(steamId: string) {
       <div class="flex w-48">
         <RouterLink
           :to="`/profile/${record.player.id}`"
-          :class="wr ? 'text-yellow-300 hover:text-yellow-400' : 'text-cyan-600 hover:text-cyan-400'"
+          :class="wr ? 'text-yellow-400 hover:text-yellow-300' : 'text-cyan-600 hover:text-cyan-400'"
           class="text-xl truncate font-bold whitespace-nowrap"
           >{{ record.player.name }}</RouterLink
         >
@@ -88,7 +88,7 @@ async function getAvatar(steamId: string) {
   align-items: center;
   gap: 1rem;
   border-radius: 0.375rem;
-  background-color: rgba(174, 150, 9, 0.8);
+  background-color: rgba(93, 93, 93, 0.7);
   border: 0.125rem solid rgba(255, 255, 255, 0.4);
   padding: 0.5rem;
   position: relative;
@@ -102,7 +102,7 @@ async function getAvatar(steamId: string) {
   background-size: 400%;
   border-radius: 0.5rem;
   filter: blur(0.5rem);
-  animation: glowing 8s linear infinite alternate;
+  animation: glowing 16s linear infinite alternate;
 }
 .normal-card {
   display: flex;

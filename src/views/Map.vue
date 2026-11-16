@@ -8,6 +8,7 @@ import { api, getTierColor, getTierNumber, replaceSrc } from '@/utils'
 import { getPlayerAvatar, queuePlayerAvatars } from '@/composables/steam-avatars'
 import { useHead } from '@unhead/vue'
 import CompareCard from '@/components/record/CompareCard.vue'
+import WrProgression from '@/components/map/WrProgression.vue'
 import type { ComparePick } from '@/components/record/CompareButton.vue'
 
 const route = useRoute()
@@ -76,6 +77,8 @@ const playerRecord = computed(() => {
     return null
   }
 })
+
+const showWrProgression = ref(false)
 
 const compareSlotA = ref<CompareEntry | null>(null)
 const compareSlotB = ref<CompareEntry | null>(null)
@@ -320,12 +323,32 @@ async function getMap() {
       </div>
     </div>
 
-    <!-- ranking filters -->
-    <p class="mt-4 text-2xl lg:text-3xl font-semibold">{{ $t('map.courseRanking') }}</p>
+    <div class="mt-4 flex flex-wrap items-center gap-2">
+      <p class="text-2xl lg:text-3xl font-semibold">{{ $t('map.courseRanking') }}</p>
+      <UButton
+        size="sm"
+        color="neutral"
+        :variant="showWrProgression ? 'soft' : 'outline'"
+        :aria-pressed="showWrProgression"
+        @click="showWrProgression = !showWrProgression"
+      >
+        <IconChart class="w-4 h-4" />
+        {{ $t('map.wrProgression') }}
+      </UButton>
+    </div>
 
     <!-- ranking -->
     <div class="mt-2">
       <RankCard v-if="worldRecord" :record="worldRecord" :leaderboard-type="query.leaderboardType" :total="total" />
+      <WrProgression
+        v-if="showWrProgression"
+        :map="map.name"
+        :course="currentCourse.name"
+        :mode="query.mode"
+        :leaderboard-type="query.leaderboardType"
+        :ranked="query.ranked"
+        class="mt-2"
+      />
       <RankCard
         v-if="worldRecord && playerRecord && playerRecord.player.id !== worldRecord?.player.id"
         :record="playerRecord"
