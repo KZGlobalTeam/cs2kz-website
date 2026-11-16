@@ -27,7 +27,7 @@ function formatGain(seconds: number) {
 
 <template>
   <div class="rounded-md border border-zinc-700/60 bg-zinc-900/60 p-2">
-    <p class="font-medium text-gray-200">{{ $t('map.wrProgression') }}</p>
+    <p class="font-semibold">{{ $t('map.wrProgression') }}</p>
 
     <div v-if="loading" class="flex flex-wrap items-center justify-center gap-2 py-8 text-gray-400">
       <IconLoading class="inline" />
@@ -49,15 +49,15 @@ function formatGain(seconds: number) {
           <!-- timeline line, connecting this node to the next (older) one -->
           <span
             v-if="index < progression.length - 1"
-            class="absolute left-1/2 top-5 h-0.5 w-full bg-zinc-700"
+            class="absolute left-1/2 top-4.5 h-0.5 w-full bg-zinc-700"
             aria-hidden="true"
           />
 
-          <div class="relative z-10 rounded-full bg-zinc-900 p-0.5 ring-1 ring-zinc-700">
+          <div class="relative z-10 rounded-full bg-zinc-900 p-0.5">
             <UAvatar :src="getPlayerAvatar(record.player.id)" :alt="record.player.name" size="md" />
           </div>
 
-          <span class="mt-1.5 text-[11px] leading-3 text-gray-500">{{ uuidToLocal(record.id, true) }}</span>
+          <span class="mt-1.5 text-[11px] leading-3 text-muted">{{ uuidToLocal(record.id, true) }}</span>
 
           <RouterLink
             :to="`/profile/${record.player.id}`"
@@ -68,9 +68,9 @@ function formatGain(seconds: number) {
             {{ record.player.name || $t('common.unknown') }}
           </RouterLink>
 
-          <span class="text-sm whitespace-nowrap text-gray-200">{{ formatTime(record.time) }}</span>
+          <span class="text-sm whitespace-nowrap text-slate-300">{{ formatTime(record.time) }}</span>
 
-          <span v-if="record.timeImproved > 0" class="text-xs font-semibold text-green-400">
+          <span v-if="record.timeImproved > 0" class="text-xs font-semibold text-green-600">
             (-{{ formatTime(record.timeImproved) }})
           </span>
           <span v-else class="text-xs text-gray-500">{{ $t('map.wrProgressionFirst') }}</span>
