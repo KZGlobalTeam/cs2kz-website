@@ -124,7 +124,7 @@ const unrankedCourses = computed(() => {
               <div v-if="query.filterState === 'ranked' || query.filterState === 'both'">
                 <div class="flex items-center gap-1">
                   <span class="shrink-0 whitespace-nowrap text-sm text-muted">{{ $t('map.filterState.ranked') }}:</span>
-                  <div v-for="course in rankedCourses" :key="course.name">
+                  <div v-if="rankedCourses.length > 0" v-for="course in rankedCourses" :key="course.name">
                     <RouterLink
                       :to="`/maps/${map.name}?course=${course.name}`"
                       class="w-max px-1 py-0.5 flex justify-center items-center gap-1 text-xs rounded-sm border border-[#05df7250] bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
@@ -140,6 +140,7 @@ const unrankedCourses = computed(() => {
                       >
                     </RouterLink>
                   </div>
+                  <div v-else class="text-gray-600">-</div>
                 </div>
               </div>
 
@@ -152,7 +153,7 @@ const unrankedCourses = computed(() => {
                   <span class="shrink-0 whitespace-nowrap text-sm text-muted">
                     {{ $t('map.filterState.unranked') }}:
                   </span>
-                  <div v-for="course in unrankedCourses" :key="course.name">
+                  <div v-if="unrankedCourses.length > 0" v-for="course in unrankedCourses" :key="course.name">
                     <RouterLink
                       :to="`/maps/${map.name}?course=${course.name}`"
                       class="w-max px-1 py-0.5 flex justify-center items-center gap-1 text-xs rounded-sm border border-[#d1d5dc50] bg-zinc-700/80 hover:bg-zinc-600 cursor-pointer"
@@ -168,6 +169,7 @@ const unrankedCourses = computed(() => {
                       >
                     </RouterLink>
                   </div>
+                  <div v-else class="text-gray-600">-</div>
                 </div>
               </div>
             </div>

@@ -259,8 +259,8 @@
     "filterState": {
       "name": "Filter State",
       "both": "Both",
-      "ranked": "Ranked Courses",
-      "unranked": "Unranked Courses",
+      "ranked": "Ranked",
+      "unranked": "Unranked",
       "pending": "pending"
     },
     "courseRanking": "Course Ranking",

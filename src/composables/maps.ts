@@ -20,7 +20,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
     randomName: '',
     lengthRangeKeys: [],
     tier: [],
-    filterState: 'both',
+    filterState: styleStore.mode === 'classic' ? 'both' : 'ranked',
     mode: styleStore.mode,
     leaderboardType: styleStore.leaderboardType,
     state: 'approved',
@@ -89,8 +89,14 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
         }
       })
       .filter((map) => {
-        if (query.filterState === 'both' || query.filterState === 'ranked') {
+        if (query.filterState === 'both') {
           return true
+        } else if (query.filterState === 'ranked') {
+          if (map.courses.filter((course) => course.state === 'ranked').length === 0) {
+            return false
+          } else {
+            return true
+          }
         } else {
           if (map.courses.filter((course) => course.state === 'unranked').length === 0) {
             return false
@@ -118,6 +124,7 @@ export function useMaps(initialQuery: Partial<MapQuery> = {}) {
 
   styleStore.$subscribe((_mutation, state) => {
     query.mode = state.mode
+    query.filterState = state.mode === 'classic' ? 'both' : 'ranked'
     query.leaderboardType = state.leaderboardType
   })
 
