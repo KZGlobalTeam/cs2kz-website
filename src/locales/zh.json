@@ -205,17 +205,22 @@
     },
     "summary": {
       "completion": "总完成数",
-      "completionsLast30Days": "30天内 +{count}",
+      "completionCountlast30days": "30天内 +{count}",
       "hardestCompletion": "最难纪录",
       "noCompletion": "暂无纪录",
       "top10Share": "前10占比",
-      "top100Share": "前100占 {percent}%",
+      "top100SharePercentage": "前100占 {percent}%",
       "averagePoints": "平均分数",
       "medianPoints": "中位数 {points}",
       "proRuns": "裸跳占比",
       "proRunCount": "{count} 次",
       "longestStreak": "最长连续纪录",
-      "streakDays": "{count} 天"
+      "streakDays": "{count} 天",
+      "timeOnClock": "所有纪录总时长",
+      "mostPlayedMap": "跳过最多的地图",
+      "mostPlayedServer": "玩过最多的服务器",
+      "serversPlayed": "{count} 个服务器",
+      "biggestTimeDrop": "最大进步"
     },
     "maps": {
       "title": "制作地图"

@@ -205,17 +205,22 @@
     },
     "summary": {
       "completion": "Completions",
-      "completionsLast30Days": "+{count} in 30d",
+      "completionCountlast30days": "+{count} in 30d",
       "hardestCompletion": "Hardest Completion",
       "noCompletion": "No completions yet",
       "top10Share": "Top-10 Share",
-      "top100Share": "{percent}% top-100",
+      "top100SharePercentage": "{percent}% top-100",
       "averagePoints": "Avg Points",
       "medianPoints": "median {points}",
       "proRuns": "Pro Runs",
       "proRunCount": "{count} runs",
       "longestStreak": "Longest Streak",
-      "streakDays": "{count} days"
+      "streakDays": "{count} days",
+      "timeOnClock": "Time on the Clock",
+      "mostPlayedMap": "Favourite Map",
+      "mostPlayedServer": "Server Loyalty",
+      "serversPlayed": "{count} servers",
+      "biggestTimeDrop": "Biggest Time Drop"
     },
     "maps": {
       "title": "Maps created"
