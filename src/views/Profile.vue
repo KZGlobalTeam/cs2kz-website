@@ -62,9 +62,9 @@ useHead({
 <template>
   <div v-if="isDesktop" class="py-4 px-10 mx-auto text-gray-300">
     <div>
-      <MainSwitch class="mb-5" />
+      <MainSwitch class="mb-3" />
       <ProfilePlayer
-        class="mb-5"
+        class="mb-3"
         :loading="loading"
         :profile="profile"
         :steam-profile="steamProfile"
@@ -73,10 +73,12 @@ useHead({
       />
     </div>
 
-    <div class="flex gap-5">
+    <ProfileStats :steam-id="steamId" :mode="mode" :profile="profile" />
+
+    <div class="flex gap-3">
       <div class="w-3/7">
         <ProfileCompletion
-          class="mb-5"
+          class="mb-3"
           :loading="loading"
           :top-records="topRecords"
           :points-distribution="pointsDistribution"
@@ -89,7 +91,7 @@ useHead({
           @select-points="setPointsFilter"
         />
 
-        <ProfileMaps class="mb-5" :loading="loading" :maps="maps" />
+        <ProfileMaps class="mb-3" :loading="loading" :maps="maps" />
 
         <ProfileUnfinished
           v-model:query="unfinishedQuery"
@@ -111,9 +113,9 @@ useHead({
   </div>
 
   <div v-else class="py-2 px-2 max-w-5xl mx-auto text-gray-300">
-    <MainSwitch class="mb-5" />
+    <MainSwitch class="mb-3" />
     <ProfilePlayer
-      class="mb-5"
+      class="mb-3"
       :loading="loading"
       :profile="profile"
       :steam-profile="steamProfile"
@@ -121,8 +123,10 @@ useHead({
       :summary="summary"
     />
 
+    <ProfileStats :steam-id="steamId" :mode="mode" :profile="profile" />
+
     <ProfileCompletion
-      class="mb-5"
+      class="mb-3"
       :loading="loading"
       :top-records="topRecords"
       :points-distribution="pointsDistribution"
@@ -134,10 +138,10 @@ useHead({
       @select-points="setPointsFilter"
     />
 
-    <ProfileMaps class="mb-5" :loading="loading" :maps="maps" />
+    <ProfileMaps class="mb-3" :loading="loading" :maps="maps" />
 
     <ProfileRuns
-      class="mb-5"
+      class="mb-3"
       v-model:query="recordQuery"
       :records="records"
       :loading="loading"

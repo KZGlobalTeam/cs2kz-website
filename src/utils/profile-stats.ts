@@ -180,15 +180,33 @@ export function isPB(run: Run, leaderboardType: LeaderboardType) {
 }
 
 /**
+ * Whether a run belongs to the leaderboard-scoped records set — the client-side equivalent of
+ * the API's `ranked` / `has_teleports` query params: unranked courses are excluded while
+ * rankedOnly is on, and pro/nub only accept teleport-free runs (overall accepts any).
+ */
+export function isInRecordScope(run: Run, leaderboardType: LeaderboardType, rankedOnly: boolean) {
+  return (!rankedOnly || run.course.state === 'ranked') && (leaderboardType === 'overall' || run.teleports === 0)
+}
+
+/**
  * Derives the headline figures for a player profile from their run history.
  *
- * `runs` must be every run the player submitted, including the ones that were not (or are no longer)
- * a PB, and it must not be the filtered runs table — otherwise the summary shifts whenever a user
- * clicks a tier/points filter. Most figures are derived from the PBs within it; streaks are
- * measured against the whole history, because a day spent grinding without a PB is still a day
- * played, and PB timestamps are a strict subset of run timestamps.
+ * Two inputs, deliberately separate:
+ * - `runs` is the leaderboard-scoped set the records table uses (ranked/teleport filters applied,
+ *   PBs and non-PBs alike). PB-derived figures (bests, hardest clear, points, top shares) come
+ *   from the PBs within it, so they follow the selected leaderboard.
+ * - `allRuns` is the complete, unfiltered submission history. Whole-history figures (run count,
+ *   time on clock, streaks, favourite map, server loyalty, biggest drop) come from it, so they
+ *   stay stable when the user toggles rankedOnly/leaderboard filters — and match the activity
+ *   map, which counts every submitted run, ranked or not.
+ * Neither input may be the tier/points-filtered runs table, or the summary shifts on every click.
  */
-export function buildProfileSummary(runs: Run[], leaderboardType: LeaderboardType, now = Date.now()): ProfileSummary {
+export function buildProfileSummary(
+  runs: Run[],
+  leaderboardType: LeaderboardType,
+  allRuns: Run[],
+  now = Date.now(),
+): ProfileSummary {
   const isPro = leaderboardType === 'pro'
   const records = runs.filter((run) => isPB(run, leaderboardType))
 
@@ -218,17 +236,17 @@ export function buildProfileSummary(runs: Run[], leaderboardType: LeaderboardTyp
   const totalPoints = points.reduce((sum, value) => sum + value, 0)
 
   const pbTimestamps = records.map((record) => extractTimestampFromUUIDv7(record.id).getTime()).sort((a, b) => a - b)
-  const runTimestamps = runs.map(submittedAt).sort((a, b) => a - b)
+  const runTimestamps = allRuns.map(submittedAt).sort((a, b) => a - b)
 
   const teleportFreeCount = records.filter((record) => record.teleports === 0).length
 
-  const favouriteMapCount = mostFrequent(runs.map((run) => run.map.name))
-  const busiestServer = mostFrequent(runs.map((run) => run.server.name))
+  const favouriteMapCount = mostFrequent(allRuns.map((run) => run.map.name))
+  const busiestServer = mostFrequent(allRuns.map((run) => run.server.name))
 
   return {
     bests: records.length,
     bestsLast30Days: pbTimestamps.filter((timestamp) => now - timestamp < 30 * DAY).length,
-    runs: runs.length,
+    runs: allRuns.length,
     hardestClear,
     top10Share: share(ranked.filter((record) => rankOf(record)! <= 10).length, ranked.length),
     top100Share: share(ranked.filter((record) => rankOf(record)! <= 100).length, ranked.length),
@@ -237,15 +255,15 @@ export function buildProfileSummary(runs: Run[], leaderboardType: LeaderboardTyp
     teleportFreeCount,
     teleportFreeShare: share(teleportFreeCount, records.length),
     longestStreak: longestDayStreak(runTimestamps),
-    timeOnClock: runs.reduce((total, run) => total + run.time, 0),
+    timeOnClock: allRuns.reduce((total, run) => total + run.time, 0),
     favouriteMap: favouriteMapCount ? { name: favouriteMapCount.value, runs: favouriteMapCount.count } : null,
     serverLoyalty: busiestServer
       ? {
           server: busiestServer.value,
-          share: share(busiestServer.count, runs.length),
-          serverCount: new Set(runs.map((run) => run.server.name)).size,
+          share: share(busiestServer.count, allRuns.length),
+          serverCount: new Set(allRuns.map((run) => run.server.name)).size,
         }
       : null,
-    biggestTimeDrop: findBiggestTimeDrop(runs),
+    biggestTimeDrop: findBiggestTimeDrop(allRuns),
   }
 }

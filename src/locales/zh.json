@@ -259,7 +259,33 @@
         "time": "用时",
         "runs": "次数"
       }
-    }
+    },
+    "journey": {
+      "title": "评分历史",
+      "empty": "暂无评级晋升——历程始于第一个计入排名的 PB。",
+      "firstPb": "首个计排 PB",
+      "daysGap": "+{days}天",
+      "sameDay": "同日",
+      "daysAfter": "距 {title} {days}天",
+      "sameDayAs": "与 {title} 同日",
+      "ratingValue": "{value} 评分",
+      "next": "下一级：",
+      "toGo": "还差 {value}",
+      "footnote": "由 PB 历史重建（采用当前课程分数）。重建终值 {final} · 官方 {official}。"
+    },
+    "activity": {
+      "title": "活跃情况",
+      "headerStats": "{days} 个活跃日 · {runs} 个记录",
+      "empty": "暂无提交记录。",
+      "dayTooltip": "{date} · {count} 个记录",
+      "streak": "连续 {count} 天",
+      "less": "少",
+      "more": "多",
+      "mon": "周一",
+      "wed": "周三",
+      "fri": "周五"
+    },
+    "loadError": "无法加载记录历史。"
   },
   "map": {
     "state": {

@@ -1,4 +1,4 @@
-import { computed, reactive, ref, toValue, watch } from 'vue'
+import { computed, onScopeDispose, reactive, ref, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 import type {
   Map,
@@ -17,8 +17,11 @@ import {
   getTierColor,
   getTierNumber,
 } from '@/utils'
-import { buildProfileSummary, isPB } from '@/utils/profile-stats'
+import { buildProfileSummary, isInRecordScope, isPB } from '@/utils/profile-stats'
 import { useStyleStore } from '@/stores/style'
+
+const PAGE_SIZE = 1000
+const PAGE_CONCURRENCY = 4
 
 export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   const styleStore = useStyleStore()
@@ -43,8 +46,20 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   const steamProfile = ref<PlayerSteam | null>(null)
   const maps = ref<Map[]>([])
 
-  // pb and non-pb records
-  const everyRecords = ref<Record[]>([])
+  // complete unfiltered history (ranked or not, any teleport count), paginated past the API's
+  // silent 1000-record limit cap — the single source for every records-derived figure
+  const allRuns = ref<Record[]>([])
+
+  let allRunsRequestId = 0
+  let allRunsController: AbortController | undefined
+  onScopeDispose(() => allRunsController?.abort())
+
+  // pb and non-pb records, leaderboard-scoped: the client-side equivalent of the API's
+  // `ranked`/`has_teleports` filters, so toggling them is instant (no refetch) and the
+  // table/PB stats are no longer capped at 1000 records
+  const everyRecords = computed(() =>
+    allRuns.value.filter((run) => isInRecordScope(run, leaderboardType.value, rankedOnly.value)),
+  )
 
   const recordQuery = reactive<PlayerRecordQuery>({ ...defaultRecordQuery })
   const unfinishedQuery = reactive<UnfinishedCourseQuery>({ ...defaultUnfinishedQuery })
@@ -111,7 +126,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     }
   })
 
-  const summary = computed(() => buildProfileSummary(everyRecords.value, leaderboardType.value))
+  const summary = computed(() => buildProfileSummary(everyRecords.value, leaderboardType.value, allRuns.value))
 
   const completedCourseKeys = computed(
     () => new Set(allRecords.value.map((record) => `${record.map.name}:${record.course.name}`)),
@@ -215,7 +230,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
       loading.value = true
 
       try {
-        await Promise.all([getProfile(), getSteamProfile(), getMaps(), getPlayerRecords()])
+        await Promise.all([getProfile(), getSteamProfile(), getMaps(), refreshAllRuns()])
       } finally {
         loading.value = false
       }
@@ -227,27 +242,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     loading.value = true
 
     try {
-      await Promise.all([getProfile(), getPlayerRecords()])
-    } finally {
-      loading.value = false
-    }
-  })
-
-  watch(leaderboardType, async () => {
-    loading.value = true
-
-    try {
-      await getPlayerRecords()
-    } finally {
-      loading.value = false
-    }
-  })
-
-  watch(rankedOnly, async () => {
-    loading.value = true
-
-    try {
-      await getPlayerRecords()
+      await Promise.all([getProfile(), refreshAllRuns()])
     } finally {
       loading.value = false
     }
@@ -294,28 +289,55 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     }
   }
 
-  async function getPlayerRecords() {
-    try {
-      const { data } = await api.get('/records', {
-        params: {
-          player: currentPlayerId.value,
-          mode: mode.value,
-          has_teleports: leaderboardType.value === 'overall' ? null : false,
-          top: false,
-          ranked: rankedOnly.value ? true : undefined,
-          offset: 0,
-          limit: 10000,
-        },
-      })
+  /**
+   * Full submission history, unfiltered: no ranked/has_teleports params — scoping happens
+   * client-side in `everyRecords`, so whole-history summary figures don't move with the
+   * rankedOnly toggle or leaderboard type (and match the activity map).
+   * The API silently caps `limit` at 1000, so paginate — same pattern as player-progression.
+   */
+  async function fetchAllRuns(signal: AbortSignal) {
+    const params = (offset: number) => ({
+      player: currentPlayerId.value,
+      mode: mode.value,
+      top: false,
+      sort_by: 'submission-date',
+      sort_order: 'ascending',
+      limit: PAGE_SIZE,
+      offset,
+    })
 
-      if (data) {
-        everyRecords.value = data.values
-      } else {
-        everyRecords.value = []
-      }
+    const first = await api.get('/records', { params: params(0), signal })
+    const total: number = first.data?.total ?? 0
+    const pages: Record[][] = [first.data?.values ?? []]
+
+    const offsets: number[] = []
+    for (let offset = PAGE_SIZE; offset < total; offset += PAGE_SIZE) offsets.push(offset)
+
+    while (offsets.length > 0) {
+      const batch = offsets.splice(0, PAGE_CONCURRENCY)
+      const responses = await Promise.all(
+        batch.map((offset) => api.get('/records', { params: params(offset), signal })),
+      )
+      for (const response of responses) pages.push(response.data?.values ?? [])
+    }
+
+    return pages.flat()
+  }
+
+  async function refreshAllRuns() {
+    const requestId = ++allRunsRequestId
+    allRunsController?.abort()
+    allRunsController = new AbortController()
+    const signal = allRunsController.signal
+
+    try {
+      const runs = await fetchAllRuns(signal)
+      if (requestId !== allRunsRequestId) return
+      allRuns.value = runs
     } catch (error) {
+      if (requestId !== allRunsRequestId || signal.aborted) return
       console.error('[fetch error]', error)
-      everyRecords.value = []
+      allRuns.value = []
     }
   }
 

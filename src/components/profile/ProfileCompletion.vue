@@ -50,7 +50,7 @@ const rankedOnly = defineModel<boolean>('rankedOnly')
         {{ $t('profile.completion.topRecords') }}
       </p>
       <ProfileTopRecords
-        class="mb-4"
+        class="mb-2"
         :wrs="topRecords.wrs"
         :top10="topRecords.top10"
         :top20="topRecords.top20"

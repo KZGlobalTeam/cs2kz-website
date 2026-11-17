@@ -259,7 +259,33 @@
         "time": "Time",
         "runs": "Runs"
       }
-    }
+    },
+    "journey": {
+      "title": "Rank Journey",
+      "empty": "No rank promotions yet — the journey starts with the first ranked PB.",
+      "firstPb": "first ranked PB",
+      "daysGap": "+{days}d",
+      "sameDay": "same day",
+      "daysAfter": "{days}d after {title}",
+      "sameDayAs": "same day as {title}",
+      "ratingValue": "{value} rating",
+      "next": "Next:",
+      "toGo": "{value} to go",
+      "footnote": "Reconstructed from PB history (today's course points). Final {final} · official {official}."
+    },
+    "activity": {
+      "title": "Activity",
+      "headerStats": "{days} active days · {runs} runs",
+      "empty": "No runs submitted yet.",
+      "dayTooltip": "{date} · {count} runs",
+      "streak": "{count} day streak",
+      "less": "Less",
+      "more": "More",
+      "mon": "Mon",
+      "wed": "Wed",
+      "fri": "Fri"
+    },
+    "loadError": "Could not load run history."
   },
   "map": {
     "state": {
