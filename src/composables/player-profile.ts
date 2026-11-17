@@ -17,7 +17,7 @@ import {
   getTierColor,
   getTierNumber,
 } from '@/utils'
-import { buildProfileSummary } from '@/utils/profile-stats'
+import { buildProfileSummary, isPB } from '@/utils/profile-stats'
 import { useStyleStore } from '@/stores/style'
 
 export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
@@ -42,10 +42,15 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
   const profile = ref<Player | null>(null)
   const steamProfile = ref<PlayerSteam | null>(null)
   const maps = ref<Map[]>([])
-  const allRecords = ref<Record[]>([])
+
+  // pb and non-pb records
+  const everyRecords = ref<Record[]>([])
 
   const recordQuery = reactive<PlayerRecordQuery>({ ...defaultRecordQuery })
   const unfinishedQuery = reactive<UnfinishedCourseQuery>({ ...defaultUnfinishedQuery })
+
+  // pb records
+  const allRecords = computed(() => everyRecords.value.filter((record) => isPB(record, leaderboardType.value)))
 
   const currentPlayerId = computed(() => toValue(playerId))
 
@@ -106,7 +111,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
     }
   })
 
-  const summary = computed(() => buildProfileSummary(allRecords.value, leaderboardType.value))
+  const summary = computed(() => buildProfileSummary(everyRecords.value, leaderboardType.value))
 
   const completedCourseKeys = computed(
     () => new Set(allRecords.value.map((record) => `${record.map.name}:${record.course.name}`)),
@@ -296,7 +301,7 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
           player: currentPlayerId.value,
           mode: mode.value,
           has_teleports: leaderboardType.value === 'overall' ? null : false,
-          top: true,
+          top: false,
           ranked: rankedOnly.value ? true : undefined,
           offset: 0,
           limit: 10000,
@@ -304,13 +309,13 @@ export function usePlayerProfile(playerId: MaybeRefOrGetter<string>) {
       })
 
       if (data) {
-        allRecords.value = data.values
+        everyRecords.value = data.values
       } else {
-        allRecords.value = []
+        everyRecords.value = []
       }
     } catch (error) {
       console.error('[fetch error]', error)
-      allRecords.value = []
+      everyRecords.value = []
     }
   }
 

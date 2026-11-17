@@ -40,7 +40,7 @@ function startOfLocalDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
 }
 
-/** Longest run of consecutive calendar days with at least one PB. */
+/** Longest run of consecutive calendar days with at least one reported run. */
 function longestDayStreak(timestamps: number[]): LongestStreak | null {
   const days = [...new Set(timestamps.map((timestamp) => startOfLocalDay(new Date(timestamp))))].sort((a, b) => a - b)
 
@@ -74,18 +74,22 @@ function longestDayStreak(timestamps: number[]): LongestStreak | null {
   return { days: best, from: new Date(bestFrom).toISOString(), to: new Date(bestTo).toISOString() }
 }
 
+export function isPB(run: Run, leaderboardType: LeaderboardType) {
+  return (leaderboardType === 'pro' ? run.pro_rank : run.nub_rank) !== null
+}
+
 /**
- * Derives the headline figures for a player profile from all of their best runs.
+ * Derives the headline figures for a player profile from their run history.
  *
- * `records` must be every best run for the player, not the filtered runs table — otherwise the
- * summary shifts whenever a user clicks a tier/points filter.
+ * `runs` must be every run the player submitted, including the ones that were not (or are no longer)
+ * a PB, and it must not be the filtered runs table — otherwise the summary shifts whenever a user
+ * clicks a tier/points filter. Most figures are derived from the PBs within it; streaks are
+ * measured against the whole history, because a day spent grinding without a PB is still a day
+ * played, and PB timestamps are a strict subset of run timestamps.
  */
-export function buildProfileSummary(
-  records: Run[],
-  leaderboardType: LeaderboardType,
-  now = Date.now(),
-): ProfileSummary {
+export function buildProfileSummary(runs: Run[], leaderboardType: LeaderboardType, now = Date.now()): ProfileSummary {
   const isPro = leaderboardType === 'pro'
+  const records = runs.filter((run) => isPB(run, leaderboardType))
 
   const rankOf = (record: Run) => (isPro ? record.pro_rank : record.nub_rank)
   const pointsOf = (record: Run) => (isPro ? record.pro_points : record.nub_points) ?? 0
@@ -112,13 +116,14 @@ export function buildProfileSummary(
   const points = records.map(pointsOf).sort((a, b) => a - b)
   const totalPoints = points.reduce((sum, value) => sum + value, 0)
 
-  const timestamps = records.map((record) => extractTimestampFromUUIDv7(record.id).getTime()).sort((a, b) => a - b)
+  const pbTimestamps = records.map((record) => extractTimestampFromUUIDv7(record.id).getTime()).sort((a, b) => a - b)
+  const runTimestamps = runs.map((run) => extractTimestampFromUUIDv7(run.id).getTime()).sort((a, b) => a - b)
 
   const teleportFreeCount = records.filter((record) => record.teleports === 0).length
 
   return {
     bests: records.length,
-    bestsLast30Days: timestamps.filter((timestamp) => now - timestamp < 30 * DAY).length,
+    bestsLast30Days: pbTimestamps.filter((timestamp) => now - timestamp < 30 * DAY).length,
     hardestClear,
     top10Share: share(ranked.filter((record) => rankOf(record)! <= 10).length, ranked.length),
     top100Share: share(ranked.filter((record) => rankOf(record)! <= 100).length, ranked.length),
@@ -126,6 +131,6 @@ export function buildProfileSummary(
     medianPoints: points.length ? points[Math.floor(points.length / 2)]! : 0,
     teleportFreeCount,
     teleportFreeShare: share(teleportFreeCount, records.length),
-    longestStreak: longestDayStreak(timestamps),
+    longestStreak: longestDayStreak(runTimestamps),
   }
 }
