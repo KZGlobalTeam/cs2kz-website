@@ -55,6 +55,7 @@
     "tooltip": {
       "locale": "Switch language",
       "login": "Login through Steam",
+      "qq": "QQ Group",
       "kreedzDiscord": "Kreedz Discord",
       "mappingDiscord": "Mapping Discord",
       "forum": "Forum",

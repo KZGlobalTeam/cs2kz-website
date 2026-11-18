@@ -1,4 +1,5 @@
 ## 快速开始
+- 在开始之前建议观看这个视频：[CS2KZ入门指南](https://b23.tv/Tarzjx9)，并且加入我们的 [QQ群](https://qun.qq.com/universal-share/share?ac=1&authKey=DffST7WGLsQMAe8pKrazYaNhR8dkCHmD4iUjphiKc4AfrZpOzzvtKOpWIJv33alt&busi_data=eyJncm91cENvZGUiOiI4NzAzNDAzNTgiLCJ0b2tlbiI6InlCOE4xdlBoUVlDWm4zamNCNHk3TEN3NXVUOUFWaVgzQmovcUJUTVZ3Sm03eFFQYUVyYVlRR2VTZHhmd3JJMFAiLCJ1aW4iOiIxOTg2MDk3NTE0In0%3D&data=wkdGtDWwk_oyivv3_EWTgR2rMGV0pc5V9OgaPkK85kbZr2bJOfWV_Uk4N_HJMXwbFsluDIBAvrr1U95nXf95wA&svctype=4&tempid=h5_group_info)。
 
 - 在我们的服务器列表中选择一个服务器，可以复制 IP 进入游戏，尽量选择你所在地区的服务器。
   - 如果你刚接触 KZ，建议先玩 **T1** 和 **T2** 地图，地图名称旁边有难度标签。
@@ -17,4 +18,4 @@
 
 <br>
 
-如果你想详细了解如何入门CS2KZ，可以观看这个视频: [CS2KZ入门指南](https://b23.tv/Tarzjx9)。如果你还有问题，或者想认识更多玩 KZ 的玩家，欢迎加入我们的 [QQ群](https://qun.qq.com/universal-share/share?ac=1&authKey=DffST7WGLsQMAe8pKrazYaNhR8dkCHmD4iUjphiKc4AfrZpOzzvtKOpWIJv33alt&busi_data=eyJncm91cENvZGUiOiI4NzAzNDAzNTgiLCJ0b2tlbiI6InlCOE4xdlBoUVlDWm4zamNCNHk3TEN3NXVUOUFWaVgzQmovcUJUTVZ3Sm03eFFQYUVyYVlRR2VTZHhmd3JJMFAiLCJ1aW4iOiIxOTg2MDk3NTE0In0%3D&data=wkdGtDWwk_oyivv3_EWTgR2rMGV0pc5V9OgaPkK85kbZr2bJOfWV_Uk4N_HJMXwbFsluDIBAvrr1U95nXf95wA&svctype=4&tempid=h5_group_info)。如果你想进一步了解整个 CS2KZ 系统的运作方式，可以查看 [文档页面](https://docs.cs2kz.org)。祝你玩得开心，KZ 愉快！
+如果你想进一步了解整个 CS2KZ 系统的运作方式，可以查看 [CS2KZ文档](https://docs.cs2kz.org)。祝你玩得开心，KZ 愉快！

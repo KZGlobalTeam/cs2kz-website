@@ -2,6 +2,7 @@
 import { resolveComponent, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+const IconQQ = resolveComponent('IconQQ')
 const IconDiscord = resolveComponent('IconDiscord')
 const IconGithub = resolveComponent('IconGithub')
 const IconForum = resolveComponent('IconForum')
@@ -9,9 +10,14 @@ const IconBook = resolveComponent('IconBook')
 const IconDashboard = resolveComponent('IconDashboard')
 const IconPhone = resolveComponent('IconPhone')
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const items = computed(() => [
+  locale.value === 'zh' && {
+    label: t('nav.tooltip.qq'),
+    icon: IconQQ,
+    href: 'https://qun.qq.com/universal-share/share?ac=1&authKey=DffST7WGLsQMAe8pKrazYaNhR8dkCHmD4iUjphiKc4AfrZpOzzvtKOpWIJv33alt&busi_data=eyJncm91cENvZGUiOiI4NzAzNDAzNTgiLCJ0b2tlbiI6InlCOE4xdlBoUVlDWm4zamNCNHk3TEN3NXVUOUFWaVgzQmovcUJUTVZ3Sm03eFFQYUVyYVlRR2VTZHhmd3JJMFAiLCJ1aW4iOiIxOTg2MDk3NTE0In0%3D&data=wkdGtDWwk_oyivv3_EWTgR2rMGV0pc5V9OgaPkK85kbZr2bJOfWV_Uk4N_HJMXwbFsluDIBAvrr1U95nXf95wA&svctype=4&tempid=h5_group_info',
+  },
   {
     label: t('nav.tooltip.kreedzDiscord'),
     icon: IconDiscord,
