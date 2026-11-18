@@ -64,6 +64,12 @@
       "app": "App"
     }
   },
+  "signInHint": {
+    "title": "第一次来 CS2KZ？",
+    "body": "使用 Steam 登录，查看你的个人记录、地图完成情况和各种数据",
+    "cta": "使用 Steam 登录",
+    "dismiss": "关闭提示"
+  },
   "pagination": {
     "first": "首页",
     "last": "尾页",

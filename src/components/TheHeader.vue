@@ -5,7 +5,9 @@ import { useRoute } from 'vue-router'
 import { usePlayerStore } from '@/stores/player'
 import { api } from '@/utils'
 import { saveLocale } from '@/utils/locale'
+import { dismissSignInHint } from '@/utils/sign-in-hint'
 import AppLogo from './AppLogo.vue'
+import SignInHint from './SignInHint.vue'
 import Cookies from 'universal-cookie'
 
 const localeMap = {
@@ -64,6 +66,7 @@ function signIn() {
 function signOut() {
   playerStore.player = null
   cookies.remove('kz-player')
+  dismissSignInHint()
   api.get('/auth/web/logout')
 }
 </script>
@@ -125,10 +128,12 @@ function signOut() {
         </UPopover>
 
         <!-- login -->
-        <UButton v-else variant="outline" @click="signIn" :ui="{ base: 'cursor-pointer' }">
-          <span>{{ $t('nav.signIn') }}</span
-          ><IconSteamBlue />
-        </UButton>
+        <SignInHint v-else>
+          <UButton variant="outline" @click="signIn" :ui="{ base: 'cursor-pointer' }">
+            <span>{{ $t('nav.signIn') }}</span
+            ><IconSteamBlue />
+          </UButton>
+        </SignInHint>
 
         <NavModal v-model="openNavigation" :navigation="navigation" />
       </div>

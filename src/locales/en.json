@@ -64,6 +64,12 @@
       "app": "App"
     }
   },
+  "signInHint": {
+    "title": "New to CS2KZ?",
+    "body": "Sign in with Steam to see your personal records, map completion and various stats.",
+    "cta": "Sign in with Steam",
+    "dismiss": "Dismiss"
+  },
   "pagination": {
     "first": "first",
     "last": "last",
